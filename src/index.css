@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-brand-fuchsia: #ff007f;
+  --color-brand-dark: #0a0a0a;
+}
+
+@layer utilities {
+  .glow-fuchsia {
+    box-shadow: 0 0 50px -10px rgba(255, 0, 127, 0.35);
+  }
+  .glow-fuchsia-strong {
+    box-shadow: 0 0 60px 5px rgba(255, 0, 127, 0.5);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom styles for professional scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff007f;
+}
