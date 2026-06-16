@@ -656,7 +656,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&fit=crop" 
+                  src="card1.png" 
                   alt="Locandine d'impatto"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
