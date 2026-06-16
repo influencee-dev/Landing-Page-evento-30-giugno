@@ -1272,15 +1272,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
           {/* Right Column Form (Brevo Layout Style card with custom responsive validations) */}
           <div className="lg:col-span-7 flex justify-center">
             <div className="w-full max-w-[580px] bg-white border-4 border-black p-0 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-left overflow-hidden">
-              <iframe 
-                width="100%" 
-                height="1020" 
-                src="https://996d0fa4.sibforms.com/v2/serve/MUIFAIbK38rZSLJVzU-K_zbB661R5T_WujWJV1Ifb0bfB_eistCwCzU2ain4j6h_vQgcz-AM15mRE7yiUXIpa0ZpiYS0fmamcxDfpT5wWNxxp-p4oRhoerHj1Shuc5qd6j2hhXNg3d70pY_X6PokNBh3HuLmQPPCZCmVD88c2kUBKw7ylG6oTdh5KV7agPuIB38mnNerrZ_U4OKn" 
-                frameBorder="0" 
-                scrolling="no" 
-                allowFullScreen 
-                style={{ display: "block", marginLeft: "auto", marginRight: "auto", maxWidth: "100%", minHeight: "1020px", border: "none" }}
-              />
+              <iframe width="540" height="305" src="https://996d0fa4.sibforms.com/v2/serve/MUIFAIbK38rZSLJVzU-K_zbB661R5T_WujWJV1Ifb0bfB_eistCwCzU2ain4j6h_vQgcz-AM15mRE7yiUXIpa0ZpiYS0fmamcxDfpT5wWNxxp-p4oRhoerHj1Shuc5qd6j2hhXNg3d70pY_X6PokNBh3HuLmQPPCZCmVD88c2kUBKw7ylG6oTdh5KV7agPuIB38mnNerrZ_U4OKn" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
             </div>
           </div>
 
