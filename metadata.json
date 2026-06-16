@@ -1,6 +1,6 @@
 {
-  "name": "Socialee AI Aperitivo",
-  "description": "Landing page per l'evento AI Aperitivo di Socialee, con registrazione partecipanti e dettagli dell'evento.",
+  "name": "Socialee A(I)peritivo",
+  "description": "Landing page per l'evento A(I)peritivo di Socialee, con registrazione partecipanti e dettagli dell'evento.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -79,28 +79,46 @@ export const SOCIALEE_SERVICES: ServiceItem[] = [
 
 export const TEAM_MEMBERS: TeamMember[] = [
   {
-    nome: "Marco Valenti",
-    ruolo: "Strategia e Comunicazione",
-    descrizione: "Aiuta le aziende a trasformare idee, offerte e contenuti in sistemi commerciali chiari e orientati esclusivamente ai clienti.",
-    fotoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&h=400&fit=crop"
+    nome: "GIORGIA PALAZZO",
+    ruolo: "FOUNDER & CEO",
+    descrizione: "Guida la visione strategica di Socialee, ordinando campagne di marketing e architetture digitali d'impatto.",
+    fotoUrl: "/giorgia.png"
   },
   {
-    nome: "Elena Moretti",
-    ruolo: "Social Media & Contenuti",
-    descrizione: "Lavora sulla creazione di format ad alto impatto, piani editoriali interattivi e contenuti organici per attività locali e PMI.",
-    fotoUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&h=400&fit=crop"
+    nome: "GIUSEPPE BONACCORSO",
+    ruolo: "FOUNDER & CEO",
+    descrizione: "Cofondatore e mente strategica, progetta ecosistemi ad alte conversioni per brand e medie imprese selvaggiamente redditizi.",
+    fotoUrl: "/giuseppe.png"
   },
   {
-    nome: "Alessandro Fiore",
-    ruolo: "Advertising & Lead Generation",
-    descrizione: "Gestisce e ottimizza campagne ed ecosistemi di acquisizione traffico per convertire l'attenzione in richieste commerciali reali.",
-    fotoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&fit=crop"
+    nome: "MANUEL ARLOTTI",
+    ruolo: "CO-FOUNDER & COO",
+    descrizione: "Coordina le operazioni e l'ingegneria dei processi di Socialee per garantir l'eccellenza esecutiva.",
+    fotoUrl: "/manuel.png"
   },
   {
-    nome: "Giulia Bianchi",
-    ruolo: "AI Integration & Advanced Systems",
-    descrizione: "Integra strumenti digitali ed intelligenza artificiale avanzata nei flussi lavorativi quotidiani di marketing ed operation.",
-    fotoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&h=400&fit=crop"
+    nome: "NOEMI VITONE",
+    ruolo: "SOCIAL MEDIA MANAGER & ACCOUNT",
+    descrizione: "Sviluppa formati social magnetici e gestisce le relazioni di account per far crescere la presenza online in modo costante.",
+    fotoUrl: "/noemi.png"
+  },
+  {
+    nome: "CARLO BALDASSINI",
+    ruolo: "ACCOUNT MANAGER",
+    descrizione: "Il punto di contatto strategico per le aziende per coordinare flussi di lavoro, performance e obiettivi commerciali.",
+    fotoUrl: "/carlo.png"
+  },
+  {
+    nome: "MARIKA MALASPINA",
+    ruolo: "GRAPHIC DESIGNER & PROJECT",
+    descrizione: "Dà forma alle idee traducendo concetti in design visivi straordinari, coerenti e ad altissimo impatto estetico.",
+    fotoUrl: "/marika.png"
+  },
+  {
+    nome: "SIMONA PANCIA",
+    ruolo: "FOTOGRAFA & VIDEOMAKER",
+    descrizione: "Cattura l'essenza visiva di brand e prodotti attraverso scatti fotografici iconici e riprese video ad alta carica narrativa.",
+    fotoUrl: "/simona.png"
   }
 ];
 
