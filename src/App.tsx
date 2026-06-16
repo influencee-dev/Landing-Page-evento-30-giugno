@@ -624,7 +624,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&fit=crop" 
+                  src="card1.png" 
                   alt="Locandine d'impatto"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -701,7 +701,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=600&fit=crop" 
+                  src="card2.png" 
                   alt="Menu e offerte chiare"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -778,7 +778,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600&fit=crop" 
+                  src="card3.png" 
                   alt="Promo e messaggi pronti"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -1184,7 +1184,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
           
           {/* Left Column Information Copy */}
-          <div className="lg:col-span-5 flex flex-col justify-between text-left">
+          <div className="lg:col-span-5 flex flex-col justify-start text-left">
             <div>
               <span className="bg-black text-brand-fuchsia font-display font-extrabold text-[10px] tracking-widest uppercase px-3 py-1 mb-5 inline-block">
                 INGRESSO LIMITATO A 100 PARTECIPANTI
@@ -1200,7 +1200,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
             </div>
 
             {/* Quick Summary event card inside fucsia column */}
-            <div className="mt-8 border-2 border-black bg-zinc-950 text-white p-5">
+            <div className="mt-4 border-2 border-black bg-zinc-950 text-white p-5">
               <h4 className="font-display font-black text-sm uppercase text-brand-fuchsia tracking-wider mb-3 m-0">DETTAGLI EVENTO</h4>
               <div className="flex flex-col gap-2.5 font-mono text-xs text-zinc-300">
                 <div className="flex items-center gap-2">
@@ -1223,13 +1223,13 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
           <div className="lg:col-span-7 flex justify-center">
             <div className="w-full max-w-[580px] bg-white border-4 border-black p-0 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-left overflow-hidden">
               <iframe 
-                width="100%" 
-                height="1050" 
+                width="540" 
+                height="1150" 
                 src="https://996d0fa4.sibforms.com/v2/serve/MUIFAIbK38rZSLJVzU-K_zbB661R5T_WujWJV1Ifb0bfB_eistCwCzU2ain4j6h_vQgcz-AM15mRE7yiUXIpa0ZpiYS0fmamcxDfpT5wWNxxp-p4oRhoerHj1Shuc5qd6j2hhXNg3d70pY_X6PokNBh3HuLmQPPCZCmVD88c2kUBKw7ylG6oTdh5KV7agPuIB38mnNerrZ_U4OKn" 
                 frameBorder="0" 
                 scrolling="no" 
                 allowFullScreen 
-                style={{ display: "block", marginLeft: "auto", marginRight: "auto", maxWidth: "100%", minHeight: "1050px", border: "none" }}
+                style={{ display: "block", marginLeft: "auto", marginRight: "auto", maxWidth: "100%", minHeight: "1150px", border: "none" }}
               />
             </div>
           </div>
