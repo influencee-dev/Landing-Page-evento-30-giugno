@@ -82,43 +82,43 @@ export const TEAM_MEMBERS: TeamMember[] = [
     nome: "GIORGIA PALAZZO",
     ruolo: "FOUNDER & CEO",
     descrizione: "Guida la visione strategica di Socialee, ordinando campagne di marketing e architetture digitali d'impatto.",
-    fotoUrl: "/giorgia.png"
+    fotoUrl: "giorgia.png"
   },
   {
     nome: "GIUSEPPE BONACCORSO",
     ruolo: "FOUNDER & CEO",
     descrizione: "Cofondatore e mente strategica, progetta ecosistemi ad alte conversioni per brand e medie imprese selvaggiamente redditizi.",
-    fotoUrl: "/giuseppe.png"
+    fotoUrl: "giuseppe.png"
   },
   {
     nome: "MANUEL ARLOTTI",
     ruolo: "CO-FOUNDER & COO",
     descrizione: "Coordina le operazioni e l'ingegneria dei processi di Socialee per garantir l'eccellenza esecutiva.",
-    fotoUrl: "/manuel.png"
+    fotoUrl: "manuel.png"
   },
   {
     nome: "NOEMI VITONE",
     ruolo: "SOCIAL MEDIA MANAGER & ACCOUNT",
     descrizione: "Sviluppa formati social magnetici e gestisce le relazioni di account per far crescere la presenza online in modo costante.",
-    fotoUrl: "/noemi.png"
+    fotoUrl: "noemi.png"
   },
   {
     nome: "CARLO BALDASSINI",
     ruolo: "ACCOUNT MANAGER",
     descrizione: "Il punto di contatto strategico per le aziende per coordinare flussi di lavoro, performance e obiettivi commerciali.",
-    fotoUrl: "/carlo.png"
+    fotoUrl: "carlo.png"
   },
   {
     nome: "MARIKA MALASPINA",
     ruolo: "GRAPHIC DESIGNER & PROJECT",
     descrizione: "Dà forma alle idee traducendo concetti in design visivi straordinari, coerenti e ad altissimo impatto estetico.",
-    fotoUrl: "/marika.png"
+    fotoUrl: "marika.png"
   },
   {
     nome: "SIMONA PANCIA",
     ruolo: "FOTOGRAFA & VIDEOMAKER",
     descrizione: "Cattura l'essenza visiva di brand e prodotti attraverso scatti fotografici iconici e riprese video ad alta carica narrativa.",
-    fotoUrl: "/simona.png"
+    fotoUrl: "simona.png"
   }
 ];
 

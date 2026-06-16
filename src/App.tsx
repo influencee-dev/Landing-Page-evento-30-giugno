@@ -41,49 +41,17 @@ import {
 import { Participant } from './types';
 import { LegalModal } from './components/LegalModal';
 
-// Reusable Logo with standard text fallback if image is missing/failing
+// Reusable Logo loading the local asset directly
 function Logo() {
-  const [failed, setFailed] = useState(false);
-  if (failed) {
-    return (
-      <span className="font-display font-black text-2xl tracking-tight text-white select-none">
-        SOCIALEE<span className="text-brand-fuchsia font-sans">.</span>
-      </span>
-    );
-  }
   return (
     <img 
-      src="/logo.png" 
+      src="logo.png" 
       alt="SOCIALEE" 
       className="h-8 w-auto object-contain select-none"
-      onError={() => {
-        setFailed(true);
-      }}
     />
   );
 }
 
-// Fallback images for team members when their local custom assets are not yet on GitHub
-function getFallbackImage(fotoUrl: string) {
-  switch (fotoUrl) {
-    case '/giorgia.png':
-      return "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&h=400&fit=crop";
-    case '/giuseppe.png':
-      return "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&h=400&fit=crop";
-    case '/manuel.png':
-      return "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&h=400&fit=crop";
-    case '/noemi.png':
-      return "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?q=80&w=400&h=400&fit=crop";
-    case '/carlo.png':
-      return "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&h=400&fit=crop";
-    case '/marika.png':
-      return "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&h=400&fit=crop";
-    case '/simona.png':
-      return "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=400&h=400&fit=crop";
-    default:
-      return "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&h=400&fit=crop";
-  }
-}
 
 export default function App() {
   // Mobile menu visibility
@@ -656,7 +624,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="card1.png" 
+                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&fit=crop" 
                   alt="Locandine d'impatto"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -733,7 +701,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="card2.png" 
+                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=600&fit=crop" 
                   alt="Menu e offerte chiare"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -810,7 +778,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="card3.png" 
+                  src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600&fit=crop" 
                   alt="Promo e messaggi pronti"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -909,15 +877,12 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
       {/* SECTION 5 — BLACK ROW: PROGRAMMA / TIMELINE */}
       <section id="programma" className="relative overflow-hidden bg-black py-20 px-4 sm:px-8 border-b-2 border-zinc-900">
         
-        {/* Background Image with Black Overlay & Elegant Fallback */}
+        {/* Background Image with Black Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
             src="spiegazione.png" 
             alt="Spiegazione Background"
             className="w-full h-full object-cover opacity-65 select-none pointer-events-none"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1470&fit=crop";
-            }}
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-black/45 z-10" />
@@ -1030,15 +995,12 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
       {/* SECTION 7 — BLACK ROW: CHI E SOCIALEE */}
       <section className="relative overflow-hidden bg-brand-dark py-20 px-4 sm:px-8 border-b-2 border-zinc-900">
         
-        {/* Background Image with Black Overlay & Elegant Fallback */}
+        {/* Background Image with Black Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
             src="evento.png" 
             alt="Evento Background"
             className="w-full h-full object-cover opacity-65 select-none pointer-events-none"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1470&fit=crop";
-            }}
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-black/45 z-10" />
@@ -1124,12 +1086,6 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
                         src={member.fotoUrl} 
                         alt={member.nome}
                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                        onError={(e) => {
-                          const fallback = getFallbackImage(member.fotoUrl || '');
-                          if (e.currentTarget.src !== fallback) {
-                            e.currentTarget.src = fallback;
-                          }
-                        }}
                         referrerPolicy="no-referrer"
                       />
                     </div>
@@ -1162,12 +1118,6 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
                         src={member.fotoUrl} 
                         alt={member.nome}
                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                        onError={(e) => {
-                          const fallback = getFallbackImage(member.fotoUrl || '');
-                          if (e.currentTarget.src !== fallback) {
-                            e.currentTarget.src = fallback;
-                          }
-                        }}
                         referrerPolicy="no-referrer"
                       />
                     </div>
