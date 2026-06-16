@@ -656,7 +656,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&fit=crop" 
+                  src="card1.png" 
                   alt="Locandine d'impatto"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -733,7 +733,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=600&fit=crop" 
+                  src="card2.png" 
                   alt="Menu e offerte chiare"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -810,7 +810,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               {/* Full-size background image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600&fit=crop" 
+                  src="card3.png" 
                   alt="Promo e messaggi pronti"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 select-none pointer-events-none"
                   referrerPolicy="no-referrer"
@@ -912,7 +912,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
         {/* Background Image with Black Overlay & Elegant Fallback */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="/spiegazione.png" 
+            src="spiegazione.png" 
             alt="Spiegazione Background"
             className="w-full h-full object-cover opacity-65 select-none pointer-events-none"
             onError={(e) => {
@@ -1033,7 +1033,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
         {/* Background Image with Black Overlay & Elegant Fallback */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="/evento.png" 
+            src="evento.png" 
             alt="Evento Background"
             className="w-full h-full object-cover opacity-65 select-none pointer-events-none"
             onError={(e) => {
