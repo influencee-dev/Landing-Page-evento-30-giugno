@@ -1194,7 +1194,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               </h2>
               
               <p className="text-zinc-900 font-medium text-sm sm:text-base leading-relaxed mb-6 m-0">
-                Compila ordinatamente il modulo per registrare la tua richiesta d’accesso all'evento. I posti sono strettamente limitati ed esclusi ad addetti ai lavori non in linea. Dopo l'invio riceverai una conferma d’assegnazione ed informazioni operative dettagliate tramite email per l’aperitivo. Se non l'email, controlla nello Spam.
+                Compila ordinatamente il modulo per registrare la tua richiesta d’accesso all'evento. I posti sono strettamente limitati ed esclusi ad addetti ai lavori non in linea. Dopo l'invio riceverai una conferma d’assegnazione ed informazioni operative dettagliate tramite email per l’aperitivo. Se non trovi l'email, controlla nello Spam.
               </p>
             </div>
 
