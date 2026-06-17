@@ -998,7 +998,6 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
         {/* Background Image with Black Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="evento.png" 
             className="w-full h-full object-cover opacity-65 select-none pointer-events-none"
             referrerPolicy="no-referrer"
           />
