@@ -2,22 +2,22 @@ import { TeamMember, ServiceItem } from './types';
 
 export const TIMELINE_STEPS = [
   {
-    time: "18:00",
+    time: "18:30",
     title: "1. Accoglienza e aperitivo",
     description: "Arrivo partecipanti, registrazione e primo momento informale con cocktail di benvenuto offerto."
   },
   {
-    time: "18:25",
+    time: "18:55",
     title: "2. AI live demo",
     description: "Dimostrazione pratica e interattiva dal vivo su come ideare e creare locandine, menu, promo e contenuti in tempo reale."
   },
   {
-    time: "19:10",
+    time: "19:40",
     title: "3. Metodo Socialee",
     description: "Come inserire e integrare l'AI dentro un processo di comunicazione strutturato, orientato unicamente a portare clienti."
   },
   {
-    time: "19:30",
+    time: "20:00",
     title: "4. Networking & Domande",
     description: "Confronto guidato tra gli imprenditori, sessione di domande e risposte operative e approfondimento libero."
   }

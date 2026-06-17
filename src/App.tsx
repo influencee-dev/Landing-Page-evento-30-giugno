@@ -19,6 +19,7 @@ import {
   ShieldCheck, 
   Mail, 
   Phone, 
+  Instagram,
   ChevronRight, 
   Smartphone, 
   Info,
@@ -1108,7 +1109,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
             {/* Row 2: Remaining 3 Members Centered */}
             <div className="grid grid-cols-2 md:flex md:justify-center gap-4 md:gap-5">
               {TEAM_MEMBERS.slice(4).map((member, idx) => (
-                <div key={idx} className="w-full md:w-[calc(25%-15px)] xl:w-[242px] bg-white border-2 border-black p-3 sm:p-4 flex flex-col justify-between hover:shadow-[6px_6px_0px_0px_rgba(255,0,255,1)] transition-all duration-300">
+                <div key={idx} className="w-full md:w-[calc(25%-15px)] bg-white border-2 border-black p-3 sm:p-4 flex flex-col justify-between hover:shadow-[6px_6px_0px_0px_rgba(255,0,255,1)] transition-all duration-300">
                   <div>
                     {/* Team image wrapper */}
                     <div className="w-full aspect-square border-2 border-black overflow-hidden mb-3 bg-zinc-100 relative">
@@ -1240,7 +1241,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-stretch gap-10">
           
           {/* Logo Brand Statement */}
-          <div className="md:w-3/5 flex flex-col items-start text-left justify-between lg:pr-12">
+          <div className="md:w-1/2 flex flex-col items-start text-left justify-between lg:pr-12">
             <div>
               <a href="#" className="flex items-center gap-1 mb-4 select-none">
                 <Logo />
@@ -1256,8 +1257,8 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
           </div>
 
           {/* Useful Anchor links */}
-          <div className="md:w-2/5 flex flex-col gap-6 justify-between text-left">
-            <div className="grid grid-cols-2 gap-8">
+          <div className="md:w-1/2 flex flex-col gap-6 justify-between text-left">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
               <div className="flex flex-col gap-2 font-mono text-xs">
                 <p className="font-bold text-white uppercase tracking-wider mb-2">NAVIGAZIONE</p>
                 <a href="#non-corso" className="text-zinc-500 hover:text-white transition-colors">Chi Siamo</a>
@@ -1286,6 +1287,27 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
                 >
                   Termini Registrazione
                 </button>
+              </div>
+
+              <div className="flex flex-col gap-2 font-mono text-xs col-span-2 sm:col-span-1">
+                <p className="font-bold text-white uppercase tracking-wider mb-2">CONTATTI</p>
+                <a href="tel:+393281230265" className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors">
+                  <Phone size={14} className="text-brand-fuchsia shrink-0" />
+                  <span>+39 328 123 0265</span>
+                </a>
+                <a href="mailto:info@socialee.it" className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors">
+                  <Mail size={14} className="text-brand-fuchsia shrink-0" />
+                  <span>info@socialee.it</span>
+                </a>
+                <a 
+                  href="https://www.instagram.com/socialee.it/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors"
+                >
+                  <Instagram size={14} className="text-brand-fuchsia shrink-0" />
+                  <span>socialee.it</span>
+                </a>
               </div>
             </div>
 
