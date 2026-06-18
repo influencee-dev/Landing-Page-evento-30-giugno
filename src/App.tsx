@@ -528,7 +528,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
               <MapPin className="w-5 h-5 text-brand-fuchsia shrink-0" />
               <div>
                 <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Luogo</p>
-                <p className="text-xs font-bold text-zinc-200">Via Trinitapoli 24, Foggia</p>
+                <p className="text-xs font-bold text-zinc-200">Via Trinitapoli 24, Foggia (Papone 1956)</p>
               </div>
             </div>
 
@@ -1208,7 +1208,7 @@ Iscrizione senza costi ma selettiva per soli 40 professionisti. Può interessarl
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-brand-fuchsia shrink-0" />
-                  <span>Via Trinitapoli 24, 71121 Foggia FG, Italy</span>
+                  <span>Via Trinitapoli 24, 71121 Foggia (Papone 1956)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-brand-fuchsia shrink-0" />
