@@ -48,7 +48,14 @@ export const MENU: MenuGroup[] = [
       { label: 'Per i creator', href: '#diventa-creator', text: 'Entra nel network e ricevi proposte in linea con te' },
     ],
   },
-  { label: 'Piattaforma', href: '#piattaforma' },
+  {
+    label: 'Piattaforma',
+    href: '#piattaforma',
+    items: [
+      { label: 'Panoramica', href: '#piattaforma', text: 'Come funziona la piattaforma, dalla ricerca al report' },
+      { label: 'Funzionalità', href: '#funzionalita', text: 'Tutto quello che puoi fare con influencee' },
+    ],
+  },
   {
     label: 'Creator',
     href: '#creator',

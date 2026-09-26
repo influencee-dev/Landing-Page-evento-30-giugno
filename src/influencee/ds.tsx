@@ -190,7 +190,7 @@ export function Section({
 }) {
   const padding = pad === 'default' ? 'py-20 sm:py-28' : pad === 'hero' ? 'pb-20 sm:pb-28' : '';
   return (
-    <section id={id} data-tone={tone} className={`in-section relative overflow-hidden font-sans ${TONE_BG[tone]} ${padding} ${className}`}>
+    <section id={id} data-tone={tone} className={`in-section relative overflow-hidden font-sans ${pad === 'none' ? 'in-own-pad' : ''} ${TONE_BG[tone]} ${padding} ${className}`}>
       <ToneCtx.Provider value={tone}>{children}</ToneCtx.Provider>
     </section>
   );

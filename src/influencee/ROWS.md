@@ -1,6 +1,6 @@
 # Catalogo row Influencee
 
-52 row riutilizzabili (56 voci contando le varianti 02a/02b, 10a/10b, 27a/b/c), tutte costruite sul design system in `ds.tsx` (regole in `README.md`).
+58 row riutilizzabili (62 voci contando le varianti 02a/02b, 10a/10b, 27a/b/c), tutte costruite sul design system in `ds.tsx` (regole in `README.md`).
 
 ## Regole di composizione di una pagina
 
@@ -23,6 +23,11 @@
 7. **Cambio pagina:** sipario nero con il nome della pagina, poi la nuova pagina parte dall'alto (niente scroll visibile).
 8. **Testi:** la parola accento tra `*asterischi*`, al massimo una per titolo; negli attributi JSX usare `{'...\n...'}` per andare a capo.
 9. **Contenuti** da `content.ts` e `site/data.ts`: non scrivere numeri o nomi direttamente nelle row.
+
+## Stile "Spoki" per i visual di piattaforma
+
+- Card di interfaccia che fluttuano (chat, card campagna, numeri) su fondo chiaro appena sfumato rosa/verde, stelline, ombre molto diffuse: **sempre in HTML**, mai immagini generate.
+- Immagini "tool" in vetro smerigliato 3D monocromatico su sfondo pieno: generate con il brief su Drive (`01_Brief immagini TOOL`).
 
 ## Regole UX (revisione)
 
@@ -50,6 +55,7 @@
 | Articolo | `#articolo.<slug>` | copertina a tutta larghezza su nero · corpo con indice · box autore · correlati · Newsletter |
 | Diventa creator | `#diventa-creator` | HeroReels · BenefitsGrid · modulo candidatura · Faq |
 | Contatti | `#contatti` | HeroCentered (contact) · Faq |
+| Funzionalità | `#funzionalita` | HeroFeatures · FeatureExplorer · IntegrationsOrbit · OrbitSection · ReelsStrip · SectorResults · Faq · CtaForm |
 | Libreria row | `#libreria` | regole + tutte le row |
 
 ## Elenco row
@@ -112,6 +118,12 @@
 | 50 | Muro di reel + numeri | `reel-wall` | Reel | `ReelWall` |
 | 51 | Hero reel su nero (pagine creator) | `hero-reels` | Hero | `HeroReels` |
 | 52 | Hero home: messaggio + reel + doppio ingresso | `hero-home` | Hero | `HeroHome` |
+| 53 | Telefono con ciclo e chat (stile Spoki) | `orbit-section` | Piattaforma | `OrbitSection` |
+| 54 | Hero funzionalità con card fluttuanti | `hero-features` | Hero | `HeroFeatures` |
+| 55 | Esplora le funzioni: schede + griglia | `feature-explorer` | Piattaforma | `FeatureExplorer` |
+| 56 | Integrazioni a raggiera | `integrations-orbit` | Piattaforma | `IntegrationsOrbit` |
+| 57 | Risultati per settore | `sector-results` | Social proof | `SectorResults` |
+| 58 | Fascia CTA con modulo | `cta-form` | Chiusura | `CtaForm` |
 
 ## Quando usare ogni famiglia
 

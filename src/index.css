@@ -79,11 +79,9 @@ html {
 
 /* Design system Influencee: due fasce consecutive dello stesso tono si fondono
    (niente doppio spazio bianco). Fuori da @layer per vincere sulle utility. */
-.in-section[data-tone='ink'] + .in-section[data-tone='ink'],
-.in-section[data-tone='paper'] + .in-section[data-tone='paper'] {
-  padding-top: 0;
-}
-.in-section[data-tone='white'] + .in-section[data-tone='white'] {
+.in-section[data-tone='ink']:not(.in-own-pad) + .in-section[data-tone='ink'],
+.in-section[data-tone='paper']:not(.in-own-pad) + .in-section[data-tone='paper'],
+.in-section[data-tone='white']:not(.in-own-pad) + .in-section[data-tone='white'] {
   padding-top: 0;
 }
 

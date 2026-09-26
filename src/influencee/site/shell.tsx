@@ -29,7 +29,7 @@ function activeGroup(route: string) {
   if (['brand', 'agenzie', 'diventa-creator'].includes(head)) return 'Soluzioni';
   if (['creator', 'nicchia'].includes(head)) return 'Creator';
   if (['blog', 'categoria', 'articolo'].includes(head)) return 'Blog';
-  if (head === 'piattaforma') return 'Piattaforma';
+  if (head === 'piattaforma' || head === 'funzionalita') return 'Piattaforma';
   if (head === 'casi-studio') return 'Casi studio';
   return '';
 }

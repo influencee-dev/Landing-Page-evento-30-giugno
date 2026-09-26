@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Footer } from '../rows/footer';
 import { NotFound, SiteHeader, useRoute } from './shell';
-import { AgenciesPage, BrandPage, CasesPage, ContactPage, CreatorJoinPage, HomePage, LegalPage, LibraryPage, PlatformPage } from './pages';
+import { AgenciesPage, BrandPage, CasesPage, ContactPage, CreatorJoinPage, FeaturesPage, HomePage, LegalPage, LibraryPage, PlatformPage } from './pages';
 import { CreatorProfile, CreatorsPage, NichePage } from './creators';
 import { ArticlePage, BlogCategoryPage, BlogPage } from './blog';
 import { ARTICLES, BLOG_CATEGORIES, CREATORS_DB, NICHE_INFO } from './data';
@@ -20,6 +20,8 @@ function Page({ route }: { route: string }) {
       return <AgenciesPage />;
     case 'piattaforma':
       return <PlatformPage />;
+    case 'funzionalita':
+      return <FeaturesPage />;
     case 'casi-studio':
       return <CasesPage />;
     case 'diventa-creator':
@@ -57,6 +59,7 @@ export function pageLabel(route: string) {
     brand: 'Per i brand',
     agenzie: 'Per le agenzie',
     piattaforma: 'Piattaforma',
+    funzionalita: 'Funzionalità',
     'casi-studio': 'Casi studio',
     'diventa-creator': 'Per i creator',
     contatti: 'Contatti',

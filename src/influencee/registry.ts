@@ -13,6 +13,7 @@ import { LatestArticles } from './site/blog';
 import { PlatformTour } from './site/platform';
 import { PageHero } from './site/shell';
 import { HeroHome, HeroReels, ReelWall, ReelsStrip } from './rows/reels';
+import { CtaForm, FeatureExplorer, HeroFeatures, IntegrationsOrbit, OrbitSection, SectorResults } from './rows/spoki';
 
 export type Family = 'Hero' | 'Reel' | 'Team' | 'Social proof' | 'Lavori' | 'Servizi' | 'Interattivi' | 'Piattaforma' | 'Sito' | 'Chiusura';
 
@@ -84,6 +85,12 @@ export const ROWS: Row[] = [
   { id: 'reel-wall', num: '50', name: 'Muro di reel + numeri', family: 'Reel', Component: ReelWall },
   { id: 'hero-reels', num: '51', name: 'Hero reel su nero (pagine creator)', family: 'Hero', Component: HeroReels },
   { id: 'hero-home', num: '52', name: 'Hero home: messaggio + reel + doppio ingresso', family: 'Hero', Component: HeroHome },
+  { id: 'orbit-section', num: '53', name: 'Telefono con ciclo e chat (stile Spoki)', family: 'Piattaforma', Component: OrbitSection },
+  { id: 'hero-features', num: '54', name: 'Hero funzionalità con card fluttuanti', family: 'Hero', Component: HeroFeatures },
+  { id: 'feature-explorer', num: '55', name: 'Esplora le funzioni: schede + griglia', family: 'Piattaforma', Component: FeatureExplorer },
+  { id: 'integrations-orbit', num: '56', name: 'Integrazioni a raggiera', family: 'Piattaforma', Component: IntegrationsOrbit },
+  { id: 'sector-results', num: '57', name: 'Risultati per settore', family: 'Social proof', Component: SectorResults },
+  { id: 'cta-form', num: '58', name: 'Fascia CTA con modulo', family: 'Chiusura', Component: CtaForm },
 ];
 
 /** Numero di row distinte (le varianti 02a/02b ecc. contano come una). */

@@ -5,6 +5,7 @@ import { CTA } from '../content';
 import { HeroShowcase } from '../rows/heroes-a';
 import { HeroCentered, HeroDashboard, HeroWidgets } from '../rows/heroes-b';
 import { HeroHome, HeroReels, ReelWall, ReelsStrip } from '../rows/reels';
+import { CtaForm, FeatureExplorer, HeroFeatures, IntegrationsOrbit, OrbitSection, SectorResults } from '../rows/spoki';
 import { Breadcrumbs } from './shell';
 import { StatsBento, ResultsList, TestimonialFeature } from '../rows/proof';
 import { NichePills, ProcessSteps, ServicesAccordion, FeatureCardsUI } from '../rows/services';
@@ -45,6 +46,7 @@ export function BrandPage() {
       <HeroWidgets showNav={false} title={'*Influencer marketing*\nper brand che vogliono crescere'} lead="Selezione dei creator, brief, contratti, contenuti e report: gestiamo tutto noi, tu approvi e leggi i risultati." />
       <BenefitsGrid />
       <ReelWall />
+      <OrbitSection />
       <ProcessSteps />
       <NichePills />
       <CaseCards />
@@ -65,6 +67,22 @@ export function AgenciesPage() {
       <StepsHighlight />
       <TestimonialFeature />
       <CtaBand title={'Porta la tua agenzia\n*su influencee*'} lead="Una demo di 30 minuti per vedere la piattaforma con i tuoi casi reali." />
+    </>
+  );
+}
+
+/** Pagina Funzionalità, stesso schema della pagina "Feature" di Spoki. */
+export function FeaturesPage() {
+  return (
+    <>
+      <HeroFeatures />
+      <FeatureExplorer />
+      <IntegrationsOrbit />
+      <OrbitSection />
+      <ReelsStrip title={'Contenuti che nascono\n*in piattaforma*'} />
+      <SectorResults />
+      <Faq />
+      <CtaForm />
     </>
   );
 }
