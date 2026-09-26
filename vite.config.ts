@@ -11,12 +11,25 @@ export default defineConfig(() => {
         '@': path.resolve(__dirname, '.'),
       },
     },
+    build: {
+      rollupOptions: {
+        // Landing evento (index.html) + Trading Desk (desk.html)
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+          desk: path.resolve(__dirname, 'desk.html'),
+        },
+      },
+    },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
+      // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      // API del Trading Desk (npm run desk:api)
+      proxy: {
+        '/api': `http://localhost:${process.env.DESK_API_PORT || 8787}`,
+      },
     },
   };
 });
