@@ -17,6 +17,23 @@ import StatVideo from './StatVideo';
 import IndustryPills from './IndustryPills';
 import TestimonialCarousel from './TestimonialCarousel';
 import CaseCards from './CaseCards';
+import AboutValues from './AboutValues';
+import TeamZigzag from './TeamZigzag';
+import CaseStudyFeature from './CaseStudyFeature';
+import ProcessSteps from './ProcessSteps';
+import StatsBento from './StatsBento';
+import HeroCalendar from './HeroCalendar';
+import ServicesAccordion from './ServicesAccordion';
+import ResultsList from './ResultsList';
+import HeroImpacta from './HeroImpacta';
+import FeatureCardsUI from './FeatureCardsUI';
+import HeroDashboard from './HeroDashboard';
+import VelocityCarousel from './VelocityCarousel';
+import FluidVideoCarousel from './FluidVideoCarousel';
+import EditorialVideoStack from './EditorialVideoStack';
+import TestimonialSwipe from './TestimonialSwipe';
+import CustomerStorywell from './CustomerStorywell';
+import { BenefitsGrid, StepsHighlight, LogoGrid, FaqAccordion, FeatureRows, Newsletter, Comparison } from './CelestBlocks';
 
 export interface RowEntry {
   id: string;
@@ -50,4 +67,29 @@ export const ROWS: RowEntry[] = [
   { id: 'industry-pills', num: '16', name: 'Settori a pillole', ref: 'Industry expertise', Component: IndustryPills },
   { id: 'testimonial-carousel', num: '17', name: 'Carosello testimonianze', ref: 'Knowing your name', Component: TestimonialCarousel },
   { id: 'case-cards', num: '18', name: 'Casi studio a card', ref: 'Solutions drive success', Component: CaseCards },
+  { id: 'about-values', num: '19', name: 'About / valori + stat', ref: 'Flexio', Component: AboutValues },
+  { id: 'team-zigzag', num: '20', name: 'Team zig-zag', ref: 'Looped', Component: TeamZigzag },
+  { id: 'case-study-feature', num: '21', name: 'Case study in evidenza', ref: 'Kyan', Component: CaseStudyFeature },
+  { id: 'process-steps', num: '22', name: 'Processo 3 step dark', ref: 'How it works', Component: ProcessSteps },
+  { id: 'stats-bento', num: '23', name: 'Mission + bento numeri', ref: 'Funnelz', Component: StatsBento },
+  { id: 'hero-calendar', num: '24', name: 'Hero calendario', ref: 'Funnelz', Component: HeroCalendar },
+  { id: 'services-accordion', num: '25', name: 'Servizi accordion dark', ref: 'Funnelz', Component: ServicesAccordion },
+  { id: 'results-list', num: '26', name: 'Risultati con contatori', ref: 'Impacta', Component: ResultsList },
+  { id: 'hero-impacta-marquee', num: '27a', name: 'Hero Impacta · marquee', ref: 'Impacta', Component: HeroImpacta, props: { variant: 'marquee' } },
+  { id: 'hero-impacta-work', num: '27b', name: 'Hero Impacta · lavori', ref: 'Impacta', Component: HeroImpacta, props: { variant: 'work' } },
+  { id: 'hero-impacta-contact', num: '27c', name: 'Hero Impacta · contatti', ref: 'Impacta', Component: HeroImpacta, props: { variant: 'contact' } },
+  { id: 'feature-cards-ui', num: '28', name: 'Feature con mini-UI', ref: 'Alytics', Component: FeatureCardsUI },
+  { id: 'hero-dashboard', num: '29', name: 'Hero + dashboard', ref: 'Alytics', Component: HeroDashboard },
+  { id: 'velocity-carousel', num: '30', name: 'Velocity Carousel', ref: 'Framer', Component: VelocityCarousel },
+  { id: 'fluid-video-carousel', num: '31', name: 'Fluid Video Carousel', ref: 'Framer', Component: FluidVideoCarousel, props: { monochrome: true } },
+  { id: 'editorial-video-stack', num: '32', name: 'Editorial Video Card', ref: 'Framer', Component: EditorialVideoStack },
+  { id: 'testimonial-swipe', num: '33', name: 'Testimonial Swipe', ref: 'Framer', Component: TestimonialSwipe },
+  { id: 'customer-storywell', num: '34', name: 'Customer Storywell', ref: 'Framer', Component: CustomerStorywell },
+  { id: 'benefits-grid', num: '35', name: 'Griglia vantaggi', ref: 'Celest', Component: BenefitsGrid },
+  { id: 'steps-highlight', num: '36', name: 'Step con card evidenziata', ref: 'Celest', Component: StepsHighlight },
+  { id: 'logo-grid', num: '37', name: 'Griglia strumenti/loghi', ref: 'Celest', Component: LogoGrid },
+  { id: 'faq', num: '38', name: 'FAQ accordion', ref: 'Celest', Component: FaqAccordion },
+  { id: 'feature-rows', num: '39', name: 'Feature alternate', ref: 'Celest', Component: FeatureRows },
+  { id: 'newsletter', num: '40', name: 'Newsletter / waitlist', ref: 'Celest', Component: Newsletter },
+  { id: 'comparison', num: '41', name: 'Vecchio metodo vs nuovo', ref: 'Celest', Component: Comparison },
 ];
