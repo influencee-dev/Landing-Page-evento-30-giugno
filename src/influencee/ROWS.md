@@ -29,6 +29,17 @@
 - Card di interfaccia che fluttuano (chat, card campagna, numeri) su fondo chiaro appena sfumato rosa/verde, stelline, ombre molto diffuse: **sempre in HTML**, mai immagini generate.
 - Immagini "tool" in vetro smerigliato 3D monocromatico su sfondo pieno: generate con il brief su Drive (`01_Brief immagini TOOL`).
 
+## Regole immagini (dove va cosa)
+
+| Pagine | Immagini | Sorgente |
+| --- | --- | --- |
+| Piattaforma, Funzionalità | Solo grafiche di piattaforma: mockup HTML, card fluttuanti, vetro 3D stile Spoki. Niente reel. | `04_tool-stile-spoki` (generate) + HTML |
+| Home, Brand, Agenzie, Casi studio, hero creator | Reel reali (`WorkReelCard`, dati `REELS`): solo settore e attività, niente nomi o numeri | `05_reel-clienti-socialee` |
+| Listing e profili creator | Persone generate (identità di esempio) | `01_creator` (generate) |
+| Blog | Copertine editoriali con creator | `02_blog` (generate) |
+
+Mai associare nomi, handle o follower inventati a volti reali. Sorgente unica: cartella Drive "Influencee sito — Immagini", prompt in `00_PROMPT UNICO`.
+
 ## Regole UX (revisione)
 
 - **Sopra la piega** ci sono sempre la promessa, la CTA principale, la riprova sociale e una **prova visiva** (volti o reel dei creator, oppure la piattaforma).

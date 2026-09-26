@@ -79,7 +79,6 @@ export function FeaturesPage() {
       <FeatureExplorer />
       <IntegrationsOrbit />
       <OrbitSection />
-      <ReelsStrip title={'Contenuti che nascono\n*in piattaforma*'} />
       <SectorResults />
       <Faq />
       <CtaForm />
@@ -92,7 +91,6 @@ export function PlatformPage() {
     <>
       <HeroDashboard showNav={false} />
       <PlatformTour />
-      <ReelsStrip title={'Dalla piattaforma\n*ai reel pubblicati*'} lead="Ogni contenuto che vedi qui è passato da brief, approvazione e report dentro la piattaforma." />
       <FeatureRows />
       <PlatformsGrid />
       <Faq />

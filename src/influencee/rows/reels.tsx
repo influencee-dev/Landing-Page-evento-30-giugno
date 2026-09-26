@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { BadgeCheck, Heart, MessageCircle, Music2, Play, Send } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Marquee, Section, SectionHeader, SocialProof, TYPE, reveal, type Tone } from '../ds';
-import { CREATORS_DB, NICHE_INFO, fmtFollowers, type Creator } from '../site/data';
+import { CREATORS_DB, NICHE_INFO, REELS, fmtFollowers, type Creator, type WorkReel } from '../site/data';
 
 /* ════════════════════════════════════════════════════════════════════
    REEL — card verticale con interfaccia Reels/TikTok ricostruita in HTML:
@@ -83,19 +83,59 @@ export function ReelCard({ c, video, delay = 0, className = '' }: { c: Creator; 
   );
 }
 
+/* Reel reale: copertina di un contenuto realizzato per un cliente.
+   Stessa interfaccia della ReelCard ma solo settore e tipo di attività,
+   senza nomi, follower o numeri. */
+export function WorkReelCard({ r, delay = 0, className = '' }: { r: WorkReel; delay?: number; className?: string }) {
+  const reduce = useReducedMotion();
+  return (
+    <div className={`relative aspect-[9/16] w-full overflow-hidden rounded-[22px] bg-ink text-white shadow-float ${className}`}>
+      <motion.img
+        src={r.cover}
+        alt={`Reel realizzato per: ${r.label}`}
+        draggable={false}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full select-none object-cover"
+        animate={reduce ? undefined : { scale: [1, 1.1] }}
+        transition={{ duration: 9, delay, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/65" />
+      <div className="absolute inset-x-3 top-3 flex gap-1">
+        {[0, 1, 2].map((k) => (
+          <span key={k} className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/30">
+            {k === 0 && <motion.span className="block h-full bg-white" initial={{ width: '0%' }} animate={reduce ? { width: '100%' } : { width: ['0%', '100%'] }} transition={{ duration: 6, delay, repeat: Infinity, ease: 'linear' }} />}
+          </span>
+        ))}
+      </div>
+      <span className="absolute right-3 top-7 rounded-full bg-black/45 px-2 py-0.5 text-[10px] font-semibold backdrop-blur">{r.sector}</span>
+      <div className="absolute bottom-16 right-2.5 flex flex-col items-center gap-3.5">
+        <Heart className="h-6 w-6 fill-brand text-brand" />
+        <MessageCircle className="h-6 w-6" />
+        <Send className="h-6 w-6" />
+      </div>
+      <div className="absolute inset-x-3 bottom-3 pr-9">
+        <p className="flex items-center gap-1 text-[10px] text-white/75">
+          <Play className="h-2.5 w-2.5 fill-current" /> Realizzato per
+        </p>
+        <p className="mt-0.5 text-[13px] font-semibold">{r.label}</p>
+      </div>
+    </div>
+  );
+}
+
 /* ─── 49 · Strip di reel ────────────────────────────────────────── */
 export function ReelsStrip({
   tone = 'ink',
   eyebrow = 'Reel',
   title = 'I reel dei nostri *creator*',
   lead = 'Contenuti reali delle campagne: formati verticali pensati per fermare lo scroll e portare risultati.',
-  creators = CREATORS_DB.slice(0, 5),
+  reels = REELS.slice(0, 5),
 }: {
   tone?: Tone;
   eyebrow?: string;
   title?: string;
   lead?: string;
-  creators?: Creator[];
+  reels?: WorkReel[];
 }) {
   return (
     <Section tone={tone}>
@@ -103,11 +143,11 @@ export function ReelsStrip({
         <SectionHeader align="split" eyebrow={eyebrow} title={title} lead={lead} aside={<div className="mt-6"><Button href="#creator" arrow>Scopri i creator</Button></div>} />
       </Container>
       <div className={`${GAP.header} flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:px-8 lg:mx-auto lg:grid lg:max-w-[1200px] lg:grid-cols-5 lg:items-center lg:overflow-visible lg:px-10 [scrollbar-width:none]`}>
-        {creators.map((c, i) => (
-          <motion.a key={c.slug} href={`#creator.${c.slug}`} {...reveal(i)} className={`block w-[62vw] max-w-[260px] shrink-0 snap-center lg:w-auto lg:max-w-none ${i === 2 ? 'lg:scale-[1.08]' : ''}`}>
-            <ReelCard c={c} delay={i * 0.8} />
+        {reels.map((r, i) => (
+          <motion.a key={r.id} href="#casi-studio" {...reveal(i)} className={`block w-[62vw] max-w-[260px] shrink-0 snap-center lg:w-auto lg:max-w-none ${i === 2 ? 'lg:scale-[1.08]' : ''}`}>
+            <WorkReelCard r={r} delay={i * 0.8} />
             <p className="mt-3 text-center text-xs opacity-70">
-              {NICHE_INFO[c.niche].name} · {fmtFollowers(c.followers)} follower
+              {r.sector} · {r.label}
             </p>
           </motion.a>
         ))}
@@ -134,7 +174,7 @@ export function ReelWall({
   lead?: string;
   stats?: string[][];
 }) {
-  const cols = [CREATORS_DB.slice(0, 2), CREATORS_DB.slice(2, 4), CREATORS_DB.slice(4, 6), CREATORS_DB.slice(6, 8)];
+  const cols = [REELS.slice(5, 7), REELS.slice(7, 9), REELS.slice(9, 11), REELS.slice(11, 13)];
   const offsets = ['', 'lg:mt-20', 'lg:mt-8', 'lg:mt-28'];
   return (
     <Section tone={tone}>
@@ -153,9 +193,9 @@ export function ReelWall({
         <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
           {cols.map((col, k) => (
             <div key={k} className={`space-y-4 sm:space-y-5 ${offsets[k]} ${k > 1 ? 'hidden lg:block' : ''}`}>
-              {col.map((c, i) => (
-                <motion.a key={c.slug} href={`#creator.${c.slug}`} {...reveal(k + i)} className="block">
-                  <ReelCard c={c} delay={(k * 2 + i) * 0.6} />
+              {col.map((r, i) => (
+                <motion.a key={r.id} href="#casi-studio" {...reveal(k + i)} className="block">
+                  <WorkReelCard r={r} delay={(k * 2 + i) * 0.6} />
                 </motion.a>
               ))}
             </div>
@@ -175,7 +215,7 @@ export function HeroReels({
   eyebrow = 'Creator',
   title = 'I creator che fanno\n*parlare di te*',
   lead = 'Profili verificati in tutte le nicchie, scelti su audience, engagement e affinità con il tuo brand.',
-  creators = CREATORS_DB,
+  reels = REELS,
   actions,
   children,
 }: {
@@ -183,11 +223,11 @@ export function HeroReels({
   eyebrow?: string;
   title?: string;
   lead?: string;
-  creators?: Creator[];
+  reels?: WorkReel[];
   actions?: React.ReactNode;
   children?: React.ReactNode;
 }) {
-  const list = creators.length < 6 ? [...creators, ...CREATORS_DB.filter((c) => !creators.includes(c))].slice(0, 8) : creators;
+  const list = (reels.length < 8 ? [...reels, ...REELS.filter((r) => !reels.includes(r))] : reels).slice(0, 12);
   return (
     <Section tone="ink" pad="none" className="pb-16 pt-10 sm:pb-20 sm:pt-14">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(255,31,143,0.28),transparent_65%)]" />
@@ -202,9 +242,9 @@ export function HeroReels({
         </motion.div>
       </Container>
       <Marquee className="mt-14 pb-8" speed="animate-[marquee_45s_linear_infinite]">
-        {list.map((c, i) => (
-          <a key={c.slug} href={`#creator.${c.slug}`} className={`block w-44 shrink-0 sm:w-52 ${i % 2 ? 'translate-y-6' : ''}`}>
-            <ReelCard c={c} delay={i * 0.5} />
+        {list.map((r, i) => (
+          <a key={r.id} href="#casi-studio" className={`block w-44 shrink-0 sm:w-52 ${i % 2 ? 'translate-y-6' : ''}`}>
+            <WorkReelCard r={r} delay={i * 0.5} />
           </a>
         ))}
       </Marquee>
@@ -218,7 +258,8 @@ export function HeroReels({
    subito i volti dei creator (prova visiva). Due ingressi espliciti per
    i due pubblici (brand / creator) e nicchie cliccabili.               */
 export function HeroHome() {
-  const [a, b, c] = [CREATORS_DB[2], CREATORS_DB[0], CREATORS_DB[4]];
+  const pick = (id: string) => REELS.find((r) => r.id === id) ?? REELS[0];
+  const [a, b, c] = [pick('fitness-scegli-corso'), pick('food-sushi-morso'), pick('salute-farmacia-vaccini')];
   return (
     <Section tone="white" pad="none" className="pb-14 pt-10 sm:pb-20 sm:pt-16">
       <Container className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
@@ -254,8 +295,8 @@ export function HeroHome() {
             { c: c, cls: 'right-0 top-10 w-[46%] rotate-6', d: 1.2 },
             { c: a, cls: 'left-1/2 top-0 z-10 w-[54%] -translate-x-1/2', d: 0.6 },
           ].map(({ c: cr, cls, d }, i) => (
-            <motion.a key={cr.slug} href={`#creator.${cr.slug}`} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className={`absolute block ${cls}`}>
-              <ReelCard c={cr} delay={d} />
+            <motion.a key={cr.id} href="#casi-studio" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className={`absolute block ${cls}`}>
+              <WorkReelCard r={cr} delay={d} />
             </motion.a>
           ))}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8 }} className="absolute -left-2 bottom-16 z-20 rounded-2xl bg-white px-4 py-3 shadow-float sm:-left-8">

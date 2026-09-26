@@ -154,6 +154,50 @@ export const CREATORS_DB: Creator[] = BASE.map(([name, handle, niche, city, plat
 export const fmtFollowers = (n: number) => (n >= 1000000 ? `${(n / 1000000).toLocaleString('it-IT', { maximumFractionDigits: 1 })}M` : `${Math.round(n / 1000)}K`);
 export const fmtEr = (n: number) => `${n.toLocaleString('it-IT', { minimumFractionDigits: 1 })}%`;
 
+/* ─── Reel reali (copertine dei post plan realizzati per i clienti) ──
+   Solo settore e tipo di attività: niente nomi, follower o numeri
+   inventati su contenuti e volti reali. File in public/, sorgente su Drive
+   "Influencee sito — Immagini/05_reel-clienti-socialee".               */
+export interface WorkReel {
+  id: string;
+  cover: string;
+  sector: string;
+  label: string;
+}
+
+export const REELS: WorkReel[] = (
+  [
+    ['food-sushi-piatto', 'Food', 'Ristorante sushi'],
+    ['fitness-posturale', 'Fitness', 'Palestra'],
+    ['salute-farmacia-vaccini', 'Salute', 'Farmacia'],
+    ['beauty-estetica-tecnologia', 'Beauty', 'Centro estetico'],
+    ['casa-spazio-esterno', 'Casa', 'Arredo in legno'],
+    ['fitness-hiit-boxing', 'Fitness', 'Palestra'],
+    ['food-sushi-morso', 'Food', 'Ristorante sushi'],
+    ['servizi-fornitore', 'Servizi', 'Consulenza energia'],
+    ['fitness-scegli-corso', 'Fitness', 'Palestra'],
+    ['salute-farmacia-influenza', 'Salute', 'Farmacia'],
+    ['eventi-inaugurazione', 'Eventi', 'Inaugurazione'],
+    ['beauty-body-project', 'Beauty', 'Centro estetico'],
+    ['fitness-cross-training', 'Fitness', 'Palestra'],
+    ['food-salse-zero', 'Food', 'Prodotti food'],
+    ['casa-pergola', 'Casa', 'Arredo in legno'],
+    ['fitness-allenamento-giusto', 'Fitness', 'Palestra'],
+    ['food-sushi-umore', 'Food', 'Ristorante sushi'],
+    ['servizi-bolletta', 'Servizi', 'Consulenza energia'],
+    ['fitness-pochi-posti', 'Fitness', 'Palestra'],
+    ['salute-farmacia-antibiotico', 'Salute', 'Farmacia'],
+    ['fitness-plank', 'Fitness', 'Palestra'],
+    ['food-creme-proteiche', 'Food', 'Prodotti food'],
+    ['casa-legno', 'Casa', 'Arredo in legno'],
+    ['fitness-ogni-orario', 'Fitness', 'Palestra'],
+    ['servizi-online', 'Servizi', 'Consulenza energia'],
+    ['fitness-percorso', 'Fitness', 'Palestra'],
+    ['salute-farmacia-spoiler', 'Salute', 'Farmacia'],
+    ['fitness-hip-thrust', 'Fitness', 'Palestra'],
+  ] as [string, string, string][]
+).map(([id, sector, label]) => ({ id, cover: `reel-${id}.webp`, sector, label }));
+
 /* ─── Articoli del blog ─────────────────────────────────────────── */
 export interface Article {
   slug: string;

@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { BadgeCheck, Check, MapPin, Plus, Search, SlidersHorizontal } from 'lucide-react';
 import { Button, Card, Container, GAP, Pill, Section, SectionHeader, TYPE, reveal, type Tone } from '../ds';
 import { CtaBand } from '../rows/footer';
-import { CREATORS_DB, NICHE_INFO, NICHE_SLUGS, fmtEr, fmtFollowers, type Creator } from './data';
+import { CREATORS_DB, NICHE_INFO, NICHE_SLUGS, REELS, fmtEr, fmtFollowers, type Creator } from './data';
 import { Breadcrumbs } from './shell';
 import { HeroReels, ReelCard } from '../rows/reels';
 
@@ -206,7 +206,7 @@ export function NichePage({ slug }: { slug: string }) {
         eyebrow="Nicchia"
         title={`Creator *${info.name}*`}
         lead={info.lead}
-        creators={list}
+        reels={REELS.filter((r) => r.sector === info.name)}
         actions={<Button href="#contatti">Richiedi creator {info.name}</Button>}
       >
         <div className="mx-auto grid max-w-lg grid-cols-3 gap-3">
