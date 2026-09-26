@@ -19,6 +19,7 @@ export interface Story {
   metric: number;
   metricSuffix?: string;
   metricPrefix?: string;
+  metricDecimals?: number;
   metricLabel: string;
   quote: string;
   tag?: string;
@@ -26,6 +27,8 @@ export interface Story {
 }
 
 export interface CustomerStorywellProps {
+  /** Senza padding/sfondo propri: per l'uso dentro un pannello del design system. */
+  embedded?: boolean;
   stories?: Story[];
   heading?: string;
   transition?: 'slide' | 'rise' | 'iris';
@@ -50,7 +53,7 @@ const TRANSITIONS = {
   iris: { initial: { clipPath: 'circle(0% at 50% 50%)' }, animate: { clipPath: 'circle(75% at 50% 50%)' }, exit: { opacity: 0 } },
 };
 
-function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?: string; suffix?: string }) {
+function CountUp({ to, prefix = '', suffix = '', decimals = 0 }: { to: number; prefix?: string; suffix?: string; decimals?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   const [v, setV] = useState(0);
@@ -60,7 +63,7 @@ function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?: string
     let raf = 0;
     const tick = (t: number) => {
       const k = Math.min(1, (t - t0) / 1000);
-      setV(Math.round(to * (1 - Math.pow(1 - k, 3))));
+      setV(to * (1 - Math.pow(1 - k, 3)));
       if (k < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -69,7 +72,7 @@ function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?: string
   return (
     <span ref={ref}>
       {prefix}
-      {v}
+      {v.toLocaleString('it-IT', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}
       {suffix}
     </span>
   );
@@ -84,6 +87,7 @@ export default function CustomerStorywell({
   background = '#efebe4',
   panelBg = '#ffffff',
   quoteClass = 'font-serif',
+  embedded = false,
 }: CustomerStorywellProps) {
   const n = stories.length;
   const [i, setI] = useState(0);
@@ -102,9 +106,9 @@ export default function CustomerStorywell({
         if (e.key === 'ArrowDown' || e.key === 'ArrowRight') go(1);
         if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') go(-1);
       }}
-      className="px-4 py-20 outline-none font-sans sm:px-6" style={{ background }}>
+      className={embedded ? 'outline-none' : 'px-4 py-20 outline-none font-sans sm:px-6'} style={{ background: embedded ? undefined : background }}>
       <div
-        className="mx-auto grid max-w-6xl gap-6 rounded-[2rem] p-4 sm:p-5 lg:grid-cols-[210px_1fr_340px]"
+        className={`mx-auto grid max-w-6xl gap-6 p-4 sm:p-5 lg:grid-cols-[210px_1fr_340px] ${embedded ? 'rounded-3xl' : 'rounded-[2rem]'}`}
         style={{ background: panelBg }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
@@ -152,7 +156,7 @@ export default function CustomerStorywell({
           <AnimatePresence mode="wait">
             <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex-1">
               <p className="mt-10 text-6xl font-light tracking-tight" style={{ color: accent }}>
-                <CountUp to={s.metric} prefix={s.metricPrefix} suffix={s.metricSuffix} />
+                <CountUp to={s.metric} prefix={s.metricPrefix} suffix={s.metricSuffix} decimals={s.metricDecimals} />
               </p>
               <p className="text-sm text-zinc-500">{s.metricLabel}</p>
               <p className={`mt-7 text-2xl leading-snug text-zinc-800 sm:text-3xl ${quoteClass}`}>

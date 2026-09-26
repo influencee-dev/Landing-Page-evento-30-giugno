@@ -19,6 +19,8 @@ export interface EditorialItem {
 }
 
 export interface EditorialVideoStackProps {
+  /** Senza padding/sfondo propri: per l'uso dentro un pannello del design system. */
+  embedded?: boolean;
   items?: EditorialItem[];
   cardWidth?: number;
   aspect?: number;
@@ -53,6 +55,7 @@ export default function EditorialVideoStack({
   fit = 'cover',
   background = '#ffffff',
   speed = 0.55,
+  embedded = false,
 }: EditorialVideoStackProps) {
   const [active, setActive] = useState(Math.floor(items.length / 2));
   const [muted, setMuted] = useState(true);
@@ -74,8 +77,8 @@ export default function EditorialVideoStack({
 
   return (
     <section
-      className="relative overflow-hidden py-20 font-sans"
-      style={{ background }}
+      className={`relative overflow-hidden outline-none ${embedded ? 'py-4' : 'py-20 font-sans'}`}
+      style={{ background: embedded ? undefined : background }}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'ArrowRight') go(1);

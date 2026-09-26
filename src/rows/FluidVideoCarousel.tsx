@@ -20,6 +20,8 @@ export interface FluidItem {
 }
 
 export interface FluidVideoCarouselProps {
+  /** Senza padding/sfondo propri: per l'uso dentro un pannello del design system. */
+  embedded?: boolean;
   items?: FluidItem[];
   /** px/secondo; negativo = verso destra. */
   speed?: number;
@@ -62,6 +64,7 @@ export default function FluidVideoCarousel({
   wheel = true,
   background = '#ffffff',
   titleClass = 'font-mono uppercase tracking-wide',
+  embedded = false,
 }: FluidVideoCarouselProps) {
   const x = useMotionValue(0);
   const track = useRef<HTMLDivElement>(null);
@@ -126,7 +129,7 @@ export default function FluidVideoCarousel({
   };
 
   return (
-    <section className="relative overflow-hidden py-16" style={{ background }}>
+    <section className={`relative overflow-hidden ${embedded ? '' : 'py-16'}`} style={{ background: embedded ? undefined : background }}>
       {showModeToggle && (
         <div className="mb-6 flex justify-center">
           <button type="button" onClick={() => setMono((m) => !m)} className={`rounded-full border border-zinc-300 px-4 py-1.5 text-xs ${titleClass}`}>

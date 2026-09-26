@@ -16,6 +16,8 @@ export interface VelocitySlide {
 }
 
 export interface VelocityCarouselProps {
+  /** Senza padding/sfondo propri: per l'uso dentro un pannello del design system. */
+  embedded?: boolean;
   slides?: VelocitySlide[];
   /** Larghezza card attiva in px (desktop). Su mobile si adatta al contenitore. */
   cardWidth?: number;
@@ -79,6 +81,7 @@ export default function VelocityCarousel({
   startIndex,
   fontClass = 'font-sans',
   fade = true,
+  embedded = false,
 }: VelocityCarouselProps) {
   const n = slides.length;
   const [active, setActive] = useState(startIndex ?? Math.floor(n / 2));
@@ -115,8 +118,8 @@ export default function VelocityCarousel({
   return (
     <section
       ref={wrap}
-      className={`relative overflow-hidden py-20 ${fontClass}`}
-      style={{ background }}
+      className={`relative overflow-hidden outline-none ${embedded ? 'py-4' : 'py-20'} ${fontClass}`}
+      style={{ background: embedded ? undefined : background }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onKeyDown={(e) => {

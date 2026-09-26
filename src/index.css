@@ -14,6 +14,28 @@
   --font-work: "Work Sans", "Inter", sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
 
+  /* ─── Design system Influencee (fase 2) ───────────────────────────
+     Unica fonte di verità per colori e font del template. Cambiando
+     questi valori cambia l'intero sito. */
+  --color-ink: #0e0e14;        /* testo principale, sezioni scure */
+  --color-ink-2: #1b1b24;      /* card su sfondo scuro */
+  --color-canvas: #dfdcd3;     /* sfondo pagina = colore dei margini esterni */
+  --color-paper: #f5f4f0;      /* pannelli chiari caldi */
+  --color-muted: #eceae4;      /* pannelli neutri */
+  --color-line: #e2e0d9;       /* bordi e divisori */
+  --color-mute: #6d6c75;       /* testo secondario */
+  --color-brand: #6c3cff;      /* accento unico: CTA, evidenze */
+  --color-brand-ink: #4b22d6;  /* testo accento su tinta chiara */
+  --color-brand-soft: #ece6ff; /* tinta chiara per badge/pill */
+  --color-brand-glow: #b9a3ff; /* accento su sfondo scuro */
+  --color-star: #f5b400;       /* solo per le stelle delle recensioni */
+
+  --shadow-card: 0 1px 0 rgb(14 14 20 / 0.04), 0 12px 32px -12px rgb(14 14 20 / 0.14);
+  --shadow-float: 0 24px 48px -16px rgb(14 14 20 / 0.28);
+
+  --font-heading: "Inter Tight", "Inter", ui-sans-serif, sans-serif;
+  --font-accent: "Instrument Serif", Georgia, serif;
+
   --animate-marquee: marquee 30s linear infinite;
   --animate-float: float 6s ease-in-out infinite;
 

@@ -21,6 +21,8 @@ export interface SwipeStory {
 }
 
 export interface TestimonialSwipeProps {
+  /** Senza padding/sfondo propri: per l'uso dentro un pannello del design system. */
+  embedded?: boolean;
   stories?: SwipeStory[];
   /** ms; 0 = autoplay disattivato. */
   autoplay?: number;
@@ -59,6 +61,7 @@ export default function TestimonialSwipe({
   cardBg = '#ffffff',
   background = '#ffa800',
   panelBg = '#faf7f2',
+  embedded = false,
 }: TestimonialSwipeProps) {
   const n = stories.length;
   const [i, setI] = useState(0);
@@ -92,9 +95,9 @@ export default function TestimonialSwipe({
         if (e.key === 'ArrowRight') next();
         if (e.key === 'ArrowLeft') prev();
       }}
-      className="px-4 py-20 outline-none font-work sm:px-6" style={{ background }}>
+      className={embedded ? 'outline-none' : 'px-4 py-20 outline-none font-work sm:px-6'} style={{ background: embedded ? undefined : background }}>
       <div
-        className="mx-auto grid max-w-4xl items-center gap-10 rounded-[2rem] p-8 shadow-2xl sm:p-12 md:grid-cols-2"
+        className={`mx-auto grid max-w-4xl items-center gap-10 p-8 sm:p-12 md:grid-cols-2 ${embedded ? 'rounded-3xl' : 'rounded-[2rem] shadow-2xl'}`}
         style={{ background: panelBg }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
