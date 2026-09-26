@@ -17,7 +17,7 @@ function Socials({ className = '' }: { className?: string }) {
   return (
     <div className={`flex gap-2 ${className}`}>
       {[Instagram, Linkedin, Mail].map((Icon, i) => (
-        <a key={i} href="#" aria-label="Social" className={`flex h-8 w-8 items-center justify-center rounded-full transition hover:-translate-y-0.5 ${dark ? 'bg-white/10 text-white' : 'bg-white text-ink shadow-card hover:text-brand'}`}>
+        <a key={i} href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Social" className={`flex h-8 w-8 items-center justify-center rounded-full transition hover:-translate-y-0.5 ${dark ? 'bg-white/10 text-white' : 'bg-white text-ink shadow-card hover:text-brand'}`}>
           <Icon className="h-3.5 w-3.5" />
         </a>
       ))}
@@ -121,7 +121,7 @@ export function TeamZigzag({ tone = 'white', title = 'Chi rende possibile\n*il n
                   <p className={`text-sm ${hl ? 'text-white/80' : 'text-mute'}`}>{m.role}</p>
                   <div className="mt-4 flex gap-3">
                     {[Instagram, Linkedin, Mail].map((Icon, k) => (
-                      <a key={k} href="#" aria-label="Social" className="opacity-80 transition hover:opacity-100">
+                      <a key={k} href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Social" className="opacity-80 transition hover:opacity-100">
                         <Icon className="h-5 w-5" />
                       </a>
                     ))}

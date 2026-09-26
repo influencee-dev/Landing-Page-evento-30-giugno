@@ -22,14 +22,14 @@ export const NAV = [
   { label: 'Agenzie', href: '#agenzie' },
   { label: 'Creator', href: '#creator' },
   { label: 'Piattaforma', href: '#piattaforma' },
-  { label: 'Casi studio', href: '#casi' },
+  { label: 'Casi studio', href: '#casi-studio' },
 ];
 
 export const CTA = {
   demo: { label: 'Richiedi una demo', href: '#contatti' },
   campaign: { label: 'Progetta la tua campagna', href: '#contatti' },
-  creator: { label: 'Sei un creator?', href: '#creator' },
-  cases: { label: 'Guarda i casi studio', href: '#casi' },
+  creator: { label: 'Sei un creator?', href: '#diventa-creator' },
+  cases: { label: 'Guarda i casi studio', href: '#casi-studio' },
   platform: { label: 'Scopri la piattaforma', href: '#piattaforma' },
 };
 

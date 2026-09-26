@@ -5,9 +5,10 @@ design system** per influencee.it.
 
 | URL | Cosa mostra |
 | --- | --- |
-| `/?influencee` | Gallery: pagina delle regole + tutte le 48 voci (43 row e le loro varianti) |
+| `/?influencee` | Gallery: pagina delle regole + tutte le row (vedi `ROWS.md`) |
 | `/?influencee=hero` | Gallery filtrata (per nome, id o famiglia: `team`, `interattivi`, …) |
 | `/?influencee=home` | Esempio di home completa composta con le row |
+| `site.html` (dev: `/site.html`) | **Sito completo** navigabile: menu, soluzioni, piattaforma, creator, nicchie, profili, blog, categorie, articoli, libreria |
 
 ## Struttura
 
@@ -62,3 +63,14 @@ import { ServicesAccordion } from './rows/services';
 
 Ogni row accetta `tone` e le props dei testi principali. Nelle hero, `showNav={false}`
 nasconde la navbar quando la row non è la prima della pagina.
+
+## Sito completo
+
+`src/influencee/site/` contiene il sito multipagina (router a hash, header con mega-menu,
+pagine). Build statica con percorsi relativi:
+
+```bash
+npx vite build --config vite.site.config.ts   # → dist-site/
+```
+
+Il catalogo di tutte le row e le regole di composizione delle pagine sono in `ROWS.md`.

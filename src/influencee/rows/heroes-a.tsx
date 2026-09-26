@@ -29,7 +29,7 @@ function Sparkle({ className = '' }: { className?: string }) {
         <linearGradient id="in-sp" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#c8ff1a" />
           <stop offset="0.6" stopColor="#ff1f8f" />
-          <stop offset="1" stopColor="#0a0a0a" />
+          <stop offset="1" stopColor="#1d1d1f" />
         </linearGradient>
       </defs>
       <path d="M50 0 C55 35 65 45 100 50 C65 55 55 65 50 100 C45 65 35 55 0 50 C35 45 45 35 50 0Z" fill="url(#in-sp)" />

@@ -12,7 +12,7 @@ import CustomerStorywellBase from '../../rows/CustomerStorywell';
 
 const HEADINGS = '[&_h3]:font-heading [&_h3]:tracking-[-0.02em]';
 const BRAND_HEX = '#ff1f8f';
-const INK_HEX = '#0a0a0a';
+const INK_HEX = '#1d1d1f';
 
 interface Head {
   tone?: Tone;

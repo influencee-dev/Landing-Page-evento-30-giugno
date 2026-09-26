@@ -27,8 +27,8 @@ export function CtaBand({ tone = 'ink', title = 'Pronto a lavorare con\n*i creat
 export function Footer({ tone = 'white' }: { tone?: Tone }) {
   const cols = [
     { title: 'Soluzioni', links: NAV.slice(0, 4) },
-    { title: 'Risorse', links: [{ label: 'Casi studio', href: '#casi' }, { label: 'FAQ', href: '#faq' }, { label: 'Newsletter', href: '#' }] },
-    { title: 'Legale', links: [{ label: 'Privacy', href: '#' }, { label: 'Cookie', href: '#' }, { label: 'Termini', href: '#' }] },
+    { title: 'Risorse', links: [{ label: 'Blog', href: '#blog' }, { label: 'Casi studio', href: '#casi-studio' }, { label: 'Diventa creator', href: '#diventa-creator' }, { label: 'Libreria row', href: '#libreria' }] },
+    { title: 'Legale', links: [{ label: 'Privacy', href: '#privacy' }, { label: 'Cookie', href: '#cookie' }, { label: 'Termini', href: '#termini' }] },
   ];
   return (
     <Section tone={tone} pad="none" className="pb-3">
@@ -37,8 +37,8 @@ export function Footer({ tone = 'white' }: { tone?: Tone }) {
           <Logo />
           <Lead className="mt-4 max-w-xs !text-base">Il ponte tra brand e creator: selezione, campagne e risultati misurabili.</Lead>
           <div className="mt-6 flex gap-2">
-            {[Instagram, Music2, Linkedin].map((Icon, i) => (
-              <a key={i} href="#" aria-label="Social" className="flex h-10 w-10 items-center justify-center rounded-full bg-paper text-ink transition hover:bg-brand hover:text-white">
+            {([[Instagram, 'https://www.instagram.com/'], [Music2, 'https://www.tiktok.com/'], [Linkedin, 'https://www.linkedin.com/company/influencee-it/']] as const).map(([Icon, url], i) => (
+              <a key={i} href={url} target="_blank" rel="noreferrer" aria-label="Social" className="flex h-10 w-10 items-center justify-center rounded-full bg-paper text-ink transition hover:bg-brand hover:text-white">
                 <Icon className="h-4 w-4" />
               </a>
             ))}

@@ -58,7 +58,7 @@ export function HeroFan({
       <div className="relative mt-14 h-[330px] sm:h-[430px]">
         {stories && (
           <>
-            <CurvedMarquee items={['Il tuo motore di crescita con i creator', '38M+ persone raggiunte']} bg="#c8ff1a" color="#0a0a0a" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-24 h-48 w-full" duration={40} />
+            <CurvedMarquee items={['Il tuo motore di crescita con i creator', '38M+ persone raggiunte']} bg="#c8ff1a" color="#1d1d1f" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-24 h-48 w-full" duration={40} />
             <CurvedMarquee items={['Il tuo motore di crescita con i creator', '38M+ persone raggiunte']} bg="#ff1f8f" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-32 z-[3] h-48 w-full" duration={34} />
           </>
         )}
@@ -100,7 +100,7 @@ export function HeroWidgets({ tone = 'white', showNav, title = '*Influencer mark
           <div className="absolute left-0 top-4 hidden w-52 space-y-4 text-left md:block lg:left-10">
             <motion.div {...reveal(1)} className="rounded-3xl bg-white p-5 shadow-float">
               <p className="text-sm font-medium">Audience</p>
-              <div className="relative mx-auto mt-3 h-24 w-24 rounded-full" style={{ background: 'conic-gradient(#ff1f8f 0 46%, #c8ff1a 46% 78%, #0a0a0a 78% 100%)' }}>
+              <div className="relative mx-auto mt-3 h-24 w-24 rounded-full" style={{ background: 'conic-gradient(#ff1f8f 0 46%, #c8ff1a 46% 78%, #1d1d1f 78% 100%)' }}>
                 <div className="absolute inset-3 flex flex-col items-center justify-center rounded-full bg-white text-[10px] leading-tight">
                   <b className="text-sm">68%</b>donne 25–34
                 </div>
@@ -158,7 +158,7 @@ export function HeroUGC({ tone = 'white', showNav, title = 'UGC che fa crescere 
   const go = (d: number) => setI((v) => (v + d + imgs.length) % imgs.length);
   return (
     <HeroShell tone={tone} showNav={showNav}>
-      <CurvedMarquee items={services.map((s) => s.toUpperCase())} path={CURVES.wave} bg="#c8ff1a" color="#0a0a0a" separator="•" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-[52%] z-[1] h-[42%] w-full" />
+      <CurvedMarquee items={services.map((s) => s.toUpperCase())} path={CURVES.wave} bg="#c8ff1a" color="#1d1d1f" separator="•" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-[52%] z-[1] h-[42%] w-full" />
       <Container className="grid gap-10 pt-10 sm:pt-14 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
         <motion.div {...reveal()} className="relative z-[2]">
           <Heading as="h1" size="display" text={title} className="max-w-sm" />

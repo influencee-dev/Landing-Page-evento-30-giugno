@@ -8,8 +8,12 @@ import { NichePills, AboutValues, ProcessSteps, ServicesAccordion, FeatureCardsU
 import { VelocityCarousel, FluidCarousel, EditorialStack, TestimonialSwipe, Storywell } from './rows/carousels';
 import { BenefitsGrid, StepsHighlight, PlatformsGrid, Faq, FeatureRows, Newsletter, Comparison } from './rows/saas';
 import { CtaBand, Footer } from './rows/footer';
+import { FeaturedCreators, CreatorExplorer } from './site/creators';
+import { LatestArticles } from './site/blog';
+import { PlatformTour } from './site/platform';
+import { PageHero } from './site/shell';
 
-export type Family = 'Hero' | 'Team' | 'Social proof' | 'Lavori' | 'Servizi' | 'Interattivi' | 'Piattaforma' | 'Chiusura';
+export type Family = 'Hero' | 'Team' | 'Social proof' | 'Lavori' | 'Servizi' | 'Interattivi' | 'Piattaforma' | 'Sito' | 'Chiusura';
 
 export interface Row {
   id: string;
@@ -70,4 +74,12 @@ export const ROWS: Row[] = [
   { id: 'comparison', num: '41', name: 'Vecchio metodo vs nuovo', family: 'Piattaforma', Component: Comparison },
   { id: 'cta-band', num: '42', name: 'Fascia CTA finale', family: 'Chiusura', Component: CtaBand },
   { id: 'footer', num: '43', name: 'Footer', family: 'Chiusura', Component: Footer },
+  { id: 'page-hero', num: '44', name: 'Hero pagina interna + breadcrumb', family: 'Sito', Component: PageHero, props: { crumbs: [{ label: 'Sezione', href: '#home' }, { label: 'Pagina' }], eyebrow: 'Pagina interna', title: 'Titolo della *pagina*', lead: 'Hero standard per tutte le pagine interne: breadcrumb, etichetta, titolo e testo.' } },
+  { id: 'featured-creators', num: '45', name: 'Creator in evidenza', family: 'Sito', Component: FeaturedCreators },
+  { id: 'creator-explorer', num: '46', name: 'Elenco creator con filtri', family: 'Sito', Component: CreatorExplorer },
+  { id: 'platform-tour', num: '47', name: 'Tour piattaforma a schede', family: 'Sito', Component: PlatformTour },
+  { id: 'latest-articles', num: '48', name: 'Ultimi articoli', family: 'Sito', Component: LatestArticles },
 ];
+
+/** Numero di row distinte (le varianti 02a/02b ecc. contano come una). */
+export const ROW_COUNT = new Set(ROWS.map((r) => r.num.replace(/[a-z]$/, ''))).size;

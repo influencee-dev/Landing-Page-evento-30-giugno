@@ -1,5 +1,5 @@
 import React from 'react';
-import { ROWS } from './registry';
+import { ROWS, ROW_COUNT } from './registry';
 import { Button, Card, Container, Eyebrow, Heading, Lead, Pill, Section, TYPE } from './ds';
 import { HeroPill } from './rows/heroes-a';
 import { StatsBento } from './rows/proof';
@@ -11,11 +11,11 @@ import { TeamBento } from './rows/team';
 import { CtaBand, Footer } from './rows/footer';
 
 /* Pagina delle regole del design system (in cima alla gallery). */
-function Rules() {
+export function Rules() {
   const colors = [
     ['white', '#ffffff', 'bg-white ring-1 ring-inset ring-line'],
-    ['ink (nero)', '#0a0a0a', 'bg-ink'],
-    ['ink-2', '#1c1c1c', 'bg-ink-2'],
+    ['ink (nero)', '#1d1d1f', 'bg-ink'],
+    ['ink-2', '#2a2a2e', 'bg-ink-2'],
     ['canvas', '#ebebeb', 'bg-canvas'],
     ['paper', '#f6f6f6', 'bg-paper'],
     ['line', '#e4e4e4', 'bg-line'],
@@ -32,7 +32,7 @@ function Rules() {
       <Section tone="white">
         <Container>
           <Eyebrow>Design system</Eyebrow>
-          <Heading as="h1" size="display" text="Una sola regola,\n*43 row*" className="mt-5" />
+          <Heading as="h1" size="display" text={`Una sola regola,\n*${ROW_COUNT} row*`} className="mt-5" />
           <Lead className="mt-5 max-w-2xl">Tutte le row usano gli stessi token di colore, la stessa scala tipografica, gli stessi raggi e lo stesso layout: pannello a tutta larghezza con margine esterno, contenuto in un contenitore da 1200px.</Lead>
 
           <p className={`mt-14 ${TYPE.label} text-mute`}>Colori</p>

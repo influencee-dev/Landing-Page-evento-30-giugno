@@ -332,7 +332,7 @@ export function SocialProof({ className = '' }: { className?: string }) {
 export function Logo({ className = '' }: { className?: string }) {
   const { heading, dark } = useInk();
   return (
-    <a href="#" className={`flex items-center gap-2 font-heading text-xl font-semibold tracking-[-0.03em] ${heading} ${className}`}>
+    <a href="#home" className={`flex items-center gap-2 font-heading text-xl font-semibold tracking-[-0.03em] ${heading} ${className}`}>
       <span className={`relative flex h-8 w-8 items-center justify-center rounded-full ${dark ? 'bg-white' : 'bg-brand'}`}>
         <span className={`h-3 w-3 rounded-full ${dark ? 'bg-brand' : 'bg-white'}`} />
         <span className={`absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ${dark ? 'bg-acid ring-ink' : 'bg-ink ring-white'}`} />
