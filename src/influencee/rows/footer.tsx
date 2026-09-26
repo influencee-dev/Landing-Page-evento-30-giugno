@@ -7,7 +7,7 @@ import { BRAND, CTA, NAV } from '../content';
 export function CtaBand({ tone = 'ink', title = 'Pronto a lavorare con\n*i creator giusti?*', lead = 'Raccontaci il tuo brand: in 48 ore ricevi una shortlist di creator e una proposta di campagna.' }: { tone?: Tone; title?: string; lead?: string }) {
   return (
     <Section tone={tone} id="contatti">
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(ellipse_at_bottom,rgba(108,60,255,0.45),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(ellipse_at_bottom,rgba(255,31,143,0.45),transparent_70%)]" />
       <Container className="text-center">
         <Heading text={title} size="display" className="mx-auto max-w-4xl" />
         <Lead className="mx-auto mt-6 max-w-lg">{lead}</Lead>

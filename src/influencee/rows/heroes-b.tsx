@@ -25,7 +25,7 @@ export function HeroFan({
   lead = 'Pianifichiamo, selezioniamo e coordiniamo i creator per lanci di prodotto, campagne sempre attive e test creativi per le ads.',
 }: HeroBase & { variant?: 'stories' | 'posts' }) {
   const stories = variant === 'stories';
-  const t: Tone = tone ?? (stories ? 'paper' : 'ink');
+  const t: Tone = tone ?? (stories ? 'white' : 'ink');
   const heading = title ?? (stories ? 'Contenuti creator\ncostruiti per *fermare lo scroll*' : 'Fai parlare di te\n*le persone giuste*');
   const fan = stories
     ? [
@@ -58,8 +58,8 @@ export function HeroFan({
       <div className="relative mt-14 h-[330px] sm:h-[430px]">
         {stories && (
           <>
-            <CurvedMarquee items={['Il tuo motore di crescita con i creator', '38M+ persone raggiunte']} bg="#ece6ff" color="#0e0e14" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-24 h-48 w-full" duration={40} />
-            <CurvedMarquee items={['Il tuo motore di crescita con i creator', '38M+ persone raggiunte']} bg="#6c3cff" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-32 z-[3] h-48 w-full" duration={34} />
+            <CurvedMarquee items={['Il tuo motore di crescita con i creator', '38M+ persone raggiunte']} bg="#c8ff1a" color="#0a0a0a" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-24 h-48 w-full" duration={40} />
+            <CurvedMarquee items={['Il tuo motore di crescita con i creator', '38M+ persone raggiunte']} bg="#ff1f8f" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-32 z-[3] h-48 w-full" duration={34} />
           </>
         )}
         {cards.map((c, i) => (
@@ -81,7 +81,7 @@ export function HeroFan({
 }
 
 /* ─── 11 · Hero telefono + widget flottanti ─────────────────────── */
-export function HeroWidgets({ tone = 'soft', showNav, title = '*Influencer marketing*\nper brand che vogliono crescere', lead = 'Dalla scelta dei creator alla produzione dei contenuti: risultati misurabili che spostano il business.' }: HeroBase) {
+export function HeroWidgets({ tone = 'white', showNav, title = '*Influencer marketing*\nper brand che vogliono crescere', lead = 'Dalla scelta dei creator alla produzione dei contenuti: risultati misurabili che spostano il business.' }: HeroBase) {
   const c = CREATORS[0];
   return (
     <HeroShell tone={tone} showNav={showNav}>
@@ -100,7 +100,7 @@ export function HeroWidgets({ tone = 'soft', showNav, title = '*Influencer marke
           <div className="absolute left-0 top-4 hidden w-52 space-y-4 text-left md:block lg:left-10">
             <motion.div {...reveal(1)} className="rounded-3xl bg-white p-5 shadow-float">
               <p className="text-sm font-medium">Audience</p>
-              <div className="relative mx-auto mt-3 h-24 w-24 rounded-full" style={{ background: 'conic-gradient(#6c3cff 0 46%, #b9a3ff 46% 78%, #0e0e14 78% 100%)' }}>
+              <div className="relative mx-auto mt-3 h-24 w-24 rounded-full" style={{ background: 'conic-gradient(#ff1f8f 0 46%, #c8ff1a 46% 78%, #0a0a0a 78% 100%)' }}>
                 <div className="absolute inset-3 flex flex-col items-center justify-center rounded-full bg-white text-[10px] leading-tight">
                   <b className="text-sm">68%</b>donne 25–34
                 </div>
@@ -111,7 +111,7 @@ export function HeroWidgets({ tone = 'soft', showNav, title = '*Influencer marke
               <div className="flex items-end justify-between">
                 <span className="flex items-end gap-0.5">
                   {[3, 6, 4, 10].map((h, i) => (
-                    <span key={i} className="w-2 rounded-sm bg-brand-glow" style={{ height: h * 1.6 }} />
+                    <span key={i} className="w-2 rounded-sm bg-acid" style={{ height: h * 1.6 }} />
                   ))}
                 </span>
                 <span className="font-heading text-2xl font-semibold">6,2%</span>
@@ -158,7 +158,7 @@ export function HeroUGC({ tone = 'white', showNav, title = 'UGC che fa crescere 
   const go = (d: number) => setI((v) => (v + d + imgs.length) % imgs.length);
   return (
     <HeroShell tone={tone} showNav={showNav}>
-      <CurvedMarquee items={services.map((s) => s.toUpperCase())} path={CURVES.wave} bg="#ece6ff" color="#4b22d6" separator="•" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-[52%] z-[1] h-[42%] w-full" />
+      <CurvedMarquee items={services.map((s) => s.toUpperCase())} path={CURVES.wave} bg="#c8ff1a" color="#0a0a0a" separator="•" fontClass="font-heading font-semibold" className="absolute inset-x-0 top-[52%] z-[1] h-[42%] w-full" />
       <Container className="grid gap-10 pt-10 sm:pt-14 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
         <motion.div {...reveal()} className="relative z-[2]">
           <Heading as="h1" size="display" text={title} className="max-w-sm" />
@@ -225,7 +225,7 @@ const SCHEDULE = [
   { day: 'MAR', date: '30 GIU', items: [{ who: CREATORS[5], what: 'Live · unboxing', time: '21:00' }] },
 ];
 
-export function HeroCalendar({ tone = 'paper', showNav, title = 'Ogni creator, *ogni post*, sotto controllo', lead = 'Calendario condiviso, approvazioni e pubblicazioni: la tua campagna organizzata al minuto, senza fogli Excel.' }: HeroBase) {
+export function HeroCalendar({ tone = 'white', showNav, title = 'Ogni creator, *ogni post*, sotto controllo', lead = 'Calendario condiviso, approvazioni e pubblicazioni: la tua campagna organizzata al minuto, senza fogli Excel.' }: HeroBase) {
   return (
     <HeroShell tone={tone} showNav={showNav}>
       <Container className="grid gap-12 pt-6 lg:grid-cols-[1.3fr_1fr]">
@@ -275,7 +275,7 @@ export function HeroCalendar({ tone = 'paper', showNav, title = 'Ogni creator, *
 }
 
 /* ─── 27 · Hero centrata con 3 varianti di contenuto ────────────── */
-export function HeroCentered({ tone = 'muted', showNav, variant = 'marquee' }: HeroBase & { variant?: 'marquee' | 'work' | 'contact' }) {
+export function HeroCentered({ tone = 'white', showNav, variant = 'marquee' }: HeroBase & { variant?: 'marquee' | 'work' | 'contact' }) {
   const copy = {
     marquee: { title: 'Aiutiamo i brand a\n*vincere sui social*', lead: 'Raggiungiamo il pubblico giusto con i creator giusti: contenuti, gestione e advertising sulle piattaforme che contano.' },
     work: { title: 'Dentro le nostre campagne *migliori*', lead: 'Esempi reali di come i creator hanno aiutato i brand a crescere, coinvolgere e vendere.' },

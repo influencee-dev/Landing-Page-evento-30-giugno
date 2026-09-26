@@ -13,17 +13,18 @@ import { CtaBand, Footer } from './rows/footer';
 /* Pagina delle regole del design system (in cima alla gallery). */
 function Rules() {
   const colors = [
-    ['ink', '#0e0e14', 'bg-ink'],
-    ['ink-2', '#1b1b24', 'bg-ink-2'],
-    ['canvas', '#dfdcd3', 'bg-canvas'],
-    ['paper', '#f5f4f0', 'bg-paper'],
-    ['muted', '#eceae4', 'bg-muted'],
-    ['line', '#e2e0d9', 'bg-line'],
-    ['mute', '#6d6c75', 'bg-mute'],
-    ['brand', '#6c3cff', 'bg-brand'],
-    ['brand-ink', '#4b22d6', 'bg-brand-ink'],
-    ['brand-soft', '#ece6ff', 'bg-brand-soft'],
-    ['brand-glow', '#b9a3ff', 'bg-brand-glow'],
+    ['white', '#ffffff', 'bg-white ring-1 ring-inset ring-line'],
+    ['ink (nero)', '#0a0a0a', 'bg-ink'],
+    ['ink-2', '#1c1c1c', 'bg-ink-2'],
+    ['canvas', '#ebebeb', 'bg-canvas'],
+    ['paper', '#f6f6f6', 'bg-paper'],
+    ['line', '#e4e4e4', 'bg-line'],
+    ['mute', '#6b6b6b', 'bg-mute'],
+    ['brand (fucsia)', '#ff1f8f', 'bg-brand'],
+    ['brand-ink', '#d6006f', 'bg-brand-ink'],
+    ['brand-soft', '#ffe3f1', 'bg-brand-soft'],
+    ['acid (verde)', '#c8ff1a', 'bg-acid'],
+    ['acid-soft', '#f2ffc9', 'bg-acid-soft'],
   ];
   const tones = ['white', 'paper', 'muted', 'soft', 'ink', 'brand'] as const;
   return (

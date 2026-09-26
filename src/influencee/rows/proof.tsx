@@ -23,8 +23,8 @@ export function TestimonialFeature({ tone = 'ink', title = 'Cosa dicono\n*brand 
             <AnimatePresence mode="wait">
               <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}>
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand">
-                    <Quote className="h-4 w-4 fill-white text-white" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-acid text-ink">
+                    <Quote className="h-4 w-4 fill-current" />
                   </span>
                   <p className="font-heading text-lg font-semibold">
                     {t.name} <span className="font-sans text-sm font-normal text-white/60">/ {t.role}</span>
@@ -39,7 +39,7 @@ export function TestimonialFeature({ tone = 'ink', title = 'Cosa dicono\n*brand 
           </div>
           <div className="mt-8 flex gap-2">
             {items.map((_, k) => (
-              <button key={k} type="button" aria-label={`Testimonianza ${k + 1}`} onClick={() => setI(k)} className={`h-2 rounded-full transition-all ${k === i ? 'w-6 bg-brand-glow' : 'w-2 bg-white/30'}`} />
+              <button key={k} type="button" aria-label={`Testimonianza ${k + 1}`} onClick={() => setI(k)} className={`h-2 rounded-full transition-all ${k === i ? 'w-6 bg-acid' : 'w-2 bg-white/30'}`} />
             ))}
           </div>
         </div>
@@ -65,7 +65,7 @@ export function TestimonialFeature({ tone = 'ink', title = 'Cosa dicono\n*brand 
 }
 
 /* ─── 17 · Carosello testimonianze ──────────────────────────────── */
-export function TestimonialCarousel({ tone = 'paper', eyebrow = 'Testimonianze', title = 'Trovare il creator giusto\n*è solo l’inizio*', items = TESTIMONIALS }: { tone?: Tone; eyebrow?: string; title?: string; items?: typeof TESTIMONIALS }) {
+export function TestimonialCarousel({ tone = 'white', eyebrow = 'Testimonianze', title = 'Trovare il creator giusto\n*è solo l’inizio*', items = TESTIMONIALS }: { tone?: Tone; eyebrow?: string; title?: string; items?: typeof TESTIMONIALS }) {
   const [i, setI] = useState(0);
   const n = items.length;
   return (
@@ -173,7 +173,7 @@ export function StatsBento({ tone = 'white', eyebrow = 'Missione', title = 'Il n
 }
 
 /* ─── 26 · Risultati con contatori ──────────────────────────────── */
-export function ResultsList({ tone = 'muted', eyebrow = 'Risultati', title = '*Risultati* che parlano da soli', lead = 'Campagne costruite sul pubblico, con crescita, engagement e vendite reali.' }: { tone?: Tone; eyebrow?: string; title?: string; lead?: string }) {
+export function ResultsList({ tone = 'white', eyebrow = 'Risultati', title = '*Risultati* che parlano da soli', lead = 'Campagne costruite sul pubblico, con crescita, engagement e vendite reali.' }: { tone?: Tone; eyebrow?: string; title?: string; lead?: string }) {
   const rows = [
     { title: 'Persone raggiunte', text: 'Contenuti dei creator che arrivano al pubblico giusto, su tutte le piattaforme.', value: 38, suffix: 'M' },
     { title: 'Interazioni generate', text: 'Like, commenti, salvataggi e condivisioni: attenzione vera, non comprata.', value: 2.6, decimals: 1, suffix: 'M' },

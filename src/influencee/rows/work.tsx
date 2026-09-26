@@ -61,7 +61,7 @@ export function ProjectsBento({ tone = 'soft', eyebrow = 'Progetti in evidenza',
 }
 
 /* ─── 15 · Video UGC + statistica ───────────────────────────────── */
-export function StatVideo({ tone = 'paper', title = 'Contenuti UGC che\nportano *risultati veri*', lead = 'Ogni contenuto viene testato e ottimizzato su dati di performance, per diventare anche la tua migliore inserzione.', image = CREATORS[0].cover, video, stat = { value: '+200%', label: 'crescita follower organica' }, reverse = false }: { tone?: Tone; title?: string; lead?: string; image?: string; video?: string; stat?: { value: string; label: string }; reverse?: boolean }) {
+export function StatVideo({ tone = 'white', title = 'Contenuti UGC che\nportano *risultati veri*', lead = 'Ogni contenuto viene testato e ottimizzato su dati di performance, per diventare anche la tua migliore inserzione.', image = CREATORS[0].cover, video, stat = { value: '+200%', label: 'crescita follower organica' }, reverse = false }: { tone?: Tone; title?: string; lead?: string; image?: string; video?: string; stat?: { value: string; label: string }; reverse?: boolean }) {
   return (
     <Section tone={tone}>
       <Container className={`flex flex-col items-center gap-16 lg:flex-row ${reverse ? 'lg:flex-row-reverse' : ''}`}>
@@ -124,7 +124,7 @@ export function CaseCards({ tone = 'white', eyebrow = 'Casi studio', title = 'Le
 }
 
 /* ─── 21 · Case study in evidenza ───────────────────────────────── */
-export function CaseStudyFeature({ tone = 'paper', bigTitle = 'le nostre\n*campagne.*', client = 'Brand beauty · Lancio prodotto', tags = ['Beauty', 'Micro-creator', 'UGC'], headline = 'Abbiamo lanciato una nuova linea skincare con 12 micro-creator, dalla strategia ai contenuti fino al report finale.', text = 'Dopo un’analisi dell’audience, abbiamo scelto creator con pubblico affine e alto engagement, costruendo un calendario di contenuti e un codice sconto tracciato.', image = CREATORS[2].cover, result = { label: 'Views in 30 giorni', value: '0 → 2,4M' }, quote = TESTIMONIALS[0] }: { tone?: Tone; bigTitle?: string; client?: string; tags?: string[]; headline?: string; text?: string; image?: string; result?: { label: string; value: string }; quote?: (typeof TESTIMONIALS)[number] }) {
+export function CaseStudyFeature({ tone = 'white', bigTitle = 'le nostre\n*campagne.*', client = 'Brand beauty · Lancio prodotto', tags = ['Beauty', 'Micro-creator', 'UGC'], headline = 'Abbiamo lanciato una nuova linea skincare con 12 micro-creator, dalla strategia ai contenuti fino al report finale.', text = 'Dopo un’analisi dell’audience, abbiamo scelto creator con pubblico affine e alto engagement, costruendo un calendario di contenuti e un codice sconto tracciato.', image = CREATORS[2].cover, result = { label: 'Views in 30 giorni', value: '0 → 2,4M' }, quote = TESTIMONIALS[0] }: { tone?: Tone; bigTitle?: string; client?: string; tags?: string[]; headline?: string; text?: string; image?: string; result?: { label: string; value: string }; quote?: (typeof TESTIMONIALS)[number] }) {
   return (
     <Section tone={tone}>
       <Container>

@@ -11,11 +11,12 @@ import { BRAND, NAV, CTA } from './content';
                 sta in <Container> (max 1200px, gutter 20/32/40px).
    · Ritmo    → padding verticale 80/112px; header→contenuto 48/64px;
                 gap griglie 16/20px; padding card 24/32px.
-   · Colori   → solo token: ink, paper, muted, line, mute, brand (+soft/ink/glow).
-                Un solo colore d'accento. Le stelle usano `star`.
-   · Font     → titoli Inter Tight semibold con tracking stretto; testo Inter;
-                UNA parola/frase per titolo in Instrument Serif corsivo,
-                scritta tra *asterischi*.
+   · Colori   → bianco predominante, nero (ink) per testo e sezioni scure;
+                accenti: FUCSIA (brand) su fondo chiaro, VERDE ACIDO (acid)
+                su fondo nero e nei pannelli statement. Solo token.
+   · Font     → titoli Inter Tight semibold con tracking stretto; testo Inter.
+                Niente corsivi: la parola evidenziata (tra *asterischi*)
+                cambia solo colore, nello stesso font.
    · Scala    → display / h2 / h3 / lead / body / label / number (vedi TYPE).
    · Raggi    → pannello 32, card 24, media 16, controlli pill.
    · Motion   → reveal: y 24 → 0, 0.6s, easing [.22,1,.36,1], stagger 0.06.
@@ -27,7 +28,7 @@ const TONE_BG: Record<Tone, string> = {
   white: 'bg-white text-ink',
   paper: 'bg-paper text-ink',
   muted: 'bg-muted text-ink',
-  soft: 'bg-brand-soft text-ink',
+  soft: 'bg-acid text-ink', // pannello statement verde acido
   ink: 'bg-ink text-white',
   brand: 'bg-brand text-white',
 };
@@ -46,7 +47,7 @@ export function useInk() {
     lead: t === 'brand' ? 'text-white/80' : dark ? 'text-white/65' : 'text-mute',
     meta: dark ? 'text-white/55' : 'text-mute',
     line: dark ? 'border-white/12' : 'border-line',
-    accent: t === 'brand' ? 'text-white' : dark ? 'text-brand-glow' : 'text-brand',
+    accent: t === 'brand' ? 'text-ink' : t === 'ink' ? 'text-acid' : t === 'soft' ? 'mt-2 inline-block rounded-2xl bg-ink px-3 pb-1 text-acid' : 'text-brand',
     card:
       t === 'white'
         ? 'bg-paper ring-1 ring-line/70'
@@ -71,16 +72,16 @@ export const TYPE = {
   numberXL: 'font-heading font-semibold tracking-[-0.04em] leading-none text-6xl sm:text-8xl',
 };
 
-/** Rende `*testo*` come accento in serif corsivo e `\n` come a capo. */
+/** Rende `*testo*` come parola accento (stesso font, colore d'accento del tono) e `\n` come a capo. */
 export function Rich({ text, accentClass }: { text: string; accentClass?: string }) {
   const { accent } = useInk();
   return (
     <>
       {text.split(/(\*[^*]+\*)/g).map((part, i) =>
         part.startsWith('*') && part.endsWith('*') ? (
-          <em key={i} className={`font-accent font-normal italic tracking-[-0.01em] ${accentClass ?? accent}`}>
+          <span key={i} className={accentClass ?? accent}>
             {part.slice(1, -1)}
-          </em>
+          </span>
         ) : (
           <React.Fragment key={i}>{part}</React.Fragment>
         ),
@@ -122,7 +123,7 @@ export function Eyebrow({ children, className = '' }: { children: React.ReactNod
     <span
       className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 ${TYPE.label} ${bg} ${className}`}
     >
-      <span className={`h-1.5 w-1.5 rounded-full ${dark ? 'bg-brand-glow' : 'bg-brand'}`} />
+      <span className={`h-1.5 w-1.5 rounded-full ${dark ? 'bg-acid' : 'bg-brand'}`} />
       {children}
     </span>
   );
@@ -228,7 +229,14 @@ export function Button({
   const t = useTone();
   const dark = isDark(t);
   const styles: Record<BtnVariant, string> = {
-    primary: t === 'brand' ? 'bg-white text-brand hover:bg-white/90' : 'bg-brand text-white hover:bg-brand-ink shadow-[0_8px_24px_-8px_rgba(108,60,255,0.6)]',
+    primary:
+      t === 'brand'
+        ? 'bg-ink text-white hover:bg-ink-2'
+        : t === 'ink'
+          ? 'bg-acid text-ink hover:brightness-95'
+          : t === 'soft'
+            ? 'bg-ink text-acid hover:bg-ink-2'
+            : 'bg-brand text-white hover:bg-brand-ink shadow-[0_8px_24px_-8px_rgba(255,31,143,0.55)]',
     secondary: dark ? 'bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/15' : 'bg-white text-ink ring-1 ring-line hover:ring-ink/30',
     contrast: dark ? 'bg-white text-ink hover:bg-white/90' : 'bg-ink text-white hover:bg-ink-2',
   };
@@ -327,7 +335,7 @@ export function Logo({ className = '' }: { className?: string }) {
     <a href="#" className={`flex items-center gap-2 font-heading text-xl font-semibold tracking-[-0.03em] ${heading} ${className}`}>
       <span className={`relative flex h-8 w-8 items-center justify-center rounded-full ${dark ? 'bg-white' : 'bg-brand'}`}>
         <span className={`h-3 w-3 rounded-full ${dark ? 'bg-brand' : 'bg-white'}`} />
-        <span className={`absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ${dark ? 'bg-brand-glow ring-ink' : 'bg-ink ring-white'}`} />
+        <span className={`absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ${dark ? 'bg-acid ring-ink' : 'bg-ink ring-white'}`} />
       </span>
       {BRAND.name}
     </a>

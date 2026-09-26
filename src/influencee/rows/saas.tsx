@@ -14,7 +14,7 @@ interface Head {
 
 /* ─── 35 · Griglia vantaggi ─────────────────────────────────────── */
 const BENEFIT_ICONS = [Search, Megaphone, Handshake, Sparkles, LayoutGrid, BarChart3];
-export function BenefitsGrid({ tone = 'paper', eyebrow = 'Vantaggi', title = 'Più risultati,\n*meno fatica*', lead = 'Cosa cambia quando lavori con i creator in modo strutturato.', items = SERVICES }: Head & { items?: typeof SERVICES }) {
+export function BenefitsGrid({ tone = 'white', eyebrow = 'Vantaggi', title = 'Più risultati,\n*meno fatica*', lead = 'Cosa cambia quando lavori con i creator in modo strutturato.', items = SERVICES }: Head & { items?: typeof SERVICES }) {
   return (
     <Section tone={tone}>
       <Container>
@@ -53,7 +53,7 @@ export function StepsHighlight({ tone = 'white', eyebrow = 'Come iniziare', titl
             const on = i === hl;
             const Icon = STEP_ICONS[i % STEP_ICONS.length];
             return (
-              <motion.div key={s.title} {...reveal(i)} onMouseEnter={() => setHl(i)} className={`rounded-3xl p-7 transition-colors duration-300 ${on ? 'bg-brand text-white shadow-[0_20px_40px_-16px_rgba(108,60,255,0.6)]' : 'bg-paper ring-1 ring-line/70'}`}>
+              <motion.div key={s.title} {...reveal(i)} onMouseEnter={() => setHl(i)} className={`rounded-3xl p-7 transition-colors duration-300 ${on ? 'bg-brand text-white shadow-[0_20px_40px_-16px_rgba(255,31,143,0.6)]' : 'bg-paper ring-1 ring-line/70'}`}>
                 <span className={`flex h-11 w-11 items-center justify-center rounded-2xl ${on ? 'bg-white/15' : 'bg-brand-soft text-brand'}`}>
                   <Icon className="h-5 w-5" />
                 </span>
@@ -69,7 +69,7 @@ export function StepsHighlight({ tone = 'white', eyebrow = 'Come iniziare', titl
 }
 
 /* ─── 37 · Griglia piattaforme ──────────────────────────────────── */
-export function PlatformsGrid({ tone = 'muted', eyebrow = 'Dove lavoriamo', title = 'Su tutte le piattaforme\n*che contano*', items = PLATFORMS }: Head & { items?: string[] }) {
+export function PlatformsGrid({ tone = 'white', eyebrow = 'Dove lavoriamo', title = 'Su tutte le piattaforme\n*che contano*', items = PLATFORMS }: Head & { items?: string[] }) {
   return (
     <Section tone={tone}>
       <Container>
@@ -129,7 +129,7 @@ export function Faq({ tone = 'white', eyebrow = 'FAQ', title = 'Hai\n*domande?*'
 }
 
 /* ─── 39 · Feature alternate ────────────────────────────────────── */
-export function FeatureRows({ tone = 'paper', eyebrow = 'Piattaforma', title = 'Strumenti che fanno\n*lavorare meglio*', lead = 'Pensata per brand, agenzie e centri media che gestiscono più campagne in parallelo.' }: Head) {
+export function FeatureRows({ tone = 'white', eyebrow = 'Piattaforma', title = 'Strumenti che fanno\n*lavorare meglio*', lead = 'Pensata per brand, agenzie e centri media che gestiscono più campagne in parallelo.' }: Head) {
   const rows = [
     { icon: Search, title: 'Ricerca creator intelligente', text: 'Filtra migliaia di profili per nicchia, città, dimensione ed engagement, con un punteggio di affinità al brand.', bullets: ['Filtri avanzati', 'Match score', 'Dati audience', 'Liste condivise'], visual: <BrowserFrame><PlatformMock rows={3} compact /></BrowserFrame> },
     { icon: Megaphone, title: 'Campagne in un solo posto', text: 'Brief, contratti, approvazione dei contenuti e calendario delle pubblicazioni, con tutti i creator coordinati.', bullets: ['Brief condivisi', 'Approvazioni', 'Calendario', 'Contratti'], visual: <img src={IMG.event} alt="" className="aspect-[4/3] w-full rounded-2xl object-cover" /> },

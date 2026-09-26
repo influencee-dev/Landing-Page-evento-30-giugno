@@ -26,7 +26,7 @@ function Socials({ className = '' }: { className?: string }) {
 }
 
 /* ─── 04 · Team a card ──────────────────────────────────────────── */
-export function TeamCards({ tone = 'paper', eyebrow = 'Il team', title = 'Le persone dietro\n*ogni campagna*', lead = 'Strategia, relazione con i creator e creatività: un team che conosce il mercato italiano.', members = TEAM }: TeamProps) {
+export function TeamCards({ tone = 'white', eyebrow = 'Il team', title = 'Le persone dietro\n*ogni campagna*', lead = 'Strategia, relazione con i creator e creatività: un team che conosce il mercato italiano.', members = TEAM }: TeamProps) {
   return (
     <Section tone={tone} id="team">
       <Container>
@@ -60,7 +60,7 @@ export function TeamCards({ tone = 'paper', eyebrow = 'Il team', title = 'Le per
 }
 
 /* ─── 08 · Team bento ───────────────────────────────────────────── */
-export function TeamBento({ tone = 'muted', eyebrow = 'Chi siamo', title = 'Il team dietro *influencee*', lead = 'Le persone che ogni giorno mettono in contatto brand e creator.', members = TEAM }: TeamProps) {
+export function TeamBento({ tone = 'white', eyebrow = 'Chi siamo', title = 'Il team dietro *influencee*', lead = 'Le persone che ogni giorno mettono in contatto brand e creator.', members = TEAM }: TeamProps) {
   const [a, b, c, d, , f] = members;
   const Bio = ({ m }: { m: (typeof TEAM)[number] }) => (
     <Card className="flex aspect-square flex-col justify-between p-6">

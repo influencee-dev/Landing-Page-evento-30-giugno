@@ -11,8 +11,8 @@ import CustomerStorywellBase from '../../rows/CustomerStorywell';
    in modalità `embedded`, con colori, raggi e font presi dai token. */
 
 const HEADINGS = '[&_h3]:font-heading [&_h3]:tracking-[-0.02em]';
-const BRAND_HEX = '#6c3cff';
-const INK_HEX = '#0e0e14';
+const BRAND_HEX = '#ff1f8f';
+const INK_HEX = '#0a0a0a';
 
 interface Head {
   tone?: Tone;
@@ -22,7 +22,7 @@ interface Head {
 }
 
 /* ─── 30 · Velocity Carousel ────────────────────────────────────── */
-export function VelocityCarousel({ tone = 'paper', eyebrow = 'Portfolio', title = 'Campagne che\n*catturano l’attenzione*', lead = 'Scorri, trascina o usa le frecce: ogni card è una campagna reale.' }: Head) {
+export function VelocityCarousel({ tone = 'white', eyebrow = 'Portfolio', title = 'Campagne che\n*catturano l’attenzione*', lead = 'Scorri, trascina o usa le frecce: ogni card è una campagna reale.' }: Head) {
   const slides = [...CASES, ...CASES.slice(0, 2)].map((c) => ({ image: c.image, title: c.tag, text: c.title, cta: { label: 'Scopri', href: CTA.cases.href } }));
   return (
     <Section tone={tone}>
@@ -52,7 +52,7 @@ export function FluidCarousel({ tone = 'white', eyebrow = 'Creator', title = 'Co
 }
 
 /* ─── 32 · Editorial Video Card ─────────────────────────────────── */
-export function EditorialStack({ tone = 'muted', eyebrow = 'Storie', title = 'Ogni creator,\n*una storia da raccontare*' }: Head) {
+export function EditorialStack({ tone = 'white', eyebrow = 'Storie', title = 'Ogni creator,\n*una storia da raccontare*' }: Head) {
   const items = CREATORS.slice(0, 5).map((c, i) => ({ poster: c.cover, title: ['Un piatto, trenta secondi', 'Allenarsi senza scuse', 'La routine della sera', 'Weekend fuori porta', 'Il look del giorno'][i], text: `${c.name} racconta il brand con il suo stile, per la sua community di ${c.followers} follower.`, category: c.niche, year: '2026', cta: i === 2 ? { label: 'Vedi la campagna', href: CTA.cases.href } : undefined }));
   return (
     <Section tone={tone}>
@@ -82,7 +82,7 @@ export function TestimonialSwipe({ tone = 'brand', eyebrow = 'Storie di successo
 }
 
 /* ─── 34 · Customer Storywell ───────────────────────────────────── */
-export function Storywell({ tone = 'paper', eyebrow = 'Storie dei clienti', title = 'Numeri veri,\n*persone vere*' }: Head) {
+export function Storywell({ tone = 'white', eyebrow = 'Storie dei clienti', title = 'Numeri veri,\n*persone vere*' }: Head) {
   const stories = TESTIMONIALS.map((t) => ({
     name: t.name,
     role: t.role,
@@ -101,7 +101,7 @@ export function Storywell({ tone = 'paper', eyebrow = 'Storie dei clienti', titl
       <Container>
         <SectionHeader eyebrow={eyebrow} title={title} />
         <div className={`${GAP.header} text-ink`}>
-          <CustomerStorywellBase embedded stories={stories} heading="Storie" accent={BRAND_HEX} quoteClass="font-accent" transition="iris" />
+          <CustomerStorywellBase embedded stories={stories} heading="Storie" accent={BRAND_HEX} quoteClass="font-heading font-medium tracking-[-0.02em]" transition="iris" />
         </div>
       </Container>
     </Section>

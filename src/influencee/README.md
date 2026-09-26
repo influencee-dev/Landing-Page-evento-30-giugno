@@ -31,16 +31,21 @@ I token di colore e font sono in `src/index.css` (blocco `@theme`, sezione
   max 1200px, gutter 20/32/40px.
 - **Ritmo:** padding verticale 80/112px, intestazione → contenuto 48/64px (`GAP.header`),
   gap delle griglie 16/20px (`GAP.grid`).
-- **Toni:** `white`, `paper`, `muted`, `soft`, `ink`, `brand`. Testi, card e bottoni si
-  adattano al tono da soli (`useInk`).
-- **Colori:** solo token. Un unico accento (`brand`) per CTA ed evidenze; `star` solo per
-  le stelle delle recensioni.
-- **Font:** titoli Inter Tight semibold, testo Inter. Una sola parola o frase per titolo
-  in Instrument Serif corsivo, scritta tra `*asterischi*`:
+- **Colori:** il **bianco** è dominante (quasi tutti i pannelli sono `white`), il **nero**
+  (`ink`) serve per testo e sezioni scure. Gli accenti sono due:
+  - **fucsia** `#ff1f8f` (`brand`): CTA, parole evidenziate e badge su fondo chiaro;
+  - **verde acido** `#c8ff1a` (`acid`): CTA e parole evidenziate su fondo nero, più i
+    pannelli "statement".
+- **Toni dei pannelli:** `white` (predefinito), `ink` (nero), `brand` (fucsia),
+  `soft` (verde acido); `paper` e `muted` sono grigi chiarissimi di servizio. Testi, card,
+  bottoni e accenti si adattano al tono da soli (`useInk`).
+- **Font:** titoli Inter Tight semibold, testo Inter. **Niente corsivi:** la parola
+  evidenziata si scrive tra `*asterischi*` e cambia solo colore, nello stesso font
+  (fucsia su bianco, verde acido su nero, nero su fucsia, evidenziata in nero sul verde acido):
   `title="Creator giusti, *risultati*"`.
 - **Scala:** `TYPE.display`, `h2`, `h3`, `lead`, `body`, `label`, `number`, `numberXL`.
 - **Raggi:** pannello 32, card 24, media 16, controlli a pillola.
-- **Bottoni:** `primary` (accento), `secondary` (contorno), `contrast` (ink/bianco),
+- **Bottoni:** `primary` (fucsia su chiaro, verde acido su nero), `secondary` (contorno), `contrast` (nero/bianco),
   altezza 48px (`sm` 40px).
 - **Motion:** `reveal(i)`, cioè comparsa dal basso di 24px in 0.6s, con ritardo 0.06s per
   elemento.

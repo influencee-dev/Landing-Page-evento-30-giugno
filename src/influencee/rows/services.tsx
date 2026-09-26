@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { BarChart3, CalendarDays, FileText, Image, PenLine, Plus, Search, Send, Share2, Sparkles, Target, Users } from 'lucide-react';
-import { Card, Container, GAP, Navbar, Section, SectionHeader, TYPE, reveal, type Tone } from '../ds';
+import { Card, Container, GAP, Navbar, Section, SectionHeader, TYPE, isDark, reveal, type Tone } from '../ds';
 import { CREATORS, IMG, NICHES, SERVICES, STATS, STEPS } from '../content';
 
 /* ─── 16 · Nicchie a pillole ────────────────────────────────────── */
@@ -31,6 +31,8 @@ export function NichePills({ tone = 'white', eyebrow = 'Per ogni nicchia', title
   );
 }
 
+const STAT_BG = ['bg-brand text-white', 'bg-ink text-white', 'bg-acid text-ink'];
+
 /* ─── 19 · About / valori + statistiche ─────────────────────────── */
 export function AboutValues({ tone = 'white', showNav = true, eyebrow = 'Chi siamo', title = 'Autenticità e dati\nal centro di *ogni scelta*', lead = 'Crediamo nelle collaborazioni vere tra brand e creator: per questo selezioniamo con metodo e misuriamo tutto.', images = [IMG.event, IMG.people[0]] }: { tone?: Tone; showNav?: boolean; eyebrow?: string; title?: string; lead?: string; images?: string[] }) {
   return (
@@ -45,12 +47,12 @@ export function AboutValues({ tone = 'white', showNav = true, eyebrow = 'Chi sia
         </div>
         <div className={`mt-5 grid ${GAP.grid} sm:grid-cols-3`}>
           {STATS.slice(0, 3).map((s, i) => (
-            <motion.div key={s.label} {...reveal(i + 1)} className="rounded-3xl bg-brand p-7 text-white">
+            <motion.div key={s.label} {...reveal(i + 1)} className={`rounded-3xl p-7 ${STAT_BG[i % STAT_BG.length]}`}>
               <p className={TYPE.number}>
                 {s.value.toLocaleString('it-IT')}
                 {s.suffix}
               </p>
-              <p className="mt-3 text-sm text-white/80">{s.label}</p>
+              <p className="mt-3 text-sm opacity-80">{s.label}</p>
             </motion.div>
           ))}
         </div>
@@ -70,11 +72,12 @@ const ACTIONS: [typeof PenLine, string][] = [
 
 export function ProcessSteps({ tone = 'ink', eyebrow = 'Come funziona', title = 'Dalla strategia ai risultati,\n*senza fatica*', lead = 'Pianifichiamo, selezioniamo e lanciamo campagne con i creator che portano engagement e vendite in modo costante.', steps = STEPS.slice(0, 3) }: { tone?: Tone; eyebrow?: string; title?: string; lead?: string; steps?: typeof STEPS }) {
   const bars = [84, 46, 68, 58, 85, 62];
+  const acc = isDark(tone) ? 'bg-acid text-ink' : 'bg-brand text-white';
   const visuals = [
     <div key="o" className="relative mx-auto h-44 w-44">
       <div className="absolute inset-4 rounded-full border border-white/15" />
-      <div className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-brand">
-        <Target className="h-6 w-6 text-white" />
+      <div className={`absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl ${acc}`}>
+        <Target className="h-6 w-6" />
       </div>
       <motion.div className="absolute inset-0" animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}>
         {ORBIT.map((Icon, i) => {
@@ -97,8 +100,8 @@ export function ProcessSteps({ tone = 'ink', eyebrow = 'Come funziona', title = 
     <div key="b" className="flex h-44 items-end justify-center gap-2">
       {bars.map((v, i) => (
         <div key={i} className="flex h-36 w-7 items-end rounded-lg bg-white/5">
-          <motion.div initial={{ height: 0 }} whileInView={{ height: `${v}%` }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }} className="w-full rounded-lg bg-gradient-to-t from-brand to-brand-glow">
-            <span className="block pt-1 text-center text-[8px] font-bold text-white">{v}%</span>
+          <motion.div initial={{ height: 0 }} whileInView={{ height: `${v}%` }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }} className={`w-full rounded-lg ${acc}`}>
+            <span className="block pt-1 text-center text-[8px] font-bold">{v}%</span>
           </motion.div>
         </div>
       ))}
@@ -113,7 +116,7 @@ export function ProcessSteps({ tone = 'ink', eyebrow = 'Come funziona', title = 
             <motion.div key={s.title} {...reveal(i)}>
               <Card className="h-full p-2">
                 <div className="relative rounded-2xl bg-white/5 p-5 pt-12">
-                  <span className="absolute left-4 top-4 rounded-full bg-brand px-2.5 py-0.5 text-[11px] font-semibold text-white">Step 0{i + 1}</span>
+                  <span className={`absolute left-4 top-4 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${acc}`}>Step 0{i + 1}</span>
                   {visuals[i % visuals.length]}
                 </div>
                 <div className="p-5">
@@ -146,7 +149,7 @@ export function ServicesAccordion({ tone = 'ink', eyebrow = 'Servizi', title = '
                 <button type="button" onClick={() => setOpen(isOpen ? -1 : i)} className="flex w-full items-center gap-6 py-7 text-left">
                   <span className={`w-8 text-xs ${leadCls}`}>{String(i + 1).padStart(3, '0')}</span>
                   <span className={`flex-1 ${TYPE.h3}`}>{s.title}</span>
-                  <motion.span animate={{ rotate: isOpen ? 45 : 0 }} className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-white">
+                  <motion.span animate={{ rotate: isOpen ? 45 : 0 }} className={`flex h-10 w-10 items-center justify-center rounded-full ${isDark(tone) ? 'bg-acid text-ink' : 'bg-brand text-white'}`}>
                     <Plus className="h-4 w-4" />
                   </motion.span>
                 </button>
@@ -182,7 +185,7 @@ function useInkFor(tone: Tone) {
 const LINE = 'M0 70 L40 70 L60 55 L80 55 L95 42 L105 48 L120 32 L145 32 L160 22 L175 30 L200 10';
 const CURVE = 'M0 70 C 30 70, 40 20, 70 20 S 100 75, 120 72 S 150 30, 165 30 S 190 45, 200 15';
 
-export function FeatureCardsUI({ tone = 'paper', eyebrow = 'Piattaforma', title = 'Tutto quello che serve,\n*in un’unica vista*', features = [
+export function FeatureCardsUI({ tone = 'white', eyebrow = 'Piattaforma', title = 'Tutto quello che serve,\n*in un’unica vista*', features = [
   { title: 'Metriche unificate', text: 'Reach, interazioni e click di tutti i creator in un unico cruscotto.' },
   { title: 'Suggerimenti con l’AI', text: 'Idee di format e creator consigliati a partire dai tuoi dati.' },
   { title: 'Performance per creator', text: 'Scopri chi porta davvero risultati e dove conviene investire.' },
@@ -201,11 +204,11 @@ export function FeatureCardsUI({ tone = 'paper', eyebrow = 'Piattaforma', title 
         <span>18</span>
       </div>
       <svg viewBox="0 0 200 80" className="mt-2 w-full">
-        <motion.path d={LINE} fill="none" stroke="#6c3cff" strokeWidth="1.8" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.4 }} />
+        <motion.path d={LINE} fill="none" stroke="#ff1f8f" strokeWidth="1.8" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.4 }} />
       </svg>
     </div>,
     <div key="a" className="flex flex-col items-center">
-      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_0_40px_rgba(108,60,255,0.35)]">
+      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_0_40px_rgba(255,31,143,0.35)]">
         <Sparkles className="h-8 w-8 fill-brand text-brand" />
       </span>
       <div className="mt-5 flex max-w-xs flex-wrap justify-center gap-2">
@@ -237,12 +240,12 @@ export function FeatureCardsUI({ tone = 'paper', eyebrow = 'Piattaforma', title 
       <svg viewBox="0 0 200 80" className="mt-2 w-full">
         <defs>
           <linearGradient id="in-fc" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#6c3cff" stopOpacity="0.25" />
-            <stop offset="1" stopColor="#6c3cff" stopOpacity="0" />
+            <stop offset="0" stopColor="#ff1f8f" stopOpacity="0.25" />
+            <stop offset="1" stopColor="#ff1f8f" stopOpacity="0" />
           </linearGradient>
         </defs>
         <path d={`${CURVE} L200 80 L0 80Z`} fill="url(#in-fc)" />
-        <path d={CURVE} fill="none" stroke="#6c3cff" strokeWidth="1.8" />
+        <path d={CURVE} fill="none" stroke="#ff1f8f" strokeWidth="1.8" />
       </svg>
       <span className="absolute -left-8 -top-3 flex items-center gap-1.5 rounded-xl bg-white px-2 py-1 text-[9px] shadow-float">
         <img src={IMG.people[2]} alt="" className="h-4 w-4 rounded-full object-cover" /> Nuovo ordine · GIULIA10

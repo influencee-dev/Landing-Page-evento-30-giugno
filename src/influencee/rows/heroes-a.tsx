@@ -27,9 +27,9 @@ function Sparkle({ className = '' }: { className?: string }) {
     <svg viewBox="0 0 100 100" className={className} aria-hidden>
       <defs>
         <linearGradient id="in-sp" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#b9a3ff" />
-          <stop offset="0.6" stopColor="#6c3cff" />
-          <stop offset="1" stopColor="#0e0e14" />
+          <stop offset="0" stopColor="#c8ff1a" />
+          <stop offset="0.6" stopColor="#ff1f8f" />
+          <stop offset="1" stopColor="#0a0a0a" />
         </linearGradient>
       </defs>
       <path d="M50 0 C55 35 65 45 100 50 C65 55 55 65 50 100 C45 65 35 55 0 50 C35 45 45 35 50 0Z" fill="url(#in-sp)" />
@@ -37,7 +37,7 @@ function Sparkle({ className = '' }: { className?: string }) {
   );
 }
 
-export function HeroPill({ tone = 'paper', showNav, title = 'Creator giusti, campagne che portano', lead = 'Troviamo i creator perfetti per il tuo brand analizzando audience, engagement e affinità. Poi gestiamo tutto, dal brief al report.' }: HeroBase) {
+export function HeroPill({ tone = 'white', showNav, title = 'Creator giusti, campagne che portano', lead = 'Troviamo i creator perfetti per il tuo brand analizzando audience, engagement e affinità. Poi gestiamo tutto, dal brief al report.' }: HeroBase) {
   return (
     <HeroShell tone={tone} showNav={showNav}>
       <Sparkle className="pointer-events-none absolute left-[5%] top-32 hidden w-16 animate-float drop-shadow-xl md:block" />
@@ -49,7 +49,7 @@ export function HeroPill({ tone = 'paper', showNav, title = 'Creator giusti, cam
         <motion.h1 {...reveal(1)} className={`mx-auto mt-8 max-w-5xl ${TYPE.display}`}>
           {title}{' '}
           <span className="inline-block rounded-full bg-brand px-4 pb-1 text-white sm:px-6">
-            <em className="font-accent font-normal italic">risultati.</em>
+            risultati.
           </span>
         </motion.h1>
         <motion.div {...reveal(2)}>
@@ -86,14 +86,14 @@ export function HeroVideo({
   const dark = isDarkTone(tone);
   return (
     <HeroShell tone={tone} showNav={showNav}>
-      {isDarkTone(tone) && <div className="pointer-events-none absolute inset-x-0 top-0 h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(108,60,255,0.35),transparent_65%)]" />}
+      {isDarkTone(tone) && <div className="pointer-events-none absolute inset-x-0 top-0 h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(255,31,143,0.35),transparent_65%)]" />}
       <Container className="pt-12 text-center sm:pt-16">
         <motion.div {...reveal()}>
           <Eyebrow>Metodo {BRAND.name}</Eyebrow>
           <Heading as="h1" size="display" text={title} className="mx-auto mt-6 max-w-4xl" />
           <Lead className="mx-auto mt-5 max-w-xl">{lead}</Lead>
         </motion.div>
-        <motion.div {...reveal(1)} className="relative mx-auto mt-12 aspect-video max-w-4xl overflow-hidden rounded-3xl ring-1 ring-white/15 shadow-[0_40px_120px_-30px_rgba(108,60,255,0.55)]">
+        <motion.div {...reveal(1)} className="relative mx-auto mt-12 aspect-video max-w-4xl overflow-hidden rounded-3xl ring-1 ring-white/15 shadow-[0_40px_120px_-30px_rgba(255,31,143,0.55)]">
           {play && videoSrc ? (
             videoSrc.endsWith('.mp4') ? (
               <video src={videoSrc} autoPlay controls className="h-full w-full object-cover" />
@@ -104,7 +104,7 @@ export function HeroVideo({
             <button type="button" onClick={() => setPlay(true)} className="group absolute inset-0" aria-label="Riproduci video">
               <img src={poster} alt="" className="h-full w-full object-cover" />
               <span className="absolute inset-0 bg-ink/25" />
-              <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand text-white shadow-float transition group-hover:scale-110">
+              <span className={`absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full ${dark ? 'bg-acid text-ink' : 'bg-brand text-white'} shadow-float transition group-hover:scale-110`}>
                 <Play className="ml-1 h-7 w-7 fill-current" />
               </span>
             </button>
@@ -158,7 +158,7 @@ function Chevrons() {
     <svg className="absolute inset-0 h-full w-full" aria-hidden>
       <defs>
         <pattern id="in-chev" width="44" height="36" patternUnits="userSpaceOnUse">
-          <path d="M2 4 L22 18 L42 4 M2 20 L22 34 L42 20" fill="none" stroke="#6c3cff" strokeOpacity="0.35" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M2 4 L22 18 L42 4 M2 20 L22 34 L42 20" fill="none" stroke="#ff1f8f" strokeOpacity="0.35" strokeWidth="2.5" strokeLinecap="round" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#in-chev)" />
@@ -166,7 +166,7 @@ function Chevrons() {
   );
 }
 
-export function HeroPortrait({ tone = 'paper', showNav, title = 'Il ponte tra *brand e creator*', lead = 'Da un lato i brand che vogliono risultati, dall’altro i creator che vogliono collaborazioni serie. Noi li mettiamo in contatto, con metodo.', portrait = IMG.people[1] }: HeroBase & { portrait?: string }) {
+export function HeroPortrait({ tone = 'white', showNav, title = 'Il ponte tra *brand e creator*', lead = 'Da un lato i brand che vogliono risultati, dall’altro i creator che vogliono collaborazioni serie. Noi li mettiamo in contatto, con metodo.', portrait = IMG.people[1] }: HeroBase & { portrait?: string }) {
   return (
     <HeroShell tone={tone} showNav={showNav}>
       <Container className="grid items-center gap-14 pt-10 sm:pt-16 lg:grid-cols-2">
@@ -210,7 +210,7 @@ const NOTIFS = [
   { icon: FileBarChart, app: 'Report pronto', text: 'Campagna Estate: 1,2M reach · ER 5,8% · 3.420 click', time: '18:30' },
 ];
 
-export function HeroNotifications({ tone = 'muted', showNav, title = 'Le campagne che\nlavorano *per te*', lead = 'Candidature, approvazioni, risultati: ricevi solo ciò che conta, noi gestiamo il resto.' }: HeroBase) {
+export function HeroNotifications({ tone = 'white', showNav, title = 'Le campagne che\nlavorano *per te*', lead = 'Candidature, approvazioni, risultati: ricevi solo ciò che conta, noi gestiamo il resto.' }: HeroBase) {
   const last = NOTIFS.length - 1;
   const LastIcon = NOTIFS[last].icon;
   return (
@@ -233,7 +233,7 @@ export function HeroNotifications({ tone = 'muted', showNav, title = 'Le campagn
         <div className="relative mx-auto w-full max-w-[290px]">
           <div className="absolute -inset-12 rounded-full bg-brand/30 blur-3xl" />
           <PhoneFrame className="relative">
-            <div className="h-full bg-gradient-to-b from-[#2a1470] via-brand to-brand-glow px-3 pt-12">
+            <div className="h-full bg-gradient-to-b from-ink via-ink-2 to-brand px-3 pt-12">
               <p className="text-center text-sm text-white/80">Lunedì 30 giugno</p>
               <p className="text-center font-heading text-6xl font-semibold tracking-tight text-white">18:30</p>
               <div className="mt-6 space-y-2">
@@ -301,7 +301,7 @@ export function HeroShowcase({ tone = 'white', showNav, title = 'Il tuo influenc
         </motion.div>
       </Container>
       <Container className="mt-14">
-        <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-soft via-[#f3eefe] to-[#dcd0ff] px-4 pt-10 sm:px-14 sm:pt-14">
+        <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-acid-soft via-white to-brand-soft px-4 pt-10 sm:px-14 sm:pt-14">
           <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <BrowserFrame className="mx-auto max-w-4xl rounded-b-none">
               <PlatformMock />
