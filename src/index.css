@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -7,6 +7,24 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --color-brand-fuchsia: #ff00ff;
   --color-brand-dark: #0a0a0a;
+
+  /* Font delle row di reference (fase 1) */
+  --font-anton: "Anton", "Impact", sans-serif;
+  --font-tight: "Inter Tight", "Inter", sans-serif;
+  --font-work: "Work Sans", "Inter", sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-14px) rotate(var(--r, 0deg)); }
+  }
 }
 
 @layer utilities {
