@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { Button, Card, Container, Heading, Lead, Pill, Section, SectionHeader, TYPE } from '../ds';
 import { CTA } from '../content';
-import { HeroPill, HeroShowcase } from '../rows/heroes-a';
+import { HeroShowcase } from '../rows/heroes-a';
 import { HeroCentered, HeroDashboard, HeroWidgets } from '../rows/heroes-b';
-import { HeroReels, ReelWall, ReelsStrip } from '../rows/reels';
+import { HeroHome, HeroReels, ReelWall, ReelsStrip } from '../rows/reels';
 import { Breadcrumbs } from './shell';
 import { StatsBento, ResultsList, TestimonialFeature } from '../rows/proof';
 import { NichePills, ProcessSteps, ServicesAccordion, FeatureCardsUI } from '../rows/services';
@@ -21,16 +21,17 @@ import { NICHE_INFO, NICHE_SLUGS } from './data';
 import { PageHero } from './shell';
 
 export function HomePage() {
+  // Ordine: promessa + prova visiva → numeri → servizi → volti → piattaforma →
+  // lavori → storie → contenuti → dubbi → azione. Un solo pannello "statement".
   return (
     <>
-      <HeroPill showNav={false} />
+      <HeroHome />
       <StatsBento />
       <ServicesAccordion />
-      <ReelsStrip />
       <FeaturedCreators />
       <PlatformTour />
       <ProjectsBento />
-      <TestimonialSwipe />
+      <TestimonialSwipe tone="paper" />
       <LatestArticles />
       <Faq />
       <CtaBand />

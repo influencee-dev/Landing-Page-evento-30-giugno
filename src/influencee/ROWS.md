@@ -1,6 +1,6 @@
 # Catalogo row Influencee
 
-51 row riutilizzabili (55 voci contando le varianti 02a/02b, 10a/10b, 27a/b/c), tutte costruite sul design system in `ds.tsx` (regole in `README.md`).
+52 row riutilizzabili (56 voci contando le varianti 02a/02b, 10a/10b, 27a/b/c), tutte costruite sul design system in `ds.tsx` (regole in `README.md`).
 
 ## Regole di composizione di una pagina
 
@@ -14,7 +14,7 @@
    | **Casi studio** | `HeroCentered` variante `work` (filtri + lavori) |
    | **Blog** (listing e categorie) | hero editoriale con articolo in evidenza grande |
    | **Articolo** | copertina a tutta larghezza su nero con titolo centrato |
-   | Home | `HeroPill` |
+   | Home | `HeroHome`: messaggio + reel sopra la piega + ingressi brand/creator + nicchie |
    | Contatti | `HeroCentered` variante `contact` |
 3. **Reel ovunque:** ogni pagina commerciale contiene almeno una row della famiglia Reel (`ReelsStrip` o `ReelWall`) o una hero con reel.
 4. **Alterna i toni:** prevalenza di bianco; al massimo un blocco `ink` ogni 2-3 fasce bianche; `brand` (fucsia) e `soft` (verde acido) al massimo una volta per pagina.
@@ -24,11 +24,20 @@
 8. **Testi:** la parola accento tra `*asterischi*`, al massimo una per titolo; negli attributi JSX usare `{'...\n...'}` per andare a capo.
 9. **Contenuti** da `content.ts` e `site/data.ts`: non scrivere numeri o nomi direttamente nelle row.
 
+## Regole UX (revisione)
+
+- **Sopra la piega** ci sono sempre la promessa, la CTA principale, la riprova sociale e una **prova visiva** (volti o reel dei creator, oppure la piattaforma).
+- **Doppio pubblico:** la home offre due ingressi espliciti, "Sono un brand" e "Sono un creator".
+- **Un solo pannello saturo per pagina** (fucsia *oppure* verde acido). Gli altri blocchi sono bianchi, grigio chiaro o neri.
+- **Su mobile c'è una barra fissa in basso** con la CTA principale, sempre raggiungibile col pollice.
+- **Cambio pagina** sotto i 750ms. Ogni pagina si apre in cima (scroll del browser disattivato).
+- **Tutto ciò che sembra cliccabile porta da qualche parte:** nicchie, card, reel, badge.
+
 ## Pagine del sito e row usate
 
 | Pagina | Route | Row |
 | --- | --- | --- |
-| Home | `#home` | HeroPill · StatsBento · ServicesAccordion · ReelsStrip · FeaturedCreators · PlatformTour · ProjectsBento · TestimonialSwipe · LatestArticles · Faq · CtaBand |
+| Home | `#home` | HeroHome · StatsBento · ServicesAccordion · FeaturedCreators · PlatformTour · ProjectsBento · TestimonialSwipe (paper) · LatestArticles · Faq · CtaBand |
 | Per i brand | `#brand` | HeroWidgets · BenefitsGrid · ReelWall · ProcessSteps · NichePills · CaseCards · Comparison · Faq · CtaBand |
 | Per le agenzie | `#agenzie` | HeroShowcase · ReelsStrip · PlatformTour · FeatureCardsUI · StepsHighlight · TestimonialFeature · CtaBand |
 | Piattaforma | `#piattaforma` | HeroDashboard · PlatformTour · ReelsStrip · FeatureRows · PlatformsGrid · Faq · CtaBand |
@@ -102,6 +111,7 @@
 | 49 | Strip di reel | `reels-strip` | Reel | `ReelsStrip` |
 | 50 | Muro di reel + numeri | `reel-wall` | Reel | `ReelWall` |
 | 51 | Hero reel su nero (pagine creator) | `hero-reels` | Hero | `HeroReels` |
+| 52 | Hero home: messaggio + reel + doppio ingresso | `hero-home` | Hero | `HeroHome` |
 
 ## Quando usare ogni famiglia
 

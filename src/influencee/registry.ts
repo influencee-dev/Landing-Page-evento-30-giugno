@@ -12,7 +12,7 @@ import { FeaturedCreators, CreatorExplorer } from './site/creators';
 import { LatestArticles } from './site/blog';
 import { PlatformTour } from './site/platform';
 import { PageHero } from './site/shell';
-import { HeroReels, ReelWall, ReelsStrip } from './rows/reels';
+import { HeroHome, HeroReels, ReelWall, ReelsStrip } from './rows/reels';
 
 export type Family = 'Hero' | 'Reel' | 'Team' | 'Social proof' | 'Lavori' | 'Servizi' | 'Interattivi' | 'Piattaforma' | 'Sito' | 'Chiusura';
 
@@ -83,6 +83,7 @@ export const ROWS: Row[] = [
   { id: 'reels-strip', num: '49', name: 'Strip di reel', family: 'Reel', Component: ReelsStrip },
   { id: 'reel-wall', num: '50', name: 'Muro di reel + numeri', family: 'Reel', Component: ReelWall },
   { id: 'hero-reels', num: '51', name: 'Hero reel su nero (pagine creator)', family: 'Hero', Component: HeroReels },
+  { id: 'hero-home', num: '52', name: 'Hero home: messaggio + reel + doppio ingresso', family: 'Hero', Component: HeroHome },
 ];
 
 /** Numero di row distinte (le varianti 02a/02b ecc. contano come una). */

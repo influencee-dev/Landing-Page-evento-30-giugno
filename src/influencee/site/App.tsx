@@ -90,6 +90,26 @@ export default function SiteApp() {
     document.title = `${pageLabel(shown)} · influencee`;
   }, [shown]);
 
+  // All'apertura la pagina parte sempre dall'alto: niente ripristino dello
+  // scroll del browser o del visualizzatore (causava l'apertura sulle FAQ).
+  useEffect(() => {
+    try {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    } catch {
+      /* ignorato */
+    }
+    const top = () => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    top();
+    const t1 = setTimeout(top, 120);
+    const t2 = setTimeout(top, 600);
+    window.addEventListener('pageshow', top);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      window.removeEventListener('pageshow', top);
+    };
+  }, []);
+
   const onDone = () => {
     if (phase === 'cover') {
       // a schermo coperto: cambio pagina e torno in cima senza scroll visibile
@@ -109,6 +129,19 @@ export default function SiteApp() {
         <Page route={shown} />
       </main>
       <Footer />
+      <div className="h-20 lg:hidden" aria-hidden />
+
+      {/* Barra CTA fissa su mobile: l'azione principale sempre a portata di pollice */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 px-4 pt-3 backdrop-blur-md lg:hidden" style={{ paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))' }}>
+        <div className="flex gap-2">
+          <a href="#contatti" className="flex h-12 flex-1 items-center justify-center rounded-full bg-brand text-[15px] font-semibold text-white">
+            Richiedi una demo
+          </a>
+          <a href="#creator" className="flex h-12 items-center justify-center rounded-full bg-paper px-5 text-[15px] font-semibold text-ink">
+            Creator
+          </a>
+        </div>
+      </div>
 
       {/* Sipario di cambio pagina */}
       <motion.div
@@ -116,11 +149,11 @@ export default function SiteApp() {
         initial={false}
         animate={phase}
         variants={reduce ? fade : slide}
-        transition={phase === 'idle' ? { duration: 0 } : { duration: phase === 'cover' ? 0.42 : 0.55, ease: [0.76, 0, 0.24, 1] }}
+        transition={phase === 'idle' ? { duration: 0 } : { duration: phase === 'cover' ? 0.32 : 0.42, ease: [0.76, 0, 0.24, 1] }}
         onAnimationComplete={onDone}
         className={`fixed inset-0 z-[100] flex items-center justify-center bg-ink ${phase === 'idle' ? 'pointer-events-none' : ''}`}
       >
-        <motion.div animate={{ opacity: phase === 'cover' ? 1 : 0, y: phase === 'cover' ? 0 : -20 }} transition={{ duration: 0.3, delay: phase === 'cover' ? 0.12 : 0 }} className="px-6 text-center">
+        <motion.div animate={{ opacity: phase === 'cover' ? 1 : 0, y: phase === 'cover' ? 0 : -20 }} transition={{ duration: 0.2, delay: phase === 'cover' ? 0.08 : 0 }} className="px-6 text-center">
           <span className="mx-auto mb-5 block h-1.5 w-12 rounded-full bg-acid" />
           <p className="font-heading text-4xl font-semibold tracking-[-0.035em] text-white sm:text-6xl">{pageLabel(route)}</p>
         </motion.div>

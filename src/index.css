@@ -86,3 +86,7 @@ html {
 .in-section[data-tone='white'] + .in-section[data-tone='white'] {
   padding-top: 0;
 }
+
+/* Niente "scroll anchoring": marquee e contenuti animati non devono far
+   saltare la pagina mentre si carica. */
+html, body { overflow-anchor: none; }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { BadgeCheck, Heart, MessageCircle, Music2, Play, Send } from 'lucide-react';
-import { Button, Container, Eyebrow, GAP, Heading, Lead, Marquee, Section, SectionHeader, TYPE, reveal, type Tone } from '../ds';
+import { Button, Container, Eyebrow, GAP, Heading, Lead, Marquee, Section, SectionHeader, SocialProof, TYPE, reveal, type Tone } from '../ds';
 import { CREATORS_DB, NICHE_INFO, fmtFollowers, type Creator } from '../site/data';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -212,3 +212,73 @@ export function HeroReels({
   );
 }
 
+
+/* ─── 52 · Hero home: messaggio + reel + doppio ingresso ────────────
+   Sopra la piega: proposta di valore, CTA principale, riprova sociale e
+   subito i volti dei creator (prova visiva). Due ingressi espliciti per
+   i due pubblici (brand / creator) e nicchie cliccabili.               */
+export function HeroHome() {
+  const [a, b, c] = [CREATORS_DB[2], CREATORS_DB[0], CREATORS_DB[4]];
+  return (
+    <Section tone="white" pad="none" className="pb-14 pt-10 sm:pb-20 sm:pt-16">
+      <Container className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
+        <motion.div {...reveal()}>
+          <SocialProof className="w-fit rounded-full bg-paper py-1.5 pl-1.5 pr-4" />
+          <Heading as="h1" size="display" text={'Creator giusti,\ncampagne che portano *risultati.*'} className="mt-7 lg:!text-[4.1rem] xl:!text-[4.4rem]" />
+          <Lead className="mt-6 max-w-lg">Selezioniamo i creator in base ad audience, engagement e affinità con il tuo brand. Poi gestiamo tutto: brief, contratti, contenuti e report.</Lead>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button href="#contatti">Progetta la tua campagna</Button>
+            <Button href="#creator" variant="secondary">
+              Esplora i creator
+            </Button>
+          </div>
+          <div className="mt-10 grid max-w-lg grid-cols-2 gap-3">
+            <a href="#brand" className="group rounded-2xl bg-paper p-4 transition hover:bg-brand-soft">
+              <p className={`${TYPE.label} text-mute`}>Sono un brand</p>
+              <p className="mt-1 flex items-center justify-between font-heading font-semibold">
+                Lancia una campagna <span className="transition group-hover:translate-x-1">→</span>
+              </p>
+            </a>
+            <a href="#diventa-creator" className="group rounded-2xl bg-paper p-4 transition hover:bg-acid-soft">
+              <p className={`${TYPE.label} text-mute`}>Sono un creator</p>
+              <p className="mt-1 flex items-center justify-between font-heading font-semibold">
+                Entra nel network <span className="transition group-hover:translate-x-1">→</span>
+              </p>
+            </a>
+          </div>
+        </motion.div>
+
+        <div className="relative mx-auto h-[440px] w-full max-w-[460px] sm:h-[540px]">
+          {[
+            { c: b, cls: 'left-0 top-10 w-[46%] -rotate-6', d: 0 },
+            { c: c, cls: 'right-0 top-10 w-[46%] rotate-6', d: 1.2 },
+            { c: a, cls: 'left-1/2 top-0 z-10 w-[54%] -translate-x-1/2', d: 0.6 },
+          ].map(({ c: cr, cls, d }, i) => (
+            <motion.a key={cr.slug} href={`#creator.${cr.slug}`} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className={`absolute block ${cls}`}>
+              <ReelCard c={cr} delay={d} />
+            </motion.a>
+          ))}
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8 }} className="absolute -left-2 bottom-16 z-20 rounded-2xl bg-white px-4 py-3 shadow-float sm:-left-8">
+            <p className="text-xs text-mute">Reach campagna</p>
+            <p className="font-heading text-2xl font-semibold tracking-tight">2,4M</p>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 }} className="absolute -right-2 bottom-4 z-20 rounded-2xl bg-ink px-4 py-3 text-white shadow-float sm:-right-6">
+            <p className="text-xs text-white/60">Match medio</p>
+            <p className="font-heading text-2xl font-semibold tracking-tight text-acid">94%</p>
+          </motion.div>
+        </div>
+      </Container>
+
+      <Container className="mt-14 sm:mt-16">
+        <div className="flex flex-wrap items-center gap-2 border-t border-line pt-6">
+          <span className="mr-2 text-sm text-mute">Cerca per nicchia:</span>
+          {Object.entries(NICHE_INFO).map(([slug, n]) => (
+            <a key={slug} href={`#nicchia.${slug}`} className="rounded-full bg-paper px-4 py-2 text-sm font-medium transition hover:bg-ink hover:text-white">
+              {n.name}
+            </a>
+          ))}
+        </div>
+      </Container>
+    </Section>
+  );
+}
