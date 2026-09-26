@@ -4,7 +4,8 @@ import { ArrowUpRight, Clock, Link2, Quote } from 'lucide-react';
 import { Button, Card, Container, GAP, Pill, Section, SectionHeader, TYPE, reveal, type Tone } from '../ds';
 import { Newsletter } from '../rows/saas';
 import { ARTICLES, BLOG_CATEGORIES, type Article } from './data';
-import { Breadcrumbs, PageHero } from './shell';
+import { Breadcrumbs } from './shell';
+import { Eyebrow, Heading, Lead } from '../ds';
 
 export function ArticleCard({ a, big = false }: { a: Article; big?: boolean }) {
   return (
@@ -47,18 +48,52 @@ function CategoryChips({ current }: { current?: string }) {
   );
 }
 
+/* ─── Hero editoriale del blog: titolo + articolo in evidenza grande ─ */
+function BlogHero({ crumbs, eyebrow, title, lead, featured, current }: { crumbs: { label: string; href?: string }[]; eyebrow: string; title: string; lead: string; featured: Article; current?: string }) {
+  return (
+    <Section tone="white" pad="none" className="py-10 sm:py-14">
+      <Container>
+        <Breadcrumbs items={crumbs} />
+        <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-end">
+          <div>
+            <Eyebrow>{eyebrow}</Eyebrow>
+            <Heading as="h1" size="display" text={title} className="mt-5" />
+            <Lead className="mt-6 max-w-md">{lead}</Lead>
+            <div className="mt-8">
+              <CategoryChips current={current} />
+            </div>
+          </div>
+          <a href={`#articolo.${featured.slug}`} className="group relative block overflow-hidden rounded-3xl">
+            <img src={featured.cover} alt="" className="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-105 lg:aspect-[5/4]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
+              <div className="flex items-center gap-3 text-sm text-white/75">
+                <span className="rounded-full bg-acid px-2.5 py-1 text-xs font-semibold text-ink">In evidenza</span>
+                {BLOG_CATEGORIES[featured.category].name} · {featured.read} min
+              </div>
+              <p className={`mt-3 ${TYPE.h2} !text-3xl sm:!text-4xl`}>{featured.title}</p>
+              <p className="mt-3 flex items-center gap-2 text-sm text-white/80">
+                <img src={featured.authorPhoto} alt="" className="h-7 w-7 rounded-full object-cover" /> {featured.author} · {featured.date}
+                <ArrowUpRight className="ml-auto h-9 w-9 rounded-full bg-white p-2 text-ink transition group-hover:rotate-45" />
+              </p>
+            </div>
+          </a>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
 /* ─── Pagina: blog (listing) ────────────────────────────────────── */
 export function BlogPage() {
   const [featured, ...rest] = ARTICLES;
   return (
     <>
-      <PageHero crumbs={[{ label: 'Blog' }]} eyebrow="Blog" title={'Idee e guide per il\n*creator marketing*'} lead="Strategie, casi studio e consigli pratici per brand, agenzie e creator. Articoli di esempio.">
-        <CategoryChips />
-      </PageHero>
+      <BlogHero crumbs={[{ label: 'Blog' }]} eyebrow="Blog" title={'Idee e guide per il\n*creator marketing*'} lead="Strategie, casi studio e consigli pratici per brand, agenzie e creator. Articoli di esempio." featured={featured} />
       <Section tone="white">
         <Container>
-          <ArticleCard a={featured} big />
-          <div className={`mt-16 grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3`}>
+          <SectionHeader align="split" title="Ultimi *articoli*" />
+          <div className={`${GAP.header} grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3`}>
             {rest.map((a) => (
               <ArticleCard key={a.slug} a={a} />
             ))}
@@ -77,9 +112,7 @@ export function BlogCategoryPage({ slug }: { slug: string }) {
   const others = ARTICLES.filter((a) => a.category !== slug).slice(0, 3);
   return (
     <>
-      <PageHero crumbs={[{ label: 'Blog', href: '#blog' }, { label: cat.name }]} eyebrow="Categoria" title={`*${cat.name}*`} lead={cat.lead}>
-        <CategoryChips current={slug} />
-      </PageHero>
+      <BlogHero crumbs={[{ label: 'Blog', href: '#blog' }, { label: cat.name }]} eyebrow="Categoria" title={`*${cat.name}*`} lead={cat.lead} featured={list[0] ?? ARTICLES[0]} current={slug} />
       <Section tone="white">
         <Container>
           <p className="text-sm text-mute">
@@ -130,25 +163,29 @@ export function ArticlePage({ slug }: { slug: string }) {
   };
   return (
     <>
-      <Section tone="white" pad="none" className="py-12 sm:py-16">
-        <Container>
-          <Breadcrumbs items={[{ label: 'Blog', href: '#blog' }, { label: cat.name, href: `#categoria.${a.category}` }, { label: a.title }]} />
-          <div className="mx-auto mt-10 max-w-3xl text-center">
-            <a href={`#categoria.${a.category}`}>
-              <Pill active>{cat.name}</Pill>
+      <Section tone="ink" pad="none" className="py-16 sm:py-24">
+        <img src={a.cover} alt="" className="absolute inset-0 h-full w-full object-cover opacity-45" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30" />
+        <Container className="text-center">
+          <Breadcrumbs center items={[{ label: 'Blog', href: '#blog' }, { label: cat.name, href: `#categoria.${a.category}` }, { label: 'Articolo' }]} />
+          <div className="mx-auto mt-10 max-w-4xl">
+            <a href={`#categoria.${a.category}`} className="inline-block rounded-full bg-acid px-3.5 py-1.5 text-sm font-semibold text-ink">
+              {cat.name}
             </a>
-            <h1 className={`mt-6 ${TYPE.h2} sm:!text-6xl`}>{a.title}</h1>
-            <p className={`mx-auto mt-5 max-w-xl ${TYPE.lead} text-mute`}>{a.excerpt}</p>
-            <p className="mt-6 flex items-center justify-center gap-3 text-sm">
-              <img src={a.authorPhoto} alt="" className="h-9 w-9 rounded-full object-cover" />
+            <h1 className={`mt-6 ${TYPE.display} text-white`}>{a.title}</h1>
+            <p className={`mx-auto mt-6 max-w-xl ${TYPE.lead} text-white/75`}>{a.excerpt}</p>
+            <p className="mt-8 flex items-center justify-center gap-3 text-sm text-white">
+              <img src={a.authorPhoto} alt="" className="h-10 w-10 rounded-full object-cover ring-2 ring-white" />
               <span>
-                <b>{a.author}</b> · <span className="text-mute">{a.date} · {a.read} min di lettura</span>
+                <b>{a.author}</b> · <span className="text-white/65">{a.date} · {a.read} min di lettura</span>
               </span>
             </p>
           </div>
-          <img src={a.cover} alt="" className="mt-12 aspect-[21/9] w-full rounded-3xl object-cover" />
-
-          <div className="mt-14 grid gap-12 lg:grid-cols-[1fr_280px]">
+        </Container>
+      </Section>
+      <Section tone="white" pad="none" className="py-14 sm:py-20">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[1fr_280px]">
             <article className="mx-auto w-full max-w-[68ch]">
               {a.sections.map((s, i) => (
                 <section key={s.h} id={anchor(i)} className="scroll-mt-28">

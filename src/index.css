@@ -19,7 +19,7 @@
      questi valori cambia l'intero sito. */
   --color-ink: #1d1d1f;        /* nero "web" morbido: testo principale, sezioni scure */
   --color-ink-2: #2a2a2e;      /* card su sfondo nero */
-  --color-canvas: #ebebeb;     /* sfondo pagina = colore dei margini esterni */
+  --color-canvas: #ffffff;     /* sfondo pagina */
   --color-paper: #f6f6f6;      /* grigio chiarissimo per card su bianco */
   --color-muted: #efefef;      /* pannelli neutri */
   --color-line: #e4e4e4;       /* bordi e divisori */
@@ -75,4 +75,14 @@ html {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #ff00ff;
+}
+
+/* Design system Influencee: due fasce consecutive dello stesso tono si fondono
+   (niente doppio spazio bianco). Fuori da @layer per vincere sulle utility. */
+.in-section[data-tone='ink'] + .in-section[data-tone='ink'],
+.in-section[data-tone='paper'] + .in-section[data-tone='paper'] {
+  padding-top: 0;
+}
+.in-section[data-tone='white'] + .in-section[data-tone='white'] {
+  padding-top: 0;
 }

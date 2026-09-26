@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react';
-import { Button, Container, Eyebrow, Heading, Lead, Logo, Section, TYPE, type Tone } from '../ds';
+import { Button, Container, Eyebrow, Heading, Lead, Logo, Section, TYPE, useInk, type Tone } from '../ds';
 import { CTA } from '../content';
 import { MENU } from './data';
 
@@ -16,11 +16,7 @@ export function readRoute() {
 export function useRoute() {
   const [route, setRoute] = useState(readRoute);
   useEffect(() => {
-    const onChange = () => {
-      setRoute(readRoute());
-      // dopo il render della nuova pagina torna in cima
-      requestAnimationFrame(() => window.scrollTo({ top: 0 }));
-    };
+    const onChange = () => setRoute(readRoute());
     window.addEventListener('hashchange', onChange);
     return () => window.removeEventListener('hashchange', onChange);
   }, []);
@@ -60,8 +56,8 @@ export function SiteHeader({ route }: { route: string }) {
   }, []);
 
   return (
-    <div ref={ref} className="sticky z-50 px-2 pt-2 sm:px-3 sm:pt-3" style={{ top: 'env(safe-area-inset-top, 0px)' }}>
-      <div className="rounded-[24px] bg-white/95 font-sans text-ink shadow-card backdrop-blur sm:rounded-[32px]">
+    <div ref={ref} className="sticky z-50" style={{ top: 'env(safe-area-inset-top, 0px)' }}>
+      <div className="border-b border-line bg-white/90 font-sans text-ink backdrop-blur-md">
         <Container>
           <div className="flex h-16 items-center justify-between gap-4 sm:h-[72px]">
             <Logo />
@@ -155,21 +151,23 @@ export function SiteHeader({ route }: { route: string }) {
 }
 
 /* ─── Breadcrumb ────────────────────────────────────────────────── */
-export function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
+export function Breadcrumbs({ items, center = false }: { items: { label: string; href?: string }[]; center?: boolean }) {
+  const { dark } = useInk();
+  const strong = dark ? 'text-white' : 'text-ink';
   return (
-    <nav aria-label="Percorso" className="flex flex-wrap items-center gap-1.5 text-sm text-mute">
-      <a href="#home" className="hover:text-ink">
+    <nav aria-label="Percorso" className={`flex flex-wrap items-center gap-1.5 text-sm ${dark ? 'text-white/55' : 'text-mute'} ${center ? 'justify-center' : ''}`}>
+      <a href="#home" className={dark ? 'hover:text-white' : 'hover:text-ink'}>
         Home
       </a>
       {items.map((it) => (
         <React.Fragment key={it.label}>
           <ChevronRight className="h-3.5 w-3.5" />
           {it.href ? (
-            <a href={it.href} className="hover:text-ink">
+            <a href={it.href} className={dark ? 'hover:text-white' : 'hover:text-ink'}>
               {it.label}
             </a>
           ) : (
-            <span className="text-ink">{it.label}</span>
+            <span className={strong}>{it.label}</span>
           )}
         </React.Fragment>
       ))}

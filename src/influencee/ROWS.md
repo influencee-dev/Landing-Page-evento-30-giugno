@@ -1,32 +1,45 @@
 # Catalogo row Influencee
 
-48 row riutilizzabili (52 voci contando le varianti 02a/02b, 10a/10b, 27a/b/c), tutte costruite sul design system in `ds.tsx` (regole in `README.md`).
+51 row riutilizzabili (55 voci contando le varianti 02a/02b, 10a/10b, 27a/b/c), tutte costruite sul design system in `ds.tsx` (regole in `README.md`).
 
 ## Regole di composizione di una pagina
 
-1. **Una hero** in apertura (famiglia Hero oppure `PageHero` per le pagine interne).
-2. **Alterna i toni:** prevalenza di pannelli `white`; al massimo un pannello `ink` ogni 2-3 row bianche; `brand` (fucsia) e `soft` (verde acido) al massimo una volta per pagina.
-3. **Una sola row interattiva** per pagina (famiglia Interattivi).
-4. **Chiudi sempre** con `CtaBand` (o `Newsletter`) e `Footer`.
-5. **Testi:** la parola accento tra `*asterischi*`, al massimo una per titolo; `\n` per andare a capo.
-6. **Contenuti** da `content.ts` e `site/data.ts`: non scrivere numeri o nomi direttamente nelle row.
+1. **Fasce a tutta larghezza:** nessun riquadro o margine esterno. Due fasce consecutive dello stesso tono si fondono automaticamente.
+2. **Una hero** in apertura, scelta in base al **tipo di pagina**:
+   | Tipo di pagina | Hero obbligatoria |
+   | --- | --- |
+   | Categoria **creator** (elenco, nicchia, profilo, candidatura) | `HeroReels`: fondo nero, testo centrato, reel che scorrono |
+   | **Piattaforma** (Piattaforma, Agenzie) | `HeroDashboard` / `HeroShowcase`: piattaforma in primo piano, **più** una row di reel nella pagina |
+   | **Soluzioni** per i brand | `HeroWidgets`: telefono con reel e widget di risultati |
+   | **Casi studio** | `HeroCentered` variante `work` (filtri + lavori) |
+   | **Blog** (listing e categorie) | hero editoriale con articolo in evidenza grande |
+   | **Articolo** | copertina a tutta larghezza su nero con titolo centrato |
+   | Home | `HeroPill` |
+   | Contatti | `HeroCentered` variante `contact` |
+3. **Reel ovunque:** ogni pagina commerciale contiene almeno una row della famiglia Reel (`ReelsStrip` o `ReelWall`) o una hero con reel.
+4. **Alterna i toni:** prevalenza di bianco; al massimo un blocco `ink` ogni 2-3 fasce bianche; `brand` (fucsia) e `soft` (verde acido) al massimo una volta per pagina.
+5. **Una sola row interattiva** per pagina (famiglia Interattivi).
+6. **Chiudi sempre** con `CtaBand` (o `Newsletter`) e `Footer`.
+7. **Cambio pagina:** sipario nero con il nome della pagina, poi la nuova pagina parte dall'alto (niente scroll visibile).
+8. **Testi:** la parola accento tra `*asterischi*`, al massimo una per titolo; negli attributi JSX usare `{'...\n...'}` per andare a capo.
+9. **Contenuti** da `content.ts` e `site/data.ts`: non scrivere numeri o nomi direttamente nelle row.
 
 ## Pagine del sito e row usate
 
 | Pagina | Route | Row |
 | --- | --- | --- |
-| Home | `#home` | HeroPill · StatsBento · ServicesAccordion · FeaturedCreators · PlatformTour · ProjectsBento · TestimonialSwipe · LatestArticles · Faq · CtaBand |
-| Per i brand | `#brand` | PageHero · BenefitsGrid · ProcessSteps · NichePills · CaseCards · Comparison · Faq · CtaBand |
-| Per le agenzie | `#agenzie` | HeroShowcase · PlatformTour · FeatureCardsUI · StepsHighlight · TestimonialFeature · CtaBand |
-| Piattaforma | `#piattaforma` | HeroDashboard · PlatformTour · FeatureRows · PlatformsGrid · Faq · CtaBand |
-| Creator (listing) | `#creator` | PageHero · CreatorExplorer · CtaBand |
-| Nicchia (categoria) | `#nicchia.food` | PageHero con statistiche · CreatorExplorer filtrato · CtaBand |
-| Profilo creator | `#creator.giulia-eats` | scheda profilo · audience · contenuti · creator simili |
-| Casi studio | `#casi-studio` | PageHero · ProjectsBento · CaseStudyFeature · ResultsList · Storywell · CtaBand |
-| Blog (listing) | `#blog` | PageHero con categorie · articolo in evidenza · griglia · Newsletter |
-| Categoria blog | `#categoria.guide` | PageHero · griglia filtrata · Leggi anche |
-| Articolo | `#articolo.<slug>` | testata · corpo con indice · box autore · correlati · Newsletter |
-| Diventa creator | `#diventa-creator` | PageHero · BenefitsGrid · modulo candidatura · Faq |
+| Home | `#home` | HeroPill · StatsBento · ServicesAccordion · ReelsStrip · FeaturedCreators · PlatformTour · ProjectsBento · TestimonialSwipe · LatestArticles · Faq · CtaBand |
+| Per i brand | `#brand` | HeroWidgets · BenefitsGrid · ReelWall · ProcessSteps · NichePills · CaseCards · Comparison · Faq · CtaBand |
+| Per le agenzie | `#agenzie` | HeroShowcase · ReelsStrip · PlatformTour · FeatureCardsUI · StepsHighlight · TestimonialFeature · CtaBand |
+| Piattaforma | `#piattaforma` | HeroDashboard · PlatformTour · ReelsStrip · FeatureRows · PlatformsGrid · Faq · CtaBand |
+| Creator (listing) | `#creator` | HeroReels · CreatorExplorer · CtaBand |
+| Nicchia (categoria) | `#nicchia.food` | HeroReels con statistiche · altre nicchie · CreatorExplorer filtrato · CtaBand |
+| Profilo creator | `#creator.giulia-eats` | hero nera con profilo e reel del creator · audience · creator simili |
+| Casi studio | `#casi-studio` | HeroCentered (work) · ReelWall · CaseStudyFeature · ResultsList · Storywell · CtaBand |
+| Blog (listing) | `#blog` | hero editoriale con articolo in evidenza · griglia · Newsletter |
+| Categoria blog | `#categoria.guide` | hero editoriale della categoria · griglia filtrata · Leggi anche |
+| Articolo | `#articolo.<slug>` | copertina a tutta larghezza su nero · corpo con indice · box autore · correlati · Newsletter |
+| Diventa creator | `#diventa-creator` | HeroReels · BenefitsGrid · modulo candidatura · Faq |
 | Contatti | `#contatti` | HeroCentered (contact) · Faq |
 | Libreria row | `#libreria` | regole + tutte le row |
 
@@ -86,6 +99,9 @@
 | 46 | Elenco creator con filtri | `creator-explorer` | Sito | `CreatorExplorer` |
 | 47 | Tour piattaforma a schede | `platform-tour` | Sito | `PlatformTour` |
 | 48 | Ultimi articoli | `latest-articles` | Sito | `LatestArticles` |
+| 49 | Strip di reel | `reels-strip` | Reel | `ReelsStrip` |
+| 50 | Muro di reel + numeri | `reel-wall` | Reel | `ReelWall` |
+| 51 | Hero reel su nero (pagine creator) | `hero-reels` | Hero | `HeroReels` |
 
 ## Quando usare ogni famiglia
 
@@ -94,6 +110,7 @@
 - **Social proof:** Dopo i servizi o prima della CTA finale: numeri, recensioni, testimonianze.
 - **Lavori:** Casi studio e portfolio: home, pagina Casi studio, pagine soluzione.
 - **Servizi:** Spiegare cosa si offre e come: pagine soluzione e home.
+- **Reel:** almeno una per pagina commerciale: reel con interfaccia Reels/TikTok (strip su nero o muro con numeri).
 - **Interattivi:** Una per pagina al massimo: momento “wow” con carosello o storie.
 - **Piattaforma:** Pagine Piattaforma e Agenzie: funzioni, passi, FAQ, confronto.
 - **Sito:** Blocchi specifici del sito: hero interne, elenchi creator, tour piattaforma, blog.

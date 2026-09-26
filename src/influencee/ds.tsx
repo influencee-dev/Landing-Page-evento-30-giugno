@@ -6,9 +6,10 @@ import { BRAND, NAV, CTA } from './content';
 /* ════════════════════════════════════════════════════════════════════
    DESIGN SYSTEM INFLUENCEE
    Regole (valgono per TUTTE le row):
-   · Layout   → ogni row è un <Section>: pannello a tutta larghezza con
-                margine esterno di 8/12px (colore `canvas`) e raggio 24/32px; il contenuto
-                sta in <Container> (max 1200px, gutter 20/32/40px).
+   · Layout   → ogni row è un <Section>: fascia a tutta larghezza, senza
+                riquadri né margini esterni; il contenuto sta in <Container>
+                (max 1200px, gutter 20/32/40px). Due fasce consecutive dello
+                stesso tono si fondono (la seconda perde il padding superiore).
    · Ritmo    → padding verticale 80/112px; header→contenuto 48/64px;
                 gap griglie 16/20px; padding card 24/32px.
    · Colori   → bianco predominante, nero (ink) per testo e sezioni scure;
@@ -18,7 +19,7 @@ import { BRAND, NAV, CTA } from './content';
                 Niente corsivi: la parola evidenziata (tra *asterischi*)
                 cambia solo colore, nello stesso font.
    · Scala    → display / h2 / h3 / lead / body / label / number (vedi TYPE).
-   · Raggi    → pannello 32, card 24, media 16, controlli pill.
+   · Raggi    → card 24, media 16, controlli pill (le fasce non hanno raggio).
    · Motion   → reveal: y 24 → 0, 0.6s, easing [.22,1,.36,1], stagger 0.06.
    ════════════════════════════════════════════════════════════════════ */
 
@@ -189,10 +190,8 @@ export function Section({
 }) {
   const padding = pad === 'default' ? 'py-20 sm:py-28' : pad === 'hero' ? 'pb-20 sm:pb-28' : '';
   return (
-    <section id={id} className="px-2 pt-2 sm:px-3 sm:pt-3">
-      <div className={`relative overflow-hidden rounded-[24px] font-sans sm:rounded-[32px] ${TONE_BG[tone]} ${padding} ${className}`}>
-        <ToneCtx.Provider value={tone}>{children}</ToneCtx.Provider>
-      </div>
+    <section id={id} data-tone={tone} className={`in-section relative overflow-hidden font-sans ${TONE_BG[tone]} ${padding} ${className}`}>
+      <ToneCtx.Provider value={tone}>{children}</ToneCtx.Provider>
     </section>
   );
 }

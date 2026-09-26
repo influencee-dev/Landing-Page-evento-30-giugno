@@ -3,7 +3,9 @@ import { CheckCircle2 } from 'lucide-react';
 import { Button, Card, Container, Heading, Lead, Pill, Section, SectionHeader, TYPE } from '../ds';
 import { CTA } from '../content';
 import { HeroPill, HeroShowcase } from '../rows/heroes-a';
-import { HeroCentered, HeroDashboard } from '../rows/heroes-b';
+import { HeroCentered, HeroDashboard, HeroWidgets } from '../rows/heroes-b';
+import { HeroReels, ReelWall, ReelsStrip } from '../rows/reels';
+import { Breadcrumbs } from './shell';
 import { StatsBento, ResultsList, TestimonialFeature } from '../rows/proof';
 import { NichePills, ProcessSteps, ServicesAccordion, FeatureCardsUI } from '../rows/services';
 import { CaseCards, CaseStudyFeature, ProjectsBento } from '../rows/work';
@@ -24,6 +26,7 @@ export function HomePage() {
       <HeroPill showNav={false} />
       <StatsBento />
       <ServicesAccordion />
+      <ReelsStrip />
       <FeaturedCreators />
       <PlatformTour />
       <ProjectsBento />
@@ -38,15 +41,9 @@ export function HomePage() {
 export function BrandPage() {
   return (
     <>
-      <PageHero crumbs={[{ label: 'Soluzioni' }, { label: 'Per i brand' }]} eyebrow="Per i brand" title={'Campagne con i creator,\n*chiavi in mano*'} lead="Selezione dei profili, brief, contratti, contenuti e report: gestiamo tutto noi, tu approvi e leggi i risultati.">
-        <div className="flex flex-wrap gap-3">
-          <Button href={CTA.campaign.href}>{CTA.campaign.label}</Button>
-          <Button href="#casi-studio" variant="secondary">
-            Guarda i casi studio
-          </Button>
-        </div>
-      </PageHero>
+      <HeroWidgets showNav={false} title={'*Influencer marketing*\nper brand che vogliono crescere'} lead="Selezione dei creator, brief, contratti, contenuti e report: gestiamo tutto noi, tu approvi e leggi i risultati." />
       <BenefitsGrid />
+      <ReelWall />
       <ProcessSteps />
       <NichePills />
       <CaseCards />
@@ -61,6 +58,7 @@ export function AgenciesPage() {
   return (
     <>
       <HeroShowcase showNav={false} title={'Più clienti, più campagne,\n*meno fogli Excel*'} lead="La piattaforma per agenzie e centri media: ricerca creator, gestione campagne e report condivisibili con i clienti." />
+      <ReelsStrip title={'I contenuti che gestirai\n*per i tuoi clienti*'} />
       <PlatformTour eyebrow="Per le agenzie" title={'Tutto il flusso,\n*in una piattaforma*'} />
       <FeatureCardsUI />
       <StepsHighlight />
@@ -75,6 +73,7 @@ export function PlatformPage() {
     <>
       <HeroDashboard showNav={false} />
       <PlatformTour />
+      <ReelsStrip title={'Dalla piattaforma\n*ai reel pubblicati*'} lead="Ogni contenuto che vedi qui è passato da brief, approvazione e report dentro la piattaforma." />
       <FeatureRows />
       <PlatformsGrid />
       <Faq />
@@ -86,8 +85,8 @@ export function PlatformPage() {
 export function CasesPage() {
   return (
     <>
-      <PageHero crumbs={[{ label: 'Casi studio' }]} eyebrow="Casi studio" title={'Campagne vere,\n*risultati misurabili*'} lead="Come abbiamo aiutato brand e agenzie a lavorare con i creator. Dati e nomi di esempio." />
-      <ProjectsBento eyebrow="In evidenza" />
+      <HeroCentered showNav={false} variant="work" />
+      <ReelWall eyebrow="Dalle campagne" title={'I contenuti\n*delle nostre campagne*'} />
       <CaseStudyFeature />
       <ResultsList />
       <Storywell />
@@ -102,9 +101,13 @@ export function CreatorJoinPage() {
   const toggle = (s: string) => setNiches((n) => (n.includes(s) ? n.filter((x) => x !== s) : [...n, s]));
   return (
     <>
-      <PageHero crumbs={[{ label: 'Soluzioni' }, { label: 'Per i creator' }]} eyebrow="Per i creator" title={'Collabora con brand\n*in linea con te*'} lead="Entra nel network: ti proponiamo solo campagne coerenti con la tua nicchia e il tuo pubblico, con compensi chiari e pagamenti puntuali.">
-        <Button onClick={() => document.getElementById('candidatura')?.scrollIntoView({ behavior: 'smooth' })}>Candidati ora</Button>
-      </PageHero>
+      <HeroReels
+        crumbs={<Breadcrumbs center items={[{ label: 'Soluzioni' }, { label: 'Per i creator' }]} />}
+        eyebrow="Per i creator"
+        title={'Collabora con brand\n*in linea con te*'}
+        lead="Entra nel network: ti proponiamo solo campagne coerenti con la tua nicchia e il tuo pubblico, con compensi chiari e pagamenti puntuali."
+        actions={<Button onClick={() => document.getElementById('candidatura')?.scrollIntoView({ behavior: 'smooth' })}>Candidati ora</Button>}
+      />
       <BenefitsGrid
         eyebrow="Perché influencee"
         title={'Più tempo per creare,\n*meno trattative*'}

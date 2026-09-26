@@ -27,9 +27,10 @@ I token di colore e font sono in `src/index.css` (blocco `@theme`, sezione
 
 ## Regole
 
-- **Layout:** ogni row è un `<Section>`, cioè un pannello a tutta larghezza con margine
-  esterno di 8/12px (colore `canvas`) e raggio 24/32px. Il contenuto sta in `<Container>`:
-  max 1200px, gutter 20/32/40px.
+- **Layout:** ogni row è un `<Section>`, cioè una fascia a tutta larghezza senza riquadri,
+  margini esterni o angoli arrotondati. Il contenuto sta in `<Container>`: max 1200px,
+  gutter 20/32/40px. Due fasce consecutive dello stesso tono si fondono (la seconda perde
+  il padding superiore).
 - **Ritmo:** padding verticale 80/112px, intestazione → contenuto 48/64px (`GAP.header`),
   gap delle griglie 16/20px (`GAP.grid`).
 - **Colori:** il **bianco** è dominante (quasi tutti i pannelli sono `white`), il **nero**
@@ -45,9 +46,10 @@ I token di colore e font sono in `src/index.css` (blocco `@theme`, sezione
   (fucsia su bianco, verde acido su nero, nero su fucsia, evidenziata in nero sul verde acido):
   `title="Creator giusti, *risultati*"`.
 - **Scala:** `TYPE.display`, `h2`, `h3`, `lead`, `body`, `label`, `number`, `numberXL`.
-- **Raggi:** pannello 32, card 24, media 16, controlli a pillola.
+- **Raggi:** card 24, media 16, controlli a pillola (le fasce non hanno raggio).
 - **Bottoni:** `primary` (fucsia su chiaro, verde acido su nero), `secondary` (contorno), `contrast` (nero/bianco),
   altezza 48px (`sm` 40px).
+- **Hero per tipo di pagina e reel:** vedi le regole in `ROWS.md`.
 - **Motion:** `reveal(i)`, cioè comparsa dal basso di 24px in 0.6s, con ritardo 0.06s per
   elemento.
 

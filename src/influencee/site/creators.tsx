@@ -4,7 +4,8 @@ import { BadgeCheck, Check, MapPin, Plus, Search, SlidersHorizontal } from 'luci
 import { Button, Card, Container, GAP, Pill, Section, SectionHeader, TYPE, reveal, type Tone } from '../ds';
 import { CtaBand } from '../rows/footer';
 import { CREATORS_DB, NICHE_INFO, NICHE_SLUGS, fmtEr, fmtFollowers, type Creator } from './data';
-import { Breadcrumbs, PageHero } from './shell';
+import { Breadcrumbs } from './shell';
+import { HeroReels, ReelCard } from '../rows/reels';
 
 /* ─── Card creator (usata in listing, nicchie, home, correlati) ─── */
 export function CreatorCard({ c }: { c: Creator; key?: React.Key }) {
@@ -172,14 +173,20 @@ export function CreatorExplorer({ fixedNiche }: { fixedNiche?: string }) {
 export function CreatorsPage() {
   return (
     <>
-      <PageHero crumbs={[{ label: 'Creator' }]} eyebrow="Database creator" title={'Trova i creator\n*giusti per il tuo brand*'} lead="Filtra per nicchia, dimensione, piattaforma e città. Ogni profilo mostra audience, engagement e affinità con il tuo pubblico.">
-        <div className="flex flex-wrap gap-3">
-          <Button href="#contatti">Richiedi una shortlist</Button>
-          <Button href="#diventa-creator" variant="secondary">
-            Sei un creator? Candidati
-          </Button>
-        </div>
-      </PageHero>
+      <HeroReels
+        crumbs={<Breadcrumbs center items={[{ label: 'Creator' }]} />}
+        eyebrow="Database creator"
+        title={'Trova i creator\n*giusti per il tuo brand*'}
+        lead="Filtra per nicchia, dimensione, piattaforma e città. Ogni profilo mostra audience, engagement e affinità con il tuo pubblico."
+        actions={
+          <>
+            <Button href="#contatti">Richiedi una shortlist</Button>
+            <Button href="#diventa-creator" variant="secondary">
+              Sei un creator? Candidati
+            </Button>
+          </>
+        }
+      />
       <CreatorExplorer />
       <CtaBand title={'Non hai tempo di cercare?\n*Lo facciamo noi*'} lead="Raccontaci obiettivi e budget: in 48 ore ricevi una shortlist di creator verificati." />
     </>
@@ -194,34 +201,39 @@ export function NichePage({ slug }: { slug: string }) {
   const er = list.length ? list.reduce((s, c) => s + c.er, 0) / list.length : 0;
   return (
     <>
-      <PageHero
-        crumbs={[{ label: 'Creator', href: '#creator' }, { label: info.name }]}
+      <HeroReels
+        crumbs={<Breadcrumbs center items={[{ label: 'Creator', href: '#creator' }, { label: info.name }]} />}
         eyebrow="Nicchia"
         title={`Creator *${info.name}*`}
         lead={info.lead}
-        aside={
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              [String(list.length), 'creator'],
-              [fmtFollowers(reach), 'reach totale'],
-              [fmtEr(Math.round(er * 10) / 10), 'ER medio'],
-            ].map(([v, l], i) => (
-              <div key={l} className={`rounded-3xl p-5 ${['bg-brand text-white', 'bg-ink text-white', 'bg-acid text-ink'][i]}`}>
-                <p className="font-heading text-3xl font-semibold tracking-tight">{v}</p>
-                <p className="mt-1 text-xs opacity-80">{l}</p>
-              </div>
-            ))}
-          </div>
-        }
+        creators={list}
+        actions={<Button href="#contatti">Richiedi creator {info.name}</Button>}
       >
-        <div className="flex flex-wrap gap-2">
-          {NICHE_SLUGS.filter((s) => s !== slug).map((s) => (
-            <a key={s} href={`#nicchia.${s}`}>
-              <Pill>{NICHE_INFO[s].name}</Pill>
-            </a>
+        <div className="mx-auto grid max-w-lg grid-cols-3 gap-3">
+          {[
+            [String(list.length), 'creator'],
+            [fmtFollowers(reach), 'reach totale'],
+            [fmtEr(Math.round(er * 10) / 10), 'ER medio'],
+          ].map(([v, l], i) => (
+            <div key={l} className={`rounded-2xl p-4 ${i === 2 ? 'bg-acid text-ink' : 'bg-white/8 text-white ring-1 ring-white/10'}`}>
+              <p className="font-heading text-2xl font-semibold tracking-tight sm:text-3xl">{v}</p>
+              <p className="mt-1 text-xs opacity-70">{l}</p>
+            </div>
           ))}
         </div>
-      </PageHero>
+      </HeroReels>
+      <Section tone="white" pad="none" className="pt-10">
+        <Container>
+          <div className="flex flex-wrap justify-center gap-2">
+            <span className="px-2 py-1.5 text-sm text-mute">Altre nicchie:</span>
+            {NICHE_SLUGS.filter((s) => s !== slug).map((s) => (
+              <a key={s} href={`#nicchia.${s}`}>
+                <Pill>{NICHE_INFO[s].name}</Pill>
+              </a>
+            ))}
+          </div>
+        </Container>
+      </Section>
       <CreatorExplorer key={slug} fixedNiche={slug} />
       <CtaBand title={`Campagne ${info.name}\n*che funzionano*`} lead={`Ti proponiamo i creator ${info.name.toLowerCase()} più adatti al tuo pubblico, con stima dei risultati.`} />
     </>
@@ -250,56 +262,56 @@ export function CreatorProfile({ slug }: { slug: string }) {
   const similar = CREATORS_DB.filter((x) => x.niche === c.niche && x.slug !== c.slug).concat(CREATORS_DB.filter((x) => x.niche !== c.niche)).slice(0, 3);
   return (
     <>
-      <Section tone="white" pad="none" className="py-10 sm:py-14">
-        <Container>
-          <Breadcrumbs items={[{ label: 'Creator', href: '#creator' }, { label: NICHE_INFO[c.niche].name, href: `#nicchia.${c.niche}` }, { label: c.name }]} />
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_1fr]">
-            <div className="relative overflow-hidden rounded-3xl">
-              <img src={c.cover} alt="" className="aspect-[4/3] w-full object-cover" />
-              <div className="absolute inset-x-0 bottom-0 flex items-end gap-4 bg-gradient-to-t from-ink/80 to-transparent p-6 text-white">
-                <img src={c.avatar} alt="" className="h-20 w-20 rounded-full object-cover ring-4 ring-white" />
-                <div>
-                  <p className="flex items-center gap-1.5 font-heading text-2xl font-semibold tracking-tight">
-                    {c.name} <BadgeCheck className="h-5 w-5 fill-brand text-white" />
-                  </p>
-                  <p className="text-white/80">{c.handle}</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className="flex flex-wrap gap-2">
-                <Pill active>{NICHE_INFO[c.niche].name}</Pill>
-                <Pill>
-                  <MapPin className="h-3.5 w-3.5" /> {c.city}
-                </Pill>
-                {c.platforms.map((p) => (
-                  <Pill key={p}>{p}</Pill>
-                ))}
-              </div>
-              <p className={`mt-6 ${TYPE.lead} text-mute`}>{c.bio}</p>
-              <div className="mt-8 grid grid-cols-3 gap-3">
-                {[
-                  [fmtFollowers(c.followers), 'follower'],
-                  [fmtEr(c.er), 'engagement'],
-                  [`${c.match}%`, 'match brand'],
-                ].map(([v, l], i) => (
-                  <div key={l} className={`rounded-3xl p-5 ${i === 2 ? 'bg-acid' : 'bg-paper'}`}>
-                    <p className="font-heading text-3xl font-semibold tracking-tight">{v}</p>
-                    <p className="mt-1 text-xs text-mute">{l}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8 flex flex-wrap gap-3 lg:mt-auto">
-                <Button onClick={() => setSaved((s) => !s)}>
-                  {saved ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />} {saved ? 'In shortlist' : 'Aggiungi alla shortlist'}
-                </Button>
-                <Button href="#contatti" variant="secondary">
-                  Proponi una collaborazione
-                </Button>
-              </div>
-              <p className="mt-3 text-xs text-mute">Profilo di esempio: dati e immagini segnaposto.</p>
-            </div>
+      <Section tone="ink" pad="none" className="pb-16 pt-10 sm:pb-20 sm:pt-14">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[60%] bg-[radial-gradient(ellipse_at_top,rgba(255,31,143,0.28),transparent_65%)]" />
+        <Container className="text-center">
+          <Breadcrumbs center items={[{ label: 'Creator', href: '#creator' }, { label: NICHE_INFO[c.niche].name, href: `#nicchia.${c.niche}` }, { label: c.name }]} />
+          <img src={c.avatar} alt="" className="mx-auto mt-10 h-28 w-28 rounded-full object-cover ring-4 ring-acid ring-offset-4 ring-offset-ink" />
+          <h1 className={`mt-6 flex items-center justify-center gap-2 ${TYPE.display}`}>
+            {c.name} <BadgeCheck className="h-8 w-8 shrink-0 fill-brand text-ink sm:h-10 sm:w-10" />
+          </h1>
+          <p className="mt-2 text-lg text-white/60">{c.handle}</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
+            <Pill active>{NICHE_INFO[c.niche].name}</Pill>
+            <Pill>
+              <MapPin className="h-3.5 w-3.5" /> {c.city}
+            </Pill>
+            {c.platforms.map((p) => (
+              <Pill key={p}>{p}</Pill>
+            ))}
           </div>
+          <p className={`mx-auto mt-6 max-w-xl ${TYPE.lead} text-white/70`}>{c.bio}</p>
+          <div className="mx-auto mt-8 grid max-w-lg grid-cols-3 gap-3">
+            {[
+              [fmtFollowers(c.followers), 'follower'],
+              [fmtEr(c.er), 'engagement'],
+              [`${c.match}%`, 'match brand'],
+            ].map(([v, l], i) => (
+              <div key={l} className={`rounded-2xl p-4 ${i === 2 ? 'bg-acid text-ink' : 'bg-white/8 ring-1 ring-white/10'}`}>
+                <p className="font-heading text-2xl font-semibold tracking-tight sm:text-3xl">{v}</p>
+                <p className="mt-1 text-xs opacity-70">{l}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button onClick={() => setSaved((s) => !s)}>
+              {saved ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />} {saved ? 'In shortlist' : 'Aggiungi alla shortlist'}
+            </Button>
+            <Button href="#contatti" variant="secondary">
+              Proponi una collaborazione
+            </Button>
+          </div>
+          <p className="mt-3 text-xs text-white/45">Profilo di esempio: dati e immagini segnaposto.</p>
+        </Container>
+        <Container className="mt-14">
+          <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+            {c.gallery.slice(0, 4).map((g, i) => (
+              <motion.div key={i} {...reveal(i)} className={i % 2 ? 'lg:mt-10' : ''}>
+                <ReelCard c={{ ...c, cover: g }} delay={i * 0.7} />
+              </motion.div>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-sm text-white/55">Formati disponibili: {c.formats.join(' · ')}</p>
         </Container>
       </Section>
 
@@ -334,17 +346,6 @@ export function CreatorProfile({ slug }: { slug: string }) {
                 <Bar key={l} label={l} value={v} />
               ))}
             </Card>
-          </div>
-        </Container>
-      </Section>
-
-      <Section tone="ink">
-        <Container>
-          <SectionHeader align="split" eyebrow="Contenuti" title="Ultimi *contenuti*" lead={`Formati disponibili: ${c.formats.join(', ')}.`} />
-          <div className={`${GAP.header} grid grid-cols-2 ${GAP.grid} md:grid-cols-3`}>
-            {c.gallery.map((src, i) => (
-              <motion.img key={i} {...reveal(i % 3)} src={src} alt="" className="aspect-[4/5] w-full rounded-3xl object-cover" />
-            ))}
           </div>
         </Container>
       </Section>
