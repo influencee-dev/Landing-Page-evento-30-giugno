@@ -31,5 +31,7 @@
 - `/influencer-italiani/` con le sottopagine regione e città;
 - `/food-influencers/`, `/fitness-influencers/`, `/travel-influencers/`;
 - `/piattaforma-influencer/`;
-- `/social-media-tool/emoticon-da-copiare/` (la pagina con più traffico);
+- `/followe-instagram-fake-follower/` (3.426 clic, la pagina con più visite: refuso nell'URL da mantenere), `/social-media-tool/costo-influencer/` (960), `/come-calcolare-engagement-rate/` (373), `/offerte-lavoro-influencer/` (188 + 304 dalle schede offerta);
+- `/social-media-tool/emoticon-da-copiare/` e l'hub `/social-media-tool/`;
+- inventario completo dei vecchi tool e stato del restauro: `src/influencee/v2/RESTAURO-TOOL.md`;
 - gli articoli del blog: vedi `SEO-PIANO.md` §3.

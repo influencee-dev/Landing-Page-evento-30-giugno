@@ -187,6 +187,20 @@ export const MARKET = {
     { v: 2.5, o: 'proxy' as Origin, src: 'interpolazione' },
     { v: 1.61, o: 'IT' as Origin, src: 'DeRev' },
   ],
+  /** Formula prezzo dell'app (legacy, influencer/models calc_price): € per follower per fascia.
+   *  Usata dal calcolatore come stima bassa; la stima alta è la media di mercato (costIG / costTT). */
+  priceWeights: [
+    { upTo: 1000, w: 0.036 },
+    { upTo: 5000, w: 0.026 },
+    { upTo: 10000, w: 0.016 },
+    { upTo: 25000, w: 0.012 },
+    { upTo: 50000, w: 0.009 },
+    { upTo: 250000, w: 0.007 },
+    { upTo: 500000, w: 0.005 },
+    { upTo: 750000, w: 0.0045 },
+    { upTo: 1000000, w: 0.003 },
+    { upTo: Infinity, w: 0.0025 },
+  ],
   /** Check sponsor: interazioni / visualizzazioni (rinnovo/views_strumenti.py). */
   sponsor: [
     { max: 1.5, label: 'Probabile contenuto sponsorizzato (reach a pagamento)', tone: 'bad' },
@@ -250,10 +264,12 @@ export const MENU: MenuGroup[] = [
   {
     label: 'Risorse',
     items: [
-      { label: 'Quanto costa un influencer', href: '#/social-media-tool/costo-influencer/', text: 'Costi medi per fascia, con le fonti' },
+      { label: 'Tool gratuiti', href: '#/social-media-tool/', text: 'Tutti i tool, senza registrazione' },
+      { label: 'Fake follower checker', href: '#/followe-instagram-fake-follower/', text: 'Controlla un profilo in 1 minuto' },
+      { label: 'Quanto costa un influencer', href: '#/social-media-tool/costo-influencer/', text: 'Calcolatore con la media di mercato' },
       { label: 'Calcolo engagement rate', href: '#/come-calcolare-engagement-rate/', text: 'Calcolatore gratuito e check sponsor' },
       { label: 'Benchmark engagement', href: '#/benchmark-engagement-rate/', text: 'Valori di riferimento per fascia' },
-      { label: 'Annunci di collaborazione', href: '#/annunci-collaborazioni/', text: 'Le offerte aperte dei brand' },
+      { label: 'Offerte di lavoro', href: '#/offerte-lavoro-influencer/', text: 'Le offerte aperte dei brand' },
       { label: 'Blog', href: '#/blog/', text: 'Guide per brand e creator' },
     ],
   },
@@ -282,3 +298,28 @@ export const FAQ = {
     { q: 'Come ricevo le proposte?', a: 'I brand ti invitano alle campagne o ti scrivono in chat, oppure ti candidi agli annunci aperti. Termini, scadenze e contenuti sono tutti nella collaborazione, con un contratto generato dalle condizioni accettate.' },
   ] as QA[],
 };
+
+/* ─── Bacheca offerte di lavoro ─────────────────────────────────────
+   Offerte reali pubblicate nella vecchia bacheca (WP Job Manager) nel 2026.
+   ⚠ In produzione la bacheca va collegata agli annunci aperti dell'app
+   (app.influencee.it/annunci/): queste due voci servono solo finché
+   il collegamento non c'è. Le offerte 2022 sono scadute e non si mostrano. */
+export type Compenso = 'pagata' | 'cambio-merce' | 'percentuale' | 'collaborazione';
+export interface Job {
+  title: string;
+  company: string;
+  location: string;
+  remote: boolean;
+  types: Compenso[];
+  date: string; // ISO
+}
+export const COMPENSI: { k: Compenso; label: string }[] = [
+  { k: 'pagata', label: 'Pagata' },
+  { k: 'cambio-merce', label: 'Cambio merce' },
+  { k: 'percentuale', label: '% sulle vendite' },
+  { k: 'collaborazione', label: 'Collaborazione' },
+];
+export const JOBS: Job[] = [
+  { title: 'Influencer per gadget, giocattoli e porcellane anni 80/90 in vendita su eBay', company: 'Magic House', location: 'Da remoto', remote: true, types: ['cambio-merce', 'collaborazione'], date: '2026-04-17' },
+  { title: 'Creator per prodotti per cani e gatti: mangimi, accessori, profumi', company: 'Ingro Pet', location: 'Italia', remote: true, types: ['percentuale', 'cambio-merce', 'collaborazione'], date: '2026-02-18' },
+];

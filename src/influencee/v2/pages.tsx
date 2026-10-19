@@ -30,6 +30,7 @@ import {
   type Crumb,
   type FeatureItem,
 } from './rows';
+import { CostCalcPanel, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
    PAGINE v2 — ogni route restituisce contenuto + metadati SEO.
@@ -45,7 +46,7 @@ export interface Meta {
   label: string; // nome breve (sipario, breadcrumb)
   crumbs?: Crumb[];
   faq?: QA[];
-  type?: 'home' | 'software' | 'page' | 'pricing';
+  type?: 'home' | 'software' | 'page' | 'pricing' | 'tool';
 }
 export interface Resolved {
   meta: Meta;
@@ -103,7 +104,7 @@ const F = {
     text: 'L’annuncio veloce va online subito nella bacheca pubblica: descrivi cosa cerchi, il compenso e la scadenza. I creator iscritti si candidano e tu scegli.',
     bullets: ['Compenso, cambio merce, affiliazione, ospitalità', 'Bacheca pubblica indicizzata', 'Candidature in un’unica lista'],
     visual: <AnnunciMock />,
-    href: '#/annunci-collaborazioni/',
+    href: '#/pubblica-offerta-lavoro/',
     cta: 'Vedi come funzionano gli annunci',
   },
 } satisfies Record<string, FeatureItem>;
@@ -119,7 +120,7 @@ const brandCtas = (
 const creatorCtas = (
   <>
     <Button href={APP.creator}>Iscriviti gratis</Button>
-    <Button href="#/annunci-collaborazioni/" variant="secondary">
+    <Button href="#/offerte-lavoro-influencer/" variant="secondary">
       Vedi gli annunci
     </Button>
   </>
@@ -346,7 +347,7 @@ function CreatorJoin() {
       <FaqSeo items={FAQ.creator} />
       <Related links={[
         { label: 'UGC creator', text: 'Lavorare con i brand senza tanti follower', href: '#/ugc-creator/' },
-        { label: 'Annunci di collaborazione', text: 'Le offerte aperte dei brand', href: '#/annunci-collaborazioni/' },
+        { label: 'Annunci di collaborazione', text: 'Le offerte aperte dei brand', href: '#/offerte-lavoro-influencer/' },
         { label: 'Media kit', text: 'Il tuo media kit sempre aggiornato', href: '#/funzionalita/media-kit/' },
       ]} />
       <CtaBandV2 tone="soft" title={'Il tuo lavoro da creator,\n*finalmente in ordine*'} primary={{ label: 'Iscriviti gratis', href: APP.creator }} />
@@ -371,25 +372,107 @@ function Ugc() {
         FAQ.creator[1],
         FAQ.creator[0],
       ]} />
-      <CtaBandV2 tone="soft" title={'Crea il tuo profilo\n*da UGC creator*'} primary={{ label: 'Iscriviti gratis', href: APP.creator }} secondary={{ label: 'Vedi gli annunci', href: '#/annunci-collaborazioni/' }} />
+      <CtaBandV2 tone="soft" title={'Crea il tuo profilo\n*da UGC creator*'} primary={{ label: 'Iscriviti gratis', href: APP.creator }} secondary={{ label: 'Vedi gli annunci', href: '#/offerte-lavoro-influencer/' }} />
     </>
   );
 }
 
-/* ─── Annunci ───────────────────────────────────────────────────── */
-function Annunci() {
+/* ─── Offerte di lavoro (ex bacheca WP Job Manager, URL indicizzato) ─ */
+const JOBS_FAQ: QA[] = [
+  { q: 'Dove trovo offerte di lavoro per influencer?', a: 'Nella bacheca di influencee: le aziende pubblicano collaborazioni pagate, in cambio merce o con percentuale sulle vendite e i creator si candidano gratis dall’app con il loro profilo.' },
+  { q: 'Serve avere tanti follower per candidarsi?', a: 'No. Molte offerte cercano nano e micro influencer (da 1.000 follower) o UGC creator, che girano video per i canali del brand senza pubblicarli sul proprio profilo.' },
+  { q: 'Candidarsi costa qualcosa?', a: 'No, per i creator l’iscrizione e le candidature sono gratuite.' },
+  FAQ.creator[3],
+];
+function JobsPage() {
   return (
     <>
-      <HeroPlatform crumbs={[{ label: 'Annunci di collaborazione' }]} eyebrow="Bacheca annunci" title={'Annunci di collaborazione\n*tra brand e creator*'} lead="I brand pubblicano cosa cercano, i creator si candidano. Una bacheca pubblica con offerte di compenso, cambio merce, affiliazione e ospitalità." actions={<><Button href={APP.annunci}>Vedi gli annunci aperti</Button><Button href={APP.brand} variant="secondary">Pubblica un annuncio</Button></>} visual={<AnnunciMock className="mx-auto max-w-[520px]" />} />
-      <AnswerBox q="Come funzionano gli annunci su influencee?" a="Un’azienda pubblica un annuncio in una pagina: descrizione, tipo di creator cercato, compenso e scadenza. L’annuncio va online subito nella bacheca pubblica. I creator iscritti si candidano con il loro profilo e il brand sceglie con chi avviare la collaborazione." />
-      <Steps title={'Per i brand\n*e per i creator*'} steps={[
-        { t: 'Il brand pubblica', x: 'Annuncio veloce, online subito.' },
-        { t: 'I creator si candidano', x: 'Con il loro profilo e i loro numeri.' },
-        { t: 'Il brand sceglie', x: 'E avvia la collaborazione dalla candidatura.' },
-        { t: 'Si lavora insieme', x: 'Termini, contenuti e link tracciati.' },
+      <HeroPlatform crumbs={[{ label: 'Creator' }, { label: 'Offerte di lavoro' }]} eyebrow="Bacheca aggiornata dai brand" title={'Offerte di lavoro\nper *influencer*'} lead="Collaborazioni pagate, cambio merce e percentuale sulle vendite pubblicate dalle aziende. Candidati gratis con il tuo profilo." actions={<><Button href={APP.annunci}>Vedi le offerte aperte</Button><Button href="#/pubblica-offerta-lavoro/" variant="secondary">Sei un’azienda? Pubblica</Button></>} visual={<AnnunciMock className="mx-auto max-w-[520px]" />} />
+      <JobsBoard />
+      <AnswerBox q="Come trovare lavoro come influencer?" a="Crea un profilo con categoria, città e social collegati, poi candidati alle offerte dei brand nella bacheca. Su influencee le aziende vedono i tuoi numeri verificati e possono anche invitarti direttamente a una campagna, senza candidatura." points={['Profilo gratuito', 'Social collegati = badge Verificato', 'Candidature dall’app', 'Contratto e pagamento concordati nei termini']} />
+      <Steps title={'Dalla candidatura\n*alla collaborazione*'} steps={[
+        { t: 'Crea il profilo', x: 'Gratis, con categoria e città.' },
+        { t: 'Candidati', x: 'Alle offerte giuste per te.' },
+        { t: 'Il brand sceglie', x: 'E ti propone i termini.' },
+        { t: 'Lavorate insieme', x: 'Consegne, contratto e link tracciati.' },
       ]} />
-      <FaqSeo items={[FAQ.brand[2], FAQ.brand[3], FAQ.creator[3], FAQ.creator[0]]} />
+      <FaqSeo items={JOBS_FAQ} />
+      <Related links={[{ label: 'UGC creator', text: 'Cos’è e come diventarlo', href: '#/ugc-creator/' }, { label: 'Costo di un influencer', text: 'Quanto chiedere per un post', href: '#/social-media-tool/costo-influencer/' }, { label: 'Media kit', text: 'Presentati ai brand', href: '#/funzionalita/media-kit/' }]} />
       <CtaDual title={'Pubblica o candidati,\n*è gratis*'} />
+    </>
+  );
+}
+
+const POST_FAQ: QA[] = [
+  { q: 'Pubblicare un’offerta per influencer è gratis?', a: 'Sì. L’offerta si pubblica dall’account aziendale gratuito e le candidature arrivano nell’app. Il Premium serve per funzioni avanzate come la ricerca completa nel database.' },
+  { q: 'Che tipo di compenso posso offrire?', a: 'Compenso in denaro, cambio merce, percentuale sulle vendite, formula ibrida, ospitalità o evento. La formula scelta viene scritta nei termini della collaborazione.' },
+  { q: 'Come scelgo tra i candidati?', a: 'Ogni candidatura porta al profilo del creator con categoria, città, fascia di follower ed engagement, e indica la fonte dei dati. Scegli e avvii la collaborazione dalla candidatura.' },
+  FAQ.brand[0],
+];
+function PostJobPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Aziende' }, { label: 'Pubblica offerta' }]} eyebrow="Gratis per le aziende" title={'Pubblica un’*offerta*\nper influencer'} lead="Descrivi la collaborazione, ricevi le candidature dei creator italiani e scegli tu. In 3 passi, senza commissioni." actions={<><Button onClick={() => document.getElementById('pubblica')?.scrollIntoView({ behavior: 'smooth' })}>Prepara l’offerta</Button><Button href={WHATSAPP.href} variant="secondary">La gestite voi?</Button></>} visual={<AnnunciMock className="mx-auto max-w-[520px]" />} />
+      <PostJobForm />
+      <AnswerBox q="Come si trova un influencer per un’azienda?" a="Pubblica un’offerta con cosa cerchi, compenso e scadenza, oppure cerca direttamente nel database per categoria, città e fascia di follower e invita i creator. Su influencee puoi fare entrambe le cose, e gestire termini, contratto e link tracciati nella stessa collaborazione." />
+      <FaqSeo items={POST_FAQ} />
+      <ManagedRow />
+      <Related links={[{ label: 'Database influencer', text: 'Cerca e invita i creator', href: '#/funzionalita/database-influencer/' }, { label: 'Quanto costa un influencer', text: 'Calcola il budget', href: '#/social-media-tool/costo-influencer/' }, { label: 'Contratto influencer', text: 'Generato dai termini', href: '#/funzionalita/contratto-influencer/' }]} />
+    </>
+  );
+}
+
+/* ─── Tool gratuiti: hub, fake follower, emoticon ──────────────── */
+const HUB_FAQ: QA[] = [
+  { q: 'I tool di influencee sono gratuiti?', a: 'Sì, tutti i tool di questa pagina sono gratuiti e si usano senza registrazione, direttamente dal browser.' },
+  { q: 'I tool leggono i dati dai profili social?', a: 'No. Inserisci tu i numeri pubblici del profilo e il calcolo avviene nel browser, senza salvare nulla. Sulla piattaforma, invece, i creator verificati collegano il proprio account e i dati arrivano dalla fonte ufficiale.' },
+  { q: 'Quale tool uso prima di pagare un influencer?', a: 'Il fake follower checker per controllare la qualità del pubblico, il calcolo dell’engagement rate per confrontarlo con la sua fascia e il calcolatore del costo per capire se la richiesta è in linea con il mercato.' },
+];
+function ToolsHubPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Risorse' }, { label: 'Tool gratuiti' }]} eyebrow="Gratis · senza registrazione" title={'Tool gratuiti per\n*influencer marketing*'} lead="Controlla i fake follower, calcola engagement e costo di un creator, trova offerte di collaborazione. Tutto dal browser, con soglie e fonti dichiarate." actions={<><Button onClick={() => document.getElementById('tool')?.scrollIntoView({ behavior: 'smooth' })}>Scegli un tool</Button><Button href={APP.brand} variant="secondary">Prova la piattaforma</Button></>} visual={<FakeFollowerPanel className="mx-auto max-w-[520px]" />} />
+      <ToolsHubGrid />
+      <AnswerBox q="Quali strumenti servono per l’influencer marketing?" a="Per scegliere un creator servono tre verifiche: qualità del pubblico (fake follower), engagement rispetto alla fascia di follower e costo in linea con il mercato. Poi servono strumenti per gestire la campagna: contratto, scadenze e link tracciati per misurare i risultati." points={['Fake follower checker', 'Calcolo engagement rate', 'Calcolatore costo', 'Piattaforma per gestire le campagne']} />
+      <FaqSeo items={HUB_FAQ} />
+      <CtaDual />
+    </>
+  );
+}
+
+const FF_FAQ: QA[] = [
+  { q: 'Come capire se un influencer ha follower falsi?', a: 'Controlla tre numeri: engagement rate molto sotto la media della sua fascia, crescita improvvisa di follower senza un contenuto virale e visualizzazioni basse rispetto ai follower. Un solo segnale non basta: conta quando ne compaiono più insieme.' },
+  { q: 'Il tool legge i dati da Instagram?', a: 'No. Inserisci tu i numeri pubblici del profilo (follower, like, commenti, visualizzazioni) e il calcolo avviene nel browser. Non serve il login a Instagram e non salviamo nulla.' },
+  { q: 'Che soglie usa il fake follower checker?', a: `Engagement sotto il ${FF_RULES.erRisk * 100}% della media della fascia, crescita oltre il ${FF_RULES.growthRisk}% in 30 giorni, check sponsor sotto l’1,5%, visualizzazioni dei reel sotto il ${FF_RULES.viewsRisk}% dei follower e commenti sotto l’${FF_RULES.commentsRisk}% dei like. Sono soglie indicative per una prima verifica.` },
+  { q: 'Che differenza c’è tra follower falsi e reach a pagamento?', a: 'I follower falsi gonfiano il numero di follower; la reach a pagamento gonfia le visualizzazioni di un contenuto con la pubblicità. Il check sponsor (interazioni ÷ visualizzazioni) aiuta a riconoscere la seconda.' },
+  { q: 'Come evito i fake follower nelle mie campagne?', a: 'Lavora con creator che hanno collegato il proprio account: su influencee il badge Verificato indica che i dati arrivano dal login ufficiale di Instagram o TikTok, o da una verifica dello staff.' },
+];
+function FakeFollowerPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Fake follower' }]} eyebrow="Tool gratuito" title={'Fake follower Instagram:\n*controlla* un profilo'} lead="Inserisci i numeri pubblici del profilo: il tool li confronta con la media della sua fascia di follower e ti mostra i segnali di rischio, uno per uno." note="Nessun login a Instagram · nessun dato salvato · soglie dichiarate" actions={<Button href="#/creator-verificati/" variant="secondary">Come verifichiamo i creator</Button>} visual={<FakeFollowerPanel className="mx-auto max-w-[540px]" />} />
+      <AnswerBox q="Come capire se un influencer ha follower falsi?" a={FF_FAQ[0].a} points={['Engagement vs media di fascia', 'Picchi di crescita', 'Visualizzazioni / follower', 'Check sponsor']} />
+      <FakeSignalsGrid />
+      <FeatureSplit items={[{ eyebrow: 'Creator verificati', title: 'Su influencee i dati arrivano dall’account collegato', text: 'Il badge Verificato vuol dire che il creator ha collegato Instagram o TikTok con il login ufficiale, o che lo staff ha verificato il profilo. Ogni numero nella scheda indica la sua fonte e la data di aggiornamento.', bullets: ['Badge Verificato', 'Engagement sulla mediana degli ultimi 90 giorni', 'Data di aggiornamento visibile'], visual: <TrustMock />, href: '#/creator-verificati/', cta: 'Scopri la verifica' }]} />
+      <FaqSeo items={FF_FAQ} />
+      <Related links={[{ label: 'Calcolo engagement rate', text: 'Con check sponsor', href: '#/come-calcolare-engagement-rate/' }, { label: 'Quanto costa un influencer', text: 'Calcolatore del costo', href: '#/social-media-tool/costo-influencer/' }, { label: 'Tutti i tool gratuiti', text: 'Per brand, creator e social media manager', href: '#/social-media-tool/' }]} />
+      <CtaDual />
+    </>
+  );
+}
+
+const EMOJI_FAQ: QA[] = [
+  { q: 'Come si copiano le emoticon?', a: 'Clicca un’emoticon: viene copiata negli appunti e aggiunta al riquadro “Il tuo testo”. Poi incolla dove vuoi, oppure copia tutto il testo insieme.' },
+  { q: 'Le emoticon funzionano su Instagram e TikTok?', a: 'Sì: sono caratteri Unicode, non immagini, quindi funzionano su Instagram, TikTok, WhatsApp, Facebook e LinkedIn. L’aspetto cambia un po’ in base al telefono.' },
+  { q: 'Quante emoticon usare in una caption?', a: 'Poche e coerenti con il tono del brand: servono a dare ritmo e a guidare l’occhio, ad esempio a inizio riga negli elenchi o accanto alla call to action.' },
+];
+function EmojiPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Emoticon da copiare' }]} eyebrow="Tool gratuito" title={'Emoticon da *copiare*\ne incollare'} lead="Faccine, cuori, mani, cibo, viaggi e simboli per caption, bio e messaggi. Un clic per copiare, poi incolli dove vuoi." actions={<Button onClick={() => document.getElementById('emoticon')?.scrollIntoView({ behavior: 'smooth' })}>Scegli le emoticon</Button>} visual={<div className="mx-auto grid max-w-[460px] grid-cols-4 gap-3">{['😍', '🔥', '✨', '🙌', '❤️', '😂', '🎉', '💯'].map((e, i) => <span key={e} className={`flex aspect-square items-center justify-center rounded-3xl text-5xl ${i % 3 === 0 ? 'bg-acid' : i % 3 === 1 ? 'bg-white' : 'bg-white/10'}`}>{e}</span>)}</div>} />
+      <EmojiTool />
+      <FaqSeo items={EMOJI_FAQ} />
+      <Related links={[{ label: 'Tutti i tool gratuiti', text: 'Per social media manager e creator', href: '#/social-media-tool/' }, { label: 'Offerte per influencer', text: 'Collaborazioni con i brand', href: '#/offerte-lavoro-influencer/' }, { label: 'Diventa creator', text: 'Iscrizione gratuita', href: '#/diventa-creator/' }]} />
     </>
   );
 }
@@ -487,7 +570,7 @@ function RegionPage({ region, city }: { region: string; city?: string }) {
       <CategoryGrid title={`Influencer a ${place}\n*per categoria*`} lead="Scegli il settore della tua campagna." />
       {!ct && r.cities.length > 0 && <RegionGrid tone="paper" only={r.slug} title={`Città della\n*regione ${r.name}*`} lead="Apri la pagina della città." />}
       <FaqSeo items={placeFaq(place)} />
-      <Related links={[{ label: 'Micro influencer', text: 'Perfetti per le campagne locali', href: '#/micro-influencer/' }, { label: 'Annunci', text: 'Pubblica un annuncio per la tua città', href: '#/annunci-collaborazioni/' }, { label: 'Tutte le regioni', text: 'Influencer in tutta Italia', href: '#/influencer-italiani/' }]} />
+      <Related links={[{ label: 'Micro influencer', text: 'Perfetti per le campagne locali', href: '#/micro-influencer/' }, { label: 'Annunci', text: 'Pubblica un annuncio per la tua città', href: '#/offerte-lavoro-influencer/' }, { label: 'Tutte le regioni', text: 'Influencer in tutta Italia', href: '#/influencer-italiani/' }]} />
       <CtaDual />
     </>
   );
@@ -614,7 +697,7 @@ function CalcPage() {
 function CostPage() {
   return (
     <>
-      <HeroPlatform crumbs={[{ label: 'Risorse' }, { label: 'Quanto costa un influencer' }]} eyebrow="Costi e tariffe" title={'Quanto costa un influencer\n*in Italia*'} lead="I costi medi di un post per fascia di follower su Instagram e TikTok, con la fonte di ogni valore, e le formule di compenso che puoi offrire." actions={<><Button href={APP.brand}>Vedi i prezzi dei creator</Button><Button href={WHATSAPP.href} variant="secondary">Preventivo per un progetto</Button></>} visual={<CollabMock className="mx-auto max-w-[480px]" />} />
+      <HeroPlatform crumbs={[{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Quanto costa un influencer' }]} eyebrow="Calcolatore gratuito" title={'Quanto costa un influencer?\n*Calcolalo*'} lead="Una stima per contenuto a partire da follower ed engagement, accanto al costo medio di mercato della stessa fascia, con la fonte di ogni valore." actions={<Button href={WHATSAPP.href} variant="secondary">Preventivo per un progetto</Button>} visual={<CostCalcPanel className="mx-auto max-w-[540px]" />} />
       <AnswerBox q="Quanto costa un influencer?" a={COST_FAQ[0].a} points={[`Nano: circa ${MARKET.costIG[0].v} € a post`, `Micro: circa ${MARKET.costIG[1].v} € a post`, `Mid: circa ${MARKET.costIG[2].v.toLocaleString('it-IT')} € a post`, `VIP: oltre ${MARKET.costIG[4].v.toLocaleString('it-IT')} € a post`]} />
       <CostChart tone="white" />
       <FactsBand items={MARKET.context.map((c) => ({ v: c.v, l: `${c.l} · ${c.src}` }))} />
@@ -721,20 +804,24 @@ export function resolve(path: string): Resolved | null {
     '/': () => ({ meta: { path: '/', label: 'Home', type: 'home', kw: 'piattaforma influencer marketing', title: 'Influencee: piattaforma di influencer marketing in Italia', description: 'Trova influencer e UGC creator italiani, lancia campagne e misura i click di ogni contenuto. Prova gratis, i creator si iscrivono gratis.', faq: [...FAQ.piattaforma.slice(0, 2), FAQ.brand[0], FAQ.creator[0], FAQ.creator[1]] }, el: <Home /> }),
     '/piattaforma-influencer/': () => ({ meta: { path: p, label: 'Piattaforma', type: 'software', kw: 'piattaforma influencer', title: T('Piattaforma influencer per brand e agenzie'), description: 'Ricerca creator italiani, campagne, contratti e link tracciati in un’unica piattaforma di influencer marketing. Dati con la loro fonte, niente AI.', crumbs: [{ label: 'Piattaforma influencer' }], faq: FAQ.piattaforma }, el: <Platform /> }),
     '/funzionalita/database-influencer/': () => ({ meta: { path: p, label: 'Database influencer', type: 'software', kw: 'database influencer italiani', title: T('Database influencer italiani con filtri'), description: 'Cerca influencer e UGC creator italiani per categoria, città, fascia di follower ed engagement. Liste salvate, schede con dati verificabili.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Database influencer' }], faq: FEATURE_FAQ.ricerca }, el: <FeaturePage crumb="Database influencer" eyebrow="Database influencer" title={'Database di influencer\n*italiani*'} lead="Cerca creator per categoria, città, fascia di follower, tipo e piattaforma. Ogni scheda mostra numeri, crescita e fonte del dato." visual={<SearchMock className="mx-auto max-w-[520px]" />} answer={{ q: 'Cos’è un database di influencer?', a: 'È un archivio ricercabile di creator con i loro dati: categoria, città, follower, engagement e contenuti. Su influencee contiene solo creator italiani, con filtri combinabili e liste salvate che si aggiornano da sole quando entrano nuovi profili.' }} items={[F.ricerca, F.scheda]} faq={FEATURE_FAQ.ricerca} related={[{ label: 'Influencer per categoria', text: '18 categorie', href: '#/influencer-italiani/' }, { label: 'Micro influencer', text: 'Filtra la fascia 10–50 mila', href: '#/micro-influencer/' }, { label: 'Prezzi', text: 'Gratis o Premium', href: '#/prezzi/' }]} /> }),
-    '/funzionalita/gestione-campagne/': () => ({ meta: { path: p, label: 'Gestione campagne', type: 'software', kw: 'gestione campagne influencer', title: T('Gestione campagne influencer e contratti'), description: 'Brief, termini con doppia accettazione, consegne, approvazioni e contratto generato: gestisci le collaborazioni con i creator in un unico posto.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Gestione campagne' }], faq: FEATURE_FAQ.campagne }, el: <FeaturePage crumb="Gestione campagne" eyebrow="Campagne e collaborazioni" title={'Gestione delle campagne\n*con gli influencer*'} lead="Obiettivo, brief, offerta e termini; poi consegne, approvazioni e contratto. Tutto nella collaborazione, senza email e fogli sparsi." visual={<CollabMock className="mx-auto max-w-[520px]" />} answer={{ q: 'Come si gestisce una campagna di influencer marketing?', a: FEATURE_FAQ.campagne[0].a }} items={[F.campagne, F.annunci]} faq={FEATURE_FAQ.campagne} related={[{ label: 'Link tracciati', text: 'Misura i click', href: '#/funzionalita/link-tracciati/' }, { label: 'Annunci', text: 'Fai candidare i creator', href: '#/annunci-collaborazioni/' }, { label: 'Per le agenzie', text: 'Più campagne in parallelo', href: '#/piattaforma-agenzie/' }]} /> }),
+    '/funzionalita/gestione-campagne/': () => ({ meta: { path: p, label: 'Gestione campagne', type: 'software', kw: 'gestione campagne influencer', title: T('Gestione campagne influencer e contratti'), description: 'Brief, termini con doppia accettazione, consegne, approvazioni e contratto generato: gestisci le collaborazioni con i creator in un unico posto.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Gestione campagne' }], faq: FEATURE_FAQ.campagne }, el: <FeaturePage crumb="Gestione campagne" eyebrow="Campagne e collaborazioni" title={'Gestione delle campagne\n*con gli influencer*'} lead="Obiettivo, brief, offerta e termini; poi consegne, approvazioni e contratto. Tutto nella collaborazione, senza email e fogli sparsi." visual={<CollabMock className="mx-auto max-w-[520px]" />} answer={{ q: 'Come si gestisce una campagna di influencer marketing?', a: FEATURE_FAQ.campagne[0].a }} items={[F.campagne, F.annunci]} faq={FEATURE_FAQ.campagne} related={[{ label: 'Link tracciati', text: 'Misura i click', href: '#/funzionalita/link-tracciati/' }, { label: 'Annunci', text: 'Fai candidare i creator', href: '#/offerte-lavoro-influencer/' }, { label: 'Per le agenzie', text: 'Più campagne in parallelo', href: '#/piattaforma-agenzie/' }]} /> }),
     '/funzionalita/link-tracciati/': () => ({ meta: { path: p, label: 'Link tracciati', type: 'software', kw: 'link tracciati influencer', title: T('Link tracciati per misurare gli influencer'), description: 'Un link con UTM per ogni contenuto: click e visitatori unici, senza salvare IP e senza bot. 10 link gratis, illimitati con Premium.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Link tracciati' }], faq: FEATURE_FAQ.link }, el: <FeaturePage crumb="Link tracciati" eyebrow="Link tracciati" title={'Misura i risultati\n*di ogni influencer*'} lead="Link con UTM già inseriti per ogni contenuto, per bio, newsletter e QR. Click e visitatori unici in una pagina risultati." visual={<LinkMock className="mx-auto max-w-[500px]" />} answer={{ q: 'Come si misurano i risultati di una campagna con influencer?', a: FEATURE_FAQ.link[0].a }} items={[F.link]} faq={FEATURE_FAQ.link} related={[{ label: 'Gestione campagne', text: 'Dal brief al contratto', href: '#/funzionalita/gestione-campagne/' }, { label: 'Benchmark', text: 'Engagement di riferimento', href: '#/benchmark-engagement-rate/' }, { label: 'Prezzi', text: 'Link illimitati con Premium', href: '#/prezzi/' }]} /> }),
-    '/funzionalita/media-kit/': () => ({ meta: { path: p, label: 'Media kit', type: 'software', kw: 'media kit influencer', title: T('Media kit influencer sempre aggiornato'), description: 'Il media kit del creator con numeri dagli account collegati, contenuti in vetrina e collaborazioni. PDF e link pubblico, gratis per i creator.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Media kit' }], faq: FEATURE_FAQ.kit }, el: <FeaturePage crumb="Media kit" eyebrow="Media kit" title={'Il media kit per influencer\n*che si aggiorna da solo*'} lead="Numeri dagli account collegati, contenuti in vetrina, collaborazioni e data dei dati sempre visibile. PDF e link pubblico." visual={<KitMock className="mx-auto max-w-[520px]" />} answer={{ q: 'Cos’è un media kit per influencer?', a: FEATURE_FAQ.kit[0].a }} items={[F.kit]} faq={FEATURE_FAQ.kit} related={[{ label: 'Diventa creator', text: 'Iscrizione gratuita', href: '#/diventa-creator/' }, { label: 'UGC creator', text: 'Cos’è e come diventarlo', href: '#/ugc-creator/' }, { label: 'Annunci', text: 'Candidati alle offerte', href: '#/annunci-collaborazioni/' }]} /> }),
+    '/funzionalita/media-kit/': () => ({ meta: { path: p, label: 'Media kit', type: 'software', kw: 'media kit influencer', title: T('Media kit influencer sempre aggiornato'), description: 'Il media kit del creator con numeri dagli account collegati, contenuti in vetrina e collaborazioni. PDF e link pubblico, gratis per i creator.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Media kit' }], faq: FEATURE_FAQ.kit }, el: <FeaturePage crumb="Media kit" eyebrow="Media kit" title={'Il media kit per influencer\n*che si aggiorna da solo*'} lead="Numeri dagli account collegati, contenuti in vetrina, collaborazioni e data dei dati sempre visibile. PDF e link pubblico." visual={<KitMock className="mx-auto max-w-[520px]" />} answer={{ q: 'Cos’è un media kit per influencer?', a: FEATURE_FAQ.kit[0].a }} items={[F.kit]} faq={FEATURE_FAQ.kit} related={[{ label: 'Diventa creator', text: 'Iscrizione gratuita', href: '#/diventa-creator/' }, { label: 'UGC creator', text: 'Cos’è e come diventarlo', href: '#/ugc-creator/' }, { label: 'Annunci', text: 'Candidati alle offerte', href: '#/offerte-lavoro-influencer/' }]} /> }),
     '/influencer-marketing-aziende/': () => ({ meta: { path: p, label: 'Per le aziende', type: 'software', kw: 'influencer marketing aziende', title: T('Influencer marketing per aziende'), description: 'Trova influencer italiani per il tuo brand, pubblica annunci e gestisci collaborazioni e risultati senza intermediari. Nessuna commissione per il brand.', crumbs: [{ label: 'Influencer marketing per aziende' }], faq: FAQ.brand }, el: <Brands /> }),
     '/piattaforma-agenzie/': () => ({ meta: { path: p, label: 'Per le agenzie', type: 'software', kw: 'piattaforma influencer marketing agenzie', title: T('Piattaforma per agenzie di influencer marketing'), description: 'Liste di creator per cliente, campagne parallele, contratti standard e link tracciati. La piattaforma per agenzie e centri media, senza commissioni.', crumbs: [{ label: 'Piattaforma per agenzie' }], faq: [FAQ.brand[0], FAQ.piattaforma[1], FAQ.piattaforma[2], FEATURE_FAQ.campagne[2]] }, el: <Agencies /> }),
     '/micro-influencer/': () => ({ meta: { path: p, label: 'Micro influencer', type: 'page', kw: 'micro influencer', title: T('Micro influencer: chi sono e come trovarli'), description: 'I micro influencer hanno 10–50 mila follower: costi accessibili e alto engagement. Cosa sono, quanto costano e come trovarli in Italia.', crumbs: [{ label: 'Micro influencer' }], faq: [{ q: 'Quanti follower deve avere un micro influencer?', a: 'Tra 10.000 e 50.000. Con meno di 10.000 follower si parla di nano influencer.' }, { q: 'I micro influencer funzionano per le piccole aziende?', a: 'Sì, soprattutto per attività locali e prodotti di nicchia: costano meno, parlano a community specifiche e permettono di testare più creator con lo stesso budget.' }, { q: 'Come contatto un micro influencer?', a: 'Su influencee lo inviti a una campagna o gli scrivi in chat dalla sua scheda; con Premium vedi anche i contatti dei creator che li hanno resi disponibili.' }, FAQ.brand[0]] }, el: <Micro /> }),
     '/diventa-creator/': () => ({ meta: { path: p, label: 'Diventa creator', type: 'page', kw: 'collaborazioni con brand', title: T('Collaborazioni con brand: iscriviti gratis'), description: 'Sei un creator o un influencer? Iscriviti gratis, collega i social e ricevi proposte dai brand italiani. Media kit, contratti e scadenze in un posto.', crumbs: [{ label: 'Diventa creator' }], faq: FAQ.creator }, el: <CreatorJoin /> }),
     '/ugc-creator/': () => ({ meta: { path: p, label: 'UGC creator', type: 'page', kw: 'ugc creator', title: T('UGC creator: cos’è e come diventarlo in Italia'), description: 'Cosa fa un UGC creator, differenza con l’influencer, quanto guadagna e come trovare brand che cercano UGC creator in Italia. Iscrizione gratuita.', crumbs: [{ label: 'UGC creator' }], faq: [{ q: 'Serve la partita IVA per fare l’UGC creator?', a: 'Dipende da quanto e con che continuità lavori: per collaborazioni occasionali può bastare la prestazione occasionale, per un’attività continuativa serve la partita IVA. Chiedi conferma al tuo commercialista. Su influencee puoi indicare la partita IVA nel profilo.' }, { q: 'Dove trovo brand che cercano UGC creator?', a: 'Nella bacheca annunci di influencee: i brand pubblicano offerte con compenso e scadenza e i creator iscritti si candidano.' }, FAQ.creator[1], FAQ.creator[0]] }, el: <Ugc /> }),
-    '/annunci-collaborazioni/': () => ({ meta: { path: p, label: 'Annunci', type: 'page', kw: 'annunci collaborazioni influencer', title: T('Annunci di collaborazione per creator'), description: 'Bacheca di annunci tra brand e creator: offerte con compenso, cambio merce, affiliazione e ospitalità. Pubblica o candidati gratis.', crumbs: [{ label: 'Annunci di collaborazione' }], faq: [FAQ.brand[2], FAQ.brand[3], FAQ.creator[3], FAQ.creator[0]] }, el: <Annunci /> }),
+    '/offerte-lavoro-influencer/': () => ({ meta: { path: p, label: 'Offerte di lavoro', type: 'page', kw: 'offerte lavoro influencer', title: T('Offerte di lavoro per influencer e UGC creator'), description: 'Collaborazioni pagate, cambio merce e % sulle vendite pubblicate dai brand italiani. Cerca per settore e città e candidati gratis.', crumbs: [{ label: 'Creator' }, { label: 'Offerte di lavoro' }], faq: JOBS_FAQ }, el: <JobsPage /> }),
+    '/pubblica-offerta-lavoro/': () => ({ meta: { path: p, label: 'Pubblica offerta', type: 'software', kw: 'pubblicare offerta influencer', title: T('Pubblica un’offerta per influencer, gratis'), description: 'Descrivi la collaborazione, ricevi candidature da creator italiani e scegli tu. Compenso, cambio merce o % sulle vendite, senza commissioni.', crumbs: [{ label: 'Aziende' }, { label: 'Pubblica offerta' }], faq: POST_FAQ }, el: <PostJobPage /> }),
+    '/social-media-tool/': () => ({ meta: { path: p, label: 'Tool gratuiti', type: 'page', kw: 'tool influencer marketing gratis', title: T('Tool gratuiti per influencer marketing'), description: 'Fake follower checker, calcolo engagement rate, costo influencer, emoticon e offerte di lavoro: tool gratuiti senza registrazione.', crumbs: [{ label: 'Risorse' }, { label: 'Tool gratuiti' }], faq: HUB_FAQ }, el: <ToolsHubPage /> }),
+    '/followe-instagram-fake-follower/': () => ({ meta: { path: p, label: 'Fake follower', type: 'tool', kw: 'fake follower instagram', title: T('Fake follower Instagram: controlla un profilo'), description: 'Tool gratuito: confronta engagement, crescita e visualizzazioni di un profilo con la media della sua fascia e scopri i segnali di follower falsi.', crumbs: [{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Fake follower' }], faq: FF_FAQ }, el: <FakeFollowerPage /> }),
+    '/social-media-tool/emoticon-da-copiare/': () => ({ meta: { path: p, label: 'Emoticon da copiare', type: 'tool', kw: 'emoticon da copiare', title: T('Emoticon da copiare e incollare'), description: 'Faccine, cuori, mani, cibo, viaggi e simboli da copiare con un clic per caption, bio e messaggi su Instagram, TikTok e WhatsApp.', crumbs: [{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Emoticon da copiare' }], faq: EMOJI_FAQ }, el: <EmojiPage /> }),
     '/benchmark-engagement-rate/': () => ({ meta: { path: p, label: 'Benchmark', type: 'page', kw: 'engagement rate instagram', title: T('Engagement rate per fascia: valori di riferimento'), description: 'Valori di riferimento dell’engagement rate per fascia di follower e metodo di influencee. Benchmark pubblico gratuito, solo dati aggregati.', crumbs: [{ label: 'Benchmark engagement rate' }], faq: [{ q: 'Qual è un buon engagement rate su Instagram?', a: 'Dipende dalla fascia di follower e dalla categoria: i profili più piccoli hanno di solito valori più alti. Confronta il creator con la mediana della sua fascia invece che con un numero unico.' }, { q: 'Cos’è il check sponsor?', a: 'Uno strumento gratuito che divide le interazioni di un contenuto per le sue visualizzazioni. Sotto l’1,5% la reach arriva probabilmente da pubblicità; tra 1,9% e 2,7% è una media organica sana; sopra il 2,7% il contenuto va molto bene in modo organico.' }, { q: 'Il benchmark è gratuito?', a: 'Sì, il benchmark pubblico è consultabile senza registrazione. Mostra solo valori aggregati, mai dati di singoli creator.' }] }, el: <Benchmark /> }),
     '/prezzi/': () => ({ meta: { path: p, label: 'Prezzi', type: 'pricing', kw: 'prezzi piattaforma influencer', title: T('Prezzi: gratis o Premium da 19 € al mese'), description: `Piano gratuito per sempre e Premium da 19 € al mese, 49 € a trimestre o 199 € all’anno IVA inclusa. ${FACTS.trialDays} giorni di prova, nessuna carta.`, crumbs: [{ label: 'Prezzi' }], faq: [FAQ.brand[0]] }, el: <Pricing /> }),
     '/influencer-italiani/': () => ({ meta: { path: p, label: 'Influencer italiani', type: 'page', kw: 'influencer italiani', title: T('Influencer italiani per categoria e città'), description: 'Influencer e content creator italiani per categoria, regione e città, in 5 fasce di follower. Trova il creator giusto per la tua campagna.', crumbs: [{ label: 'Influencer italiani' }], faq: [FAQ.piattaforma[3], FEATURE_FAQ.ricerca[0]] }, el: <ItaliansHub /> }),
-    '/come-calcolare-engagement-rate/': () => ({ meta: { path: p, label: 'Calcolo engagement rate', type: 'page', kw: 'calcolo engagement rate', title: T('Calcolo engagement rate: calcolatore gratuito'), description: 'Calcola gratis l’engagement rate di un profilo Instagram o TikTok e confrontalo con la media della sua fascia. Con check sponsor per i contenuti.', crumbs: [{ label: 'Risorse' }, { label: 'Calcolo engagement rate' }], faq: CALC_FAQ }, el: <CalcPage /> }),
-    '/social-media-tool/costo-influencer/': () => ({ meta: { path: p, label: 'Quanto costa un influencer', type: 'page', kw: 'quanto costa un influencer', title: T('Quanto costa un influencer in Italia'), description: 'Costo medio di un post per fascia di follower su Instagram e TikTok, con le fonti, e le formule di compenso: denaro, cambio merce, affiliazione.', crumbs: [{ label: 'Risorse' }, { label: 'Quanto costa un influencer' }], faq: COST_FAQ }, el: <CostPage /> }),
+    '/come-calcolare-engagement-rate/': () => ({ meta: { path: p, label: 'Calcolo engagement rate', type: 'tool', kw: 'calcolo engagement rate', title: T('Calcolo engagement rate: calcolatore gratuito'), description: 'Calcola gratis l’engagement rate di un profilo Instagram o TikTok e confrontalo con la media della sua fascia. Con check sponsor per i contenuti.', crumbs: [{ label: 'Risorse' }, { label: 'Calcolo engagement rate' }], faq: CALC_FAQ }, el: <CalcPage /> }),
+    '/social-media-tool/costo-influencer/': () => ({ meta: { path: p, label: 'Quanto costa un influencer', type: 'tool', kw: 'quanto costa un influencer', title: T('Quanto costa un influencer? Calcolatore gratuito'), description: 'Calcola quanto costa un influencer per post o reel in base a follower ed engagement, con il costo medio di mercato per fascia e le fonti.', crumbs: [{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Quanto costa un influencer' }], faq: COST_FAQ }, el: <CostPage /> }),
     '/contenuti-ugc/': () => ({ meta: { path: p, label: 'Contenuti UGC', type: 'software', kw: 'contenuti ugc', title: T('Contenuti UGC per brand: video dei creator'), description: 'Cosa sono i contenuti UGC e come ottenerli: creator italiani, brief, consegne e diritti d’uso nel contratto. Per i tuoi canali e le inserzioni.', crumbs: [{ label: 'Contenuti UGC' }], faq: UGC_FAQ }, el: <UgcBrandPage /> }),
     '/influencer-marketing-locale/': () => ({ meta: { path: p, label: 'Campagne locali', type: 'software', kw: 'influencer per ristoranti', title: T('Influencer per ristoranti, negozi ed eventi'), description: 'Campagne con creator della tua città per locali, negozi, palestre ed eventi: ospitalità o compenso, QR e link tracciati per misurare.', crumbs: [{ label: 'Campagne locali' }], faq: LOCAL_FAQ }, el: <LocalPage /> }),
     '/creator-professionisti/': () => ({ meta: { path: p, label: 'Creator professionisti', type: 'page', kw: 'medici influencer italiani', title: T('Creator professionisti: medici e nutrizionisti'), description: 'Medici, nutrizionisti, personal trainer e altri professionisti che fanno divulgazione: creator autorevoli per brand di salute, finanza e formazione.', crumbs: [{ label: 'Creator professionisti' }], faq: PRO_FAQ }, el: <ProPage /> }),
@@ -744,6 +831,9 @@ export function resolve(path: string): Resolved | null {
     '/contatti/': () => ({ meta: { path: p, label: 'Contatti', type: 'page', kw: 'contatti influencee', title: T('Contatti'), description: 'Scrivi al team di influencee per una demo con il tuo settore o per aiuto con la piattaforma.', crumbs: [{ label: 'Contatti' }] }, el: <Contacts /> }),
     '/blog/': () => ({ meta: { path: p, label: 'Blog', type: 'page', kw: 'blog influencer marketing', title: T('Blog di influencer marketing'), description: 'Guide pratiche di influencer marketing per brand e creator: engagement, campagne, strumenti social.', crumbs: [{ label: 'Blog' }] }, el: <Blog /> }),
   };
+  // Alias (in produzione: 301). /annunci-collaborazioni/ era una pagina nuova, accorpata alla bacheca indicizzata.
+  const alias: Record<string, string> = { '/annunci-collaborazioni/': '/offerte-lavoro-influencer/' };
+  if (alias[p]) return fixed[alias[p]]();
   if (fixed[p]) return fixed[p]();
 
   // Pagine per categoria: /<slug>/
@@ -770,7 +860,7 @@ export function resolve(path: string): Resolved | null {
 
 /** Elenco di tutte le route (sitemap e test). */
 export function allPaths() {
-  const out = ['/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/annunci-collaborazioni/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
+  const out = ['/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
   CATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   REGIONS.forEach((r) => {
     out.push(`/influencer-italiani/influencer-${r.slug}/`);

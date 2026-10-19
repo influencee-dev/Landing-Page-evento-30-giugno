@@ -54,6 +54,11 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `scroll_depth` | Superamento del 25, 50, 75 e 90% della pagina | Profondità di lettura |
 | `faq_open` | Apertura di una domanda frequente | Le obiezioni reali dei clienti |
 | `calculator_use` | Uso del calcolatore (engagement rate o check sponsor), 1,2 secondi dopo l'ultima modifica | Quanto è usato lo strumento gratuito e con che esito (`calculator`, `result_band`, `tier`): chi lo usa e poi clicca "Confronta i creator" è un brand ad alta intenzione |
+| `calculator_use` (tool restaurati) | Fake follower checker (`calculator: fake_follower`, con `risk_signals`, `warn_signals`, `tier`, `platform`) e calcolatore costo (`calculator: costo_influencer`, con `tier`, `quantity`, `result_band` = forbice in €) | Quali tool portano brand ad alta intenzione: chi controlla un profilo e poi clicca "Cerca creator verificati" sta per scegliere un creator. Confronta `risk_signals` alti con i clic su WhatsApp: chi trova profili a rischio cerca qualcuno di cui fidarsi |
+| `tool_use` | Azioni nei tool senza calcolo: copia di un'emoticon o del testo (`tool: emoticon`), copia del risultato del checker, copia del testo dell'offerta | Valore reale dei tool "di traffico" (emoticon): se l'uso è alto ma i clic verso l'app sono zero, il tool porta visite e non clienti |
+| `tool_filter` | Filtro per pubblico nell'hub dei tool (`filter`: brand, creator, smm) | Chi visita l'hub: decide quali tool restaurare dopo |
+| `job_search` | Ricerca nella bacheca offerte, 1,2 secondi dopo l'ultima modifica (`has_keyword`, `has_location`, `compenso`, `results`) | Domanda dei creator per tipo di compenso; `results = 0` frequente = mancano offerte, da chiedere ai brand |
+| `job_post_step` | Passo del form "Pubblica offerta" (`step` 2 o 3, `compenso`) | Imbuto delle aziende che vogliono pubblicare: abbandono tra passo 2 e 3 = form troppo lungo. Il passo finale porta a `begin_sign_up` con `link_url` che contiene `da=pubblica-offerta` |
 | `consent_choice` | Scelta nel banner cookie | Tasso di consenso, per stimare la quota di dati persa |
 
 ### Parametri inviati con ogni evento

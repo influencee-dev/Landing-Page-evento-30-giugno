@@ -55,8 +55,11 @@ export function pageTypeOf(path: string): { page_type: string; audience: string 
   if (path.startsWith('/funzionalita/') || path === '/piattaforma-influencer/') return { page_type: 'prodotto', audience: 'brand' };
   if (['/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/'].includes(path)) return { page_type: 'soluzione', audience: 'brand' };
   if (['/diventa-creator/', '/ugc-creator/'].includes(path)) return { page_type: 'creator', audience: 'creator' };
-  if (path === '/annunci-collaborazioni/') return { page_type: 'annunci', audience: 'misto' };
-  if (['/benchmark-engagement-rate/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/'].includes(path)) return { page_type: 'strumento', audience: 'brand' };
+  if (path === '/offerte-lavoro-influencer/') return { page_type: 'offerte_lavoro', audience: 'creator' };
+  if (path === '/pubblica-offerta-lavoro/') return { page_type: 'pubblica_offerta', audience: 'brand' };
+  if (path === '/social-media-tool/emoticon-da-copiare/') return { page_type: 'strumento', audience: 'creator' };
+  if (path === '/social-media-tool/' ) return { page_type: 'hub_strumenti', audience: 'misto' };
+  if (['/benchmark-engagement-rate/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/followe-instagram-fake-follower/'].includes(path)) return { page_type: 'strumento', audience: 'brand' };
   if (path === '/creator-verificati/') return { page_type: 'prodotto', audience: 'brand' };
   if (path.startsWith('/influencer-italiani/influencer-')) return { page_type: path.split('/').filter(Boolean).length > 2 ? 'citta' : 'regione', audience: 'brand' };
   if (path === '/influencer-italiani/') return { page_type: 'hub_influencer', audience: 'brand' };

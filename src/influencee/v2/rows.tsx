@@ -531,9 +531,18 @@ export function FooterV2() {
         ['Contenuti UGC', '#/contenuti-ugc/'],
         ['Campagne locali', '#/influencer-marketing-locale/'],
         ['Creator professionisti', '#/creator-professionisti/'],
-        ['Annunci di collaborazione', '#/annunci-collaborazioni/'],
+      ],
+    },
+    {
+      t: 'Tool gratuiti',
+      l: [
+        ['Tutti i tool', '#/social-media-tool/'],
+        ['Fake follower checker', '#/followe-instagram-fake-follower/'],
         ['Quanto costa un influencer', '#/social-media-tool/costo-influencer/'],
         ['Calcolo engagement rate', '#/come-calcolare-engagement-rate/'],
+        ['Emoticon da copiare', '#/social-media-tool/emoticon-da-copiare/'],
+        ['Offerte di lavoro', '#/offerte-lavoro-influencer/'],
+        ['Pubblica un’offerta', '#/pubblica-offerta-lavoro/'],
       ],
     },
     { t: 'Influencer italiani', l: [['Tutti', '#/influencer-italiani/'], ...CATEGORIES.slice(0, 8).map((k) => [k.short + ' influencer', `#/${k.slug}/`])] },
@@ -542,7 +551,7 @@ export function FooterV2() {
   return (
     <footer className="border-t border-line bg-white font-sans text-ink">
       <Container className="py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_repeat(4,1fr)]">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_repeat(5,1fr)]">
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-sm text-mute">{SITE.tagline}. Solo creator italiani, numeri con la loro fonte.</p>

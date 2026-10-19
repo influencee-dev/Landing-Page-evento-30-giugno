@@ -54,6 +54,8 @@ export function jsonLd(meta: Meta) {
       description: 'Piattaforma italiana di influencer marketing: ricerca creator italiani, campagne, contratti e link tracciati.',
       offers: PLANS.map((p) => ({ '@type': 'Offer', name: p.name, price: p.price.replace(/[^\d,]/g, '').replace(',', '.') || '0', priceCurrency: 'EUR' })),
     });
+  if (meta.type === 'tool')
+    graph.push({ '@type': 'WebApplication', name: meta.label, url: SITE.url + meta.path, applicationCategory: 'BusinessApplication', operatingSystem: 'Web', isAccessibleForFree: true, inLanguage: 'it-IT', description: meta.description, offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, publisher: { '@type': 'Organization', name: SITE.name } });
   if (meta.crumbs?.length)
     graph.push({
       '@type': 'BreadcrumbList',

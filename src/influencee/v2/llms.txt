@@ -13,8 +13,11 @@
 - [Influencer italiani](https://influencee.it/influencer-italiani/): per categoria, regione e città
 - [Benchmark engagement rate](https://influencee.it/benchmark-engagement-rate/): metodo di calcolo e valori per fascia
 
-- [Quanto costa un influencer](https://influencee.it/social-media-tool/costo-influencer/): costi medi per fascia con le fonti
+- [Quanto costa un influencer](https://influencee.it/social-media-tool/costo-influencer/): calcolatore con la formula di prezzo di influencee e la media di mercato per fascia
 - [Calcolo engagement rate](https://influencee.it/come-calcolare-engagement-rate/): calcolatore gratuito e check sponsor
+- [Tool gratuiti](https://influencee.it/social-media-tool/): fake follower checker, costo influencer, engagement rate, emoticon
+- [Fake follower Instagram](https://influencee.it/followe-instagram-fake-follower/): controlla un profilo con 5 segnali e soglie dichiarate
+- [Offerte di lavoro per influencer](https://influencee.it/offerte-lavoro-influencer/) e [pubblica un'offerta](https://influencee.it/pubblica-offerta-lavoro/)
 - [Contenuti UGC](https://influencee.it/contenuti-ugc/), [Campagne locali](https://influencee.it/influencer-marketing-locale/), [Creator professionisti](https://influencee.it/creator-professionisti/)
 - [Creator verificati](https://influencee.it/creator-verificati/): come vengono verificati i dati
 - [Contratto](https://influencee.it/funzionalita/contratto-influencer/) e [Calendario campagne](https://influencee.it/funzionalita/calendario-campagne/)
@@ -27,3 +30,4 @@
 - Engagement rate: mediana delle interazioni su reel e video degli ultimi 90 giorni (esclusa l'ultima settimana) divisa per i follower; non calcolato con meno di 5 video
 - Badge Verificato: account social collegato con login ufficiale o verifica dello staff
 - Nessuna commissione per il brand sulle collaborazioni
+- Fake follower checker, soglie indicative: engagement sotto il 50% della media di fascia, crescita oltre il 20% in 30 giorni, check sponsor sotto l'1,5%, visualizzazioni dei reel sotto il 5% dei follower, commenti sotto l'1% dei like
