@@ -5,9 +5,10 @@ import { HeroReels, ReelWall, WorkReelCard } from '../rows/reels';
 import { REELS } from '../site/data';
 import { CtaForm } from '../rows/spoki';
 import { APP, CATEGORIES, CREATOR_TYPES, FACTS, FAQ, REGIONS, SITE, type QA } from './data';
-import { AnnunciMock, CollabMock, KitMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
+import { AnnunciMock, CollabMock, DiscoveryMock, KitMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
 import {
   AnswerBox,
+  AudienceRow,
   CardGrid,
   CategoryGrid,
   CtaBandV2,
@@ -15,6 +16,7 @@ import {
   FactsBand,
   FaqSeo,
   FeatureSplit,
+  HeroCenter,
   HeroPlatform,
   Plans,
   Prose,
@@ -129,32 +131,35 @@ const FACTS_BAND = [
 
 /* ─── HOME ──────────────────────────────────────────────────────── */
 function Home() {
-  const pick = (id: string) => REELS.find((r) => r.id === id)!;
   return (
     <>
-      <HeroPlatform
+      <HeroCenter
         eyebrow="Piattaforma di influencer marketing"
-        title={'Trova creator italiani.\n*Lancia campagne che si misurano.*'}
-        lead="Influencee è la piattaforma per cercare influencer e UGC creator in Italia, accordarsi, ricevere i contenuti e contare i click di ogni post. I creator si iscrivono gratis."
+        title={'La piattaforma di influencer marketing\n*per trovare creator italiani*'}
+        lead="Cerca influencer e UGC creator in Italia con filtri e numeri verificabili, lancia campagne, firma l’accordo e conta i click di ogni contenuto. Tutto in un unico posto."
         actions={
           <>
-            <Button href={APP.brand}>Sono un’azienda</Button>
+            <Button href={APP.brand}>Prova gratis 3 giorni</Button>
             <Button href={APP.creator} variant="secondary">
               Sono un creator
             </Button>
           </>
         }
-        note={`${FACTS.trialDays} giorni di prova · nessuna carta · solo creator italiani`}
-        visual={
-          <div className="relative mx-auto max-w-[560px]">
-            <SearchMock />
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} className="absolute -bottom-16 -right-3 hidden w-36 sm:block lg:-right-12">
-              <WorkReelCard r={pick('fitness-scegli-corso')} />
+        note="Nessuna carta richiesta · solo creator italiani · i creator si iscrivono gratis"
+        visual={<DiscoveryMock />}
+        floats={
+          <>
+            <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 }} className="absolute -left-10 top-[58%] hidden w-56 rounded-2xl bg-white p-4 text-left text-ink shadow-float lg:block xl:-left-16">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mute">Lista salvata</p>
+              <p className="mt-1 font-heading font-semibold">Food creator Bologna</p>
+              <p className="mt-1 text-xs text-mute">Si aggiorna da sola quando entrano nuovi profili</p>
             </motion.div>
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 }} className="absolute -bottom-20 -left-8 hidden w-28 rotate-[-6deg] md:block lg:-left-14">
-              <WorkReelCard r={pick('food-sushi-morso')} delay={1} />
+            <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.2 }} className="absolute -right-6 bottom-36 hidden w-52 rounded-2xl bg-ink p-4 text-left text-white shadow-float ring-1 ring-white/10 lg:block xl:-right-16">
+              <p className="text-[10px] text-white/60">Collaborazione</p>
+              <p className="mt-1 font-heading font-semibold">Termini v3 accettati</p>
+              <p className="mt-1 text-xs text-acid">Contratto generato ✓</p>
             </motion.div>
-          </div>
+          </>
         }
       />
       <AnswerBox
@@ -165,11 +170,14 @@ function Home() {
       <FeatureSplit eyebrow="Come funziona" title={'Tutto il lavoro con i creator,\n*in un unico posto*'} items={[F.ricerca, F.campagne, F.link]} />
       <FactsBand items={FACTS_BAND} />
       <ReelWall tone="white" eyebrow="Contenuti" title={'Reel veri,\n*fatti per brand veri*'} lead="Alcuni contenuti realizzati per attività italiane: ristoranti, palestre, farmacie, centri estetici." stats={[['UGC', 'video per i canali del brand'], ['Influencer', 'post sui profili dei creator'], ['Locale', 'campagne per negozi ed eventi']]} />
-      <CardGrid tone="paper" eyebrow="Per chi è" title={'Per aziende, agenzie\n*e creator*'} items={[
-        { tag: 'Aziende', t: 'Fai da te, con i dati', x: 'Cerchi i creator, pubblichi un annuncio e gestisci la collaborazione senza intermediari e senza commissioni sul brand.' },
-        { tag: 'Agenzie', t: 'Più clienti, meno fogli Excel', x: 'Liste per cliente, campagne parallele, link tracciati e risultati per ogni collaborazione.' },
-        { tag: 'Creator', t: 'Il tuo lavoro in ordine', x: 'Media kit aggiornato, proposte dai brand, contratti e scadenze in un posto solo. Iscrizione gratuita.' },
-      ]} />
+      <AudienceRow
+        tone="white"
+        items={[
+          { tag: 'Aziende', title: 'Fai da te, con i dati', text: 'Cerchi i creator, pubblichi un annuncio e gestisci la collaborazione senza intermediari e senza commissioni sul brand.', href: '#/influencer-marketing-aziende/', cta: 'Per le aziende', visual: <SearchMock locked={false} /> },
+          { tag: 'Agenzie', title: 'Più clienti, meno Excel', text: 'Liste per cliente, campagne parallele, contratti standard e link tracciati per ogni collaborazione.', href: '#/piattaforma-agenzie/', cta: 'Per le agenzie', visual: <LinkMock />, dark: true },
+          { tag: 'Creator', title: 'Il tuo lavoro in ordine', text: 'Media kit aggiornato, proposte dai brand, contratti e scadenze in un posto solo. Iscrizione gratuita.', href: '#/diventa-creator/', cta: 'Per i creator', visual: <KitMock /> },
+        ]}
+      />
       <CategoryGrid />
       <Plans compact />
       <FaqSeo items={[...FAQ.piattaforma.slice(0, 2), FAQ.brand[0], FAQ.creator[0], FAQ.creator[1]]} />
@@ -294,8 +302,7 @@ function Micro() {
         { h: 'Perché scegliere i micro influencer', p: ['Un pubblico più piccolo è spesso un pubblico più attento: i contenuti ricevono più commenti e salvataggi in proporzione ai follower, e la raccomandazione suona più personale.', 'Per un’attività locale contano anche la città e la categoria: un food creator della tua zona porta clienti più facilmente di un profilo nazionale con milioni di follower.'] },
         { h: 'Quanto costa un micro influencer', p: ['Non esiste un listino unico: il compenso dipende da formato, numero di contenuti, diritti d’uso ed esclusiva. Molte collaborazioni con micro influencer usano anche cambio merce, affiliazione o ospitalità.', 'Su influencee molti creator dichiarano un prezzo indicativo per reel, storia e post, visibile nella scheda, e il compenso finale si concorda nella collaborazione.'] },
         { h: 'Come trovare micro influencer in Italia', p: ['Filtra per fascia Micro, poi aggiungi categoria, regione o città. Confronta l’engagement con quello della stessa fascia: è il modo corretto per capire se un profilo funziona.', 'In alternativa pubblica un annuncio nella bacheca: i micro influencer interessati si candidano e tu scegli.'] },
-      ]} />
-      <ReelWall eyebrow="Esempi" title={'Contenuti locali,\n*risultati concreti*'} lead="Reel realizzati per attività italiane con creator e volti del territorio." stats={[['Nano', '1.000 – 10.000 follower'], ['Micro', '10.000 – 50.000 follower'], ['Mid', '50.000 – 250.000 follower']]} />
+      ]} aside={<div className="grid grid-cols-2 gap-3"><WorkReelCard r={REELS.find((r) => r.id === 'fitness-scegli-corso')!} delay={0} className="" /><WorkReelCard r={REELS.find((r) => r.id === 'food-sushi-umore')!} delay={1} className="mt-10" /><WorkReelCard r={REELS.find((r) => r.id === 'salute-farmacia-influenza')!} delay={2} className="" /><WorkReelCard r={REELS.find((r) => r.id === 'fitness-posturale')!} delay={3} className="mt-10" /></div>} />
       <FaqSeo items={[
         { q: 'Quanti follower deve avere un micro influencer?', a: 'Tra 10.000 e 50.000. Con meno di 10.000 follower si parla di nano influencer.' },
         { q: 'I micro influencer funzionano per le piccole aziende?', a: 'Sì, soprattutto per attività locali e prodotti di nicchia: costano meno, parlano a community specifiche e permettono di testare più creator con lo stesso budget.' },
@@ -351,8 +358,7 @@ function Ugc() {
         { h: 'UGC creator e influencer: la differenza', p: ['L’influencer viene scelto per il suo pubblico: il valore è la visibilità sui suoi profili. L’UGC creator viene scelto per i contenuti: il brand li pubblica dove vuole, spesso come inserzioni.', 'Per questo un UGC creator può lavorare anche con pochi follower, purché sappia girare video chiari, credibili e adatti al formato verticale.'] },
         { h: 'Come diventare UGC creator in Italia', p: ['Prepara qualche video di prova su prodotti che usi davvero: unboxing, tutorial, prima e dopo, recensione onesta. Sono il tuo portfolio.', 'Crea un profilo su influencee scegliendo il tipo UGC: indica le categorie (fino a 5), il prezzo indicativo per un video e le modalità che accetti. Poi candidati agli annunci che cercano UGC.'] },
         { h: 'Quanto guadagna un UGC creator', p: ['Dipende da durata del video, numero di varianti, diritti d’uso e durata della licenza. Molti brand propongono compenso in denaro, altri cambio merce o formule ibride.', 'Il consiglio: indica un prezzo indicativo chiaro nel profilo e specifica sempre nei termini per quanto tempo e dove il brand può usare il contenuto.'] },
-      ]} />
-      <ReelWall eyebrow="Esempi" title={'Contenuti\n*che i brand usano*'} lead="Esempi di reel in stile UGC realizzati per attività italiane." stats={[['Unboxing', 'prodotto in mano'], ['Tutorial', 'come si usa'], ['Recensione', 'opinione sincera']]} />
+      ]} aside={<div className="grid grid-cols-2 gap-3"><WorkReelCard r={REELS.find((r) => r.id === 'beauty-body-project')!} delay={0} className="" /><WorkReelCard r={REELS.find((r) => r.id === 'food-salse-zero')!} delay={1} className="mt-10" /><WorkReelCard r={REELS.find((r) => r.id === 'casa-legno')!} delay={2} className="" /><WorkReelCard r={REELS.find((r) => r.id === 'servizi-fornitore')!} delay={3} className="mt-10" /></div>} />
       <FaqSeo items={[
         { q: 'Serve la partita IVA per fare l’UGC creator?', a: 'Dipende da quanto e con che continuità lavori: per collaborazioni occasionali può bastare la prestazione occasionale, per un’attività continuativa serve la partita IVA. Chiedi conferma al tuo commercialista. Su influencee puoi indicare la partita IVA nel profilo.' },
         { q: 'Dove trovo brand che cercano UGC creator?', a: 'Nella bacheca annunci di influencee: i brand pubblicano offerte con compenso e scadenza e i creator iscritti si candidano.' },

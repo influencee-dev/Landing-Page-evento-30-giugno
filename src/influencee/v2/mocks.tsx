@@ -303,3 +303,113 @@ export function SignupMock({ className = '' }: { className?: string }) {
     </Frame>
   );
 }
+
+/* ─── Discovery: la schermata centrale della home ───────────────────
+   Griglia di creator come nell'app (/people). Profili di esempio: fino
+   all'arrivo dei ritratti generati (Drive 01_creator) si usano tessere
+   colorate con le iniziali; passare `photos` per mostrare i ritratti.   */
+const GRID = [
+  { n: 'Marta Lombardi', cat: 'Cucina e food', city: 'Bologna', tier: 'Micro', f: '34K', er: '4,1%', pl: 'IG · TikTok' },
+  { n: 'Luca Ferri', cat: 'Fitness e sport', city: 'Milano', tier: 'Mid', f: '86K', er: '2,9%', pl: 'IG · YouTube' },
+  { n: 'Sara Conte', cat: 'Beauty', city: 'Napoli', tier: 'Micro', f: '22K', er: '5,3%', pl: 'TikTok' },
+  { n: 'Davide Greco', cat: 'Viaggi', city: 'Palermo', tier: 'Nano', f: '8,4K', er: '6,0%', pl: 'IG' },
+  { n: 'Giulia Riva', cat: 'Moda', city: 'Roma', tier: 'Macro', f: '310K', er: '1,8%', pl: 'IG · TikTok' },
+  { n: 'Paolo Neri', cat: 'Tecnologia', city: 'Torino', tier: 'Mid', f: '64K', er: '3,4%', pl: 'YouTube' },
+  { n: 'Elena Bassi', cat: 'Famiglia', city: 'Bari', tier: 'Micro', f: '41K', er: '4,7%', pl: 'IG' },
+  { n: 'Marco Villa', cat: 'Gaming', city: 'Firenze', tier: 'Micro', f: '29K', er: '5,0%', pl: 'TikTok · YouTube' },
+];
+const TILE = ['from-brand to-[#ff7ac0]', 'from-acid to-[#e8ff8a]', 'from-ink to-[#4a4a52]', 'from-[#ffb3d9] to-brand-soft'];
+
+export function DiscoveryMock({ photos = [], className = '' }: { photos?: string[]; className?: string }) {
+  return (
+    <div className={`overflow-hidden rounded-[26px] bg-white text-left text-ink shadow-[0_40px_120px_-30px_rgba(255,31,143,0.45)] ring-1 ring-white/20 ${className}`}>
+      {/* barra superiore */}
+      <div className="flex items-center gap-3 border-b border-line px-4 py-3 sm:px-5">
+        <span className="flex gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-line" />
+          <span className="h-2.5 w-2.5 rounded-full bg-line" />
+          <span className="h-2.5 w-2.5 rounded-full bg-line" />
+        </span>
+        <div className="flex flex-1 items-center gap-2 rounded-full bg-paper px-4 py-2 text-xs text-mute">
+          <Search className="h-3.5 w-3.5" /> Cerca creator per nome, handle o parola chiave
+        </div>
+        <span className="hidden rounded-full bg-ink px-3 py-1.5 text-[11px] font-semibold text-white sm:block">Scopri creator</span>
+      </div>
+      <div className="grid md:grid-cols-[200px_1fr]">
+        {/* filtri */}
+        <aside className="hidden border-r border-line p-4 md:block">
+          {[
+            ['Categoria', ['Cucina e food', 'Beauty', 'Fitness e sport', 'Moda']],
+            ['Fascia', ['Nano', 'Micro', 'Mid', 'Macro']],
+            ['Fiducia', ['Verificato', 'Premium']],
+          ].map(([t, opts], gi) => (
+            <div key={t as string} className="mb-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mute">{t as string}</p>
+              <div className="mt-2 space-y-1.5">
+                {(opts as string[]).map((o, i) => {
+                  const on = (gi === 0 && i < 2) || (gi === 1 && i === 1) || (gi === 2 && i === 0);
+                  return (
+                    <span key={o} className="flex items-center gap-2 text-[12px]">
+                      <span className={`flex h-3.5 w-3.5 items-center justify-center rounded ${on ? 'bg-brand text-white' : 'ring-1 ring-line'}`}>{on && <CheckCircle2 className="h-2.5 w-2.5" />}</span>
+                      {o}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mute">Regione</p>
+          <span className="mt-2 flex items-center justify-between rounded-lg bg-paper px-2.5 py-1.5 text-[12px]">
+            Tutta Italia <SlidersHorizontal className="h-3 w-3 text-mute" />
+          </span>
+        </aside>
+        {/* risultati */}
+        <div className="p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap gap-1.5">
+              {['Food', 'Beauty', 'Micro', 'Verificato'].map((t) => (
+                <span key={t} className="rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-semibold text-brand-ink">
+                  {t} ×
+                </span>
+              ))}
+            </div>
+            <span className="text-[11px] text-mute">Ordina: engagement ↓</span>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {GRID.map((c, i) => (
+              <motion.div key={c.n} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 + i * 0.06 }} className={`overflow-hidden rounded-2xl bg-paper/70 ring-1 ring-line/60 ${i > 3 ? 'hidden sm:block' : ''} ${i > 5 ? 'sm:hidden lg:block' : ''}`}>
+                <div className={`relative aspect-[4/3] bg-gradient-to-br ${TILE[i % TILE.length]}`}>
+                  {photos[i] ? (
+                    <img src={photos[i]} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                  ) : (
+                    <span className={`absolute inset-0 flex items-center justify-center font-heading text-3xl font-semibold tracking-tight ${i % TILE.length === 2 ? 'text-white/90' : 'text-ink/80'}`}>
+                      {c.n
+                        .split(' ')
+                        .map((p) => p[0])
+                        .join('')}
+                    </span>
+                  )}
+                  <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-0.5 text-[9px] font-semibold">{c.tier}</span>
+                  {i !== 2 && <BadgeCheck className="absolute right-2 top-2 h-4 w-4 fill-brand text-white" />}
+                </div>
+                <div className="p-2.5">
+                  <p className="truncate text-[12px] font-semibold">{c.n}</p>
+                  <p className="truncate text-[10px] text-mute">
+                    {c.cat} · {c.city}
+                  </p>
+                  <div className="mt-2 flex items-end justify-between">
+                    <div>
+                      <p className="font-heading text-[14px] font-semibold leading-none">{c.f}</p>
+                      <p className="mt-0.5 text-[9px] text-mute">{c.pl}</p>
+                    </div>
+                    <span className="rounded-full bg-white px-1.5 py-0.5 text-[9px] font-semibold">ER {c.er}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

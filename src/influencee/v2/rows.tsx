@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ArrowRight, Check, ChevronDown, ChevronRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown, ChevronRight, Coffee, Dumbbell, FileText, Gamepad2, HeartPulse, Laugh, MousePointerClick, Music2, Megaphone, Users, LayoutGrid, BarChart3, PawPrint, PiggyBank, Plane, Search, Shirt, Smartphone, Sofa, Sparkles, UtensilsCrossed } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, reveal, useInk, type Tone } from '../ds';
 import { APP, CATEGORIES, FACTS, PLANS, REGIONS, SITE, TIERS, type QA } from './data';
 
@@ -60,29 +60,59 @@ export function HeroPlatform({ crumbs, eyebrow, title, lead, actions, visual, no
   );
 }
 
-/* ─── In breve: risposta diretta, citabile dai motori AI (AEO/GEO) ── */
-export function AnswerBox({ q, a, points }: { q: string; a: string; points?: string[] }) {
+/* ─── Hero centrata (home): testo al centro, piattaforma sotto ───── */
+export function HeroCenter({ eyebrow, title, lead, actions, note, visual, floats }: { eyebrow: string; title: string; lead: string; actions: React.ReactNode; note?: string; visual: React.ReactNode; floats?: React.ReactNode }) {
   return (
-    <Section tone="paper" pad="none" className="py-12 sm:py-16">
-      <Container>
-        <motion.div {...reveal()} className="grid gap-8 lg:grid-cols-[0.8fr_2fr]">
-          <div>
-            <p className={`${TYPE.label} text-brand`}>In breve</p>
-            <h2 className="mt-3 font-heading text-2xl font-semibold tracking-tight sm:text-[1.75rem]">{q}</h2>
-          </div>
-          <div>
-            <p className="text-lg leading-relaxed text-ink/85 sm:text-xl">{a}</p>
-            {points && (
-              <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-                {points.map((p) => (
-                  <li key={p} className="flex items-start gap-2 text-[15px]">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand" /> {p}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+    <Section tone="ink" pad="none" className="pt-14 sm:pt-20">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,31,143,0.28),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white to-transparent" />
+      <Container className="text-center">
+        <motion.div {...reveal()} className="mx-auto max-w-4xl">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <Heading as="h1" size="display" text={title} className="mt-6 lg:!text-[4.6rem]" />
+          <Lead className="mx-auto mt-6 max-w-2xl">{lead}</Lead>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">{actions}</div>
+          {note && <p className="mt-4 text-sm text-white/55">{note}</p>}
         </motion.div>
+        <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="relative mx-auto mt-14 max-w-[1080px] pb-16 sm:mt-16 sm:pb-24">
+          {visual}
+          {floats}
+        </motion.div>
+      </Container>
+    </Section>
+  );
+}
+
+/* ─── In breve: risposta diretta, citabile dai motori AI (AEO/GEO) ── */
+export function AnswerBox({ q, a, points, visual }: { q: string; a: string; points?: string[]; visual?: React.ReactNode }) {
+  const tiles = (points ?? ['Solo creator italiani', 'Numeri con la loro fonte', 'Contratto dai termini accettati', 'Link tracciati per ogni contenuto']).slice(0, 4);
+  const styles = ['bg-brand text-white', 'bg-acid text-ink', 'bg-ink text-white', 'bg-white text-ink ring-1 ring-line'];
+  const icons = [BadgeCheck, Search, FileText, MousePointerClick];
+  return (
+    <Section tone="paper">
+      <Container>
+        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+          <motion.div {...reveal()}>
+            <Eyebrow>In breve</Eyebrow>
+            <h2 className="mt-5 font-heading text-3xl font-semibold tracking-[-0.03em] sm:text-[2.6rem] sm:leading-[1.05]">{q}</h2>
+            <p className="mt-6 text-lg leading-relaxed text-ink/80">{a}</p>
+          </motion.div>
+          {visual ?? (
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              {tiles.map((t, i) => {
+                const Icon = icons[i % icons.length];
+                return (
+                  <motion.div key={t} {...reveal(i)} className={`flex aspect-square flex-col justify-between rounded-[28px] p-5 sm:p-6 ${styles[i]} ${i % 2 ? 'translate-y-6' : ''}`}>
+                    <span className={`flex h-11 w-11 items-center justify-center rounded-2xl ${i === 1 || i === 3 ? 'bg-ink/[0.07]' : 'bg-white/15'}`}>
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <p className="font-heading text-lg font-semibold leading-tight tracking-tight sm:text-xl">{t}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </Container>
     </Section>
   );
@@ -158,10 +188,11 @@ export function Steps({ tone = 'white', eyebrow, title, lead, steps, action }: {
         <SectionHeader eyebrow={eyebrow} title={title} lead={lead} />
         <ol className={`${GAP.header} grid ${GAP.grid} sm:grid-cols-2 lg:grid-cols-${Math.min(steps.length, 4)}`}>
           {steps.map((s, i) => (
-            <motion.li key={s.t} {...reveal(i)} className="relative rounded-3xl bg-paper p-7 ring-1 ring-line/60">
-              <span className="font-heading text-5xl font-semibold tracking-[-0.05em] text-brand">{String(i + 1).padStart(2, '0')}</span>
-              <p className={`mt-6 ${TYPE.h3}`}>{s.t}</p>
-              <p className="mt-2 text-sm leading-relaxed text-mute">{s.x}</p>
+            <motion.li key={s.t} {...reveal(i)} className={`relative overflow-hidden rounded-3xl p-7 ${STEP_BG[i % STEP_BG.length]}`}>
+              <span className="pointer-events-none absolute -right-4 -top-6 font-heading text-[7rem] font-semibold leading-none tracking-[-0.06em] opacity-15">{i + 1}</span>
+              <span className={`relative flex h-12 w-12 items-center justify-center rounded-2xl ${i % 4 === 2 ? 'bg-acid text-ink' : 'bg-white text-ink'}`}>{React.createElement(STEP_ICONS[i % STEP_ICONS.length], { className: 'h-5 w-5' })}</span>
+              <p className={`relative mt-10 ${TYPE.h3}`}>{s.t}</p>
+              <p className="relative mt-2 text-sm leading-relaxed opacity-75">{s.x}</p>
             </motion.li>
           ))}
         </ol>
@@ -181,8 +212,11 @@ export function CardGrid({ tone = 'white', eyebrow, title, lead, items, cols = 3
         <div className={`${GAP.header} grid ${GAP.grid} ${grid}`}>
           {items.map((it, i) => (
             <motion.div key={it.t} {...reveal(i % 4)} className={`rounded-3xl p-7 ${tone === 'ink' ? 'bg-white/[0.06] ring-1 ring-white/10' : 'bg-white ring-1 ring-line shadow-[0_18px_40px_-28px_rgba(29,29,31,0.25)]'}`}>
-              {it.tag && <span className={`inline-block rounded-full px-2.5 py-1 text-[11px] font-semibold ${tone === 'ink' ? 'bg-acid text-ink' : 'bg-brand-soft text-brand-ink'}`}>{it.tag}</span>}
-              <p className={`${it.tag ? 'mt-5' : ''} ${TYPE.h3}`}>{it.t}</p>
+              <div className="flex items-center justify-between">
+                <span className={`flex h-12 w-12 items-center justify-center rounded-2xl ${['bg-brand text-white', 'bg-acid text-ink', 'bg-ink text-white'][i % 3]}`}>{React.createElement(STEP_ICONS[(i + 1) % STEP_ICONS.length], { className: 'h-5 w-5' })}</span>
+                {it.tag && <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${tone === 'ink' ? 'bg-acid text-ink' : 'bg-brand-soft text-brand-ink'}`}>{it.tag}</span>}
+              </div>
+              <p className={`mt-6 ${TYPE.h3}`}>{it.t}</p>
               <p className={`mt-2 text-sm leading-relaxed ${tone === 'ink' ? 'text-white/65' : 'text-mute'}`}>{it.x}</p>
             </motion.div>
           ))}
@@ -252,20 +286,34 @@ export function Plans({ tone = 'white', compact = false }: { tone?: Tone; compac
 
 /* ─── Categorie (link interni verso le pagine per nicchia) ──────── */
 export function CategoryGrid({ tone = 'white', title = 'Influencer italiani\n*per categoria*', lead = `Le ${FACTS.categories} categorie della piattaforma: scegli quella del tuo settore.`, exclude, suffix = '' }: { tone?: Tone; title?: string; lead?: string; exclude?: string; suffix?: string }) {
+  const list = CATEGORIES.filter((k) => k.slug !== exclude);
   return (
     <Section tone={tone}>
       <Container>
         <SectionHeader eyebrow="Categorie" title={title} lead={lead} />
-        <div className={`${GAP.header} grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6`}>
-          {CATEGORIES.filter((k) => k.slug !== exclude).map((k, i) => (
-            <motion.a key={k.slug} href={`#/${k.slug}/`} {...reveal(i % 6)} className="group rounded-2xl bg-paper px-4 py-4 transition hover:bg-ink hover:text-white">
-              <span className="block font-heading font-semibold tracking-tight">{k.short}</span>
-              <span className="mt-0.5 block text-xs text-mute group-hover:text-white/60">
-                {k.name}
-                {suffix}
-              </span>
-            </motion.a>
-          ))}
+        <div className={`${GAP.header} grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6`}>
+          {list.map((k, i) => {
+            const img = CAT_IMG[k.slug];
+            const Icon = CAT_ICON[k.slug] ?? Sparkles;
+            return (
+              <motion.a key={k.slug} href={`#/${k.slug}/`} {...reveal(i % 6)} className={`group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-3xl p-4 ${img ? 'text-white' : TILE_BG[i % TILE_BG.length]}`}>
+                {img && (
+                  <>
+                    <img src={img} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                  </>
+                )}
+                <span className={`absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-2xl ${img ? 'bg-white/20 backdrop-blur' : 'bg-white/60'}`}>
+                  <Icon className="h-5 w-5" />
+                </span>
+                <span className="relative block font-heading text-lg font-semibold tracking-tight">{k.short}</span>
+                <span className={`relative mt-0.5 block text-xs ${img ? 'text-white/75' : 'opacity-70'}`}>
+                  {k.name}
+                  {suffix}
+                </span>
+              </motion.a>
+            );
+          })}
         </div>
       </Container>
     </Section>
@@ -301,12 +349,15 @@ export function RegionGrid({ tone = 'white', title = 'Influencer\n*per regione e
 }
 
 /* ─── FAQ (contenuto identico al JSON-LD FAQPage della pagina) ──── */
-export function FaqSeo({ tone = 'white', title = 'Domande\n*frequenti*', items }: { tone?: Tone; title?: string; items: QA[] }) {
+export function FaqSeo({ tone = 'white', title = 'Domande\n*frequenti*', items, aside }: { tone?: Tone; title?: string; items: QA[]; aside?: React.ReactNode }) {
   const [open, setOpen] = useState(0);
   return (
     <Section tone={tone}>
       <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.4fr]">
-        <SectionHeader align="left" eyebrow="FAQ" title={title} />
+        <div>
+          <SectionHeader align="left" eyebrow="FAQ" title={title} />
+          <div className="mt-10">{aside ?? <HelpCard />}</div>
+        </div>
         <div className="divide-y divide-line border-y border-line">
           {items.map((it, i) => (
             <div key={it.q}>
@@ -400,11 +451,11 @@ export function CtaBandV2({ title, lead, primary, secondary, tone = 'soft' }: { 
 }
 
 /* ─── Testo editoriale (pagine guida: UGC, micro influencer) ────── */
-export function Prose({ tone = 'white', blocks }: { tone?: Tone; blocks: { h: string; p: string[] }[] }) {
+export function Prose({ tone = 'white', blocks, aside }: { tone?: Tone; blocks: { h: string; p: string[] }[]; aside: React.ReactNode }) {
   return (
     <Section tone={tone}>
-      <Container>
-        <div className="mx-auto max-w-3xl space-y-12">
+      <Container className="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+        <div className="space-y-12">
           {blocks.map((b) => (
             <motion.div key={b.h} {...reveal()}>
               <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{b.h}</h2>
@@ -416,11 +467,11 @@ export function Prose({ tone = 'white', blocks }: { tone?: Tone; blocks: { h: st
             </motion.div>
           ))}
         </div>
+        <div className="lg:sticky lg:top-28 lg:self-start">{aside}</div>
       </Container>
     </Section>
   );
 }
-
 /* ─── Footer v2: tutta la struttura del sito (link interni) ─────── */
 export function FooterV2() {
   const cols = [
@@ -492,6 +543,85 @@ export function FooterV2() {
         </div>
       </Container>
     </footer>
+  );
+}
+
+/* ─── Elementi visivi di supporto (nessuna riga solo testo) ──────── */
+const CAT_IMG: Record<string, string> = {
+  'food-influencers': 'reel-food-sushi-morso.webp',
+  'fitness-influencers': 'reel-fitness-scegli-corso.webp',
+  'beauty-influencers': 'reel-beauty-estetica-tecnologia.webp',
+  'home-influencers': 'reel-casa-spazio-esterno.webp',
+  'salute-influencers': 'reel-salute-farmacia-vaccini.webp',
+  'lifestyle-influencers': 'reel-eventi-inaugurazione.webp',
+};
+const CAT_ICON: Record<string, React.ComponentType<{ className?: string }>> = {
+  'food-influencers': UtensilsCrossed,
+  'travel-influencers': Plane,
+  'fashion-influencers': Shirt,
+  'beauty-influencers': Sparkles,
+  'fitness-influencers': Dumbbell,
+  'tech-influencers': Smartphone,
+  'gaming-influencers': Gamepad2,
+  'family-influencers': Baby,
+  'pet-influencers': PawPrint,
+  'music-influencers': Music2,
+  'lifestyle-influencers': Coffee,
+  'home-influencers': Sofa,
+  'motori-influencers': Car,
+  'finanza-influencers': PiggyBank,
+  'salute-influencers': HeartPulse,
+  'arte-influencers': Camera,
+  'book-influencers': BookOpen,
+  'comici-influencers': Laugh,
+};
+const STEP_BG = ['bg-brand-soft text-ink', 'bg-ink text-white', 'bg-acid text-ink', 'bg-paper text-ink'];
+const STEP_ICONS = [Search, Megaphone, FileText, MousePointerClick, BadgeCheck, Users, LayoutGrid, BarChart3];
+const TILE_BG = ['bg-brand-soft text-ink', 'bg-acid text-ink', 'bg-ink text-white', 'bg-paper text-ink', 'bg-brand text-white', 'bg-acid-soft text-ink'];
+
+/** Card di aiuto accanto alle FAQ: chat e CTA. */
+export function HelpCard() {
+  return (
+    <motion.div {...reveal(1)} className="relative overflow-hidden rounded-[28px] bg-ink p-6 text-white">
+      <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand/40 blur-3xl" />
+      <div className="relative space-y-2.5">
+        <p className="w-fit max-w-[85%] rounded-2xl rounded-bl-md bg-white/10 px-4 py-2.5 text-sm">Posso provare la piattaforma senza carta?</p>
+        <p className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-acid px-4 py-2.5 text-sm font-medium text-ink">Sì, 3 giorni di Premium gratis ✓</p>
+        <p className="w-fit max-w-[85%] rounded-2xl rounded-bl-md bg-white/10 px-4 py-2.5 text-sm">E per i creator?</p>
+        <p className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-brand px-4 py-2.5 text-sm font-medium">Iscrizione sempre gratuita</p>
+      </div>
+      <a href="#/contatti/" className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-acid">
+        Hai un’altra domanda? Scrivici <ArrowRight className="h-4 w-4" />
+      </a>
+    </motion.div>
+  );
+}
+
+/** Tre card per i tre pubblici, ognuna con la sua interfaccia. */
+export function AudienceRow({ tone = 'white', items }: { tone?: Tone; items: { tag: string; title: string; text: string; href: string; cta: string; visual: React.ReactNode; dark?: boolean }[] }) {
+  return (
+    <Section tone={tone}>
+      <Container>
+        <SectionHeader eyebrow="Per chi è" title={'Per aziende, agenzie\n*e creator*'} />
+        <div className={`${GAP.header} grid ${GAP.grid} lg:grid-cols-3`}>
+          {items.map((it, i) => (
+            <motion.a key={it.tag} href={it.href} {...reveal(i)} className={`group flex flex-col overflow-hidden rounded-[30px] ${it.dark ? 'bg-ink text-white' : i === 2 ? 'bg-acid text-ink' : 'bg-brand-soft text-ink'}`}>
+              <div className="relative h-64 overflow-hidden px-6 pt-6">
+                <div className="origin-top scale-[0.82] transition duration-500 group-hover:-translate-y-2">{it.visual}</div>
+              </div>
+              <div className="relative flex flex-1 flex-col p-7 pt-2">
+                <p className={`${TYPE.label} ${it.dark ? 'text-acid' : 'text-brand-ink'}`}>{it.tag}</p>
+                <p className="mt-2 font-heading text-2xl font-semibold tracking-[-0.03em]">{it.title}</p>
+                <p className={`mt-2 flex-1 text-sm leading-relaxed ${it.dark ? 'text-white/70' : 'text-ink/70'}`}>{it.text}</p>
+                <span className="mt-6 inline-flex items-center gap-2 font-semibold">
+                  {it.cta} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </span>
+              </div>
+            </motion.a>
+          ))}
+        </div>
+      </Container>
+    </Section>
   );
 }
 
