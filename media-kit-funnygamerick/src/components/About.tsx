@@ -42,7 +42,7 @@ export function About({ creator }: { creator: CreatorData }) {
         <ol className="grid gap-5 sm:grid-cols-3 lg:col-span-12 lg:mt-6">
           {about.pillars.map((pillar, i) => (
             <Reveal as="li" key={pillar.title} delay={i * 0.1} className="card card-hover p-7">
-              <span className="font-display text-sm font-semibold tracking-[0.2em] text-cyan">0{i + 1}</span>
+              <span className="font-display text-sm font-semibold text-cyan tabular-nums">0{i + 1}</span>
               <h3 className="mt-6 font-display text-2xl font-bold tracking-wide text-ink uppercase">{pillar.title}</h3>
               <p className="mt-3 leading-relaxed text-muted">{pillar.description}</p>
             </Reveal>
@@ -57,7 +57,7 @@ function AboutPhoto({ creator }: { creator: CreatorData }) {
   const photo = creator.images.aboutPhoto!;
   return (
     <figure className="relative mx-auto max-w-sm lg:mr-0 lg:ml-auto">
-      <div className="hud relative overflow-hidden rounded-3xl border border-line bg-surface">
+      <div className="relative overflow-hidden rounded-3xl border border-line bg-surface">
         <img
           src={photo.src}
           srcSet={photo.srcSet}
@@ -75,7 +75,6 @@ function AboutPhoto({ creator }: { creator: CreatorData }) {
           <span className="block text-sm text-cyan">{creator.handle}</span>
         </figcaption>
       </div>
-      <div aria-hidden="true" className="absolute -bottom-5 -left-5 -z-10 h-full w-full rounded-3xl border border-cyan/20" />
     </figure>
   );
 }
@@ -91,8 +90,7 @@ function PlayerCard({ creator }: { creator: CreatorData }) {
   const achievements = creator.highlights.map((h) => `${h.value} · ${h.label}`);
   return (
     <div className="relative mx-auto max-w-sm lg:mr-0 lg:ml-auto">
-      <div className="hud card relative overflow-hidden p-7">
-        <div aria-hidden="true" className="scanlines absolute inset-0 opacity-60" />
+      <div className="card relative overflow-hidden p-7">
         <div className="relative flex items-center gap-4">
           <img
             src="images/avatar-192.webp"
@@ -103,7 +101,7 @@ function PlayerCard({ creator }: { creator: CreatorData }) {
             className="h-16 w-16 rounded-2xl border border-cyan/40 object-cover"
           />
           <div>
-            <p className="eyebrow text-[10px]">Player 1</p>
+            <p className="eyebrow text-xs">Player 1</p>
             <p className="font-display text-2xl font-bold tracking-wide text-ink uppercase">{creator.name}</p>
           </div>
         </div>
@@ -111,13 +109,13 @@ function PlayerCard({ creator }: { creator: CreatorData }) {
         <dl className="relative mt-7 divide-y divide-line/50 border-y border-line/50 text-sm">
           {rows.map(([k, v]) => (
             <div key={k} className="flex items-baseline justify-between gap-4 py-3">
-              <dt className="text-xs tracking-[0.18em] text-muted uppercase">{k}</dt>
+              <dt className="text-sm text-muted">{k}</dt>
               <dd className="text-right font-medium text-ink">{v}</dd>
             </div>
           ))}
         </dl>
 
-        <p className="relative mt-6 eyebrow text-[10px] text-muted">Obiettivi sbloccati</p>
+        <p className="relative mt-6 eyebrow text-xs">Obiettivi sbloccati</p>
         <ul className="relative mt-3 space-y-2.5">
           {achievements.map((a) => (
             <li key={a} className="flex items-center gap-3 text-sm text-ink/90">
@@ -129,7 +127,6 @@ function PlayerCard({ creator }: { creator: CreatorData }) {
           ))}
         </ul>
       </div>
-      <div aria-hidden="true" className="absolute -bottom-5 -left-5 -z-10 h-full w-full rounded-2xl border border-cyan/20" />
     </div>
   );
 }

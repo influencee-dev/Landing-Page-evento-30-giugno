@@ -27,7 +27,10 @@ export function Hero({ creator }: { creator: CreatorData }) {
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_70%_35%,rgba(17,101,163,0.38),transparent_70%),radial-gradient(ellipse_50%_40%_at_10%_90%,rgba(53,217,255,0.10),transparent_70%)]" />
         <div className="bg-grid absolute inset-0 opacity-60" />
-        <motion.div style={{ y: yWaves }} className="absolute inset-0 opacity-80">
+        <motion.div
+          style={{ y: yWaves }}
+          className="absolute inset-0 opacity-70 [mask-image:linear-gradient(to_right,transparent_30%,#000_75%)] max-lg:[mask-image:linear-gradient(to_bottom,#000_20%,transparent_45%)]"
+        >
           <WaveField />
         </motion.div>
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-night" />
@@ -79,7 +82,7 @@ export function Hero({ creator }: { creator: CreatorData }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.55, ease }}
-            className="mt-7 max-w-xl font-display text-xl leading-snug font-medium text-ink/90 sm:text-2xl"
+            className="mt-7 max-w-xl text-xl leading-snug font-medium text-ink sm:text-[1.4rem]"
           >
             {creator.heroSubtitle}
           </motion.p>
@@ -88,7 +91,7 @@ export function Hero({ creator }: { creator: CreatorData }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.65, ease }}
-            className="mt-5 max-w-xl leading-relaxed text-muted"
+            className="mt-5 max-w-xl text-[17px] leading-relaxed text-muted"
           >
             {creator.heroIntro}
           </motion.p>
@@ -116,9 +119,9 @@ export function Hero({ creator }: { creator: CreatorData }) {
             className="mt-14 grid max-w-xl grid-cols-3 gap-4 border-t border-line/60 pt-7"
           >
             {creator.highlights.map((h) => (
-              <div key={h.label} className="flex flex-col-reverse">
-                <dt className="mt-1 text-xs leading-snug text-muted sm:text-sm">{h.label}</dt>
-                <dd className="font-display text-2xl font-bold text-ink sm:text-3xl">{h.value}</dd>
+              <div key={h.label} className="flex flex-col">
+                <dt className="order-2 mt-1.5 text-sm leading-snug text-muted">{h.label}</dt>
+                <dd className="order-1 font-display text-2xl font-bold text-ink sm:text-3xl">{h.value}</dd>
               </div>
             ))}
           </motion.dl>
@@ -158,7 +161,7 @@ function HeroVisual({
   return (
     <div className="relative aspect-square">
       {/* Bagliore */}
-      <div aria-hidden="true" className="absolute inset-[8%] rounded-full bg-cyan-bright/25 blur-[70px]" />
+      <div aria-hidden="true" className="absolute inset-[12%] rounded-full bg-gaming/40 blur-[60px]" />
       {/* Anelli HUD */}
       <svg aria-hidden="true" viewBox="0 0 400 400" className="absolute inset-0 h-full w-full animate-spin-slow">
         <circle cx="200" cy="200" r="196" fill="none" stroke="#234663" strokeWidth="1" />
@@ -175,7 +178,7 @@ function HeroVisual({
       </svg>
 
       {/* Avatar */}
-      <div className="absolute inset-[11%] overflow-hidden rounded-full border border-cyan/40 bg-surface shadow-[0_0_0_6px_rgba(3,10,24,0.9),0_30px_80px_-20px_rgba(53,217,255,0.45)]">
+      <div className="absolute inset-[11%] overflow-hidden rounded-full border-2 border-cyan/50 bg-surface">
         <img
           src={avatar.src}
           srcSet={avatar.srcSet}
@@ -187,7 +190,6 @@ function HeroVisual({
           decoding="async"
           className="h-full w-full object-cover"
         />
-        <div aria-hidden="true" className="scanlines absolute inset-0 mix-blend-overlay" />
       </div>
 
       {/* Etichette flottanti */}
@@ -201,7 +203,7 @@ function HeroVisual({
           className={`absolute ${positions[i]} `}
         >
           <span
-            className="hud block animate-float rounded-md border border-line bg-night/80 px-3 py-1.5 font-display text-[11px] font-semibold tracking-[0.25em] text-cyan uppercase backdrop-blur"
+            className="block animate-float rounded-md border border-line bg-night px-3 py-1.5 text-xs font-semibold tracking-[0.12em] text-cyan uppercase"
             style={{ animationDelay: `${i * -2.3}s` }}
           >
             {label}
@@ -223,7 +225,7 @@ function HeroVisual({
           </span>
           <span className="leading-tight">
             <span className="block font-display text-lg font-bold text-ink">{formatNumber(subscribers, approximate)}</span>
-            <span className="block text-[11px] text-muted">iscritti su YouTube</span>
+            <span className="block text-[13px] text-muted">iscritti su YouTube</span>
           </span>
         </motion.a>
       )}

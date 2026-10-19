@@ -35,10 +35,10 @@ export function ContentUniverse({ creator }: { creator: CreatorData }) {
               >
                 <PillarArt variant={i} />
                 <div className="flex items-start justify-between">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-deep/80 text-cyan transition duration-500 group-hover:border-cyan/60 group-hover:shadow-[0_0_30px_-6px_rgba(53,217,255,0.6)]">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-deep/80 text-cyan transition duration-500 group-hover:border-cyan/60">
                     <Icon name={p.icon} className="h-6 w-6" />
                   </span>
-                  <span className="font-display text-xs tracking-[0.25em] text-muted">0{i + 1}</span>
+                  <span className="text-[13px] font-semibold text-muted tabular-nums">0{i + 1}</span>
                 </div>
                 {p.size === 'tall' && <ShortFeedArt />}
                 <div className="relative mt-auto pt-16">
@@ -70,7 +70,7 @@ function ShortFeedArt() {
           key={rot}
           className={`absolute flex h-48 w-[6.5rem] items-end rounded-2xl border p-2.5 transition duration-700 ${
             i === 1
-              ? 'z-10 border-cyan/60 bg-gradient-to-b from-gaming/50 to-deep shadow-[0_0_40px_-10px_rgba(53,217,255,0.6)] group-hover:-translate-y-2'
+              ? 'z-10 border-cyan/60 bg-gradient-to-b from-gaming/50 to-deep group-hover:-translate-y-2'
               : 'border-line bg-deep/80'
           }`}
           style={{ transform: `rotate(${rot}deg) translateX(${rot * 5}px)` }}
@@ -90,7 +90,7 @@ function ShortFeedArt() {
 
 /** Piccole illustrazioni astratte (SVG) per differenziare le card. */
 function PillarArt({ variant }: { variant: number }) {
-  const common = 'pointer-events-none absolute -top-6 -right-6 h-48 w-48 text-cyan opacity-25 transition duration-700 group-hover:opacity-50 group-hover:rotate-6';
+  const common = 'pointer-events-none absolute -top-6 -right-6 h-48 w-48 text-cyan opacity-20 transition duration-700 group-hover:opacity-35 group-hover:rotate-6';
   if (variant === 0)
     return (
       <svg aria-hidden="true" viewBox="0 0 200 200" className={`${common} h-64 w-64`} fill="none" stroke="currentColor">

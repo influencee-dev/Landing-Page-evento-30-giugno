@@ -68,7 +68,7 @@ function VideoCard({ item, large = false }: { item: FeaturedItem; large?: boolea
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-night/70 to-transparent" />
         <span
           aria-hidden="true"
-          className={`absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-cyan text-night shadow-[0_0_40px_-5px_rgba(53,217,255,0.8)] transition group-hover:scale-110 ${
+          className={`absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-cyan text-night transition group-hover:scale-110 ${
             large ? 'h-16 w-16' : 'h-10 w-10'
           }`}
         >
@@ -76,7 +76,7 @@ function VideoCard({ item, large = false }: { item: FeaturedItem; large?: boolea
         </span>
       </div>
       <div className={`flex flex-col justify-center ${large ? 'p-7' : 'p-5'}`}>
-        <span className="flex items-center gap-2 text-xs text-muted">
+        <span className="flex items-center gap-2 text-sm text-muted">
           <PlatformIcon id={item.platform} colored className="h-3.5 w-3.5" />
           {PLATFORM_LABEL[item.platform]}
           {item.meta && <span aria-hidden="true">·</span>}

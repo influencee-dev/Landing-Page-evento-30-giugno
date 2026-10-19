@@ -92,7 +92,7 @@ export function Navbar({ creator, items }: Props) {
         <div className="flex items-center gap-2">
           <a
             href="#contatti"
-            className="btn btn-primary hidden min-h-10 px-5 text-xs sm:inline-flex"
+            className="btn btn-primary hidden min-h-10 px-5 text-sm sm:inline-flex"
           >
             Collaboriamo
           </a>

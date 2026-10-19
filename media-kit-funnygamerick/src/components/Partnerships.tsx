@@ -39,7 +39,7 @@ export function Partnerships({ creator }: { creator: CreatorData }) {
             }
           />
           <Reveal delay={0.1} className="max-w-sm">
-            <p className="text-sm leading-relaxed text-muted">
+            <p className="text-[15px] leading-relaxed text-muted">
               Programmi e piattaforme dell’industria videoludica con cui Riccardo ha lavorato. Per ognuno è indicata la
               natura del rapporto.
             </p>
@@ -78,7 +78,7 @@ export function Partnerships({ creator }: { creator: CreatorData }) {
                       </div>
                     )}
                   </div>
-                  <span className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-full border border-cyan/30 bg-cyan/5 px-3 py-1 text-[11px] font-semibold tracking-[0.14em] text-cyan uppercase">
+                  <span className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-full border border-cyan/30 bg-cyan/5 px-3 py-1 text-xs font-semibold tracking-[0.08em] text-cyan uppercase">
                     <K.icon className="h-3.5 w-3.5" aria-hidden="true" />
                     {K.label}
                   </span>

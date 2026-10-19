@@ -33,17 +33,17 @@ export function Formats({ creator }: { creator: CreatorData }) {
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-deep/80 text-cyan transition group-hover:border-cyan/60">
                     <Icon name={f.icon} className="h-5 w-5" />
                   </span>
-                  <span className="font-display text-xs tracking-[0.25em] text-muted/70">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="text-[13px] font-semibold text-muted tabular-nums">{String(i + 1).padStart(2, '0')}</span>
                 </div>
                 <h3 className="mt-6 font-display text-lg leading-tight font-semibold tracking-wide text-ink uppercase">{f.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{f.description}</p>
+                <p className="mt-3 text-[15px] leading-relaxed text-muted">{f.description}</p>
               </article>
             </Reveal>
           ))}
           <Reveal as="li" delay={0.21}>
             <a
               href="#contatti"
-              className="group hud relative flex h-full min-h-48 flex-col justify-between overflow-hidden rounded-2xl border border-cyan/40 bg-gradient-to-br from-gaming/40 via-surface to-deep p-6 transition hover:border-cyan"
+              className="group relative flex h-full min-h-48 flex-col justify-between overflow-hidden rounded-2xl border border-cyan/40 bg-gaming/25 p-6 transition hover:border-cyan"
             >
               <span className="eyebrow">Hai un’idea diversa?</span>
               <span className="flex items-end justify-between gap-4">

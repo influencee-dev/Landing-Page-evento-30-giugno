@@ -47,7 +47,7 @@ function CommunityStory({ creator }: { creator: CreatorData }) {
             </span>
             <span>
               <span className="block font-display text-lg font-semibold tracking-wide text-ink">{t.title}</span>
-              <span className="mt-1 block text-sm leading-relaxed text-muted">{t.text}</span>
+              <span className="mt-1 block text-[15px] leading-relaxed text-muted">{t.text}</span>
             </span>
           </Reveal>
         ))}
@@ -104,7 +104,7 @@ function AudienceCharts({ creator }: { creator: CreatorData }) {
           </dl>
         </Reveal>
       )}
-      {a.source && <p className="mt-6 text-xs text-muted/80">Fonte: {a.source}</p>}
+      {a.source && <p className="mt-6 text-xs text-muted">Fonte: {a.source}</p>}
     </>
   );
 }

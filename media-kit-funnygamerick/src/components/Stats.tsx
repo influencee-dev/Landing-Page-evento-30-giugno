@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import type { CreatorData, Metric, Platform } from '../data/types';
 import { formatDate, formatNumber, hasValue, platformsWithData, platformsWithoutData } from '../lib/format';
 import { CountUp } from './ui/CountUp';
-import { PLATFORM_ACCENT, PlatformIcon } from './ui/PlatformIcon';
+import { PlatformIcon } from './ui/PlatformIcon';
 import { Reveal } from './ui/Reveal';
 import { SectionHeader } from './ui/SectionHeader';
 import { onSpotlightMove } from './ui/useSpotlight';
@@ -47,7 +47,7 @@ export function Stats({ creator }: { creator: CreatorData }) {
           {withoutData.length > 0 && (
             <Reveal delay={0.16} className={listFullWidth ? 'md:col-span-2 lg:col-span-3' : ''}>
               <div className="card h-full p-6 sm:p-7">
-                <p className="eyebrow text-muted">Presente anche su</p>
+                <p className="eyebrow">Presente anche su</p>
                 <ul className={`mt-5 grid gap-2.5 ${listFullWidth ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-1'}`}>
                   {withoutData.map((p) => (
                     <li key={p.id}>
@@ -74,7 +74,7 @@ export function Stats({ creator }: { creator: CreatorData }) {
         </div>
 
         <Reveal delay={0.1}>
-          <p className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted/80">
+          <p className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-cyan/70" aria-hidden="true" />
             Dati aggiornati al <time dateTime={creator.metricsUpdatedAt}>{formatDate(creator.metricsUpdatedAt)}</time>
             <span aria-hidden="true">·</span> {creator.metricsSource}
@@ -93,7 +93,6 @@ export function Stats({ creator }: { creator: CreatorData }) {
 function PlatformCard({ platform, featured }: { platform: Platform; featured: boolean }) {
   const metrics = platform.metrics.filter(hasValue);
   const [main, ...rest] = [...metrics].sort((a, b) => Number(!!b.primary) - Number(!!a.primary));
-  const accent = PLATFORM_ACCENT[platform.id];
 
   return (
     <a
@@ -101,11 +100,8 @@ function PlatformCard({ platform, featured }: { platform: Platform; featured: bo
       target="_blank"
       rel="noopener noreferrer"
       onPointerMove={onSpotlightMove}
-      className="card card-hover spotlight hud group flex h-full flex-col overflow-hidden p-7 sm:p-9"
+      className="card card-hover spotlight group flex h-full flex-col overflow-hidden p-7 sm:p-9"
     >
-      {featured && (
-        <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-[0.16] blur-3xl" style={{ background: accent }} />
-      )}
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-line/70 bg-deep/70">
@@ -155,7 +151,7 @@ function AggregateCard({ metric }: { metric: Metric & { value: number } }) {
     [metric.unit, metric.approximate],
   );
   return (
-    <div className="card card-hover hud flex h-full flex-col justify-end p-7 sm:p-9">
+    <div className="card card-hover flex h-full flex-col justify-end p-7 sm:p-9">
       <p className="display text-6xl text-ink">
         {metric.approximate && <span className="mr-1 align-top text-[0.4em] text-cyan" aria-hidden="true">≈</span>}
         <CountUp value={metric.value} format={fmt} />

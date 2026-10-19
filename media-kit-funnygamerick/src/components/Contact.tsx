@@ -16,7 +16,7 @@ export function Contact({ creator }: { creator: CreatorData }) {
         <div className="absolute inset-0 bg-gradient-to-b from-night via-deep to-night" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_55%,rgba(17,101,163,0.45),transparent_70%)]" />
         <div className="bg-grid absolute inset-0 opacity-50" />
-        <WaveField variant="soft" lines={28} className="opacity-45" />
+        <WaveField variant="soft" lines={28} className="opacity-40 [mask-image:radial-gradient(ellipse_45%_55%_at_50%_45%,transparent_40%,#000_80%)]" />
       </div>
 
       <div className="container-x text-center">
@@ -35,7 +35,7 @@ export function Contact({ creator }: { creator: CreatorData }) {
             <a
               href={href}
               {...(email ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-              className="btn btn-primary group min-h-14 px-6 text-xs tracking-[0.08em] sm:px-8 sm:text-sm sm:tracking-[0.12em]"
+              className="btn btn-primary group min-h-14 px-7 text-base"
             >
               {email ? <Mail className="h-4.5 w-4.5" aria-hidden="true" /> : null}
               Proponi una collaborazione
@@ -55,7 +55,7 @@ export function Contact({ creator }: { creator: CreatorData }) {
                   href={p.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex h-12 items-center gap-2.5 rounded-full border border-line bg-night/60 px-4 text-sm text-muted backdrop-blur transition hover:border-cyan/60 hover:text-ink"
+                  className="group flex h-12 items-center gap-2.5 rounded-full border border-line bg-night px-4 text-sm text-muted transition hover:border-cyan/60 hover:text-ink"
                 >
                   <PlatformIcon id={p.id} className="h-4 w-4 transition group-hover:text-cyan" />
                   {p.label}
