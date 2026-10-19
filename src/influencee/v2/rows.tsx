@@ -39,8 +39,8 @@ export function Crumbs({ items, center = false }: { items: Crumb[]; center?: boo
 /* ─── Hero piattaforma: testo a sinistra, interfaccia in primo piano ─ */
 export function HeroPlatform({ crumbs, eyebrow, title, lead, actions, visual, note }: { crumbs?: Crumb[]; eyebrow: string; title: string; lead: string; actions: React.ReactNode; visual: React.ReactNode; note?: string }) {
   return (
-    <Section tone="white" pad="none" className="pb-16 pt-8 sm:pb-24 sm:pt-12">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_20%,rgba(255,31,143,0.10),transparent_55%),radial-gradient(ellipse_at_70%_90%,rgba(200,255,26,0.18),transparent_50%)]" />
+    <Section tone="ink" pad="none" className="pb-16 pt-8 sm:pb-24 sm:pt-12">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_15%,rgba(255,31,143,0.22),transparent_55%),radial-gradient(ellipse_at_70%_95%,rgba(200,255,26,0.12),transparent_50%)]" />
       <Container>
         {crumbs && <Crumbs items={crumbs} />}
         <div className="mt-8 grid items-center gap-12 lg:mt-10 lg:grid-cols-[1fr_1.05fr]">
@@ -49,7 +49,7 @@ export function HeroPlatform({ crumbs, eyebrow, title, lead, actions, visual, no
             <Heading as="h1" size="display" text={title} className="mt-6 lg:!text-[4rem]" />
             <Lead className="mt-6 max-w-lg">{lead}</Lead>
             <div className="mt-8 flex flex-wrap gap-3">{actions}</div>
-            {note && <p className="mt-4 text-sm text-mute">{note}</p>}
+            {note && <p className="mt-4 text-sm text-white/55">{note}</p>}
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="relative">
             {visual}
