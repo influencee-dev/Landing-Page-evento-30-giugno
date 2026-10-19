@@ -13,7 +13,15 @@
 - [Influencer italiani](https://influencee.it/influencer-italiani/): per categoria, regione e città
 - [Benchmark engagement rate](https://influencee.it/benchmark-engagement-rate/): metodo di calcolo e valori per fascia
 
+- [Quanto costa un influencer](https://influencee.it/social-media-tool/costo-influencer/): costi medi per fascia con le fonti
+- [Calcolo engagement rate](https://influencee.it/come-calcolare-engagement-rate/): calcolatore gratuito e check sponsor
+- [Contenuti UGC](https://influencee.it/contenuti-ugc/), [Campagne locali](https://influencee.it/influencer-marketing-locale/), [Creator professionisti](https://influencee.it/creator-professionisti/)
+- [Creator verificati](https://influencee.it/creator-verificati/): come vengono verificati i dati
+- [Contratto](https://influencee.it/funzionalita/contratto-influencer/) e [Calendario campagne](https://influencee.it/funzionalita/calendario-campagne/)
+
 ## Fatti
+- Costo medio di un post Instagram per fascia (benchmark di mercato, fonte DeRev): nano 200 €, micro 950 €, mid 3.550 €, macro circa 8.000 € (stima), oltre 1 milione 23.750 €
+- Check sponsor (interazioni ÷ visualizzazioni): sotto 1,5% probabile reach a pagamento; 1,9–2,7% media organica sana; oltre 2,7% ottimo organico
 - Fasce di follower: nano 1.000–10.000, micro 10.000–50.000, mid 50.000–250.000, macro 250.000–1.000.000, mega oltre 1.000.000
 - 18 categorie di creator; un creator ne sceglie al massimo 5
 - Engagement rate: mediana delle interazioni su reel e video degli ultimi 90 giorni (esclusa l'ultima settimana) divisa per i follower; non calcolato con meno di 5 video

@@ -37,9 +37,21 @@ Ogni pagina ha una CTA principale coerente con l'intento, più una secondaria pe
 | `/funzionalita/link-tracciati/` | link tracciati influencer | — | — | commerciale |
 | `/funzionalita/media-kit/` | media kit influencer | 90 | media kit influencer esempio (20) | informativo → iscrizione |
 | `/benchmark-engagement-rate/` | engagement rate instagram | 390 | engagement rate micro influencer | informativo (lead magnet) |
+| `/come-calcolare-engagement-rate/` ⭐ | calcolo engagement rate | 210 | calcolo engagement rate instagram (110) | informativo (strumento interattivo) |
+| `/social-media-tool/costo-influencer/` | quanto costa un influencer | n/d* | quanto costa un micro influencer, tariffe influencer (n/d*) | informativo/commerciale |
+| `/contenuti-ugc/` | contenuti ugc | 170 | contenuti ugc cosa sono (70) | informativo → brand |
+| `/influencer-marketing-locale/` | influencer per ristoranti | n/d* | micro influencer milano (90), influencer marketing locale | commerciale locale |
+| `/creator-professionisti/` | medici influencer italiani | 20 | nutrizionisti, personal trainer | nicchia B2B |
+| `/creator-verificati/` | influencer verificati | n/d* | come riconoscere follower falsi | informativo/fiducia (E-E-A-T) |
+| `/funzionalita/contratto-influencer/` | contratto influencer | n/d* | influencer marketing contratto (10) | commerciale |
+| `/funzionalita/calendario-campagne/` | calendario campagne influencer | n/d* | — | commerciale |
 | `/prezzi/` | prezzi piattaforma influencer | — | quanto costa un influencer | transazionale |
 
 ⭐ = URL già indicizzato sul sito attuale: lo slug resta identico.
+
+\* n/d = Ubersuggest non restituisce volumi per la keyword: pagina creata per coprire il modulo del tool e intenti a coda lunga. Da verificare con Search Console dopo il lancio (impressioni reali).
+
+**Fonti dei numeri nelle pagine**: costi per fascia ed engagement di riferimento arrivano dal benchmark di mercato dell'app (`rinnovo/benchmark_mercato.py`) con la loro origine (IT · DeRev/ONIM, proxy, stima), mostrata accanto a ogni valore. Il check sponsor usa le soglie dell'app (1,5% / 1,9% / 2,7%).
 
 ## 3. Migrazione: URL da mantenere e redirect 301
 
@@ -53,7 +65,7 @@ Pagine che oggi portano traffico, da Ubersuggest `domain_keywords`:
 | `/piattaforma-influencer/` | **stesso URL**, panoramica piattaforma |
 | `/influencer-italiane/` | stesso URL, articolo blog; link a `/influencer-italiani/` |
 | `/i-migliori-beauty-influencer-su-instagram/`, `/i-10-food-influencer-piu-popolari-su-tiktok/`, `/i-10-fashion-influencer-piu-seguiti-su-instagram/` | stesso URL, articoli blog; link alla pagina categoria |
-| `/come-calcolare-engagement-rate/` | stesso URL, articolo; link a `/benchmark-engagement-rate/` |
+| `/come-calcolare-engagement-rate/` | **stesso URL**, diventa la pagina del calcolatore gratuito (stesso intento, contenuto più forte) |
 | `/migliori-app-gestione-follower/`, `/instagram-follower-gratis-perche-evitarli-e-come-crescere-davvero/` | stesso URL, blog |
 | `/social-media-tool/emoticon-da-copiare/` | **stesso URL**: è la pagina con più traffico (2.900 + 4.400 ricerche) |
 

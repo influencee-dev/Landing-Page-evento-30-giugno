@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown, ChevronRight, Coffee, Dumbbell, FileText, Gamepad2, HeartPulse, Laugh, MousePointerClick, Music2, Megaphone, Users, LayoutGrid, BarChart3, PawPrint, PiggyBank, Plane, Search, Shirt, Smartphone, Sofa, Sparkles, UtensilsCrossed } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, reveal, useInk, type Tone } from '../ds';
-import { faqOpen } from './analytics';
-import { APP, CATEGORIES, FACTS, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
+import { faqOpen, track } from './analytics';
+import { APP, CATEGORIES, FACTS, MARKET, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
 
 /* ════════════════════════════════════════════════════════════════════
    ROW DEL SITO v2 — stesso design system (fasce a tutta larghezza,
@@ -74,6 +74,7 @@ export function HeroCenter({ eyebrow, title, lead, actions, note, visual, floats
           <Lead className="mx-auto mt-6 max-w-2xl">{lead}</Lead>
           <div className="mt-8 flex flex-wrap justify-center gap-3">{actions}</div>
           {note && <p className="mt-4 text-sm text-white/55">{note}</p>}
+          <ClientsProof />
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="relative mx-auto mt-14 max-w-[1080px] pb-16 sm:mt-16 sm:pb-24">
           {visual}
@@ -81,6 +82,32 @@ export function HeroCenter({ eyebrow, title, lead, actions, note, visual, floats
         </motion.div>
       </Container>
     </Section>
+  );
+}
+
+/** Riprova sociale sotto le CTA: avatar + numero clienti. */
+export function ClientsProof({ className = 'mt-8' }: { className?: string }) {
+  // volti dalle copertine dei reel realizzati per attività clienti (consenso da confermare, vedi Drive)
+  const people = ['reel-salute-farmacia-vaccini.webp', 'reel-beauty-estetica-tecnologia.webp', 'reel-casa-spazio-esterno.webp', 'reel-servizi-fornitore.webp', 'reel-fitness-scegli-corso.webp'];
+  return (
+    <div className={`flex flex-wrap items-center justify-center gap-4 ${className}`}>
+      <div className="flex -space-x-3">
+        {people.map((p, i) => (
+          <img key={p} src={p} alt="" className="h-11 w-11 rounded-full object-cover object-[50%_22%] ring-[3px] ring-ink" style={{ zIndex: people.length - i }} />
+        ))}
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-acid font-heading text-xs font-semibold text-ink ring-[3px] ring-ink">+5K</span>
+      </div>
+      <div className="text-left">
+        <p className="flex items-center gap-1 text-acid">
+          {[0, 1, 2, 3, 4].map((k) => (
+            <svg key={k} viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z" /></svg>
+          ))}
+        </p>
+        <p className="mt-0.5 text-sm text-white/75">
+          <span className="font-heading text-base font-semibold text-white">{FACTS.clients} clienti</span> tra brand, agenzie e creator
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -168,7 +195,7 @@ export function FactsBand({ items, tone = 'ink' }: { items: { v: string; l: stri
   return (
     <Section tone={tone} pad="none" className="py-14 sm:py-16">
       <Container>
-        <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+        <div className={`grid grid-cols-2 gap-8 ${items.length <= 2 ? 'lg:max-w-3xl' : 'lg:grid-cols-4'}`}>
           {items.map((f, i) => (
             <motion.div key={f.l} {...reveal(i)}>
               <p className={`font-heading text-4xl font-semibold tracking-[-0.04em] sm:text-5xl ${tone === 'ink' ? 'text-acid' : 'text-brand'}`}>{f.v}</p>
@@ -486,8 +513,10 @@ export function FooterV2() {
         ['Database influencer', '#/funzionalita/database-influencer/'],
         ['Campagne e collaborazioni', '#/funzionalita/gestione-campagne/'],
         ['Link tracciati', '#/funzionalita/link-tracciati/'],
+        ['Contratto', '#/funzionalita/contratto-influencer/'],
+        ['Calendario campagne', '#/funzionalita/calendario-campagne/'],
         ['Media kit', '#/funzionalita/media-kit/'],
-        ['Benchmark engagement', '#/benchmark-engagement-rate/'],
+        ['Creator verificati', '#/creator-verificati/'],
         ['Prezzi', '#/prezzi/'],
       ],
     },
@@ -499,7 +528,12 @@ export function FooterV2() {
         ['Micro influencer', '#/micro-influencer/'],
         ['Per i creator', '#/diventa-creator/'],
         ['UGC creator', '#/ugc-creator/'],
+        ['Contenuti UGC', '#/contenuti-ugc/'],
+        ['Campagne locali', '#/influencer-marketing-locale/'],
+        ['Creator professionisti', '#/creator-professionisti/'],
         ['Annunci di collaborazione', '#/annunci-collaborazioni/'],
+        ['Quanto costa un influencer', '#/social-media-tool/costo-influencer/'],
+        ['Calcolo engagement rate', '#/come-calcolare-engagement-rate/'],
       ],
     },
     { t: 'Influencer italiani', l: [['Tutti', '#/influencer-italiani/'], ...CATEGORIES.slice(0, 8).map((k) => [k.short + ' influencer', `#/${k.slug}/`])] },
@@ -689,6 +723,120 @@ export function WhatsAppFab() {
       <WaIcon className="h-6 w-6" />
       <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold transition-all duration-300 group-hover:max-w-[200px]">Chiedi un preventivo</span>
     </a>
+  );
+}
+
+/* ─── Grafico costi per fascia (benchmark dell'app, con fonte) ───── */
+const euro = (n: number) => n.toLocaleString('it-IT') + ' €';
+export function CostChart({ tone = 'white' }: { tone?: Tone }) {
+  const [pl, setPl] = useState<'ig' | 'tt'>('ig');
+  const rows = pl === 'ig' ? MARKET.costIG : MARKET.costTT;
+  const max = Math.max(...rows.map((r) => r.v));
+  return (
+    <Section tone={tone}>
+      <Container>
+        <SectionHeader eyebrow="Costi medi" title={'Quanto costa un post\n*per fascia di follower*'} lead="Costo medio di un post sponsorizzato in Italia. Ogni valore indica la sua origine: fonte italiana, dato estero o stima." />
+        <div className={`${GAP.header} mx-auto max-w-4xl rounded-[30px] bg-ink p-6 text-white sm:p-10`}>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex gap-1 rounded-full bg-white/10 p-1 text-sm font-semibold" role="tablist">
+              {(['ig', 'tt'] as const).map((k) => (
+                <button key={k} type="button" role="tab" aria-selected={pl === k} onClick={() => setPl(k)} className={`rounded-full px-4 py-1.5 transition ${pl === k ? 'bg-acid text-ink' : 'text-white/70'}`}>
+                  {k === 'ig' ? 'Instagram' : 'TikTok'}
+                </button>
+              ))}
+            </div>
+            <span className="text-xs text-white/50">Fonte: benchmark di mercato influencee</span>
+          </div>
+          <div className="mt-8 space-y-4">
+            {rows.map((r, i) => (
+              <div key={MARKET.tiers[i]} className="grid grid-cols-[72px_1fr_auto] items-center gap-3 sm:grid-cols-[110px_1fr_150px]">
+                <span className="font-heading font-semibold">{MARKET.tiers[i]}</span>
+                <div className="h-9 overflow-hidden rounded-full bg-white/[0.07]">
+                  <motion.div key={pl + i} initial={{ width: 0 }} animate={{ width: `${Math.max((r.v / max) * 100, 6)}%` }} transition={{ duration: 0.7, delay: i * 0.06 }} className={`h-full rounded-full ${i === 1 ? 'bg-acid' : 'bg-brand'}`} />
+                </div>
+                <span className="text-right">
+                  <span className="block font-heading text-lg font-semibold tabular-nums">{euro(r.v)}</span>
+                  <span className={`text-[10px] font-semibold ${r.o === 'IT' ? 'text-acid' : 'text-white/45'}`}>{r.o === 'IT' ? `IT · ${r.src}` : r.o}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 text-xs text-white/50">Fasce: Nano 1–10 mila, Micro 10–50 mila, Mid 50–250 mila, Macro 250 mila–1 milione, VIP oltre 1 milione di follower. Prezzi indicativi per un singolo post; formato, diritti d’uso ed esclusiva cambiano il compenso.</p>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+/* ─── Calcolatore engagement rate e check sponsor (interattivo) ──── */
+export function ErCalculator({ tone = 'white' }: { tone?: Tone }) {
+  const [mode, setMode] = useState<'er' | 'sponsor'>('er');
+  const [followers, setFollowers] = useState('25000');
+  const [views, setViews] = useState('12000');
+  const [inter, setInter] = useState('900');
+  const num = (s: string) => Math.max(0, Number(String(s).replace(/\./g, '').replace(',', '.')) || 0);
+  const f = num(followers);
+  const v = num(views);
+  const n = num(inter);
+  const tierIdx = f < 10000 ? 0 : f < 50000 ? 1 : f < 250000 ? 2 : f < 1000000 ? 3 : 4;
+  const er = f ? (n / f) * 100 : 0;
+  const ref = MARKET.erIG[tierIdx];
+  const ratio = v ? (n / v) * 100 : 0;
+  const sp = MARKET.sponsor.find((x) => ratio < x.max)!;
+  const erBand = er >= ref.v * 1.15 ? 'sopra la media' : er >= ref.v * 0.85 ? 'in linea con la media' : 'sotto la media';
+  const result = mode === 'er' ? erBand : sp.label;
+  React.useEffect(() => {
+    const t = setTimeout(() => track('calculator_use', { calculator: mode === 'er' ? 'engagement_rate' : 'check_sponsor', result_band: result.slice(0, 60), tier: MARKET.tiers[tierIdx] }), 1200);
+    return () => clearTimeout(t);
+  }, [mode, followers, views, inter]); // eslint-disable-line react-hooks/exhaustive-deps
+  const field = (id: string, label: string, val: string, set: (s: string) => void) => (
+    <label htmlFor={id} className="block">
+      <span className="text-sm font-semibold">{label}</span>
+      <input id={id} inputMode="numeric" value={val} onChange={(e) => set(e.target.value)} className="mt-2 h-12 w-full rounded-2xl bg-paper px-4 font-heading text-lg font-semibold outline-none ring-1 ring-line focus:ring-brand" />
+    </label>
+  );
+  const tone2 = mode === 'er' ? (erBand === 'sopra la media' ? 'bg-acid text-ink' : erBand === 'in linea con la media' ? 'bg-white text-ink' : 'bg-brand text-white') : sp.tone === 'bad' ? 'bg-brand text-white' : sp.tone === 'warn' ? 'bg-white text-ink' : 'bg-acid text-ink';
+  return (
+    <Section tone={tone} id="calcolatore">
+      <Container>
+        <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+          <div className="rounded-[30px] bg-white p-6 ring-1 ring-line shadow-[0_30px_60px_-40px_rgba(29,29,31,0.35)] sm:p-8">
+            <div className="flex gap-1 rounded-full bg-paper p-1 text-sm font-semibold" role="tablist">
+              {([['er', 'Engagement rate'], ['sponsor', 'Check sponsor']] as const).map(([k, l]) => (
+                <button key={k} type="button" role="tab" aria-selected={mode === k} onClick={() => setMode(k)} className={`flex-1 rounded-full px-4 py-2 transition ${mode === k ? 'bg-ink text-white' : 'text-mute'}`}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            <div className="mt-6 space-y-4">
+              {mode === 'er' ? field('calc-f', 'Follower del profilo', followers, setFollowers) : field('calc-v', 'Visualizzazioni del contenuto', views, setViews)}
+              {field('calc-i', mode === 'er' ? 'Interazioni medie per contenuto (like, commenti, condivisioni, salvataggi)' : 'Interazioni del contenuto', inter, setInter)}
+            </div>
+            <p className="mt-5 text-xs leading-relaxed text-mute">{mode === 'er' ? 'Engagement rate = interazioni medie ÷ follower × 100. Per un dato solido usa la mediana degli ultimi contenuti, come fa influencee.' : 'Check sponsor = interazioni ÷ visualizzazioni × 100. Un valore molto basso indica che la reach arriva soprattutto da pubblicità.'}</p>
+          </div>
+          <motion.div layout className={`flex flex-col justify-between rounded-[30px] p-6 sm:p-8 ${tone2}`}>
+            <div>
+              <p className={`${TYPE.label} opacity-70`}>Risultato</p>
+              <p className="mt-3 font-heading text-6xl font-semibold tracking-[-0.05em] tabular-nums sm:text-7xl">{(mode === 'er' ? er : ratio).toLocaleString('it-IT', { maximumFractionDigits: 2 })}%</p>
+              <p className="mt-4 font-heading text-2xl font-semibold tracking-tight">{result.charAt(0).toUpperCase() + result.slice(1)}</p>
+              {mode === 'er' && (
+                <p className="mt-2 text-sm opacity-75">
+                  Fascia {MARKET.tiers[tierIdx]}: media Instagram {ref.v.toLocaleString('it-IT')}% ({ref.o === 'IT' ? `fonte ${ref.src}` : ref.src})
+                </p>
+              )}
+            </div>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={APP.brand} className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-sm font-semibold text-white">
+                Confronta i creator su influencee
+              </a>
+              <a href={APP.check} className="inline-flex h-11 items-center rounded-full bg-white/70 px-5 text-sm font-semibold text-ink ring-1 ring-black/10">
+                Check sponsor nell’app
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </Container>
+    </Section>
   );
 }
 

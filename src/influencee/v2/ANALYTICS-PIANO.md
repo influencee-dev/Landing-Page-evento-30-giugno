@@ -53,6 +53,7 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `section_view` | Una sezione visibile almeno al 40%, una volta per pagina | Mappa di attenzione: quali blocchi vengono visti |
 | `scroll_depth` | Superamento del 25, 50, 75 e 90% della pagina | Profondità di lettura |
 | `faq_open` | Apertura di una domanda frequente | Le obiezioni reali dei clienti |
+| `calculator_use` | Uso del calcolatore (engagement rate o check sponsor), 1,2 secondi dopo l'ultima modifica | Quanto è usato lo strumento gratuito e con che esito (`calculator`, `result_band`, `tier`): chi lo usa e poi clicca "Confronta i creator" è un brand ad alta intenzione |
 | `consent_choice` | Scelta nel banner cookie | Tasso di consenso, per stimare la quota di dati persa |
 
 ### Parametri inviati con ogni evento
@@ -76,7 +77,7 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 ## 3. Configurazione in GA4 (una volta sola)
 
 1. **Inserire l'ID** della proprietà in `GA4_ID` (`analytics.ts`) e ripubblicare. In alternativa si usa Google Tag Manager, che legge lo stesso `dataLayer`.
-2. **Dimensioni personalizzate** (Amministrazione → Definizioni personalizzate), tutte con ambito evento: `page_type`, `audience`, `link_text`, `link_type`, `cta_location`, `section_name`, `section_index`, `menu_group`, `signup_audience`, `lead_source`, `faq_question`, `percent_scrolled`.
+2. **Dimensioni personalizzate** (Amministrazione → Definizioni personalizzate), tutte con ambito evento: `page_type`, `audience`, `link_text`, `link_type`, `cta_location`, `section_name`, `section_index`, `menu_group`, `signup_audience`, `lead_source`, `faq_question`, `percent_scrolled`, `calculator`, `result_band`, `tier`.
 3. **Eventi chiave**: `begin_sign_up`, `generate_lead`. Opzionali, per avere il dettaglio: `signup_brand_click`, `signup_creator_click`, `whatsapp_click`, `demo_form_submit`.
 4. **Raggruppamento contenuti**: si usa `content_group`, che è uguale a `page_type`.
 5. **Dominio incrociato**: `influencee.it` e `app.influencee.it` (Stream di dati → Configura le impostazioni del tag). Nel codice è già attivo (`linker`). Così chi passa dal sito all'app resta lo stesso utente e la sorgente non diventa "referral da influencee.it".

@@ -39,6 +39,8 @@ export const FACTS = {
   freeLinks: 10,
   maxCategories: 5,
   categories: 18,
+  /** ⚠ Dato fornito dal titolare (ottobre 2026), non verificabile dal codice dell'app: confermare prima del lancio. */
+  clients: '+5.000',
 };
 
 /* ─── Fasce di follower (intelligence/0014) ─────────────────────── */
@@ -158,6 +160,46 @@ export const PLANS = [
   },
 ];
 
+/* ─── Benchmark di mercato (app: rinnovo/benchmark_mercato.py) ─────
+   Valori pubblicati con la loro origine: IT = fonte italiana, proxy =
+   fonte estera o interpolazione, stima. Non cambiarli senza la fonte.   */
+export type Origin = 'IT' | 'proxy' | 'stima';
+export const MARKET = {
+  tiers: ['Nano', 'Micro', 'Mid', 'Macro', 'VIP'],
+  costIG: [
+    { v: 200, o: 'IT' as Origin, src: 'DeRev' },
+    { v: 950, o: 'IT' as Origin, src: 'DeRev' },
+    { v: 3550, o: 'IT' as Origin, src: 'DeRev' },
+    { v: 8000, o: 'stima' as Origin, src: 'stima' },
+    { v: 23750, o: 'IT' as Origin, src: 'DeRev' },
+  ],
+  costTT: [
+    { v: 180, o: 'proxy' as Origin, src: 'proxy' },
+    { v: 850, o: 'proxy' as Origin, src: 'proxy' },
+    { v: 3200, o: 'proxy' as Origin, src: 'proxy' },
+    { v: 7200, o: 'stima' as Origin, src: 'stima' },
+    { v: 21000, o: 'proxy' as Origin, src: 'proxy' },
+  ],
+  erIG: [
+    { v: 7.7, o: 'IT' as Origin, src: 'ONIM' },
+    { v: 4.6, o: 'IT' as Origin, src: 'ONIM' },
+    { v: 4.56, o: 'IT' as Origin, src: 'DeRev' },
+    { v: 2.5, o: 'proxy' as Origin, src: 'interpolazione' },
+    { v: 1.61, o: 'IT' as Origin, src: 'DeRev' },
+  ],
+  /** Check sponsor: interazioni / visualizzazioni (rinnovo/views_strumenti.py). */
+  sponsor: [
+    { max: 1.5, label: 'Probabile contenuto sponsorizzato (reach a pagamento)', tone: 'bad' },
+    { max: 1.9, label: 'Sotto la media: possibile mix di organico e ads', tone: 'warn' },
+    { max: 2.7, label: 'Media organica sana', tone: 'ok' },
+    { max: Infinity, label: 'Ottimo organico, potenziale virale', tone: 'great' },
+  ],
+  context: [
+    { v: '~40.000', l: 'influencer con partita IVA in Italia', src: 'AGCOM 2026' },
+    { v: '425 mln €', l: 'mercato dell’influencer marketing in Italia nel 2026 (+10,4%)', src: 'Il Sole 24 Ore' },
+  ],
+};
+
 /* ─── Menu ──────────────────────────────────────────────────────── */
 export interface MenuItem {
   label: string;
@@ -179,8 +221,10 @@ export const MENU: MenuGroup[] = [
       { label: 'Database influencer', href: '#/funzionalita/database-influencer/', text: 'Cerca creator italiani con filtri e numeri' },
       { label: 'Campagne e collaborazioni', href: '#/funzionalita/gestione-campagne/', text: 'Brief, accordo, contratto e contenuti' },
       { label: 'Link tracciati', href: '#/funzionalita/link-tracciati/', text: 'Click e visitatori per ogni contenuto' },
+      { label: 'Contratto', href: '#/funzionalita/contratto-influencer/', text: 'Generato dai termini accettati da entrambi' },
+      { label: 'Calendario campagne', href: '#/funzionalita/calendario-campagne/', text: 'Scadenze e consegne di tutti i creator' },
       { label: 'Media kit', href: '#/funzionalita/media-kit/', text: 'Il media kit del creator, sempre aggiornato' },
-      { label: 'Benchmark engagement', href: '#/benchmark-engagement-rate/', text: 'Valori di riferimento e check sponsor' },
+      { label: 'Creator verificati', href: '#/creator-verificati/', text: 'Badge e fonte di ogni dato' },
     ],
   },
   {
@@ -189,6 +233,9 @@ export const MENU: MenuGroup[] = [
       { label: 'Per le aziende', href: '#/influencer-marketing-aziende/', text: 'Trova creator e lancia campagne da solo' },
       { label: 'Per le agenzie', href: '#/piattaforma-agenzie/', text: 'Più clienti e campagne in un unico posto' },
       { label: 'Micro influencer', href: '#/micro-influencer/', text: 'Campagne con creator da 10 a 50 mila follower' },
+      { label: 'Contenuti UGC', href: '#/contenuti-ugc/', text: 'Video dei creator per i tuoi canali e le ads' },
+      { label: 'Campagne locali', href: '#/influencer-marketing-locale/', text: 'Ristoranti, negozi, palestre ed eventi' },
+      { label: 'Creator professionisti', href: '#/creator-professionisti/', text: 'Medici, nutrizionisti, personal trainer' },
       { label: 'Per i creator', href: '#/diventa-creator/', text: 'Iscriviti gratis e ricevi proposte dai brand' },
       { label: 'UGC creator', href: '#/ugc-creator/', text: 'Lavora con i brand anche senza tanti follower' },
     ],
@@ -200,7 +247,16 @@ export const MENU: MenuGroup[] = [
     items: [{ label: 'Tutti gli influencer italiani', href: '#/influencer-italiani/', text: 'Per categoria, regione e città' }, ...CATEGORIES.slice(0, 9).map((k) => ({ label: k.short, href: `#/${k.slug}/` }))],
   },
   { label: 'Prezzi', href: '#/prezzi/' },
-  { label: 'Blog', href: '#/blog/' },
+  {
+    label: 'Risorse',
+    items: [
+      { label: 'Quanto costa un influencer', href: '#/social-media-tool/costo-influencer/', text: 'Costi medi per fascia, con le fonti' },
+      { label: 'Calcolo engagement rate', href: '#/come-calcolare-engagement-rate/', text: 'Calcolatore gratuito e check sponsor' },
+      { label: 'Benchmark engagement', href: '#/benchmark-engagement-rate/', text: 'Valori di riferimento per fascia' },
+      { label: 'Annunci di collaborazione', href: '#/annunci-collaborazioni/', text: 'Le offerte aperte dei brand' },
+      { label: 'Blog', href: '#/blog/', text: 'Guide per brand e creator' },
+    ],
+  },
 ];
 
 /* ─── FAQ riutilizzabili (risposte brevi e citabili: AEO) ────────── */

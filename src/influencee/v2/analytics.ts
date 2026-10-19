@@ -53,10 +53,11 @@ export function pageTypeOf(path: string): { page_type: string; audience: string 
   if (path === '/') return { page_type: 'home', audience: 'misto' };
   if (path === '/prezzi/') return { page_type: 'prezzi', audience: 'brand' };
   if (path.startsWith('/funzionalita/') || path === '/piattaforma-influencer/') return { page_type: 'prodotto', audience: 'brand' };
-  if (['/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/'].includes(path)) return { page_type: 'soluzione', audience: 'brand' };
+  if (['/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/'].includes(path)) return { page_type: 'soluzione', audience: 'brand' };
   if (['/diventa-creator/', '/ugc-creator/'].includes(path)) return { page_type: 'creator', audience: 'creator' };
   if (path === '/annunci-collaborazioni/') return { page_type: 'annunci', audience: 'misto' };
-  if (path === '/benchmark-engagement-rate/') return { page_type: 'strumento', audience: 'brand' };
+  if (['/benchmark-engagement-rate/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/'].includes(path)) return { page_type: 'strumento', audience: 'brand' };
+  if (path === '/creator-verificati/') return { page_type: 'prodotto', audience: 'brand' };
   if (path.startsWith('/influencer-italiani/influencer-')) return { page_type: path.split('/').filter(Boolean).length > 2 ? 'citta' : 'regione', audience: 'brand' };
   if (path === '/influencer-italiani/') return { page_type: 'hub_influencer', audience: 'brand' };
   if (path.endsWith('-influencers/')) return { page_type: 'categoria', audience: 'brand' };

@@ -413,3 +413,106 @@ export function DiscoveryMock({ photos = [], className = '' }: { photos?: string
     </div>
   );
 }
+
+/** Calendario campagne con scadenze e consegne in ritardo. */
+export function CalendarMock({ className = '' }: { className?: string }) {
+  const days = Array.from({ length: 28 }, (_, i) => i + 1);
+  const ev: Record<number, [string, string]> = { 3: ['Brief', 'bg-paper'], 7: ['Reel Marta', 'bg-brand text-white'], 11: ['Storie Luca', 'bg-acid'], 14: ['In ritardo', 'bg-ink text-white'], 18: ['Reel Sara', 'bg-brand text-white'], 22: ['Post Davide', 'bg-acid'], 26: ['Report', 'bg-paper'] };
+  return (
+    <Frame className={className} label="Calendario campagne">
+      <div className="p-4 sm:p-5">
+        <div className="flex items-center justify-between">
+          <p className="font-heading font-semibold">Novembre</p>
+          <div className="flex gap-1 rounded-full bg-paper p-1 text-[10px] font-semibold">
+            <span className="rounded-full bg-white px-2.5 py-1 shadow-sm">Calendario</span>
+            <span className="px-2.5 py-1 text-mute">Lista</span>
+          </div>
+        </div>
+        <div className="mt-3 grid grid-cols-7 gap-1 text-center text-[9px] text-mute">
+          {['L', 'M', 'M', 'G', 'V', 'S', 'D'].map((d, i) => (
+            <span key={i}>{d}</span>
+          ))}
+        </div>
+        <div className="mt-1 grid grid-cols-7 gap-1">
+          {days.map((d) => (
+            <div key={d} className="flex aspect-square flex-col rounded-lg bg-paper/60 p-1">
+              <span className="text-[9px] text-mute">{d}</span>
+              {ev[d] && <span className={`mt-auto truncate rounded px-1 py-0.5 text-[7px] font-semibold sm:text-[8px] ${ev[d][1]}`}>{ev[d][0]}</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </Frame>
+  );
+}
+
+/** Contratto generato dai termini accettati. */
+export function ContractMock({ className = '' }: { className?: string }) {
+  return (
+    <Frame className={className} label="Contratto di collaborazione">
+      <div className="p-5">
+        <div className="flex items-center gap-2">
+          <FileText className="h-5 w-5 text-brand" />
+          <p className="font-heading font-semibold">Contratto · Lancio menu autunno</p>
+        </div>
+        <div className="mt-4 space-y-2.5">
+          {[
+            ['Parti', 'Brand ↔ Creator'],
+            ['Contenuti', '2 reel · 3 storie entro il 18/11'],
+            ['Compenso', 'Denaro + cambio merce'],
+            ['Diritti d’uso', 'Organico e ads, 6 mesi'],
+            ['Versione accettata', 'Termini v3 · doppia accettazione'],
+          ].map(([k, v]) => (
+            <div key={k} className="flex items-center justify-between gap-3 rounded-xl bg-paper px-3 py-2 text-[11px]">
+              <span className="text-mute">{k}</span>
+              <span className="text-right font-semibold">{v}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex items-center justify-between rounded-xl bg-ink px-3 py-2.5 text-[11px] text-white">
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="h-4 w-4 text-acid" /> Impronta del documento registrata
+          </span>
+          <span className="font-semibold text-acid">DOCX · PDF</span>
+        </div>
+      </div>
+    </Frame>
+  );
+}
+
+/** Livelli del dato e badge di fiducia. */
+export function TrustMock({ className = '' }: { className?: string }) {
+  const lv = [
+    ['Autenticato', 'Account collegato con login ufficiale', 'bg-brand text-white', 100],
+    ['Dichiarato', 'Inserito dal creator in iscrizione', 'bg-acid', 80],
+    ['Osservato', 'Letto da fonti pubbliche', 'bg-ink text-white', 60],
+    ['Stimato', 'Calcolato con regole note', 'bg-paper', 40],
+  ];
+  return (
+    <Frame className={className} label="Fonte dei dati">
+      <div className="p-5">
+        <div className="flex flex-wrap gap-2">
+          <span className="flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1.5 text-[11px] font-semibold text-brand-ink">
+            <BadgeCheck className="h-4 w-4 fill-brand text-white" /> Verificato
+          </span>
+          <span className="flex items-center gap-1.5 rounded-full bg-acid-soft px-3 py-1.5 text-[11px] font-semibold">
+            <Star className="h-3.5 w-3.5 fill-acid text-ink" /> Premium
+          </span>
+        </div>
+        <div className="mt-4 space-y-2">
+          {lv.map(([t, s, c, w], i) => (
+            <div key={t as string} className="rounded-xl bg-paper/70 p-2.5">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="font-semibold">{t as string}</span>
+                <span className="text-[10px] text-mute">{s as string}</span>
+              </div>
+              <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white">
+                <motion.div initial={{ width: 0 }} whileInView={{ width: `${w}%` }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.6 }} className={`h-full rounded-full ${(c as string).split(' ')[0]}`} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Frame>
+  );
+}

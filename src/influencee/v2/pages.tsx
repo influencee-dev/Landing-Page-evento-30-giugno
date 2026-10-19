@@ -4,15 +4,17 @@ import { Button } from '../ds';
 import { HeroReels, ReelWall, WorkReelCard } from '../rows/reels';
 import { REELS } from '../site/data';
 import { CtaForm } from '../rows/spoki';
-import { APP, CATEGORIES, CREATOR_TYPES, FACTS, FAQ, REGIONS, SITE, WHATSAPP, type QA } from './data';
-import { AnnunciMock, CollabMock, DiscoveryMock, KitMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
+import { APP, CATEGORIES, CREATOR_TYPES, FACTS, FAQ, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
+import { AnnunciMock, CalendarMock, CollabMock, ContractMock, DiscoveryMock, KitMock, TrustMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
 import {
   AnswerBox,
   AudienceRow,
   CardGrid,
   CategoryGrid,
   CtaBandV2,
+  CostChart,
   CtaDual,
+  ErCalculator,
   FactsBand,
   FaqSeo,
   FeatureSplit,
@@ -396,12 +398,12 @@ function Annunci() {
 function Benchmark() {
   return (
     <>
-      <HeroPlatform crumbs={[{ label: 'Benchmark engagement rate' }]} eyebrow="Strumento gratuito" title={'Engagement rate:\n*valori di riferimento e calcolo*'} lead="Come si calcola l’engagement rate, perché va confrontato con la fascia di follower e come verificare in pochi secondi se un post sponsorizzato rende." actions={<><Button href={APP.check}>Fai il check sponsor</Button><Button href={APP.benchmark} variant="secondary">Apri il benchmark</Button></>} visual={<ProfileMock className="mx-auto max-w-[460px]" />} />
+      <HeroPlatform crumbs={[{ label: 'Benchmark engagement rate' }]} eyebrow="Strumento gratuito" title={'Engagement rate:\n*valori di riferimento per fascia*'} lead="Come si calcola l’engagement rate, perché va confrontato con la fascia di follower e come verificare in pochi secondi se un post sponsorizzato rende." actions={<><Button href={APP.check}>Fai il check sponsor</Button><Button href={APP.benchmark} variant="secondary">Apri il benchmark</Button></>} visual={<ProfileMock className="mx-auto max-w-[460px]" />} />
       <AnswerBox q="Come si calcola l’engagement rate?" a="L’engagement rate è il rapporto tra interazioni e follower. Su influencee usiamo la mediana delle interazioni (like, commenti, condivisioni e salvataggi) su reel e video degli ultimi 90 giorni, esclusa l’ultima settimana, divisa per i follower. Con meno di 5 video il valore non viene calcolato." points={['Mediana, non media: un post virale non falsa il dato', 'Ultimi 90 giorni, esclusa l’ultima settimana', 'Confronto con la stessa fascia di follower', 'Benchmark pubblico solo con almeno 30 profili']} />
       <TiersRow tone="paper" title={'Confronta l’engagement\n*nella stessa fascia*'} lead="Un 3% può essere ottimo per un macro influencer e basso per un nano: per questo il benchmark mostra 25° percentile, mediana e 75° percentile per fascia." />
       <FaqSeo items={[
         { q: 'Qual è un buon engagement rate su Instagram?', a: 'Dipende dalla fascia di follower e dalla categoria: i profili più piccoli hanno di solito valori più alti. Confronta il creator con la mediana della sua fascia invece che con un numero unico.' },
-        { q: 'Cos’è il check sponsor?', a: 'Uno strumento gratuito che confronta l’engagement di un contenuto sponsorizzato con soglie di riferimento, per capire subito se ha reso sotto, in linea o sopra le attese.' },
+        { q: 'Cos’è il check sponsor?', a: 'Uno strumento gratuito che divide le interazioni di un contenuto per le sue visualizzazioni. Sotto l’1,5% la reach arriva probabilmente da pubblicità; tra 1,9% e 2,7% è una media organica sana; sopra il 2,7% il contenuto va molto bene in modo organico.' },
         { q: 'Il benchmark è gratuito?', a: 'Sì, il benchmark pubblico è consultabile senza registrazione. Mostra solo valori aggregati, mai dati di singoli creator.' },
       ]} />
       <CtaBandV2 title={'Vuoi i valori\n*per il tuo settore?*'} lead="Con un account vedi compensi ed engagement per fascia e categoria, con l’origine di ogni valore." primary={{ label: 'Registrati gratis', href: APP.brand }} />
@@ -534,6 +536,180 @@ function Blog() {
   );
 }
 
+
+/* ════════════════════════════════════════════════════════════════════
+   PAGINE MODULO (seconda ondata): una pagina per ogni funzione del tool
+   ════════════════════════════════════════════════════════════════════ */
+const reel = (id: string) => REELS.find((r) => r.id === id)!;
+function ReelTrio({ ids }: { ids: string[] }) {
+  return (
+    <div className="relative mx-auto grid max-w-[480px] grid-cols-3 items-end gap-3">
+      {ids.map((id, i) => (
+        <div key={id} className={i === 1 ? '-translate-y-6' : ''}>
+          <WorkReelCard r={reel(id)} delay={i * 0.6} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const CALC_FAQ: QA[] = [
+  { q: 'Come si calcola l’engagement rate?', a: 'Si sommano le interazioni di un contenuto (like, commenti, condivisioni e salvataggi), si divide per il numero di follower e si moltiplica per 100. Per un valore affidabile usa la mediana degli ultimi contenuti invece della media, così un singolo post virale non falsa il risultato.' },
+  { q: 'Qual è un buon engagement rate su Instagram?', a: `Dipende dalla fascia di follower. Secondo le fonti italiane raccolte da influencee la media è circa ${MARKET.erIG[0].v.toLocaleString('it-IT')}% per i nano influencer, ${MARKET.erIG[1].v.toLocaleString('it-IT')}% per i micro e ${MARKET.erIG[4].v.toLocaleString('it-IT')}% per i profili oltre il milione di follower.` },
+  { q: 'Che differenza c’è tra engagement sui follower e sulle visualizzazioni?', a: 'L’engagement sui follower misura quanto la community interagisce con il creator. Il rapporto tra interazioni e visualizzazioni misura quanto un singolo contenuto coinvolge chi lo vede: è la base del check sponsor.' },
+  { q: 'Il calcolatore è gratuito?', a: 'Sì, gratuito e senza registrazione. Su influencee l’engagement di ogni creator viene calcolato in automatico sulla mediana degli ultimi 90 giorni.' },
+];
+const COST_FAQ: QA[] = [
+  { q: 'Quanto costa un influencer in Italia?', a: `In media un post su Instagram costa circa ${MARKET.costIG[0].v} € per un nano influencer, ${MARKET.costIG[1].v} € per un micro, ${MARKET.costIG[2].v.toLocaleString('it-IT')} € per un mid e ${MARKET.costIG[4].v.toLocaleString('it-IT')} € per un profilo oltre il milione di follower (fonte DeRev). Il prezzo finale dipende da formato, diritti d’uso ed esclusiva.` },
+  { q: 'Quanto costa un micro influencer?', a: `Circa ${MARKET.costIG[1].v} € per un post su Instagram e ${MARKET.costTT[1].v} € su TikTok, come valori medi indicativi. Molte collaborazioni con micro influencer usano anche cambio merce, affiliazione o ospitalità.` },
+  { q: 'Si può pagare un influencer con i prodotti?', a: 'Sì. Su influencee puoi offrire compenso in denaro, cambio merce, affiliazione, formula ibrida, ospitalità o evento, e revenue share. La formula scelta viene scritta nell’accordo.' },
+  { q: 'Da cosa dipende il prezzo di un influencer?', a: 'Fascia di follower, piattaforma, formato (reel, storie, post, video), numero di contenuti, diritti d’uso per le inserzioni, durata della licenza ed esclusiva di settore.' },
+];
+const UGC_FAQ: QA[] = [
+  { q: 'Cosa sono i contenuti UGC?', a: 'Sono video e foto in stile spontaneo, realizzati da creator (user generated content), che un brand pubblica sui propri canali e nelle inserzioni: recensioni, unboxing, tutorial, prove prodotto. Funzionano perché sembrano consigli di persone reali.' },
+  { q: 'Quanto costa un video UGC?', a: 'Dipende da durata, numero di varianti e diritti d’uso. Su influencee molti creator UGC indicano un prezzo indicativo per video nella scheda e il compenso si concorda nella collaborazione.' },
+  { q: 'Chi possiede i diritti dei contenuti UGC?', a: 'Quelli concordati nei termini: canali, durata della licenza e uso nelle inserzioni vengono scritti nell’accordo e riportati nel contratto generato.' },
+  FAQ.brand[2],
+];
+const CONTRACT_FAQ: QA[] = [
+  { q: 'Cosa deve contenere un contratto con un influencer?', a: 'Le parti, i contenuti da consegnare con formati e scadenze, il compenso e la sua forma, i diritti d’uso e la loro durata, l’eventuale esclusiva, le revisioni previste e l’obbligo di segnalare la collaborazione come pubblicità.' },
+  { q: 'Come viene creato il contratto su influencee?', a: 'Dai termini che brand e creator hanno accettato nella stessa versione: la piattaforma genera il documento in DOCX (o PDF) e ne registra l’impronta, così resta traccia di cosa è stato concordato.' },
+  { q: 'Il contratto generato basta in ogni caso?', a: 'Copre le collaborazioni standard. Per accordi complessi, come esclusive lunghe o licenze internazionali, conviene una verifica del proprio legale.' },
+];
+const CAL_FAQ: QA[] = [
+  { q: 'Come si organizza il calendario di una campagna con influencer?', a: 'Si fissano le date di consegna e di pubblicazione per ogni creator e si segue lo stato dei contenuti: consegnato, da modificare, approvato, pubblicato. Su influencee il calendario raccoglie tutte le scadenze delle tue collaborazioni.' },
+  { q: 'Cosa succede se un creator consegna in ritardo?', a: 'La consegna viene segnata come "In ritardo" e la vedi subito nel calendario e nella collaborazione, insieme alla chat con il creator.' },
+  { q: 'Il calendario c’è anche per i creator?', a: 'Sì: anche il creator vede in calendario le scadenze di tutte le sue collaborazioni.' },
+];
+const TRUST_FAQ: QA[] = [
+  { q: 'Come si verifica se un influencer è affidabile?', a: 'Controlla che i numeri arrivino dall’account ufficiale, che l’engagement sia in linea con la sua fascia di follower, che la crescita non abbia picchi anomali e con quali brand ha già collaborato. Su influencee ogni dato indica la sua fonte e la data di aggiornamento.' },
+  { q: 'Cosa significa il badge Verificato?', a: FEATURE_FAQ.ricerca[2].a },
+  { q: 'Come riconoscere follower falsi?', a: 'Segnali tipici: engagement molto più basso della media della fascia, crescita improvvisa senza contenuti virali, commenti generici e ripetitivi. Il calcolatore di engagement rate e il check sponsor aiutano a fare una prima verifica.' },
+];
+const LOCAL_FAQ: QA[] = [
+  { q: 'Come promuovere un ristorante o un negozio con gli influencer?', a: 'Scegli creator della tua città, offri un’esperienza (ospitalità, menu degustazione, anteprima) e chiedi contenuti che mostrino il locale e come raggiungerlo. Con un link tracciato o un QR sai quante persone arrivano dai contenuti.' },
+  { q: 'Meglio pagare o offrire ospitalità?', a: 'Per nano e micro influencer locali l’ospitalità o il cambio merce sono spesso sufficienti; per profili più grandi si aggiunge un compenso. Su influencee la formula viene scritta nell’accordo.' },
+  FAQ.brand[0],
+];
+const PRO_FAQ: QA[] = [
+  { q: 'Chi sono i creator professionisti?', a: 'Professionisti che fanno divulgazione sui social nel loro campo: medici, dentisti, nutrizionisti, psicologi, fisioterapisti, personal trainer, avvocati, consulenti finanziari, esperti di marketing e formatori.' },
+  { q: 'Perché un brand dovrebbe collaborare con un professionista?', a: 'Per autorevolezza: un parere competente rende credibili prodotti e servizi in salute, benessere, finanza e formazione, dove il pubblico cerca fonti affidabili.' },
+  { q: 'Ci sono regole particolari?', a: 'Sì: i professionisti seguono anche le regole del proprio ordine, e la collaborazione va sempre dichiarata come pubblicità. Va considerato già nel brief.' },
+];
+
+function CalcPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Risorse' }, { label: 'Calcolo engagement rate' }]} eyebrow="Strumento gratuito" title={'Calcolo engagement rate:\n*il calcolatore gratuito*'} lead="Inserisci follower e interazioni e scopri subito l’engagement rate di un profilo, confrontato con la media della sua fascia. C’è anche il check sponsor per i singoli contenuti." actions={<><Button onClick={() => document.getElementById('calcolatore')?.scrollIntoView({ behavior: 'smooth' })}>Calcola ora</Button><Button href={APP.brand} variant="secondary">Confronta i creator</Button></>} visual={<ProfileMock className="mx-auto max-w-[460px]" />} />
+      <ErCalculator />
+      <AnswerBox q="Come si calcola l’engagement rate?" a={CALC_FAQ[0].a} points={['Interazioni ÷ follower × 100', 'Usa la mediana, non la media', 'Confronta con la stessa fascia', 'Check sponsor: interazioni ÷ views']} />
+      <FeatureSplit items={[{ ...F.scheda, title: 'Su influencee l’engagement è già calcolato' }, { ...F.ricerca, title: 'Filtra i creator per engagement e fascia' }]} />
+      <FaqSeo items={CALC_FAQ} />
+      <Related links={[{ label: 'Benchmark engagement', text: 'Valori di riferimento per fascia', href: '#/benchmark-engagement-rate/' }, { label: 'Quanto costa un influencer', text: 'Costi medi per fascia', href: '#/social-media-tool/costo-influencer/' }, { label: 'Creator verificati', text: 'Come verifichiamo i dati', href: '#/creator-verificati/' }]} />
+      <CtaDual />
+    </>
+  );
+}
+
+function CostPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Risorse' }, { label: 'Quanto costa un influencer' }]} eyebrow="Costi e tariffe" title={'Quanto costa un influencer\n*in Italia*'} lead="I costi medi di un post per fascia di follower su Instagram e TikTok, con la fonte di ogni valore, e le formule di compenso che puoi offrire." actions={<><Button href={APP.brand}>Vedi i prezzi dei creator</Button><Button href={WHATSAPP.href} variant="secondary">Preventivo per un progetto</Button></>} visual={<CollabMock className="mx-auto max-w-[480px]" />} />
+      <AnswerBox q="Quanto costa un influencer?" a={COST_FAQ[0].a} points={[`Nano: circa ${MARKET.costIG[0].v} € a post`, `Micro: circa ${MARKET.costIG[1].v} € a post`, `Mid: circa ${MARKET.costIG[2].v.toLocaleString('it-IT')} € a post`, `VIP: oltre ${MARKET.costIG[4].v.toLocaleString('it-IT')} € a post`]} />
+      <CostChart tone="white" />
+      <FactsBand items={MARKET.context.map((c) => ({ v: c.v, l: `${c.l} · ${c.src}` }))} />
+      <Prose blocks={[
+        { h: 'Da cosa dipende il prezzo di un influencer', p: ['Il numero di follower conta, ma non è l’unico fattore. Pesano il formato (un reel costa più di una storia), il numero di contenuti, la produzione richiesta e soprattutto i diritti d’uso: usare il video nelle inserzioni o per molti mesi ha un valore in più.', 'Anche l’esclusiva di settore alza il prezzo: chiedere a un creator di non lavorare con concorrenti per un periodo è un costo per lui.'] },
+        { h: 'Come risparmiare senza perdere risultati', p: ['Più micro influencer al posto di un solo grande profilo: stesso budget, più contenuti, community più attente. Oppure formule ibride: un compenso più basso più prodotto o affiliazione sulle vendite.', 'Su influencee molti creator dichiarano un prezzo indicativo per reel, storia e post: lo vedi nella scheda prima di contattarli.'] },
+      ]} aside={<KitMock />} />
+      <CardGrid tone="paper" title={'Le formule\n*di compenso*'} lead="Tutte disponibili nelle offerte delle campagne su influencee." items={[
+        { t: 'Compenso in denaro', x: 'Un importo fisso per i contenuti concordati.' },
+        { t: 'Cambio merce', x: 'Prodotti o servizi al posto del compenso, utile con nano e micro.' },
+        { t: 'Affiliazione', x: 'Una percentuale sulle vendite generate dal creator.' },
+        { t: 'Ibrida', x: 'Una parte fissa più prodotto o affiliazione.' },
+        { t: 'Ospitalità o evento', x: 'Esperienze per ristoranti, hotel, locali ed eventi.' },
+        { t: 'Revenue share', x: 'Condivisione dei ricavi su progetti continuativi.' },
+      ]} />
+      <FaqSeo items={COST_FAQ} />
+      <ManagedRow />
+      <Related links={[{ label: 'Micro influencer', text: 'Il miglior rapporto costo/risultato', href: '#/micro-influencer/' }, { label: 'Calcolo engagement rate', text: 'Verifica prima di pagare', href: '#/come-calcolare-engagement-rate/' }, { label: 'Prezzi della piattaforma', text: 'Da 0 € a Premium', href: '#/prezzi/' }]} />
+      <CtaDual />
+    </>
+  );
+}
+
+function UgcBrandPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Contenuti UGC' }]} eyebrow="Contenuti UGC per brand" title={'Contenuti UGC\n*per i tuoi canali e le tue ads*'} lead="Video spontanei di creator italiani da pubblicare sui tuoi profili e nelle inserzioni. Scegli l’obiettivo UGC, trova i creator e definisci i diritti d’uso nel contratto." actions={brandCtas} visual={<ReelTrio ids={['beauty-body-project', 'food-salse-zero', 'fitness-scegli-corso']} />} />
+      <AnswerBox q="Cosa sono i contenuti UGC?" a={UGC_FAQ[0].a} points={['Recensioni e unboxing', 'Tutorial e prove prodotto', 'Per organico e inserzioni', 'Diritti d’uso nel contratto']} />
+      <Steps title={'Come ottenere contenuti UGC\n*in 4 passi*'} steps={[
+        { t: 'Scegli l’obiettivo UGC', x: 'Nella nuova campagna seleziona "Contenuti UGC".' },
+        { t: 'Trova i creator', x: 'Filtra per tipo UGC e categoria, oppure pubblica un annuncio.' },
+        { t: 'Concorda i diritti', x: 'Canali, durata e uso nelle ads finiscono nel contratto.' },
+        { t: 'Ricevi e approva', x: 'Consegne, richieste di modifica e approvazione finale.' },
+      ]} />
+      <FeatureSplit tone="white" items={[F.annunci, { ...F.campagne, title: 'Brief, consegne e revisioni in un posto' }]} />
+      <ReelWall eyebrow="Esempi" title={'Video in stile UGC\n*fatti per attività italiane*'} lead="Contenuti realizzati per ristoranti, palestre, centri estetici e farmacie." stats={[['Unboxing', 'prodotto in mano'], ['Tutorial', 'come si usa'], ['Recensione', 'parere sincero']]} />
+      <FaqSeo items={UGC_FAQ} />
+      <ManagedRow />
+      <Related links={[{ label: 'UGC creator', text: 'Se sei un creator', href: '#/ugc-creator/' }, { label: 'Contratto', text: 'Diritti d’uso scritti', href: '#/funzionalita/contratto-influencer/' }, { label: 'Quanto costa', text: 'Costi medi dei creator', href: '#/social-media-tool/costo-influencer/' }]} />
+      <CtaDual />
+    </>
+  );
+}
+
+function LocalPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Campagne locali' }]} eyebrow="Influencer marketing locale" title={'Influencer per ristoranti,\n*negozi ed eventi*'} lead="Creator della tua città per aperture, menu, eventi e promozioni. Filtri per comune e regione, ospitalità o cambio merce e link tracciati anche per QR e volantini." actions={brandCtas} visual={<ReelTrio ids={['food-sushi-morso', 'eventi-inaugurazione', 'fitness-ogni-orario']} />} />
+      <AnswerBox q="Come promuovere un locale con gli influencer?" a={LOCAL_FAQ[0].a} points={['Creator della tua città', 'Ospitalità o cambio merce', 'QR e link tracciati', 'Obiettivo "Locale o evento"']} />
+      <ReelWall eyebrow="Casi reali" title={'Contenuti per\n*attività locali*'} lead="Reel realizzati per ristoranti, palestre, farmacie, centri estetici e inaugurazioni." stats={[['Food', 'ristoranti e locali'], ['Fitness', 'palestre e corsi'], ['Eventi', 'aperture e inaugurazioni']]} />
+      <Steps title={'Una campagna locale\n*passo per passo*'} steps={[
+        { t: 'Obiettivo "Locale o evento"', x: 'Indica città, data e cosa vuoi promuovere.' },
+        { t: 'Creator della zona', x: 'Filtra per comune, provincia o regione.' },
+        { t: 'Offerta', x: 'Ospitalità, cambio merce o compenso, scritti nell’accordo.' },
+        { t: 'Misura', x: 'Link tracciati e QR per contare chi arriva.' },
+      ]} />
+      <RegionGrid tone="paper" title={'Trova creator\n*nella tua città*'} />
+      <FaqSeo items={LOCAL_FAQ} />
+      <ManagedRow />
+      <CtaDual />
+    </>
+  );
+}
+
+function ProPage() {
+  const pros = ['Medicina', 'Odontoiatria', 'Nutrizione', 'Psicologia', 'Fisioterapia', 'Personal trainer', 'Legale', 'Consulenza finanziaria', 'Marketing e social media', 'Formazione'];
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Creator professionisti' }]} eyebrow="Creator professionisti" title={'Medici, nutrizionisti, esperti:\n*creator con autorevolezza*'} lead="Professionisti che fanno divulgazione sui social, per brand di salute, benessere, finanza e formazione. Cercali con il tipo Professionista e la loro professione." actions={<><Button href={APP.brand}>Cerca professionisti</Button><Button href={APP.creator} variant="secondary">Sono un professionista</Button></>} visual={<ReelTrio ids={['salute-farmacia-vaccini', 'salute-farmacia-antibiotico', 'fitness-percorso']} />} />
+      <AnswerBox q="Chi sono i creator professionisti?" a={PRO_FAQ[0].a} points={['Tipo creator dedicato', '10 professioni', 'Autorevolezza nel settore', 'Per salute, finanza, formazione']} />
+      <CardGrid title={'Le professioni\n*sulla piattaforma*'} items={pros.map((p) => ({ t: p, x: 'Creator con il tipo Professionista e questa professione nel profilo.' }))} cols={4} />
+      <ReelWall eyebrow="Esempi" title={'Divulgazione\n*che crea fiducia*'} lead="Contenuti di professionisti per farmacie e centri specializzati." stats={[['Salute', 'farmacie e prevenzione'], ['Benessere', 'nutrizione e movimento'], ['Servizi', 'consulenza e formazione']]} />
+      <FaqSeo items={PRO_FAQ} />
+      <CtaDual />
+    </>
+  );
+}
+
+function TrustPage() {
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Creator verificati' }]} eyebrow="Creator verificati" title={'Creator verificati,\n*dati con la loro fonte*'} lead="Badge Verificato da account collegato, livello di ogni dato e data dell’ultimo aggiornamento: per scegliere i creator su numeri di cui ti puoi fidare." actions={brandCtas} visual={<TrustMock className="mx-auto max-w-[460px]" />} />
+      <AnswerBox q="Come si verifica un influencer?" a={TRUST_FAQ[0].a} points={['Account collegato in sola lettura', 'Livello del dato sempre visibile', 'Engagement rispetto alla fascia', 'Brand già citati con #adv']} />
+      <FeatureSplit items={[
+        { eyebrow: 'Fonte dei dati', title: 'Quattro livelli, sempre dichiarati', text: 'Ogni numero dice se è autenticato dall’account collegato, dichiarato dal creator, osservato da fonti pubbliche o stimato con regole note. Niente scatole nere.', bullets: ['Autenticato › dichiarato › osservato › stimato', 'Data dell’ultimo aggiornamento', 'Nessuna stima spacciata per dato'], visual: <TrustMock /> },
+        { ...F.scheda },
+        { eyebrow: 'Collegamento social', title: 'Verificato con il login ufficiale', text: 'Il creator collega Instagram, TikTok o YouTube con il login ufficiale, in sola lettura: niente password condivise, nessuna pubblicazione a suo nome. Così ottiene il badge Verificato.', bullets: ['Token cifrati e in sola lettura', 'Badge Premium assegnato dallo staff', 'Nessun minorenne in piattaforma'], visual: <SignupMock /> },
+      ]} />
+      <FaqSeo items={TRUST_FAQ} />
+      <Related links={[{ label: 'Calcolo engagement rate', text: 'Verifica un profilo in pochi secondi', href: '#/come-calcolare-engagement-rate/' }, { label: 'Database influencer', text: 'Filtra solo i Verificati', href: '#/funzionalita/database-influencer/' }, { label: 'Diventa creator', text: 'Ottieni il badge', href: '#/diventa-creator/' }]} />
+      <CtaDual />
+    </>
+  );
+}
+
 /* ─── Risolutore delle route ────────────────────────────────────── */
 const T = (s: string) => `${s} | ${SITE.name}`;
 
@@ -554,9 +730,17 @@ export function resolve(path: string): Resolved | null {
     '/diventa-creator/': () => ({ meta: { path: p, label: 'Diventa creator', type: 'page', kw: 'collaborazioni con brand', title: T('Collaborazioni con brand: iscriviti gratis'), description: 'Sei un creator o un influencer? Iscriviti gratis, collega i social e ricevi proposte dai brand italiani. Media kit, contratti e scadenze in un posto.', crumbs: [{ label: 'Diventa creator' }], faq: FAQ.creator }, el: <CreatorJoin /> }),
     '/ugc-creator/': () => ({ meta: { path: p, label: 'UGC creator', type: 'page', kw: 'ugc creator', title: T('UGC creator: cos’è e come diventarlo in Italia'), description: 'Cosa fa un UGC creator, differenza con l’influencer, quanto guadagna e come trovare brand che cercano UGC creator in Italia. Iscrizione gratuita.', crumbs: [{ label: 'UGC creator' }], faq: [{ q: 'Serve la partita IVA per fare l’UGC creator?', a: 'Dipende da quanto e con che continuità lavori: per collaborazioni occasionali può bastare la prestazione occasionale, per un’attività continuativa serve la partita IVA. Chiedi conferma al tuo commercialista. Su influencee puoi indicare la partita IVA nel profilo.' }, { q: 'Dove trovo brand che cercano UGC creator?', a: 'Nella bacheca annunci di influencee: i brand pubblicano offerte con compenso e scadenza e i creator iscritti si candidano.' }, FAQ.creator[1], FAQ.creator[0]] }, el: <Ugc /> }),
     '/annunci-collaborazioni/': () => ({ meta: { path: p, label: 'Annunci', type: 'page', kw: 'annunci collaborazioni influencer', title: T('Annunci di collaborazione per creator'), description: 'Bacheca di annunci tra brand e creator: offerte con compenso, cambio merce, affiliazione e ospitalità. Pubblica o candidati gratis.', crumbs: [{ label: 'Annunci di collaborazione' }], faq: [FAQ.brand[2], FAQ.brand[3], FAQ.creator[3], FAQ.creator[0]] }, el: <Annunci /> }),
-    '/benchmark-engagement-rate/': () => ({ meta: { path: p, label: 'Benchmark', type: 'page', kw: 'engagement rate instagram', title: T('Engagement rate: calcolo e benchmark per fascia'), description: 'Come si calcola l’engagement rate e quali sono i valori di riferimento per fascia di follower. Benchmark pubblico e check sponsor gratuiti.', crumbs: [{ label: 'Benchmark engagement rate' }], faq: [{ q: 'Qual è un buon engagement rate su Instagram?', a: 'Dipende dalla fascia di follower e dalla categoria: i profili più piccoli hanno di solito valori più alti. Confronta il creator con la mediana della sua fascia invece che con un numero unico.' }, { q: 'Cos’è il check sponsor?', a: 'Uno strumento gratuito che confronta l’engagement di un contenuto sponsorizzato con soglie di riferimento, per capire subito se ha reso sotto, in linea o sopra le attese.' }, { q: 'Il benchmark è gratuito?', a: 'Sì, il benchmark pubblico è consultabile senza registrazione. Mostra solo valori aggregati, mai dati di singoli creator.' }] }, el: <Benchmark /> }),
+    '/benchmark-engagement-rate/': () => ({ meta: { path: p, label: 'Benchmark', type: 'page', kw: 'engagement rate instagram', title: T('Engagement rate per fascia: valori di riferimento'), description: 'Valori di riferimento dell’engagement rate per fascia di follower e metodo di influencee. Benchmark pubblico gratuito, solo dati aggregati.', crumbs: [{ label: 'Benchmark engagement rate' }], faq: [{ q: 'Qual è un buon engagement rate su Instagram?', a: 'Dipende dalla fascia di follower e dalla categoria: i profili più piccoli hanno di solito valori più alti. Confronta il creator con la mediana della sua fascia invece che con un numero unico.' }, { q: 'Cos’è il check sponsor?', a: 'Uno strumento gratuito che divide le interazioni di un contenuto per le sue visualizzazioni. Sotto l’1,5% la reach arriva probabilmente da pubblicità; tra 1,9% e 2,7% è una media organica sana; sopra il 2,7% il contenuto va molto bene in modo organico.' }, { q: 'Il benchmark è gratuito?', a: 'Sì, il benchmark pubblico è consultabile senza registrazione. Mostra solo valori aggregati, mai dati di singoli creator.' }] }, el: <Benchmark /> }),
     '/prezzi/': () => ({ meta: { path: p, label: 'Prezzi', type: 'pricing', kw: 'prezzi piattaforma influencer', title: T('Prezzi: gratis o Premium da 19 € al mese'), description: `Piano gratuito per sempre e Premium da 19 € al mese, 49 € a trimestre o 199 € all’anno IVA inclusa. ${FACTS.trialDays} giorni di prova, nessuna carta.`, crumbs: [{ label: 'Prezzi' }], faq: [FAQ.brand[0]] }, el: <Pricing /> }),
     '/influencer-italiani/': () => ({ meta: { path: p, label: 'Influencer italiani', type: 'page', kw: 'influencer italiani', title: T('Influencer italiani per categoria e città'), description: 'Influencer e content creator italiani per categoria, regione e città, in 5 fasce di follower. Trova il creator giusto per la tua campagna.', crumbs: [{ label: 'Influencer italiani' }], faq: [FAQ.piattaforma[3], FEATURE_FAQ.ricerca[0]] }, el: <ItaliansHub /> }),
+    '/come-calcolare-engagement-rate/': () => ({ meta: { path: p, label: 'Calcolo engagement rate', type: 'page', kw: 'calcolo engagement rate', title: T('Calcolo engagement rate: calcolatore gratuito'), description: 'Calcola gratis l’engagement rate di un profilo Instagram o TikTok e confrontalo con la media della sua fascia. Con check sponsor per i contenuti.', crumbs: [{ label: 'Risorse' }, { label: 'Calcolo engagement rate' }], faq: CALC_FAQ }, el: <CalcPage /> }),
+    '/social-media-tool/costo-influencer/': () => ({ meta: { path: p, label: 'Quanto costa un influencer', type: 'page', kw: 'quanto costa un influencer', title: T('Quanto costa un influencer in Italia'), description: 'Costo medio di un post per fascia di follower su Instagram e TikTok, con le fonti, e le formule di compenso: denaro, cambio merce, affiliazione.', crumbs: [{ label: 'Risorse' }, { label: 'Quanto costa un influencer' }], faq: COST_FAQ }, el: <CostPage /> }),
+    '/contenuti-ugc/': () => ({ meta: { path: p, label: 'Contenuti UGC', type: 'software', kw: 'contenuti ugc', title: T('Contenuti UGC per brand: video dei creator'), description: 'Cosa sono i contenuti UGC e come ottenerli: creator italiani, brief, consegne e diritti d’uso nel contratto. Per i tuoi canali e le inserzioni.', crumbs: [{ label: 'Contenuti UGC' }], faq: UGC_FAQ }, el: <UgcBrandPage /> }),
+    '/influencer-marketing-locale/': () => ({ meta: { path: p, label: 'Campagne locali', type: 'software', kw: 'influencer per ristoranti', title: T('Influencer per ristoranti, negozi ed eventi'), description: 'Campagne con creator della tua città per locali, negozi, palestre ed eventi: ospitalità o compenso, QR e link tracciati per misurare.', crumbs: [{ label: 'Campagne locali' }], faq: LOCAL_FAQ }, el: <LocalPage /> }),
+    '/creator-professionisti/': () => ({ meta: { path: p, label: 'Creator professionisti', type: 'page', kw: 'medici influencer italiani', title: T('Creator professionisti: medici e nutrizionisti'), description: 'Medici, nutrizionisti, personal trainer e altri professionisti che fanno divulgazione: creator autorevoli per brand di salute, finanza e formazione.', crumbs: [{ label: 'Creator professionisti' }], faq: PRO_FAQ }, el: <ProPage /> }),
+    '/creator-verificati/': () => ({ meta: { path: p, label: 'Creator verificati', type: 'software', kw: 'influencer verificati', title: T('Creator verificati e dati con la loro fonte'), description: 'Come verifichiamo i creator: badge da account collegato, livello di ogni dato e data di aggiornamento. Come riconoscere follower falsi.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Creator verificati' }], faq: TRUST_FAQ }, el: <TrustPage /> }),
+    '/funzionalita/contratto-influencer/': () => ({ meta: { path: p, label: 'Contratto influencer', type: 'software', kw: 'contratto influencer', title: T('Contratto influencer generato dai termini'), description: 'Il contratto con il creator nasce dai termini accettati da entrambi: contenuti, scadenze, compenso e diritti d’uso. DOCX o PDF con impronta.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Contratto' }], faq: CONTRACT_FAQ }, el: <FeaturePage crumb="Contratto" eyebrow="Contratto" title={'Il contratto con l’influencer,\n*generato in automatico*'} lead="Termini in versioni, doppia accettazione e un contratto generato dalle condizioni concordate. Con valutazione reciproca a fine collaborazione." visual={<ContractMock className="mx-auto max-w-[500px]" />} answer={{ q: 'Cosa deve contenere un contratto con un influencer?', a: CONTRACT_FAQ[0].a, points: ['Contenuti e scadenze', 'Compenso e formula', 'Diritti d’uso e durata', 'Versione accettata da entrambi'] }} items={[{ eyebrow: 'Contratto', title: 'Dai termini al documento', text: 'Quando brand e creator accettano la stessa versione dei termini, la piattaforma genera il contratto con parti, contenuti, scadenze, compenso e diritti d’uso, e ne registra l’impronta.', bullets: ['DOCX, PDF quando disponibile', 'Impronta del documento', 'Sempre legato alla collaborazione'], visual: <ContractMock /> }, F.campagne]} faq={CONTRACT_FAQ} related={[{ label: 'Calendario', text: 'Scadenze e consegne', href: '#/funzionalita/calendario-campagne/' }, { label: 'Contenuti UGC', text: 'Diritti d’uso per le ads', href: '#/contenuti-ugc/' }, { label: 'Quanto costa', text: 'Formule di compenso', href: '#/social-media-tool/costo-influencer/' }]} /> }),
+    '/funzionalita/calendario-campagne/': () => ({ meta: { path: p, label: 'Calendario campagne', type: 'software', kw: 'calendario campagne influencer', title: T('Calendario campagne influencer e scadenze'), description: 'Tutte le scadenze delle collaborazioni in un calendario: consegne, revisioni, pubblicazioni e contenuti in ritardo, per brand e creator.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Calendario campagne' }], faq: CAL_FAQ }, el: <FeaturePage crumb="Calendario campagne" eyebrow="Calendario" title={'Il calendario delle campagne\n*con gli influencer*'} lead="Consegne, revisioni e pubblicazioni di tutti i creator in una vista a calendario o a lista, con le consegne in ritardo in evidenza." visual={<CalendarMock className="mx-auto max-w-[480px]" />} answer={{ q: 'Come si organizza una campagna con più influencer?', a: CAL_FAQ[0].a, points: ['Vista calendario o lista', 'Stato di ogni contenuto', 'Etichetta "In ritardo"', 'Chat con ogni creator'] }} items={[{ eyebrow: 'Calendario', title: 'Tutte le scadenze in una vista', text: 'Ogni collaborazione porta in calendario le sue date: brief, consegne, revisioni e pubblicazione. Passa dalla vista mensile alla lista quando gestisci molte campagne insieme.', bullets: ['Campagne e scadenze insieme', 'Vista per periodo', 'Anche per i creator'], visual: <CalendarMock /> }, { ...F.campagne, title: 'Consegne, modifiche e approvazioni' }, F.link]} faq={CAL_FAQ} related={[{ label: 'Contratto', text: 'Termini e documento', href: '#/funzionalita/contratto-influencer/' }, { label: 'Per le agenzie', text: 'Più campagne in parallelo', href: '#/piattaforma-agenzie/' }, { label: 'Link tracciati', text: 'Misura i risultati', href: '#/funzionalita/link-tracciati/' }]} /> }),
     '/contatti/': () => ({ meta: { path: p, label: 'Contatti', type: 'page', kw: 'contatti influencee', title: T('Contatti'), description: 'Scrivi al team di influencee per una demo con il tuo settore o per aiuto con la piattaforma.', crumbs: [{ label: 'Contatti' }] }, el: <Contacts /> }),
     '/blog/': () => ({ meta: { path: p, label: 'Blog', type: 'page', kw: 'blog influencer marketing', title: T('Blog di influencer marketing'), description: 'Guide pratiche di influencer marketing per brand e creator: engagement, campagne, strumenti social.', crumbs: [{ label: 'Blog' }] }, el: <Blog /> }),
   };
@@ -586,7 +770,7 @@ export function resolve(path: string): Resolved | null {
 
 /** Elenco di tutte le route (sitemap e test). */
 export function allPaths() {
-  const out = ['/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/annunci-collaborazioni/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti/', '/blog/'];
+  const out = ['/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/annunci-collaborazioni/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
   CATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   REGIONS.forEach((r) => {
     out.push(`/influencer-italiani/influencer-${r.slug}/`);

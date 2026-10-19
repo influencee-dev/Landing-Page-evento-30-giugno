@@ -91,11 +91,11 @@ function useHead(meta: Meta) {
 
 /* ─── Header ────────────────────────────────────────────────────── */
 function activeGroup(path: string) {
-  if (path.startsWith('/funzionalita') || path === '/piattaforma-influencer/' || path === '/benchmark-engagement-rate/') return 'Piattaforma';
-  if (['/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/annunci-collaborazioni/'].includes(path)) return 'Soluzioni';
+  if (path.startsWith('/funzionalita') || path === '/piattaforma-influencer/' || path === '/creator-verificati/') return 'Piattaforma';
+  if (['/social-media-tool/costo-influencer/', '/come-calcolare-engagement-rate/', '/benchmark-engagement-rate/', '/blog/'].includes(path)) return 'Risorse';
+  if (['/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/'].includes(path)) return 'Soluzioni';
   if (path.startsWith('/influencer-italiani') || path.endsWith('-influencers/')) return 'Influencer italiani';
   if (path === '/prezzi/') return 'Prezzi';
-  if (path === '/blog/') return 'Blog';
   return '';
 }
 
