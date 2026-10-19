@@ -1,0 +1,21 @@
+# Influencee
+
+> Influencee è una piattaforma italiana di influencer marketing di Partidea SRL. Le aziende e le agenzie cercano creator italiani (influencer, UGC creator, professionisti, VIP) con filtri per categoria, città, fascia di follower e piattaforma, pubblicano annunci o invitano i creator, gestiscono termini, contratto e contenuti e misurano i click con link tracciati. I creator si iscrivono gratis. Solo creator italiani; nessuna funzione di intelligenza artificiale.
+
+## Pagine principali
+- [Piattaforma influencer](https://influencee.it/piattaforma-influencer/): cosa fa la piattaforma
+- [Influencer marketing per aziende](https://influencee.it/influencer-marketing-aziende/)
+- [Piattaforma per agenzie](https://influencee.it/piattaforma-agenzie/)
+- [Prezzi](https://influencee.it/prezzi/): piano gratuito; Premium 19 €/mese, 49 €/trimestre, 199 €/anno IVA inclusa; 3 giorni di prova senza carta
+- [Diventa creator](https://influencee.it/diventa-creator/): iscrizione gratuita per creator
+- [UGC creator](https://influencee.it/ugc-creator/): cos'è e come diventarlo
+- [Micro influencer](https://influencee.it/micro-influencer/): 10.000–50.000 follower
+- [Influencer italiani](https://influencee.it/influencer-italiani/): per categoria, regione e città
+- [Benchmark engagement rate](https://influencee.it/benchmark-engagement-rate/): metodo di calcolo e valori per fascia
+
+## Fatti
+- Fasce di follower: nano 1.000–10.000, micro 10.000–50.000, mid 50.000–250.000, macro 250.000–1.000.000, mega oltre 1.000.000
+- 18 categorie di creator; un creator ne sceglie al massimo 5
+- Engagement rate: mediana delle interazioni su reel e video degli ultimi 90 giorni (esclusa l'ultima settimana) divisa per i follower; non calcolato con meno di 5 video
+- Badge Verificato: account social collegato con login ufficiale o verifica dello staff
+- Nessuna commissione per il brand sulle collaborazioni

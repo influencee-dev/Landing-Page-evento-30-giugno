@@ -1,0 +1,106 @@
+# Sito influencee v2: piano SEO, GEO e AEO
+
+Copia del sito costruita sulle funzioni reali dell'app (`influencee-dev/appinfluencee`, ottobre 2026). Il sito v1 (`src/influencee/site/`) resta intatto.
+
+Anteprima: build `npx vite build --config vite.site-v2.config.ts` → `dist-site-v2/`.
+
+Volumi: Ubersuggest, Italia, ottobre 2026. Semrush non disponibile (crediti API esauriti).
+
+## 1. Obiettivi e misura
+
+| Obiettivo | Pagine che lo servono | Conversione |
+| --- | --- | --- |
+| Traffico | `/influencer-italiani/` + regioni/città, categorie, `/ugc-creator/`, `/micro-influencer/`, `/benchmark-engagement-rate/`, blog | sessioni organiche, citazioni AI |
+| Lead brand/agenzie | home, `/influencer-marketing-aziende/`, `/piattaforma-agenzie/`, `/prezzi/`, funzionalità | `app.influencee.it/iscriviti/brand/` (prova 3 giorni), form demo |
+| Iscrizioni creator | `/diventa-creator/`, `/ugc-creator/`, `/annunci-collaborazioni/`, CTA su categorie e città | `app.influencee.it/iscriviti/creator/` |
+
+Ogni pagina ha una CTA principale coerente con l'intento, più una secondaria per l'altro pubblico. Su mobile la barra fissa cambia CTA in base alla pagina.
+
+## 2. Mappa keyword → pagina
+
+| URL | Keyword principale | Vol./mese | Secondarie (vol.) | Intento |
+| --- | --- | --- | --- | --- |
+| `/` | piattaforma influencer marketing | — | influencer marketing (720), brand influencer marketing (70) | navigazionale/commerciale |
+| `/piattaforma-influencer/` ⭐ | piattaforma influencer | — | influencer marketing platform/tool (30+30), influee (1.600, già in posizione 15) | commerciale |
+| `/influencer-marketing-aziende/` | influencer marketing aziende | — | influencer marketing (720), micro influencer marketing (50) | commerciale |
+| `/piattaforma-agenzie/` | piattaforma influencer marketing agenzie | — | agenzia influencer marketing (140), agenzie influencer marketing italia (40) | commerciale |
+| `/micro-influencer/` | micro influencer | 480 | micro influencer italiani (90), micro influencer quanti follower (90), micro influencer milano (90) | informativo/commerciale |
+| `/ugc-creator/` | ugc creator | 4.400 | ugc creator italia (320), ugc creator cos'è (170), come diventare ugc creator (170), brand che cercano ugc creator (70) | informativo → iscrizione |
+| `/diventa-creator/` | collaborazioni con brand | 50 | come diventare influencer (390), diventare influencer (50) | transazionale (iscrizione) |
+| `/annunci-collaborazioni/` | annunci collaborazioni influencer | — | ugc creator lavoro (90), ugc creator offerte di lavoro (30) | transazionale |
+| `/influencer-italiani/` ⭐ | influencer italiani | 390 | tutti influencer (260), top 100 influencer italia (260), creator italiani (140) | informativo |
+| `/<categoria>-influencers/` ⭐ (18) | es. food/fitness influencer italiani | 140–210 cad. | foodie influencers (210, pos. 1), fitness influencers (260) | informativo |
+| `/influencer-italiani/influencer-<regione>/[influencer-<città>/]` ⭐ | influencer napoli, milano, torino… | 110–1.600 | influencer napoletani (1.600, pos. 7), influencer veneti (170) | locale |
+| `/funzionalita/database-influencer/` | database influencer italiani | — | come trovare influencer (20), trovare influencer (10) | commerciale |
+| `/funzionalita/gestione-campagne/` | gestione campagne influencer | — | influencer marketing contratto (10) | commerciale |
+| `/funzionalita/link-tracciati/` | link tracciati influencer | — | — | commerciale |
+| `/funzionalita/media-kit/` | media kit influencer | 90 | media kit influencer esempio (20) | informativo → iscrizione |
+| `/benchmark-engagement-rate/` | engagement rate instagram | 390 | engagement rate micro influencer | informativo (lead magnet) |
+| `/prezzi/` | prezzi piattaforma influencer | — | quanto costa un influencer | transazionale |
+
+⭐ = URL già indicizzato sul sito attuale: lo slug resta identico.
+
+## 3. Migrazione: URL da mantenere e redirect 301
+
+Pagine che oggi portano traffico, da Ubersuggest `domain_keywords`:
+
+| URL attuale | Azione |
+| --- | --- |
+| `/influencer-italiani/` e tutte le sottopagine `influencer-<regione>/influencer-<città>/` | **stesso URL**, nuovo template |
+| `/food-influencers/`, `/fitness-influencers/`, `/travel-influencers/` | **stesso URL**, pagina categoria |
+| `/sport-influencers/` | 301 → `/fitness-influencers/` (categoria app "Fitness e sport") |
+| `/piattaforma-influencer/` | **stesso URL**, panoramica piattaforma |
+| `/influencer-italiane/` | stesso URL, articolo blog; link a `/influencer-italiani/` |
+| `/i-migliori-beauty-influencer-su-instagram/`, `/i-10-food-influencer-piu-popolari-su-tiktok/`, `/i-10-fashion-influencer-piu-seguiti-su-instagram/` | stesso URL, articoli blog; link alla pagina categoria |
+| `/come-calcolare-engagement-rate/` | stesso URL, articolo; link a `/benchmark-engagement-rate/` |
+| `/migliori-app-gestione-follower/`, `/instagram-follower-gratis-perche-evitarli-e-come-crescere-davvero/` | stesso URL, blog |
+| `/social-media-tool/emoticon-da-copiare/` | **stesso URL**: è la pagina con più traffico (2.900 + 4.400 ricerche) |
+
+Prima del passaggio servono due cose:
+- l'export completo degli URL attuali (sitemap + Search Console) per mappare ogni pagina con traffico o backlink;
+- nessuna pagina deve sparire senza 301.
+
+## 4. Regole GEO e AEO (motori di risposta e AI)
+
+1. **Risposta in apertura.** Subito sotto l'hero c'è il box "In breve" con la domanda principale e una risposta autonoma di 40–70 parole, che si può citare anche fuori contesto.
+2. **H2 in forma di domanda** sulle pagine informative ("Chi sono i micro influencer?", "Quanto guadagna un UGC creator").
+3. **FAQ visibili uguali al JSON-LD** `FAQPage`. Il testo coincide parola per parola: lo genera la stessa fonte (`meta.faq`).
+4. **Dati strutturati** in ogni pagina:
+   - `Organization` (Partidea SRL), `WebSite`, `WebPage`, `BreadcrumbList`;
+   - `SoftwareApplication` con le `Offer` dei piani su home, piattaforma, funzionalità e prezzi.
+5. **Entità coerenti.** Nome "Influencee", ragione sociale Partidea SRL, "piattaforma italiana di influencer marketing", "solo creator italiani": sempre con le stesse parole.
+6. **Fatti verificabili e definizioni precise.** Esempi: fasce nano–mega con i numeri, metodo di calcolo dell'ER, prezzi esatti. Niente superlativi né numeri inventati.
+7. **`llms.txt`** nella root (bozza in `llms.txt` in questa cartella), con le pagine chiave e una descrizione fattuale.
+8. **Link interni.** Ogni pagina ha:
+   - breadcrumb;
+   - "Continua a esplorare";
+   - un footer con tutta la struttura (categorie e città).
+
+## 5. Cosa il sito NON promette (vincoli dall'app)
+
+- Niente AI, matching AI o "punteggio di affinità": la ricerca è deterministica.
+- Solo creator italiani.
+- Niente "dati in tempo reale": il sito dice sempre che ogni dato ha fonte e data di aggiornamento.
+- Niente numeri sul database: oggi 2.653 creator cercabili, 0 verificati e l'engagement non ancora calcolato. Il sito non cita quantità.
+- Niente escrow o pagamenti Stripe, Shopify/WooCommerce, annunci Meta, pubblicazione sui social: sono spenti o senza chiavi.
+- Prezzi: oggi 19 €/mese, 49 €/trimestre, 199 €/anno IVA inclusa, prova di 3 giorni. **Se si accendono i piani 2026** (Base 35 €, Business 57 €, Illimitato 99 € + IVA, early bird 27 €) vanno aggiornati `PLANS` in `data.ts` e la pagina `/prezzi/`.
+
+## 6. Checklist tecnica per la messa online
+
+- [ ] **Pagine statiche (SSG/prerender)** per ogni percorso di `allPaths()`, con URL reali e senza hash. Il router a hash serve solo all'anteprima. Title, description, canonical e JSON-LD vanno nell'HTML statico. Un'opzione è Vite SSG o Astro con le stesse row React.
+- [ ] `sitemap.xml` generata da `allPaths()`, più gli articoli del blog migrati.
+- [ ] `robots.txt`: consentire GPTBot, PerplexityBot, Google-Extended, ClaudeBot, se si vuole visibilità sulle AI.
+- [ ] 301 della tabella §3 sul server.
+- [ ] Immagini WebP con `alt` descrittivo, LCP sotto 2,5 s, font precaricati.
+- [ ] Il form demo deve inviare davvero, ad esempio a Brevo, già usato dall'app.
+- [ ] Search Console: invio della sitemap e controllo delle pagine 404 dopo la migrazione.
+
+## 7. Rischi e prossimi passi
+
+- **Pagine programmatiche** (18 categorie × 20 regioni × città): testi in parte simili. Per evitare contenuti sottili:
+  - attivare prima le pagine con domanda reale (Napoli, Milano, Torino, Bologna, Palermo, Veneto);
+  - aggiungere a ciascuna un paragrafo locale scritto a mano;
+  - quando l'app avrà almeno 6 creator verificati per città, incorporare la lista da `app.influencee.it/creator/<categoria>/<città>/`.
+- Le liste SEO pubbliche dell'app oggi rispondono 404, perché i creator verificati sono 0. Per questo le CTA puntano all'iscrizione e non alle liste.
+- Blog: migrare gli articoli esistenti mantenendo gli URL, poi pubblicare guide sulle keyword informative ("come diventare influencer" 390, "ugc creator cos'è" 170, "micro influencer quanti follower" 90).
+- Immagini: profili e volti dei creator generati con il brief Drive `00_PROMPT UNICO`. Serve il consenso dei clienti per le reel Socialee.
