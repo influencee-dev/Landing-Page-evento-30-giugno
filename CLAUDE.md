@@ -1,0 +1,5 @@
+# Istruzioni per Claude in questo repository
+
+- **Analytics, Ads, Search Console, SEO**: per qualunque lavoro su tracciamento, eventi, conversioni, campagne Google Ads, Search Console, keyword, redirect o report, usa la skill `google-marketing-specialist` (`.claude/skills/`). Per i lavori più ampi delega all'agente `google-marketing-specialist` (`.claude/agents/`). Ogni nuovo pulsante, link o form deve essere tracciato secondo `src/influencee/v2/ANALYTICS-PIANO.md`.
+- **Comandi bash**: concatenati e con output troncato, modifiche multiple con un unico script, mai credenziali in chiaro (vedi la sezione bash della skill).
+- **Sito influencee v2** (`src/influencee/v2/`): solo funzioni reali dell'app, niente AI, solo creator italiani, nessuna riga solo testo, hero su nero con evidenziazione verde acido. Build: `npx vite build --config vite.site-v2.config.ts`.

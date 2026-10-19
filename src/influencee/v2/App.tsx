@@ -5,6 +5,7 @@ import { Button, Container, Heading, Lead, Logo, Section } from '../ds';
 import { APP, FACTS, MENU, PLANS, SITE, WHATSAPP } from './data';
 import { resolve, type Meta } from './pages';
 import { FooterV2, WaIcon, WhatsAppFab } from './rows';
+import { initAnalytics, pageView, readConsent, setConsent } from './analytics';
 
 /* ════════════════════════════════════════════════════════════════════
    APP v2 — router con gli URL definitivi del sito (#/percorso/).
@@ -126,12 +127,12 @@ function Header({ path }: { path: string }) {
                 const base = `flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition ${active === g.label ? 'bg-ink text-white' : 'text-ink/75 hover:bg-paper hover:text-ink'}`;
                 if (!g.items)
                   return (
-                    <a key={g.label} href={g.href} className={base}>
+                    <a key={g.label} href={g.href} data-menu-group={g.label} className={base}>
                       {g.label}
                     </a>
                   );
                 return (
-                  <div key={g.label} className="relative" onMouseEnter={() => setOpen(g.label)} onMouseLeave={() => setOpen(null)}>
+                  <div key={g.label} data-menu-group={g.label} className="relative" onMouseEnter={() => setOpen(g.label)} onMouseLeave={() => setOpen(null)}>
                     <button type="button" className={base} aria-expanded={open === g.label} onClick={() => setOpen(open === g.label ? null : g.label)}>
                       {g.label} <ChevronDown className={`h-3.5 w-3.5 transition ${open === g.label ? 'rotate-180' : ''}`} />
                     </button>
@@ -173,7 +174,7 @@ function Header({ path }: { path: string }) {
                 <div className="max-h-[75vh] space-y-1 overflow-y-auto border-t border-line py-3">
                   {MENU.map((g) =>
                     g.items ? (
-                      <div key={g.label}>
+                      <div key={g.label} data-menu-group={g.label}>
                         <button type="button" onClick={() => setMg(mg === g.label ? null : g.label)} className="flex w-full items-center justify-between rounded-2xl px-4 py-3 font-heading font-semibold">
                           {g.label} <ChevronDown className={`h-4 w-4 transition ${mg === g.label ? 'rotate-180' : ''}`} />
                         </button>
@@ -230,6 +231,29 @@ function NotFoundV2() {
 
 const NOT_FOUND: Meta = { path: '/404/', label: 'Pagina non trovata', kw: '', title: 'Pagina non trovata | Influencee', description: 'La pagina cercata non esiste.' };
 
+/* ─── Banner cookie (Consent Mode v2) ───────────────────────────── */
+function ConsentBanner() {
+  const [show, setShow] = useState(() => readConsent() === null);
+  if (!show) return null;
+  const choose = (v: 'granted' | 'denied') => {
+    setConsent(v);
+    setShow(false);
+  };
+  return (
+    <div data-track-zone="banner_cookie" className="fixed inset-x-3 bottom-24 z-[60] mx-auto max-w-xl rounded-3xl bg-ink p-5 text-white shadow-float sm:bottom-6 lg:left-6 lg:right-auto">
+      <p className="text-sm leading-relaxed text-white/80">Usiamo cookie di analisi per capire come viene usato il sito e migliorarlo. Nessun cookie pubblicitario. Puoi accettare o rifiutare.</p>
+      <div className="mt-4 flex gap-2">
+        <button type="button" data-track-ignore="" onClick={() => choose('granted')} className="h-10 flex-1 rounded-full bg-acid text-sm font-semibold text-ink">
+          Accetta
+        </button>
+        <button type="button" data-track-ignore="" onClick={() => choose('denied')} className="h-10 flex-1 rounded-full bg-white/10 text-sm font-semibold ring-1 ring-white/20">
+          Rifiuta
+        </button>
+      </div>
+    </div>
+  );
+}
+
 type Phase = 'idle' | 'cover' | 'reveal';
 
 export default function SiteV2() {
@@ -241,6 +265,12 @@ export default function SiteV2() {
   const meta = page?.meta ?? NOT_FOUND;
   const next = resolve(path)?.meta.label ?? 'Pagina';
   useHead(meta);
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+  useEffect(() => {
+    pageView(shown, meta.title);
+  }, [shown]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (path !== shown) setPhase('cover');
@@ -275,8 +305,9 @@ export default function SiteV2() {
       <main key={shown}>{page ? page.el : <NotFoundV2 />}</main>
       <FooterV2 />
       <WhatsAppFab />
+      <ConsentBanner />
       <div className="h-20 lg:hidden" aria-hidden />
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 px-4 pt-3 backdrop-blur-md lg:hidden" style={{ paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))' }}>
+      <div data-track-zone="barra_mobile" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 px-4 pt-3 backdrop-blur-md lg:hidden" style={{ paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))' }}>
         <div className="flex gap-2">
           <a href={isCreator ? APP.creator : APP.brand} className="flex h-12 flex-1 items-center justify-center rounded-full bg-brand text-[15px] font-semibold text-white">
             {isCreator ? 'Iscriviti gratis' : `Prova ${FACTS.trialDays} giorni gratis`}

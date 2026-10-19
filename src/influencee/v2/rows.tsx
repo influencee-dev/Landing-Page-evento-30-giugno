@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown, ChevronRight, Coffee, Dumbbell, FileText, Gamepad2, HeartPulse, Laugh, MousePointerClick, Music2, Megaphone, Users, LayoutGrid, BarChart3, PawPrint, PiggyBank, Plane, Search, Shirt, Smartphone, Sofa, Sparkles, UtensilsCrossed } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, reveal, useInk, type Tone } from '../ds';
+import { faqOpen } from './analytics';
 import { APP, CATEGORIES, FACTS, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -361,7 +362,10 @@ export function FaqSeo({ tone = 'white', title = 'Domande\n*frequenti*', items, 
         <div className="divide-y divide-line border-y border-line">
           {items.map((it, i) => (
             <div key={it.q}>
-              <button type="button" onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i} className="flex w-full items-center justify-between gap-6 py-6 text-left">
+              <button type="button" onClick={() => {
+                  if (open !== i) faqOpen(it.q, i);
+                  setOpen(open === i ? -1 : i);
+                }} data-track-ignore="" aria-expanded={open === i} className="flex w-full items-center justify-between gap-6 py-6 text-left">
                 <h3 className="font-heading text-lg font-semibold tracking-tight sm:text-xl">{it.q}</h3>
                 <ChevronDown className={`h-5 w-5 shrink-0 transition ${open === i ? 'rotate-180 text-brand' : 'text-mute'}`} />
               </button>
@@ -681,7 +685,7 @@ export function ManagedRow({ tone = 'ink' }: { tone?: Tone }) {
 /** Pulsante WhatsApp fisso (desktop). */
 export function WhatsAppFab() {
   return (
-    <a href={WHATSAPP.href} target="_blank" rel="noopener" aria-label="Chiedi un preventivo su WhatsApp" className="group fixed bottom-6 right-6 z-40 hidden items-center gap-2 rounded-full bg-[#25D366] py-3 pl-3 pr-3 text-ink shadow-float transition hover:pr-5 lg:flex">
+    <a href={WHATSAPP.href} target="_blank" rel="noopener" aria-label="Chiedi un preventivo su WhatsApp" data-track-zone="pulsante_whatsapp_fisso" className="group fixed bottom-6 right-6 z-40 hidden items-center gap-2 rounded-full bg-[#25D366] py-3 pl-3 pr-3 text-ink shadow-float transition hover:pr-5 lg:flex">
       <WaIcon className="h-6 w-6" />
       <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold transition-all duration-300 group-hover:max-w-[200px]">Chiedi un preventivo</span>
     </a>
