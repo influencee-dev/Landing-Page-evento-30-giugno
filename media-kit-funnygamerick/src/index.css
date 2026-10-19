@@ -229,3 +229,18 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Sfondo e colore del testo fuori dai layer di Tailwind: le regole non stratificate di un
+ * contenitore esterno (es. un tema chiaro di chi incorpora la pagina) vincerebbero su @layer base
+ * e il testo chiaro finirebbe su fondo bianco. La pagina è volutamente solo scura.
+ */
+:root,
+html {
+  color-scheme: dark !important;
+  background-color: #030a18 !important;
+}
+body {
+  background-color: #030a18 !important;
+  color: #f5faff;
+}
