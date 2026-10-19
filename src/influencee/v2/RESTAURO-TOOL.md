@@ -6,7 +6,7 @@
 
 ## In breve
 
-Sul vecchio sito c'erano 20 pagine "tool". Le visite si concentrano su tre: fake follower (3.426 clic), costo influencer (960) e calcolo engagement (373). La bacheca offerte ne porta 492, tra pagina principale e 68 schede offerta.
+Sul vecchio sito c'erano circa 22 pagine "tool", tutte in JavaScript dentro Elementor, senza calcoli sul server. Le visite si concentrano su tre: fake follower (3.426 clic), costo influencer (960) e calcolo engagement (373). La bacheca offerte ne porta 492, tra pagina principale e 68 schede offerta.
 
 Le prime cinque pagine sono restaurate con lo **stesso URL**, più l'hub dei tool. Le altre sono in fase 2, in ordine di traffico.
 
@@ -15,7 +15,7 @@ Le prime cinque pagine sono restaurate con lo **stesso URL**, più l'hub dei too
 | Vecchio URL | Clic GSC | Cos'era | Stato v2 |
 | --- | --- | --- | --- |
 | `/followe-instagram-fake-follower/` | 3.426 | Articolo con statistiche senza fonte e un "Audience Quality Score" che l'app non ha | ✅ **Tool vero**: 5 segnali calcolati con soglie dichiarate, più la guida |
-| `/social-media-tool/costo-influencer/` | 960 | Articolo con forbici di prezzo senza fonte | ✅ **Calcolatore**: formula di prezzo dell'app (€/follower) e media di mercato per fascia (DeRev), con la fonte |
+| `/social-media-tool/costo-influencer/` | 960 | Calcolatore JS: follower × tariffa per formato (post 0,01; stories 0,005; video 0,02) × piattaforma (IG 1; TikTok 1,2; YouTube 1,5) × nicchia (da 1 a 2). Non usava l'engagement, anche se lo prometteva | ✅ **Calcolatore**: formula di prezzo dell'app (€/follower) e media di mercato per fascia (DeRev), con la fonte |
 | `/come-calcolare-engagement-rate/` | 373 | Articolo | ✅ Già restaurato: calcolatore ER e check sponsor |
 | `/offerte-lavoro-influencer/` | 188 | Bacheca WP Job Manager, con 60 offerte quasi tutte del 2022 | ✅ **Bacheca** con ricerca e filtri per compenso; le offerte arrivano dall'app |
 | `/offerta-lavoro/<slug>/` (68) | 304 | Schede offerta, scadute | ↪ 301 alla bacheca |
@@ -25,13 +25,30 @@ Le prime cinque pagine sono restaurate con lo **stesso URL**, più l'hub dei too
 | `/come-calcolare-il-costo-degli-influencer/` e varianti | 73 | Articoli doppi | ↪ 301 al calcolatore del costo |
 | `/tiktok-keyword-tool/` | 27 | Tool keyword TikTok | ⏳ Fase 2 |
 | `/social-media-tool/anteprima-dei-tuoi-post-sui-social/` | 11 | Anteprima post | ⏳ Fase 2 |
-| `/preventivi-influencer/`, `/preventivo-campagne/` | 6 | Calcolo preventivo campagna | ⏳ Fase 2: unire al calcolatore del costo (pacchetto con più creator) |
+| `/preventivo-campagne/` | — | **Calcolatore funzionante ma non linkato da nessuna pagina**, con il listino del servizio gestito: influencer 500 €, ogni contenuto in più 475 €, fee 250 € a influencer, UGC 150 € + fee 100 €, +10% se dura 1 mese, sconti del 5/6/8% a 3/6/12 mesi | ⏳ **Fase 2, prima priorità**: è il preventivo del servizio gestito, che chiude con WhatsApp. ⚠ Listino da confermare con il titolare prima di pubblicarlo |
+| `/preventivi-influencer/` | 6 | Form Brevo con brief e budget, nessun numero in risposta | ⏳ Fase 2: unire al preventivo campagne (prima la stima, poi WhatsApp) |
 | `/tool-influencer/` | 4 (10.714 impressioni) | Pagina prodotto | ↪ 301 all'hub; title da rivedere sulla query |
 | `/social-media-tool/generatore-prompt-per-social-media-manager/` | 3 | Generatore di prompt | ⏳ Fase 2, bassa priorità |
-| `/social-media-tool/calcola-preventivo-gestione-social/` | 3 | Preventivo per social media manager | ⏳ Fase 2 |
+| `/social-media-tool/calcola-preventivo-gestione-social/` | 3 | Preventivatore SMM: tariffa oraria (28/35/40 € per esperienza) × ore stimate, più un contratto in 7 articoli scaricabile in PDF | ⏳ Fase 2, alta priorità per i social media manager |
 | `/social-media-tool/piano-editoriale-online/`, `/calendario-editoriale/`, `/social-campaign-planner/`, `/social-media-strategy-tool/`, `/report-social-organico/`, `/comprimi-immagini-online/` | 0–2 | Template e utility | ⏳ Fase 2: accorpare in 2–3 tool (piano editoriale, preventivo social) |
-| `/hashtag-piu-cercati-su-instagram/` | n/d | Elenco hashtag | ⏳ Fase 2 |
+| `/hashtag-piu-cercati-su-instagram/` | n/d | Articolo fermo al 2023 | ⏳ Fase 2, bassa priorità |
+| `/converti-immagini-in-webp/` | n/d | Convertitore WebP (canvas) | ⏳ Fase 2: unire al compressore immagini |
+| `/corso-gratuito-social-ads-2025/` | n/d | Corso con form Brevo (nome + email): l'unico vero lead magnet a email | ⏳ Da decidere: tenerlo o aggiornarlo al 2026 |
+| `/social-media-tool-form/` | — | **Vicolo cieco**: le 13 card aprono un form Brevo che chiede nome, telefono ed email, ma nessun tool si sblocca | ↪ 301 all'hub; da togliere subito dal menù del vecchio sito |
 | `/tool-finanziario/` | 0 | 404 | ↪ 301 all'hub |
+
+## Problemi del sito attuale da sistemare subito (prima della v2)
+
+Fonte: analisi del vecchio sito del 19/10/2026, con screenshot in scratchpad (`old-site-shots/`).
+
+| Problema | Effetto | Correzione |
+| --- | --- | --- |
+| Pixel Meta inizializzato con l'ID tra graffe: `fbq('init','{595078877779895}')` | Il Pixel non registra niente: campagne Meta senza conversioni | Togliere le graffe |
+| Voce di menù "Free Social Media Tool" → `/social-media-tool-form/` | Chiede telefono ed email, ma poi non dà nessun tool: perde fiducia e lead | Puntare la voce di menù a `/social-media-tool/` |
+| Form Brevo con il testo d'esempio "Personalizza questo testo di aiuto…" | Sembra un sito non finito | Togliere il testo |
+| Da 3 a 5 tag `<title>` sulle pagine `/social-media-tool/*`, anche "Influencer Verona" | Google sceglie un title a caso | Un solo title per pagina |
+| Bacheca: 56 offerte scadute (2021–2022) ancora online, con `JobPosting` senza scadenza e senza luogo valido | Avvisi in Google Jobs e una bacheca che sembra abbandonata | Chiudere le offerte scadute |
+| Campaign Planner: export PNG rotto (manca html2canvas) | Il tool dà errore | Nella v2 è da rifare |
 
 ## Scelte di contenuto
 
@@ -62,9 +79,11 @@ Le prime cinque pagine sono restaurate con lo **stesso URL**, più l'hub dei too
 
 ## Fase 2: ordine consigliato
 
-1. Preventivo campagna con più creator, dentro il calcolatore del costo.
-2. TikTok keyword tool.
-3. Anteprima post.
-4. Preventivo gestione social e piano editoriale, che accorpa i 6 template.
+1. Preventivo campagne del servizio gestito (listino già esistente, da confermare) con uscita su WhatsApp.
+2. Preventivatore per social media manager con contratto in PDF.
+3. Nel calcolatore del costo: aggiungere formato (post, stories, video) e nicchia, con i moltiplicatori del vecchio tool, se il titolare li conferma.
+4. Anteprima post, con TikTok e il troncamento "…altro".
+5. Piano editoriale, che accorpa calendario, planner, Gantt e report.
+6. Compressore immagini e WebP insieme. TikTok keyword e hashtag restano articoli.
 
 Ogni tool passa prima da Figma (stessa pagina del file), poi va nel codice con lo stesso URL, gli eventi GA4 e le FAQ.
