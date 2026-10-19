@@ -24,6 +24,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     plugins: [react(), tailwindcss(), siteMeta(env.SITE_URL ?? '')],
+    // Percorsi relativi: il sito funziona anche se pubblicato in una sottocartella.
+    base: './',
     build: { target: 'es2020', cssCodeSplit: true },
   };
 });

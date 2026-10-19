@@ -95,7 +95,7 @@ function PlayerCard({ creator }: { creator: CreatorData }) {
         <div aria-hidden="true" className="scanlines absolute inset-0 opacity-60" />
         <div className="relative flex items-center gap-4">
           <img
-            src="/images/avatar-192.webp"
+            src="images/avatar-192.webp"
             alt=""
             width={64}
             height={64}

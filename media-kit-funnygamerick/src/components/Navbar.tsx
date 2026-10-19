@@ -60,7 +60,7 @@ export function Navbar({ creator, items }: Props) {
       <nav className="container-x flex h-[4.5rem] items-center justify-between gap-6" aria-label="Navigazione principale">
         <a href="#top" className="group flex items-center gap-3" aria-label={`${creator.name}, torna all'inizio`}>
           <span className="relative block h-9 w-9 overflow-hidden rounded-full ring-1 ring-cyan/50 transition group-hover:ring-cyan">
-            <img src="/images/avatar-192.webp" alt="" width={36} height={36} className="h-full w-full object-cover" />
+            <img src="images/avatar-192.webp" alt="" width={36} height={36} className="h-full w-full object-cover" />
           </span>
           <span className="font-display text-lg font-bold tracking-wide text-ink">
             Funny<span className="text-cyan">Game</span>Rick

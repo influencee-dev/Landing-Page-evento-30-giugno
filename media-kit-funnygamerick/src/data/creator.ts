@@ -141,14 +141,14 @@ export const creator: CreatorData = {
 
   images: {
     avatar: {
-      src: '/images/avatar-800.webp',
-      srcSet: '/images/avatar-400.webp 400w, /images/avatar-800.webp 800w',
+      src: 'images/avatar-800.webp',
+      srcSet: 'images/avatar-400.webp 400w, images/avatar-800.webp 800w',
       alt: 'Illustrazione ufficiale di FunnyGameRick: Riccardo con occhiali e un controller in mano',
       width: 800,
       height: 800,
     },
     banner: {
-      src: '/images/banner-youtube.webp',
+      src: 'images/banner-youtube.webp',
       alt: 'Banner del canale YouTube FunnyGameRick con la scritta "Non solo un gamer"',
       width: 2560,
       height: 424,
@@ -300,7 +300,7 @@ export const creator: CreatorData = {
    *   title: 'Titolo del video',
    *   platform: 'youtube',             // 'youtube' | 'tiktok' | 'instagram' | 'twitch'
    *   url: 'https://www.youtube.com/watch?v=XXXXXXXXXXX',
-   *   thumbnail: '/images/video-1.webp', // opzionale: per YouTube viene ricavata dal link
+   *   thumbnail: 'images/video-1.webp', // opzionale: per YouTube viene ricavata dal link
    *   meta: 'Walkthrough · Episodio 1', // opzionale
    * }
    */
