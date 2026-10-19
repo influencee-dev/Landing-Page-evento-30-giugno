@@ -12,6 +12,7 @@ Volumi: Ubersuggest, Italia, ottobre 2026. Semrush non disponibile (crediti API 
 | --- | --- | --- |
 | Traffico | `/influencer-italiani/` + regioni/città, categorie, `/ugc-creator/`, `/micro-influencer/`, `/benchmark-engagement-rate/`, blog | sessioni organiche, citazioni AI |
 | Lead brand/agenzie | home, `/influencer-marketing-aziende/`, `/piattaforma-agenzie/`, `/prezzi/`, funzionalità | `app.influencee.it/iscriviti/brand/` (prova 3 giorni), form demo |
+| Preventivi per progetti gestiti | home, aziende, agenzie, prezzi, contatti (sezione "Gestiamo noi") + pulsante fisso | WhatsApp +39 351 342 1629 (link wa.me con messaggio precompilato) |
 | Iscrizioni creator | `/diventa-creator/`, `/ugc-creator/`, `/annunci-collaborazioni/`, CTA su categorie e città | `app.influencee.it/iscriviti/creator/` |
 
 Ogni pagina ha una CTA principale coerente con l'intento, più una secondaria per l'altro pubblico. Su mobile la barra fissa cambia CTA in base alla pagina.

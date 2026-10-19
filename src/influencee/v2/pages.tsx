@@ -4,7 +4,7 @@ import { Button } from '../ds';
 import { HeroReels, ReelWall, WorkReelCard } from '../rows/reels';
 import { REELS } from '../site/data';
 import { CtaForm } from '../rows/spoki';
-import { APP, CATEGORIES, CREATOR_TYPES, FACTS, FAQ, REGIONS, SITE, type QA } from './data';
+import { APP, CATEGORIES, CREATOR_TYPES, FACTS, FAQ, REGIONS, SITE, WHATSAPP, type QA } from './data';
 import { AnnunciMock, CollabMock, DiscoveryMock, KitMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
 import {
   AnswerBox,
@@ -18,6 +18,7 @@ import {
   FeatureSplit,
   HeroCenter,
   HeroPlatform,
+  ManagedRow,
   Plans,
   Prose,
   RegionGrid,
@@ -181,6 +182,7 @@ function Home() {
       <CategoryGrid />
       <Plans compact />
       <FaqSeo items={[...FAQ.piattaforma.slice(0, 2), FAQ.brand[0], FAQ.creator[0], FAQ.creator[1]]} />
+      <ManagedRow />
       <CtaDual />
     </>
   );
@@ -258,6 +260,7 @@ function Brands() {
       <FeatureSplit tone="white" items={[F.ricerca, F.annunci, F.campagne, F.link]} />
       <ReelWall eyebrow="Esempi" title={'Contenuti per\n*attività come la tua*'} lead="Reel realizzati per ristoranti, palestre, farmacie e centri estetici italiani." stats={[['Food', 'ristoranti e prodotti'], ['Fitness', 'palestre e corsi'], ['Salute', 'farmacie e benessere']]} />
       <Plans compact tone="paper" />
+      <ManagedRow />
       <FaqSeo items={FAQ.brand} />
       <Related links={[
         { label: 'Micro influencer', text: 'Perché funzionano per le PMI', href: '#/micro-influencer/' },
@@ -284,6 +287,7 @@ function Agencies() {
         { t: 'Nessuna commissione', x: 'Abbonamento fisso, nessuna percentuale sul budget dei tuoi clienti.' },
       ]} />
       <FeatureSplit tone="paper" items={[F.ricerca, F.campagne]} />
+      <ManagedRow />
       <Plans compact />
       <FaqSeo items={[FAQ.brand[0], FAQ.piattaforma[1], FAQ.piattaforma[2], FEATURE_FAQ.campagne[2]]} />
       <CtaBandV2 title={'Porta i tuoi clienti\n*su influencee*'} primary={{ label: 'Registra l’agenzia', href: APP.brand }} secondary={{ label: 'Scrivici', href: '#/contatti/' }} />
@@ -411,6 +415,7 @@ function Pricing() {
     <>
       <HeroPlatform crumbs={[{ label: 'Prezzi' }]} eyebrow="Prezzi" title={'Prezzi di influencee:\n*parti gratis*'} lead={`Piano gratuito per sempre, Premium da 19 € al mese con ${FACTS.trialDays} giorni di prova senza carta. Nessuna commissione per il brand sulle collaborazioni.`} actions={brandCtas} visual={<SearchMock className="mx-auto max-w-[500px]" />} />
       <Plans tone="white" />
+      <ManagedRow />
       <FaqSeo items={[
         FAQ.brand[0],
         { q: 'Cosa include il piano gratuito?', a: `Ricerca creator con i primi ${FACTS.freeResults} risultati in chiaro, annunci nella bacheca, ${FACTS.freeLinks} link tracciati attivi e chat con i creator delle tue collaborazioni.` },
@@ -503,7 +508,8 @@ function CrumbsDark({ items }: { items: Crumb[] }) {
 function Contacts() {
   return (
     <>
-      <HeroPlatform crumbs={[{ label: 'Contatti' }]} eyebrow="Contatti" title={'Parliamo della\n*tua campagna*'} lead="Vuoi vedere la piattaforma con il tuo settore o hai bisogno di aiuto per partire? Scrivici: lasciaci i tuoi dati e ti ricontattiamo." actions={<><Button href={APP.brand}>Registrati e prova</Button><Button href={APP.creator} variant="secondary">Sono un creator</Button></>} visual={<CollabMock className="mx-auto max-w-[480px]" />} />
+      <HeroPlatform crumbs={[{ label: 'Contatti' }]} eyebrow="Contatti" title={'Parliamo della\n*tua campagna*'} lead="Vuoi vedere la piattaforma con il tuo settore o hai bisogno di aiuto per partire? Scrivici: lasciaci i tuoi dati e ti ricontattiamo." actions={<><Button href={WHATSAPP.href}>Preventivo su WhatsApp</Button><Button href={APP.brand} variant="secondary">Registrati e prova</Button></>} visual={<CollabMock className="mx-auto max-w-[480px]" />} />
+      <ManagedRow />
       <CtaForm title="Richiedi una demo per il tuo brand" lead="Lasciaci i tuoi dati: ti mostriamo la piattaforma con creator del tuo settore." />
       <FaqSeo items={[FAQ.piattaforma[0], FAQ.brand[0], FAQ.creator[0]]} />
     </>

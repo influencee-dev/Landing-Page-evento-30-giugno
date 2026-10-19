@@ -25,6 +25,13 @@ export const APP = {
   check: 'https://app.influencee.it/benchmark/engagement-ratio/',
 };
 
+/** Preventivo per progetti gestiti dal team: WhatsApp. */
+export const WHATSAPP = {
+  number: '+39 351 342 1629',
+  tel: '+393513421629',
+  href: `https://wa.me/393513421629?text=${encodeURIComponent('Ciao Influencee, vorrei un preventivo per un progetto con i creator gestito da voi.')}`,
+};
+
 /** Fatti verificati nel codice dell'app: gli unici numeri da usare. */
 export const FACTS = {
   trialDays: 3,
@@ -209,6 +216,7 @@ export const FAQ = {
     { q: 'Quanto costa influencee per un’azienda?', a: `Puoi iniziare gratis. Premium costa 19 € al mese, 49 € a trimestre o 199 € all’anno, IVA inclusa, con ${FACTS.trialDays} giorni di prova senza carta. Il compenso del creator lo concordate voi in piattaforma.` },
     { q: 'Come trovo l’influencer giusto per il mio brand?', a: 'Filtra per categoria, città, fascia di follower, tipo di creator e piattaforma, poi apri la scheda: follower, engagement rispetto alla fascia, crescita a 30 e 90 giorni, contenuti e brand con cui ha già collaborato.' },
     { q: 'Posso pubblicare un annuncio e far candidare i creator?', a: 'Sì. Con l’annuncio veloce la tua offerta va online subito nella bacheca pubblica e i creator si candidano. In alternativa inviti direttamente i profili che hai scelto.' },
+    { q: 'Potete gestire voi il progetto con i creator?', a: 'Sì. Se preferisci non usare la piattaforma in autonomia, il team di influencee può seguire il progetto per te: selezione dei creator, accordi, contenuti e risultati. Chiedi un preventivo su WhatsApp al +39 351 342 1629.' },
     { q: 'Che tipo di compenso posso offrire?', a: 'Compenso in denaro, cambio merce, affiliazione, formula ibrida, ospitalità o evento. Le condizioni sono scritte nell’accordo che accettate entrambi.' },
   ] as QA[],
   creator: [

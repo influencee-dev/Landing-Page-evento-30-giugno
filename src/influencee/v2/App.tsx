@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import { Button, Container, Heading, Lead, Logo, Section } from '../ds';
-import { APP, FACTS, MENU, PLANS, SITE } from './data';
+import { APP, FACTS, MENU, PLANS, SITE, WHATSAPP } from './data';
 import { resolve, type Meta } from './pages';
-import { FooterV2 } from './rows';
+import { FooterV2, WaIcon, WhatsAppFab } from './rows';
 
 /* ════════════════════════════════════════════════════════════════════
    APP v2 — router con gli URL definitivi del sito (#/percorso/).
@@ -39,7 +39,7 @@ function setMeta(name: string, content: string, attr: 'name' | 'property' = 'nam
 export function jsonLd(meta: Meta) {
   const url = SITE.url + meta.path;
   const graph: Record<string, unknown>[] = [
-    { '@type': 'Organization', '@id': `${SITE.url}/#org`, name: SITE.name, legalName: SITE.company, url: SITE.url, logo: `${SITE.url}/logo.png` },
+    { '@type': 'Organization', '@id': `${SITE.url}/#org`, name: SITE.name, legalName: SITE.company, url: SITE.url, logo: `${SITE.url}/logo.png`, contactPoint: { '@type': 'ContactPoint', telephone: WHATSAPP.tel, contactType: 'sales', areaServed: 'IT', availableLanguage: 'Italian' } },
     { '@type': 'WebSite', '@id': `${SITE.url}/#site`, name: SITE.name, url: SITE.url, inLanguage: 'it-IT', publisher: { '@id': `${SITE.url}/#org` } },
     { '@type': 'WebPage', '@id': url, url, name: meta.title, description: meta.description, inLanguage: 'it-IT', isPartOf: { '@id': `${SITE.url}/#site` } },
   ];
@@ -274,6 +274,7 @@ export default function SiteV2() {
       <Header path={shown} />
       <main key={shown}>{page ? page.el : <NotFoundV2 />}</main>
       <FooterV2 />
+      <WhatsAppFab />
       <div className="h-20 lg:hidden" aria-hidden />
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 px-4 pt-3 backdrop-blur-md lg:hidden" style={{ paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))' }}>
         <div className="flex gap-2">
@@ -282,6 +283,9 @@ export default function SiteV2() {
           </a>
           <a href={isCreator ? APP.brand : APP.creator} className="flex h-12 items-center justify-center rounded-full bg-paper px-5 text-[15px] font-semibold">
             {isCreator ? 'Aziende' : 'Creator'}
+          </a>
+          <a href={WHATSAPP.href} target="_blank" rel="noopener" aria-label="Preventivo su WhatsApp" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-ink">
+            <WaIcon className="h-6 w-6" />
           </a>
         </div>
       </div>

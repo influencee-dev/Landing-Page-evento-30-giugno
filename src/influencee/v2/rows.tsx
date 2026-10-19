@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown, ChevronRight, Coffee, Dumbbell, FileText, Gamepad2, HeartPulse, Laugh, MousePointerClick, Music2, Megaphone, Users, LayoutGrid, BarChart3, PawPrint, PiggyBank, Plane, Search, Shirt, Smartphone, Sofa, Sparkles, UtensilsCrossed } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, reveal, useInk, type Tone } from '../ds';
-import { APP, CATEGORIES, FACTS, PLANS, REGIONS, SITE, TIERS, type QA } from './data';
+import { APP, CATEGORIES, FACTS, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
 
 /* ════════════════════════════════════════════════════════════════════
    ROW DEL SITO v2 — stesso design system (fasce a tutta larghezza,
@@ -516,6 +516,9 @@ export function FooterV2() {
                 Sono un creator
               </a>
             </div>
+            <a href={WHATSAPP.href} target="_blank" rel="noopener" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
+              <WaIcon className="h-4 w-4 text-[#25D366]" /> Preventivi: {WHATSAPP.number}
+            </a>
           </div>
           {cols.map((col) => (
             <div key={col.t}>
@@ -590,8 +593,8 @@ export function HelpCard() {
         <p className="w-fit max-w-[85%] rounded-2xl rounded-bl-md bg-white/10 px-4 py-2.5 text-sm">E per i creator?</p>
         <p className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-brand px-4 py-2.5 text-sm font-medium">Iscrizione sempre gratuita</p>
       </div>
-      <a href="#/contatti/" className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-acid">
-        Hai un’altra domanda? Scrivici <ArrowRight className="h-4 w-4" />
+      <a href={WHATSAPP.href} target="_blank" rel="noopener" className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-acid">
+        <WaIcon className="h-4 w-4" /> Altre domande? Scrivici su WhatsApp
       </a>
     </motion.div>
   );
@@ -622,6 +625,66 @@ export function AudienceRow({ tone = 'white', items }: { tone?: Tone; items: { t
         </div>
       </Container>
     </Section>
+  );
+}
+
+/* ─── WhatsApp: preventivo per progetti gestiti dal team ─────────── */
+export function WaIcon({ className = 'h-5 w-5' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.2h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2Zm5.8 14.03c-.25.69-1.44 1.32-1.98 1.36-.51.05-.99.24-3.33-.69-2.82-1.11-4.6-3.99-4.74-4.18-.14-.19-1.13-1.5-1.13-2.86 0-1.36.71-2.03.97-2.31.25-.28.55-.35.73-.35l.53.01c.17.01.4-.06.62.47.25.6.84 2.06.91 2.21.07.15.12.33.02.52-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.36 1.46.29.15.46.12.63-.07.17-.19.73-.85.92-1.14.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.95.29.15.48.22.55.34.07.12.07.69-.18 1.38Z" />
+    </svg>
+  );
+}
+
+/** Banda "lo gestiamo noi": testo + chat WhatsApp illustrata. */
+export function ManagedRow({ tone = 'ink' }: { tone?: Tone }) {
+  return (
+    <Section tone={tone}>
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_50%,rgba(37,211,102,0.18),transparent_55%)]" />
+      <Container className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+        <motion.div {...reveal()}>
+          <Eyebrow>Progetti gestiti</Eyebrow>
+          <Heading text={'Preferisci che\n*ce ne occupiamo noi?*'} className="mt-5" />
+          <Lead className="mt-5 max-w-lg">Se non hai tempo di usare la piattaforma, il team di influencee gestisce il progetto per te: scelta dei creator, accordi, contenuti e risultati. Scrivici su WhatsApp e ricevi un preventivo.</Lead>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <a href={WHATSAPP.href} target="_blank" rel="noopener" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-6 text-[15px] font-semibold text-ink transition hover:-translate-y-0.5 hover:brightness-95">
+              <WaIcon /> Chiedi un preventivo su WhatsApp
+            </a>
+            <a href={`tel:${WHATSAPP.tel}`} className="text-sm font-semibold opacity-75 hover:opacity-100">
+              {WHATSAPP.number}
+            </a>
+          </div>
+        </motion.div>
+        <motion.div {...reveal(1)} className="mx-auto w-full max-w-sm">
+          <div className="overflow-hidden rounded-[30px] bg-[#efeae2] text-ink shadow-float ring-1 ring-white/10">
+            <div className="flex items-center gap-3 bg-[#075E54] px-4 py-3 text-white">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white font-heading text-sm font-semibold text-brand">in</span>
+              <div>
+                <p className="text-sm font-semibold">Influencee</p>
+                <p className="text-[11px] text-white/70">di solito risponde entro poche ore</p>
+              </div>
+            </div>
+            <div className="space-y-2.5 p-4 text-[13px]">
+              <p className="ml-auto w-fit max-w-[80%] rounded-2xl rounded-tr-sm bg-[#d9fdd3] px-3 py-2 shadow-sm">Ciao! Vorrei un preventivo per una campagna con creator food a Milano 🍝</p>
+              <p className="w-fit max-w-[80%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 shadow-sm">Certo! Ci dici obiettivo, periodo e budget indicativo?</p>
+              <p className="ml-auto w-fit max-w-[80%] rounded-2xl rounded-tr-sm bg-[#d9fdd3] px-3 py-2 shadow-sm">Apertura nuovo locale, a novembre.</p>
+              <p className="w-fit max-w-[80%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 shadow-sm">Perfetto, ti preparo una proposta con creator e costi ✓</p>
+            </div>
+          </div>
+        </motion.div>
+      </Container>
+    </Section>
+  );
+}
+
+/** Pulsante WhatsApp fisso (desktop). */
+export function WhatsAppFab() {
+  return (
+    <a href={WHATSAPP.href} target="_blank" rel="noopener" aria-label="Chiedi un preventivo su WhatsApp" className="group fixed bottom-6 right-6 z-40 hidden items-center gap-2 rounded-full bg-[#25D366] py-3 pl-3 pr-3 text-ink shadow-float transition hover:pr-5 lg:flex">
+      <WaIcon className="h-6 w-6" />
+      <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold transition-all duration-300 group-hover:max-w-[200px]">Chiedi un preventivo</span>
+    </a>
   );
 }
 
