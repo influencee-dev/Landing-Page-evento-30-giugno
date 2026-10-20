@@ -191,15 +191,20 @@ export function FeatureSplit({ tone = 'white', eyebrow, title, lead, items }: { 
 }
 
 /* ─── Fatti verificati (nessun numero inventato) ────────────────── */
+const FACT_ICONS = [Users, LayoutGrid, BadgeCheck, PiggyBank];
 export function FactsBand({ items, tone = 'ink' }: { items: { v: string; l: string }[]; tone?: Tone }) {
+  const dark = tone === 'ink';
   return (
     <Section tone={tone} pad="none" className="py-14 sm:py-16">
       <Container>
-        <div className={`grid grid-cols-2 gap-8 ${items.length <= 2 ? 'lg:max-w-3xl' : 'lg:grid-cols-4'}`}>
+        <div className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${items.length <= 2 ? 'lg:max-w-3xl' : 'lg:grid-cols-4'}`}>
           {items.map((f, i) => (
-            <motion.div key={f.l} {...reveal(i)}>
-              <p className={`font-heading text-4xl font-semibold tracking-[-0.04em] sm:text-5xl ${tone === 'ink' ? 'text-acid' : 'text-brand'}`}>{f.v}</p>
-              <p className={`mt-2 text-sm ${tone === 'ink' ? 'text-white/65' : 'text-mute'}`}>{f.l}</p>
+            <motion.div key={f.l} {...reveal(i)} className={`flex items-start gap-4 rounded-3xl p-6 ${dark ? 'bg-white/[0.06] ring-1 ring-white/10' : 'bg-white ring-1 ring-line'}`}>
+              <span className={`flex h-12 w-12 flex-none items-center justify-center rounded-2xl ${i % 2 ? 'bg-brand text-white' : 'bg-acid text-ink'}`}>{React.createElement(FACT_ICONS[i % FACT_ICONS.length], { className: 'h-5 w-5' })}</span>
+              <div>
+                <p className={`font-heading text-4xl font-semibold tracking-[-0.04em] ${dark ? 'text-white' : 'text-ink'}`}>{f.v}</p>
+                <p className={`mt-1 text-sm ${dark ? 'text-white/65' : 'text-mute'}`}>{f.l}</p>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -256,20 +261,72 @@ export function CardGrid({ tone = 'white', eyebrow, title, lead, items, cols = 3
 
 /* ─── Fasce di follower ─────────────────────────────────────────── */
 export function TiersRow({ tone = 'white', title = 'Le fasce di follower\n*che usiamo*', lead = 'Ogni creator è classificato in una fascia: così confronti l’engagement con profili della stessa dimensione.', highlight }: { tone?: Tone; title?: string; lead?: string; highlight?: string }) {
+  const card = tone === 'paper' || tone === 'soft' ? 'bg-white ring-1 ring-line' : 'bg-paper';
   return (
     <Section tone={tone}>
       <Container>
         <SectionHeader eyebrow="Fasce" title={title} lead={lead} />
-        <div className={`${GAP.header} grid gap-3 sm:grid-cols-5`}>
+        <div className={`${GAP.header} grid gap-3 sm:grid-cols-2 lg:grid-cols-5`}>
           {TIERS.map((t, i) => {
             const on = t.id === highlight;
+            const er = MARKET.erIG[i];
             return (
-              <motion.div key={t.id} {...reveal(i)} className={`rounded-3xl p-6 ${on ? 'bg-brand text-white' : 'bg-paper'}`}>
-                <p className="font-heading text-2xl font-semibold tracking-tight">{t.name}</p>
+              <motion.div key={t.id} {...reveal(i)} className={`flex flex-col rounded-3xl p-6 ${on ? 'bg-brand text-white' : card}`}>
+                <div className="flex h-16 items-end gap-1" aria-hidden>
+                  {Array.from({ length: 5 }).map((_, k) => (
+                    <span key={k} className={`rounded-full ${k <= i ? (on ? 'bg-white' : 'bg-acid') : on ? 'bg-white/25' : 'bg-line'}`} style={{ width: 10, height: 14 + k * 11 }} />
+                  ))}
+                </div>
+                <p className="mt-5 font-heading text-2xl font-semibold tracking-tight">{t.name}</p>
                 <p className={`mt-1 text-sm ${on ? 'text-white/80' : 'text-mute'}`}>{t.range} follower</p>
+                <p className={`mt-4 border-t pt-3 text-xs ${on ? 'border-white/25 text-white/85' : 'border-line text-mute'}`}>
+                  ER medio Instagram <b className={on ? 'text-white' : 'text-ink'}>{er.v.toLocaleString('it-IT')}%</b>
+                  <span className="block opacity-75">{er.o === 'IT' ? `fonte ${er.src}` : 'valore indicativo'}</span>
+                </p>
               </motion.div>
             );
           })}
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+/* ─── Richiesta demo: il modulo apre WhatsApp con il messaggio pronto ─ */
+export function DemoForm({ tone = 'soft', title = 'Richiedi una demo\n*con il tuo settore*', lead = 'Ti mostriamo la piattaforma con creator del tuo settore. Compila e premi invia: si apre WhatsApp con la richiesta già scritta.' }: { tone?: Tone; title?: string; lead?: string }) {
+  const [d, setD] = useState({ name: '', company: '', sector: '', note: '' });
+  const [sent, setSent] = useState(false);
+  const field = 'h-12 w-full rounded-2xl bg-paper px-4 text-[15px] outline-none ring-1 ring-line focus:ring-brand';
+  return (
+    <Section tone={tone} id="demo">
+      <Container>
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
+          <div>
+            <SectionHeader align="left" eyebrow="Demo" title={title} lead={lead} />
+            <form
+              data-form="richiesta_demo_whatsapp"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const msg = `Ciao Influencee, sono ${d.name}${d.company ? ` di ${d.company}` : ''}. Vorrei una demo della piattaforma${d.sector ? ` per il settore ${d.sector}` : ''}.${d.note ? ` ${d.note}` : ''}`;
+                window.open(`https://wa.me/${WHATSAPP.tel.replace('+', '')}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+                setSent(true);
+              }}
+              className="mt-8 grid gap-3 rounded-[28px] bg-white p-5 ring-1 ring-line sm:grid-cols-2 sm:p-6"
+            >
+              <label htmlFor="df-name"><span className="text-xs font-semibold text-mute">Nome</span><input id="df-name" required value={d.name} onChange={(e) => setD({ ...d, name: e.target.value })} className={`mt-1.5 ${field}`} /></label>
+              <label htmlFor="df-company"><span className="text-xs font-semibold text-mute">Azienda</span><input id="df-company" required value={d.company} onChange={(e) => setD({ ...d, company: e.target.value })} className={`mt-1.5 ${field}`} /></label>
+              <label htmlFor="df-sector" className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Settore</span>
+                <select id="df-sector" value={d.sector} onChange={(e) => setD({ ...d, sector: e.target.value })} className={`mt-1.5 ${field}`}>
+                  <option value="">Scegli il settore</option>
+                  {CATEGORIES.map((c) => <option key={c.slug}>{c.short}</option>)}
+                </select>
+              </label>
+              <label htmlFor="df-note" className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Cosa vuoi vedere (facoltativo)</span><input id="df-note" value={d.note} onChange={(e) => setD({ ...d, note: e.target.value })} placeholder="Es. micro influencer food a Milano" className={`mt-1.5 ${field}`} /></label>
+              <button type="submit" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-semibold text-white sm:col-span-2"><WaIcon className="h-4 w-4" /> Invia su WhatsApp</button>
+              {sent && <p className="text-sm text-mute sm:col-span-2" role="status">Si è aperto WhatsApp con la richiesta pronta: premi invia e ti rispondiamo lì.</p>}
+            </form>
+          </div>
+          <HelpCard />
         </div>
       </Container>
     </Section>
@@ -531,6 +588,7 @@ export function FooterV2() {
         ['Contenuti UGC', '#/contenuti-ugc/'],
         ['Campagne locali', '#/influencer-marketing-locale/'],
         ['Creator professionisti', '#/creator-professionisti/'],
+        ['Campagna gestita', '#/preventivo-campagne/'],
       ],
     },
     {
@@ -698,6 +756,9 @@ export function ManagedRow({ tone = 'ink' }: { tone?: Tone }) {
             <a href={WHATSAPP.href} target="_blank" rel="noopener" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-6 text-[15px] font-semibold text-ink transition hover:-translate-y-0.5 hover:brightness-95">
               <WaIcon /> Chiedi un preventivo su WhatsApp
             </a>
+            <a href="#/preventivo-campagne/" className="inline-flex h-12 items-center rounded-full px-5 text-[15px] font-semibold ring-1 ring-current/25 opacity-90 hover:opacity-100">
+              Calcola il preventivo
+            </a>
             <a href={`tel:${WHATSAPP.tel}`} className="text-sm font-semibold opacity-75 hover:opacity-100">
               {WHATSAPP.number}
             </a>
@@ -770,7 +831,7 @@ export function CostChart({ tone = 'white' }: { tone?: Tone }) {
               </div>
             ))}
           </div>
-          <p className="mt-8 text-xs text-white/50">Fasce: Nano 1–10 mila, Micro 10–50 mila, Mid 50–250 mila, Macro 250 mila–1 milione, VIP oltre 1 milione di follower. Prezzi indicativi per un singolo post; formato, diritti d’uso ed esclusiva cambiano il compenso.</p>
+          <p className="mt-8 text-xs text-white/50">Fasce: Nano 1–10 mila, Micro 10–50 mila, Mid 50–250 mila, Macro 250 mila–1 milione, Mega oltre 1 milione di follower. Prezzi indicativi per un singolo post; formato, diritti d’uso ed esclusiva cambiano il compenso.</p>
         </div>
       </Container>
     </Section>

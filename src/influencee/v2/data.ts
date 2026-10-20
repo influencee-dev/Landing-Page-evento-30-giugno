@@ -165,7 +165,7 @@ export const PLANS = [
    fonte estera o interpolazione, stima. Non cambiarli senza la fonte.   */
 export type Origin = 'IT' | 'proxy' | 'stima';
 export const MARKET = {
-  tiers: ['Nano', 'Micro', 'Mid', 'Macro', 'VIP'],
+  tiers: ['Nano', 'Micro', 'Mid', 'Macro', 'Mega'], // stessi nomi delle fasce dell'app (TIERS); "VIP" è un tipo di creator, non una fascia
   costIG: [
     { v: 200, o: 'IT' as Origin, src: 'DeRev' },
     { v: 950, o: 'IT' as Origin, src: 'DeRev' },
@@ -250,6 +250,7 @@ export const MENU: MenuGroup[] = [
       { label: 'Contenuti UGC', href: '#/contenuti-ugc/', text: 'Video dei creator per i tuoi canali e le ads' },
       { label: 'Campagne locali', href: '#/influencer-marketing-locale/', text: 'Ristoranti, negozi, palestre ed eventi' },
       { label: 'Creator professionisti', href: '#/creator-professionisti/', text: 'Medici, nutrizionisti, personal trainer' },
+      { label: 'Campagna gestita da noi', href: '#/preventivo-campagne/', text: 'Preventivo online con il nostro listino' },
       { label: 'Per i creator', href: '#/diventa-creator/', text: 'Iscriviti gratis e ricevi proposte dai brand' },
       { label: 'UGC creator', href: '#/ugc-creator/', text: 'Lavora con i brand anche senza tanti follower' },
     ],
@@ -323,3 +324,17 @@ export const JOBS: Job[] = [
   { title: 'Influencer per gadget, giocattoli e porcellane anni 80/90 in vendita su eBay', company: 'Magic House', location: 'Da remoto', remote: true, types: ['cambio-merce', 'collaborazione'], date: '2026-04-17' },
   { title: 'Creator per prodotti per cani e gatti: mangimi, accessori, profumi', company: 'Ingro Pet', location: 'Italia', remote: true, types: ['percentuale', 'cambio-merce', 'collaborazione'], date: '2026-02-18' },
 ];
+
+/* ─── Listino del servizio gestito (campagne seguite dal team) ─────
+   Fonte: calcolatore del vecchio sito /preventivo-campagne/.
+   Confermato in chat dal titolare il 20/10/2026. Vale per creator fino a 70.000 follower. */
+export const GESTITO = {
+  maxFollower: 70000,
+  creator: 500, // € al mese per influencer, primo contenuto
+  extraContent: 475, // € per ogni contenuto in più dello stesso influencer (95% di 500)
+  creatorFee: 250, // € di gestione per influencer
+  ugc: 150, // € per video UGC
+  ugcFee: 100, // € di gestione per video UGC
+  oneMonthSurcharge: 0.1, // +10% se la campagna dura un mese
+  discounts: { 1: 0, 3: 0.05, 6: 0.06, 12: 0.08 } as Record<number, number>,
+};

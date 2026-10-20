@@ -56,6 +56,7 @@ export function pageTypeOf(path: string): { page_type: string; audience: string 
   if (['/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/'].includes(path)) return { page_type: 'soluzione', audience: 'brand' };
   if (['/diventa-creator/', '/ugc-creator/'].includes(path)) return { page_type: 'creator', audience: 'creator' };
   if (path === '/offerte-lavoro-influencer/') return { page_type: 'offerte_lavoro', audience: 'creator' };
+  if (path === '/preventivo-campagne/') return { page_type: 'servizio_gestito', audience: 'brand' };
   if (path === '/pubblica-offerta-lavoro/') return { page_type: 'pubblica_offerta', audience: 'brand' };
   if (path === '/social-media-tool/emoticon-da-copiare/') return { page_type: 'strumento', audience: 'creator' };
   if (path === '/social-media-tool/' ) return { page_type: 'hub_strumenti', audience: 'misto' };
@@ -160,7 +161,7 @@ export function initAnalytics() {
       const form = e.target as HTMLFormElement;
       const where = locate(form);
       track('demo_form_submit', { form_name: form.getAttribute('data-form') || 'richiesta_demo', ...where });
-      track('generate_lead', { lead_source: 'modulo_demo', currency: 'EUR', value: 0, ...where });
+      track('generate_lead', { lead_source: form.getAttribute('data-form') || 'modulo_demo', currency: 'EUR', value: 0, ...where });
     },
     { capture: true },
   );

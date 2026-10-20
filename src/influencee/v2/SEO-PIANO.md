@@ -24,7 +24,8 @@ Ogni pagina ha una CTA principale coerente con l'intento, più una secondaria pe
 | `/` | piattaforma influencer marketing | — | influencer marketing (720), brand influencer marketing (70) | navigazionale/commerciale |
 | `/piattaforma-influencer/` ⭐ | piattaforma influencer | — | influencer marketing platform/tool (30+30), influee (1.600, già in posizione 15) | commerciale |
 | `/influencer-marketing-aziende/` | influencer marketing aziende | — | influencer marketing (720), micro influencer marketing (50) | commerciale |
-| `/piattaforma-agenzie/` | piattaforma influencer marketing agenzie | — | agenzia influencer marketing (140), agenzie influencer marketing italia (40) | commerciale |
+| `/piattaforma-agenzie/` | piattaforma influencer marketing agenzie | — | agenzie influencer marketing italia (40) | commerciale (agenzie che cercano uno strumento) |
+| `/preventivo-campagne/` ⭐ | agenzia influencer marketing | 140 (picco 390, intento transazionale; Ubersuggest 10/2026) | preventivo influencer marketing (0), quanto costa una campagna con influencer (0) | transazionale: aziende che cercano chi gestisca la campagna |
 | `/micro-influencer/` | micro influencer | 480 | micro influencer italiani (90), micro influencer quanti follower (90), micro influencer milano (90) | informativo/commerciale |
 | `/ugc-creator/` | ugc creator | 4.400 | ugc creator italia (320), ugc creator cos'è (170), come diventare ugc creator (170), brand che cercano ugc creator (70) | informativo → iscrizione |
 | `/diventa-creator/` | collaborazioni con brand | 50 | come diventare influencer (390), diventare influencer (50) | transazionale (iscrizione) |

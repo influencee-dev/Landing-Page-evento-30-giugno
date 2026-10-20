@@ -25,8 +25,8 @@ Le prime cinque pagine sono restaurate con lo **stesso URL**, più l'hub dei too
 | `/come-calcolare-il-costo-degli-influencer/` e varianti | 73 | Articoli doppi | ↪ 301 al calcolatore del costo |
 | `/tiktok-keyword-tool/` | 27 | Tool keyword TikTok | ⏳ Fase 2 |
 | `/social-media-tool/anteprima-dei-tuoi-post-sui-social/` | 11 | Anteprima post | ⏳ Fase 2 |
-| `/preventivo-campagne/` | — | **Calcolatore funzionante ma non linkato da nessuna pagina**, con il listino del servizio gestito: influencer 500 €, ogni contenuto in più 475 €, fee 250 € a influencer, UGC 150 € + fee 100 €, +10% se dura 1 mese, sconti del 5/6/8% a 3/6/12 mesi | ⏳ **Fase 2, prima priorità**: è il preventivo del servizio gestito, che chiude con WhatsApp. ⚠ Listino da confermare con il titolare prima di pubblicarlo |
-| `/preventivi-influencer/` | 6 | Form Brevo con brief e budget, nessun numero in risposta | ⏳ Fase 2: unire al preventivo campagne (prima la stima, poi WhatsApp) |
+| `/preventivo-campagne/` | — | **Calcolatore funzionante ma non linkato da nessuna pagina**, con il listino del servizio gestito: influencer 500 €, ogni contenuto in più 475 €, fee 250 € a influencer, UGC 150 € + fee 100 €, +10% se dura 1 mese, sconti del 5/6/8% a 3/6/12 mesi | ✅ **Restaurato** (listino confermato il 20/10/2026): preventivo della campagna gestita con riepilogo per voce e invio su WhatsApp con il messaggio già compilato. Keyword "agenzia influencer marketing" |
+| `/preventivi-influencer/` | 6 | Form Brevo con brief e budget, nessun numero in risposta | ↪ 301 a `/preventivo-campagne/` (prima la stima, poi WhatsApp) |
 | `/tool-influencer/` | 4 (10.714 impressioni) | Pagina prodotto | ↪ 301 all'hub; title da rivedere sulla query |
 | `/social-media-tool/generatore-prompt-per-social-media-manager/` | 3 | Generatore di prompt | ⏳ Fase 2, bassa priorità |
 | `/social-media-tool/calcola-preventivo-gestione-social/` | 3 | Preventivatore SMM: tariffa oraria (28/35/40 € per esperienza) × ore stimate, più un contratto in 7 articoli scaricabile in PDF | ⏳ Fase 2, alta priorità per i social media manager |
@@ -79,7 +79,7 @@ Fonte: analisi del vecchio sito del 19/10/2026, con screenshot in scratchpad (`o
 
 ## Fase 2: ordine consigliato
 
-1. Preventivo campagne del servizio gestito (listino già esistente, da confermare) con uscita su WhatsApp.
+1. ✅ Preventivo campagne del servizio gestito: fatto.
 2. Preventivatore per social media manager con contratto in PDF.
 3. Nel calcolatore del costo: aggiungere formato (post, stories, video) e nicchia, con i moltiplicatori del vecchio tool, se il titolare li conferma.
 4. Anteprima post, con TikTok e il troncamento "…altro".
@@ -87,3 +87,14 @@ Fonte: analisi del vecchio sito del 19/10/2026, con screenshot in scratchpad (`o
 6. Compressore immagini e WebP insieme. TikTok keyword e hashtag restano articoli.
 
 Ogni tool passa prima da Figma (stessa pagina del file), poi va nel codice con lo stesso URL, gli eventi GA4 e le FAQ.
+
+## Regole di consegna (valgono per ogni tool nuovo)
+
+1. **Codice prima, Figma come archivio.** Se il tool riusa i blocchi esistenti si costruisce direttamente nel sito e la pagina finita si porta in Figma. Si parte da Figma solo per le interfacce nuove o quando qualcuno deve approvare prima.
+2. **Controllo automatico di tutte le pagine** (script `audit.mjs` nella scratchpad, da rilanciare a ogni consegna). Controlla:
+   - title entro 60 caratteri, description tra 70 e 155;
+   - un solo H1, nessuno scorrimento orizzontale a 390 px;
+   - nessuna sezione solo testo, nessun link rotto, nessun title duplicato.
+3. **Eventi verificati in Chromium** con `?debug_analytics`: ogni pulsante ha il suo evento e un form conta come lead solo se il lead arriva davvero.
+4. **Stesso URL** per le pagine con traffico; 301 per i doppioni.
+5. **Niente note interne in pagina** ("prototipo", "stesso URL del sito attuale", "da inserire").

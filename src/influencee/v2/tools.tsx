@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, BadgeCheck, Calculator, Check, Copy, Gauge, Megaphone, Search, Smile, TrendingUp, Briefcase, AlertTriangle, MapPin } from 'lucide-react';
 import { Container, Section, SectionHeader, GAP, TYPE, reveal, type Tone } from '../ds';
 import { track } from './analytics';
-import { APP, COMPENSI, JOBS, MARKET, WHATSAPP, type Compenso } from './data';
+import { APP, COMPENSI, GESTITO, JOBS, MARKET, WHATSAPP, type Compenso } from './data';
 
 /* ════════════════════════════════════════════════════════════════════
    TOOL GRATUITI RESTAURATI (lead magnet del vecchio sito)
@@ -323,9 +323,10 @@ const HUB: { t: string; x: string; href: string; aud: Aud[]; icon: typeof Gauge;
   { t: 'Fake follower checker', x: 'Confronta engagement, crescita e visualizzazioni con la media della fascia.', href: '#/followe-instagram-fake-follower/', aud: ['brand', 'smm'], icon: AlertTriangle, tag: 'Più usato', dark: true, preview: <MiniStat k="Segnali di rischio" v="2 su 5" pill="Da approfondire" /> },
   { t: 'Calcolatore costo influencer', x: 'Quanto pagare un creator in base a follower ed engagement, con la media di mercato.', href: '#/social-media-tool/costo-influencer/', aud: ['brand', 'creator'], icon: Calculator, preview: <MiniStat k="Stima a contenuto" v="290–950 €" /> },
   { t: 'Calcolo engagement rate', x: 'Engagement rate e check sponsor, con le soglie per fascia di follower.', href: '#/come-calcolare-engagement-rate/', aud: ['brand', 'creator', 'smm'], icon: Gauge, acid: true, preview: <MiniStat k="Engagement rate" v="5,8%" pill="Sopra la media" /> },
-  { t: 'Benchmark engagement', x: 'I valori di riferimento per Nano, Micro, Mid, Macro e VIP, con le fonti.', href: '#/benchmark-engagement-rate/', aud: ['brand', 'smm'], icon: TrendingUp, preview: <MiniStat k="Micro · Instagram" v="4,6%" /> },
+  { t: 'Benchmark engagement', x: 'I valori di riferimento per Nano, Micro, Mid, Macro e Mega, con le fonti.', href: '#/benchmark-engagement-rate/', aud: ['brand', 'smm'], icon: TrendingUp, preview: <MiniStat k="Micro · Instagram" v="4,6%" /> },
   { t: 'Emoticon da copiare', x: 'Faccine, cuori, mani e simboli: copi con un clic e incolli dove vuoi.', href: '#/social-media-tool/emoticon-da-copiare/', aud: ['creator', 'smm'], icon: Smile, preview: <p className="text-3xl tracking-widest">😍🔥✨🙌</p> },
   { t: 'Offerte di lavoro per influencer', x: 'Le collaborazioni pubblicate dai brand: pagate, cambio merce, % sulle vendite.', href: '#/offerte-lavoro-influencer/', aud: ['creator'], icon: Briefcase, preview: <MiniStat k="Offerte aperte" v="Bacheca" pill="Gratis" /> },
+  { t: 'Preventivo campagna gestita', x: 'Quanti influencer e video UGC: vedi il prezzo con il listino del nostro team.', href: '#/preventivo-campagne/', aud: ['brand'], icon: Calculator, preview: <MiniStat k="3 influencer · 3 mesi" v="Preventivo" pill="Listino chiaro" /> },
   { t: 'Pubblica un’offerta', x: 'Per le aziende: descrivi la collaborazione e ricevi candidature dai creator.', href: '#/pubblica-offerta-lavoro/', aud: ['brand'], icon: Megaphone, preview: <MiniStat k="In 3 passi" v="Offerta pronta" /> },
 ];
 function MiniStat({ k, v, pill }: { k: string; v: string; pill?: string }) {
@@ -694,5 +695,89 @@ export function EmojiTool({ tone = 'paper' }: { tone?: Tone }) {
         </div>
       </Container>
     </Section>
+  );
+}
+
+/* ─── 7. Preventivo campagna gestita (listino GESTITO) ──────────── */
+export function gestitoQuote(n: number, contents: number, ugc: number, months: number) {
+  const g = GESTITO;
+  const creators = n * g.creator + n * Math.max(0, contents - 1) * g.extraContent;
+  const fees = n * g.creatorFee + ugc * g.ugcFee;
+  const ugcCost = ugc * g.ugc;
+  const base = creators + fees + ugcCost;
+  const monthly = months === 1 ? base * (1 + g.oneMonthSurcharge) : base;
+  const discount = g.discounts[months] ?? 0;
+  const total = monthly * months * (1 - discount);
+  return { creators, fees, ugcCost, monthly, discount, total };
+}
+
+function Stepper({ label, value, set, min = 0, max = 20, id }: { label: string; value: number; set: (n: number) => void; min?: number; max?: number; id: string }) {
+  return (
+    <div>
+      <span id={id} className="text-xs font-semibold text-mute">{label}</span>
+      <div className="mt-1.5 flex h-12 items-center justify-between rounded-2xl bg-paper px-2 ring-1 ring-line" role="group" aria-labelledby={id}>
+        <button type="button" aria-label={`${label}: meno`} onClick={() => set(Math.max(min, value - 1))} className="h-9 w-9 rounded-xl bg-white text-lg font-semibold">−</button>
+        <span className="font-heading text-lg font-semibold tabular-nums">{value}</span>
+        <button type="button" aria-label={`${label}: più`} onClick={() => set(Math.min(max, value + 1))} className="h-9 w-9 rounded-xl bg-white text-lg font-semibold">+</button>
+      </div>
+    </div>
+  );
+}
+
+export function PreventivoPanel({ className = '' }: { className?: string }) {
+  const [n, setN] = useState(3);
+  const [contents, setContents] = useState(2);
+  const [ugc, setUgc] = useState(2);
+  const [months, setMonths] = useState(3);
+  const q = gestitoQuote(n, contents, ugc, months);
+  useDebouncedTrack('calculator_use', { calculator: 'preventivo_campagna', creators: n, contents, ugc, months, result_band: `${Math.round(q.monthly)}/mese` }, [n, contents, ugc, months]);
+  const msg = `Ciao Influencee, vorrei un preventivo per una campagna gestita da voi: ${n} influencer con ${contents} contenut${contents === 1 ? 'o' : 'i'} al mese, ${ugc} video UGC al mese, durata ${months} mes${months === 1 ? 'e' : 'i'}. Stima dal sito: ${it(q.monthly)} € al mese.`;
+  const wa = `https://wa.me/${WHATSAPP.tel.replace('+', '')}?text=${encodeURIComponent(msg)}`;
+  const rows: [string, number][] = [['Creator', q.creators], ['Video UGC', q.ugcCost], ['Gestione del team', q.fees]];
+  return (
+    <div id="preventivo" className={`rounded-[28px] bg-white p-5 text-ink shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-7 ${className}`}>
+      <p className="font-heading text-xl font-semibold tracking-tight">Calcola il preventivo</p>
+      <p className="mt-1 text-xs text-mute">Listino per creator fino a {it(GESTITO.maxFollower)} follower. Il preventivo finale te lo mandiamo su WhatsApp.</p>
+      <div className="mt-4 grid grid-cols-2 gap-3">
+        <Stepper id="pv-n" label="Influencer" value={n} set={setN} />
+        <Stepper id="pv-c" label="Contenuti al mese per influencer" value={contents} set={setContents} min={1} max={10} />
+        <Stepper id="pv-u" label="Video UGC al mese" value={ugc} set={setUgc} />
+        <div>
+          <span className="text-xs font-semibold text-mute">Durata</span>
+          <div className="mt-1.5 grid h-12 grid-cols-4 gap-1 rounded-2xl bg-paper p-1 ring-1 ring-line" role="tablist" aria-label="Durata in mesi">
+            {[1, 3, 6, 12].map((m) => (
+              <button key={m} type="button" role="tab" aria-selected={months === m} onClick={() => setMonths(m)} className={`rounded-xl text-sm font-semibold ${months === m ? 'bg-ink text-white' : 'text-mute'}`}>
+                {m}m
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 rounded-[22px] bg-ink p-5 text-white" aria-live="polite">
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <p className={`${TYPE.label} text-white/55`}>Al mese</p>
+            <p className="mt-1 font-heading text-4xl font-semibold tracking-tight tabular-nums sm:text-5xl">{it(q.monthly)} €</p>
+          </div>
+          <div className="text-right">
+            <p className={`${TYPE.label} text-white/55`}>Totale {months} mes{months === 1 ? 'e' : 'i'}</p>
+            <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-acid">{it(q.total)} €</p>
+          </div>
+        </div>
+        <div className="mt-4 space-y-2">
+          {rows.map(([l, v]) => (
+            <div key={l} className="text-xs">
+              <div className="flex justify-between text-white/70"><span>{l}</span><span className="tabular-nums">{it(v)} €</span></div>
+              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10"><span className="block h-full rounded-full bg-acid" style={{ width: `${q.creators + q.ugcCost + q.fees ? (v / (q.creators + q.ugcCost + q.fees)) * 100 : 0}%` }} /></div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-white/55">{months === 1 ? `Campagna di un mese: +${GESTITO.oneMonthSurcharge * 100}% sul mensile.` : `Sconto durata: ${it(q.discount * 100)}% sul totale.`}</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <a href={wa} className="inline-flex h-10 items-center gap-1.5 rounded-full bg-[#25d366] px-4 text-sm font-semibold text-white">Invia su WhatsApp <ArrowRight className="h-4 w-4" /></a>
+          <a href={APP.brand} className="inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold text-white ring-1 ring-white/25">Preferisco fare da solo</a>
+        </div>
+      </div>
+    </div>
   );
 }
