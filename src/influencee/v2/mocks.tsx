@@ -207,7 +207,7 @@ export function LinkMock({ className = '' }: { className?: string }) {
 export function KitMock({ className = '' }: { className?: string }) {
   return (
     <Frame className={className} label="influencee.it/kit/marta-lombardi">
-      <div className="grid gap-3 p-4 sm:grid-cols-[110px_1fr] sm:p-5">
+      <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-[110px_1fr] sm:p-5">
         <div className="rounded-2xl bg-brand-soft p-3 text-center">
           <Initials name="Marta Lombardi" className="mx-auto h-14 w-14 text-base" />
           <p className="mt-2 text-[11px] font-semibold">Marta Lombardi</p>
@@ -335,7 +335,7 @@ export function DiscoveryMock({ photos = [], className = '' }: { photos?: string
         </div>
         <span className="hidden rounded-full bg-ink px-3 py-1.5 text-[11px] font-semibold text-white sm:block">Scopri creator</span>
       </div>
-      <div className="grid md:grid-cols-[200px_1fr]">
+      <div className="grid grid-cols-1 md:grid-cols-[200px_1fr]">
         {/* filtri */}
         <aside className="hidden border-r border-line p-4 md:block">
           {[

@@ -1,0 +1,4 @@
+/* Stili del plugin WordPress: gli stessi del sito v2. Lo script di build
+   toglie i @layer e mette ogni regola sotto #influencee-tools, così il tema
+   del sito non li sovrascrive e i tool non toccano il resto delle pagine. */
+@import "../../../index.css";

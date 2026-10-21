@@ -150,7 +150,7 @@ export function SectionHeader({
 }) {
   if (align === 'split')
     return (
-      <div className="grid items-end gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 items-end gap-6 lg:grid-cols-[1.4fr_1fr]">
         <div>
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
           <Heading as={as} size={size} text={title} className="mt-5" />

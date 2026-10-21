@@ -8,3 +8,4 @@ coverage/
 !.env.example
 dist-site
 dist-site-v2
+dist-wp

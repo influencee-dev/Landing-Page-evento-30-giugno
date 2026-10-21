@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, BadgeCheck, Calculator, Check, Copy, Gauge, Megaphone, Search, Smile, TrendingUp, Briefcase, AlertTriangle, MapPin } from 'lucide-react';
 import { Container, Section, SectionHeader, GAP, TYPE, reveal, type Tone } from '../ds';
 import { track } from './analytics';
-import { APP, COMPENSI, GESTITO, JOBS, MARKET, WHATSAPP, type Compenso } from './data';
+import { ENV, liveJobs } from './env';
+import { APP, CATEGORIES, COMPENSI, GESTITO, JOBS, MARKET, WHATSAPP, type Compenso } from './data';
 
 /* ════════════════════════════════════════════════════════════════════
    TOOL GRATUITI RESTAURATI (lead magnet del vecchio sito)
@@ -42,6 +43,93 @@ function Tabs<T extends string>({ value, set, items }: { value: T; set: (v: T) =
         </button>
       ))}
     </div>
+  );
+}
+
+/* ─── Lead dei tool → tandem-forms ─────────────────────────────────
+   Sul sito WordPress lo script tandem-forms intercetta ogni <form data-tandem>
+   che contiene un'email o un telefono e lo invia a /wp-json/tandem-forms/v1/capture.
+   Il risultato del tool viaggia nel campo "risultato_tool" (testo visibile, non nascosto:
+   tandem ignora i campi hidden). GA4: form_submit + generate_lead con lead_source = data-form. */
+const leadCtx = { v: {} as Record<string, string>, subs: new Set<() => void>() };
+export function setToolContext(tool: string, text: string) {
+  if (leadCtx.v[tool] === text) return;
+  leadCtx.v = { ...leadCtx.v, [tool]: text };
+  leadCtx.subs.forEach((f) => f());
+}
+function useToolContext(tool: string) {
+  return useSyncExternalStore(
+    (f) => {
+      leadCtx.subs.add(f);
+      return () => leadCtx.subs.delete(f);
+    },
+    () => leadCtx.v[tool] ?? '',
+    () => '',
+  );
+}
+
+export function ToolLead({ tool, eyebrow, title, lead, bullets, cta, phone = 'facoltativo', withCategory = false, tone = 'paper' }: { tool: string; eyebrow: string; title: string; lead: string; bullets: string[]; cta: string; phone?: 'no' | 'facoltativo' | 'obbligatorio'; withCategory?: boolean; tone?: Tone }) {
+  const context = useToolContext(tool);
+  const [sent, setSent] = useState(false);
+  const field = 'mt-1.5 h-12 w-full rounded-2xl bg-paper px-4 text-[15px] text-ink outline-none ring-1 ring-line focus:ring-brand';
+  return (
+    <Section tone={tone} id={`lead-${tool}`}>
+      <Container>
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.05fr]">
+          <div>
+            <SectionHeader align="left" eyebrow={eyebrow} title={title} lead={lead} />
+            <ul className="mt-8 grid gap-3">
+              {bullets.map((b, i) => (
+                <li key={b} className={`flex items-center gap-4 rounded-2xl p-4 text-[15px] font-semibold ${tone === 'paper' ? 'bg-white ring-1 ring-line' : 'bg-paper'}`}>
+                  <span className={`flex h-10 w-10 flex-none items-center justify-center rounded-xl ${['bg-acid text-ink', 'bg-brand text-white', 'bg-ink text-white'][i % 3]}`}>{React.createElement([BadgeCheck, TrendingUp, Check][i % 3], { className: 'h-4 w-4' })}</span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {sent ? (
+            <div className="rounded-[28px] bg-ink p-8 text-white" role="status">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-acid text-ink"><Check className="h-5 w-5" /></span>
+              <p className="mt-5 font-heading text-2xl font-semibold tracking-tight">Ricevuto, grazie!</p>
+              <p className="mt-2 text-white/65">Ti ricontatta una persona del team. Se hai fretta scrivici su WhatsApp.</p>
+              <a href={WHATSAPP.href} className="mt-6 inline-flex h-11 items-center rounded-full bg-[#25d366] px-5 text-sm font-semibold text-ink">Scrivici su WhatsApp</a>
+            </div>
+          ) : (
+            <form
+              id={`lead-form-${tool}`}
+              name={`Lead tool: ${tool}`}
+              aria-label={title.replace(/[*\n]/g, ' ')}
+              data-tandem=""
+              data-form={`lead_${tool}`}
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSent(true);
+              }}
+              className="grid grid-cols-1 gap-3 rounded-[28px] bg-white p-5 text-ink shadow-[0_24px_60px_-30px_rgba(29,29,31,0.35)] ring-1 ring-line sm:grid-cols-2 sm:p-7"
+            >
+              <label htmlFor={`${tool}-nome`}><span className="text-xs font-semibold text-mute">Nome</span><input id={`${tool}-nome`} name="nome" autoComplete="given-name" required className={field} /></label>
+              <label htmlFor={`${tool}-email`}><span className="text-xs font-semibold text-mute">Email</span><input id={`${tool}-email`} name="email" type="email" autoComplete="email" required className={field} /></label>
+              {phone !== 'no' && (
+                <label htmlFor={`${tool}-tel`} className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Telefono{phone === 'facoltativo' ? ' (facoltativo)' : ''}</span><input id={`${tool}-tel`} name="telefono" type="tel" autoComplete="tel" required={phone === 'obbligatorio'} className={field} /></label>
+              )}
+              {withCategory && (
+                <label htmlFor={`${tool}-cat`} className="sm:col-span-2"><span className="text-xs font-semibold text-mute">La tua categoria</span>
+                  <select id={`${tool}-cat`} name="categoria" required className={field}><option value="">Scegli</option>{CATEGORIES.map((c) => <option key={c.slug}>{c.short}</option>)}</select>
+                </label>
+              )}
+              {context && (
+                <label htmlFor={`${tool}-ctx`} className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Il tuo risultato (lo inviamo insieme alla richiesta)</span>
+                  <textarea id={`${tool}-ctx`} name="risultato_tool" readOnly value={context} rows={3} className="mt-1.5 w-full resize-none rounded-2xl bg-ink px-4 py-3 text-xs leading-relaxed text-white/80 outline-none" />
+                </label>
+              )}
+              <label className="flex items-start gap-2 text-xs text-mute sm:col-span-2"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4 accent-[#ff1f8f]" /> Voglio ricevere novità e tool gratuiti di Influencee (facoltativo)</label>
+              <button type="submit" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-semibold text-white sm:col-span-2">{cta} <ArrowRight className="h-4 w-4" /></button>
+              <p className="text-[11px] leading-relaxed text-mute sm:col-span-2">Usiamo i tuoi dati solo per risponderti. <a href="/privacy-policy/" className="underline">Informativa privacy</a></p>
+            </form>
+          )}
+        </div>
+      </Container>
+    </Section>
   );
 }
 
@@ -116,6 +204,7 @@ export function FakeFollowerPanel({ className = '' }: { className?: string }) {
   const warn = signals.filter((s) => s.level === 'warn').length;
   const verdict = risk >= 2 ? { l: 'Verifica prima di pagare', c: 'bg-brand text-white' } : risk === 1 || warn >= 2 ? { l: 'Da approfondire', c: 'bg-[#fff1cc] text-[#8a5a00]' } : { l: 'Nessun segnale forte', c: 'bg-acid text-ink' };
   useDebouncedTrack('calculator_use', { calculator: 'fake_follower', platform, tier: MARKET.tiers[tierOf(num(f))], risk_signals: risk, warn_signals: warn, result_band: verdict.l }, [platform, f, likes, comments, views, reelInter, f30]);
+  useEffect(() => setToolContext('fake_follower', `${platform === 'ig' ? 'Instagram' : 'TikTok'} · ${it(num(f))} follower · segnali di rischio ${risk} su ${checked.length}: ` + signals.filter((x) => x.level !== 'na').map((x) => x.t).join('; ')), [signals, platform, f, risk, checked.length]);
   const copy = () => {
     const txt = `Controllo fake follower (influencee.it)\nSegnali di rischio: ${risk} su ${checked.length}\n` + signals.map((s) => `- ${s.t}: ${s.x}`).join('\n');
     navigator.clipboard?.writeText(txt).then(() => {
@@ -187,7 +276,7 @@ export function FakeSignalsGrid({ tone = 'paper' }: { tone?: Tone }) {
     <Section tone={tone}>
       <Container>
         <SectionHeader align="left" eyebrow="Il metodo" title={'I segnali\n*che controlliamo*'} lead="Ogni segnale ha una soglia dichiarata. Le medie di engagement per fascia vengono dal benchmark di mercato con la loro fonte." />
-        <div className={`${GAP.header} grid ${GAP.grid} sm:grid-cols-2 lg:grid-cols-3`}>
+        <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} sm:grid-cols-2 lg:grid-cols-3`}>
           {cards.map((c, i) => (
             <motion.div key={c.t} {...reveal(i % 3)} className="flex flex-col rounded-3xl bg-white p-6 ring-1 ring-line">
               <div className="flex items-start justify-between gap-3">
@@ -272,6 +361,7 @@ export function CostCalcPanel({ className = '' }: { className?: string }) {
   const [qty, setQty] = useState(3);
   const e = costEstimate(platform, num(f), num(er));
   useDebouncedTrack('calculator_use', { calculator: 'costo_influencer', platform, tier: MARKET.tiers[e.tier], quantity: qty, result_band: `${e.lo}-${e.hi}` }, [platform, f, er, qty]);
+  useEffect(() => setToolContext('costo_influencer', `${platform === 'ig' ? 'Instagram' : 'TikTok'} · ${it(num(f))} follower · ER ${er || 'n/d'}% · ${qty} contenuti · stima ${it(e.lo * qty)}–${it(e.hi * qty)} €`), [platform, f, er, qty, e.lo, e.hi]);
   const srcLabel = e.market.o === 'IT' ? `media di mercato ${MARKET.tiers[e.tier].toLowerCase()}, fonte ${e.market.src}` : `media ${MARKET.tiers[e.tier].toLowerCase()}, ${e.market.o === 'proxy' ? 'valore indicativo' : 'stima'}`;
   return (
     <div id="calcolatore" className={`rounded-[28px] bg-white p-5 text-ink shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-7 ${className}`}>
@@ -354,7 +444,7 @@ export function ToolsHubGrid({ tone = 'paper' }: { tone?: Tone }) {
             </button>
           ))}
         </div>
-        <div className={`mt-8 grid ${GAP.grid} sm:grid-cols-2 lg:grid-cols-3`}>
+        <div className={`mt-8 grid grid-cols-1 ${GAP.grid} sm:grid-cols-2 lg:grid-cols-3`}>
           {list.map((h, i) => (
             <motion.a key={h.href} href={h.href} {...reveal(i % 3)} className={`group flex min-h-[300px] flex-col justify-between rounded-3xl p-6 transition hover:-translate-y-1 ${h.dark ? 'bg-ink text-white' : h.acid ? 'bg-acid text-ink' : 'bg-white text-ink ring-1 ring-line'}`}>
               <div>{h.preview}</div>
@@ -384,7 +474,7 @@ const TYPE_C: Record<Compenso, string> = { pagata: 'bg-[#e3f9d8] text-[#246b0b]'
 const fmtDate = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 const initials = (s: string) => s.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
-export function JobCard({ title, company, location, types, date, cta = true }: { title: string; company: string; location: string; types: Compenso[]; date?: string; cta?: boolean }) {
+export function JobCard({ title, company, location, types, date, url, cta = true }: { title: string; company: string; location: string; types: Compenso[]; date?: string; url?: string; cta?: boolean }) {
   return (
     <div className="grid grid-cols-[48px_1fr] items-center gap-4 rounded-[22px] bg-white p-5 ring-1 ring-line sm:grid-cols-[56px_1fr_auto]">
       <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-acid font-heading text-base font-semibold sm:h-14 sm:w-14">{initials(company || 'Az')}</span>
@@ -407,7 +497,7 @@ export function JobCard({ title, company, location, types, date, cta = true }: {
         </div>
       </div>
       {cta && (
-        <a href={APP.annunci} className="col-span-2 inline-flex h-10 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white sm:col-span-1">
+        <a href={url || APP.annunci} className="col-span-2 inline-flex h-10 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white sm:col-span-1">
           Candidati
         </a>
       )}
@@ -420,7 +510,8 @@ export function JobsBoard({ tone = 'paper' }: { tone?: Tone }) {
   const [loc, setLoc] = useState('');
   const [type, setType] = useState<Compenso | 'tutte'>('tutte');
   const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-  const list = JOBS.filter((j) => (type === 'tutte' || j.types.includes(type)) && (!q || norm(j.title + ' ' + j.company).includes(norm(q))) && (!loc || norm(j.location).includes(norm(loc)) || (j.remote && /remot/.test(norm(loc)))));
+  const all = liveJobs(JOBS);
+  const list = all.filter((j) => (type === 'tutte' || j.types.includes(type)) && (!q || norm(j.title + ' ' + j.company).includes(norm(q))) && (!loc || norm(j.location).includes(norm(loc)) || (j.remote && /remot/.test(norm(loc)))));
   useDebouncedTrack('job_search', { has_keyword: q ? 1 : 0, has_location: loc ? 1 : 0, compenso: type, results: list.length }, [q, loc, type]);
   return (
     <Section tone={tone} id="offerte">
@@ -442,7 +533,7 @@ export function JobsBoard({ tone = 'paper' }: { tone?: Tone }) {
             </button>
           ))}
         </div>
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_340px]">
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_340px]">
           <div>
             <div className="mb-4 flex items-center justify-between">
               <p className="font-semibold">Offerte recenti</p>
@@ -451,10 +542,13 @@ export function JobsBoard({ tone = 'paper' }: { tone?: Tone }) {
               </a>
             </div>
             <div className="grid gap-3">
-              {list.map((j) => (
-                <JobCard key={j.title} {...j} />
-              ))}
-              {!list.length && (
+              {ENV.ssr && ENV.embed ? (
+                // il plugin WordPress sostituisce questo segnaposto con le offerte reali (HTML leggibile da Google)
+                <div dangerouslySetInnerHTML={{ __html: '<!--INFLUENCEE_JOBS-->' }} />
+              ) : (
+                list.map((j) => <JobCard key={j.title + j.date} {...j} />)
+              )}
+              {!list.length && !ENV.ssr && (
                 <div className="rounded-[22px] bg-white p-8 text-center ring-1 ring-line">
                   <p className="font-heading text-xl font-semibold">Nessuna offerta con questi filtri</p>
                   <p className="mt-2 text-sm text-mute">Le nuove offerte arrivano ogni settimana nell’app: crea il profilo e i brand ti trovano anche senza candidatura.</p>
@@ -501,6 +595,7 @@ export function PostJobForm({ tone = 'paper' }: { tone?: Tone }) {
   const [step, setStep] = useState(1);
   const [d, setD] = useState({ company: '', site: '', title: '', types: ['pagata'] as Compenso[], platform: 'Instagram', tier: 'Micro (10K–50K)', location: '', desc: '' });
   const [copied, setCopied] = useState(false);
+  const [posted, setPosted] = useState(false);
   const up = (k: keyof typeof d, v: string | Compenso[]) => setD((x) => ({ ...x, [k]: v }));
   const go = (n: number) => {
     setStep(n);
@@ -531,7 +626,7 @@ export function PostJobForm({ tone = 'paper' }: { tone?: Tone }) {
   return (
     <Section tone={tone} id="pubblica">
       <Container>
-        <div className="grid gap-8 lg:grid-cols-[1fr_420px]">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_420px]">
           <div className="rounded-[28px] bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.12)] ring-1 ring-line sm:p-8" data-track-zone="form_pubblica_offerta">
             <div className="flex gap-2" aria-hidden>
               {[1, 2, 3].map((n) => (
@@ -563,7 +658,7 @@ export function PostJobForm({ tone = 'paper' }: { tone?: Tone }) {
                       ))}
                     </div>
                   </div>
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {select('po-pl', 'Piattaforma', 'platform', ['Instagram', 'TikTok', 'YouTube', 'Instagram e TikTok', 'Solo contenuti UGC'])}
                     {select('po-tier', 'Fascia follower', 'tier', ['Nano (1K–10K)', 'Micro (10K–50K)', 'Mid (50K–250K)', 'Macro (250K–1M)', 'VIP (oltre 1M)', 'Indifferente'])}
                   </div>
@@ -572,27 +667,33 @@ export function PostJobForm({ tone = 'paper' }: { tone?: Tone }) {
                 </div>
               </>
             )}
-            {step === 3 && (
-              <>
-                <p className="mt-1 font-heading text-2xl font-semibold tracking-tight">L’offerta è pronta. Pubblicala dal tuo account</p>
-                <p className="mt-3 text-[15px] leading-relaxed text-mute">Le offerte si pubblicano dall’account aziendale gratuito: così ricevi le candidature con i profili dei creator e gestisci tutto nell’app. Copia il testo e incollalo nell’annuncio.</p>
-                <pre className="mt-5 max-h-48 overflow-auto whitespace-pre-wrap rounded-2xl bg-paper p-4 font-sans text-sm">{text}</pre>
+            {step === 3 && (posted ? (
+              <div role="status">
+                <p className="mt-1 font-heading text-2xl font-semibold tracking-tight">Offerta ricevuta</p>
+                <p className="mt-3 text-[15px] leading-relaxed text-mute">Il team la controlla e ti ricontatta per pubblicarla nella bacheca. Se vuoi gestire subito le candidature, crea l’account aziendale gratuito.</p>
+                <a href={`${APP.brand}?da=pubblica-offerta`} className="mt-5 inline-flex h-12 items-center gap-1.5 rounded-full bg-ink px-5 text-[15px] font-semibold text-white">Crea l’account aziendale <ArrowRight className="h-4 w-4" /></a>
+              </div>
+            ) : (
+              <form id="lead-form-pubblica-offerta" name="Pubblica offerta di lavoro" data-tandem="" data-form="lead_pubblica_offerta" onSubmit={(e) => { e.preventDefault(); setPosted(true); }}>
+                <p className="mt-1 font-heading text-2xl font-semibold tracking-tight">Ultimo passo: dove ti ricontattiamo?</p>
+                <p className="mt-3 text-[15px] leading-relaxed text-mute">Ti scriviamo per confermare l’offerta e pubblicarla nella bacheca.</p>
+                <label htmlFor="po-offerta" className="mt-5 block"><span className="text-xs font-semibold text-mute">La tua offerta</span>
+                  <textarea id="po-offerta" name="offerta" readOnly value={text} rows={5} className="mt-1.5 w-full resize-none rounded-2xl bg-paper px-4 py-3 text-sm outline-none ring-1 ring-line" />
+                </label>
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <label htmlFor="po-email"><span className="text-xs font-semibold text-mute">Email aziendale</span><input id="po-email" name="email" type="email" required autoComplete="email" className="mt-1.5 h-12 w-full rounded-2xl bg-paper px-4 text-[15px] outline-none ring-1 ring-line focus:ring-brand" /></label>
+                  <label htmlFor="po-tel"><span className="text-xs font-semibold text-mute">Telefono (facoltativo)</span><input id="po-tel" name="telefono" type="tel" autoComplete="tel" className="mt-1.5 h-12 w-full rounded-2xl bg-paper px-4 text-[15px] outline-none ring-1 ring-line focus:ring-brand" /></label>
+                </div>
+                <label className="mt-4 flex items-start gap-2 text-xs text-mute"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4" /> Voglio ricevere novità di Influencee (facoltativo)</label>
                 <div className="mt-5 flex flex-wrap gap-3">
-                  <a href={`${APP.brand}?da=pubblica-offerta`} className="inline-flex h-12 items-center gap-1.5 rounded-full bg-ink px-5 text-[15px] font-semibold text-white">
-                    Crea l’account e pubblica <ArrowRight className="h-4 w-4" />
-                  </a>
+                  <button type="submit" className="inline-flex h-12 items-center gap-1.5 rounded-full bg-ink px-5 text-[15px] font-semibold text-white">Invia l’offerta <ArrowRight className="h-4 w-4" /></button>
                   <button type="button" onClick={() => { navigator.clipboard?.writeText(text).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1800); }); track('tool_use', { tool: 'pubblica_offerta', action: 'copia_testo' }); }} className="inline-flex h-12 items-center gap-1.5 rounded-full px-5 text-[15px] font-semibold ring-1 ring-line">
                     {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} {copied ? 'Copiato' : 'Copia il testo'}
                   </button>
                 </div>
-                <p className="mt-4 text-sm text-mute">
-                  Preferisci che scegliamo noi i creator?{' '}
-                  <a href={WHATSAPP.href} className="font-semibold text-brand-ink">
-                    Scrivici su WhatsApp
-                  </a>
-                </p>
-              </>
-            )}
+                <p className="mt-4 text-[11px] text-mute">Usiamo i tuoi dati solo per pubblicare l’offerta e risponderti. <a href="/privacy-policy/" className="underline">Informativa privacy</a> · Preferisci WhatsApp? <a href={WHATSAPP.href} className="font-semibold text-brand-ink">Scrivici</a></p>
+              </form>
+            ))}
             <div className="mt-8 flex justify-between">
               {step > 1 ? (
                 <button type="button" onClick={() => go(step - 1)} className="inline-flex h-12 items-center rounded-full px-5 text-[15px] font-semibold ring-1 ring-line">
@@ -639,6 +740,10 @@ const EMOJI: { k: string; e: string }[] = [
   { k: 'Viaggi', e: '✈️ 🚗 🚆 🚲 🛵 ⛵ 🏖️ 🏝️ 🏔️ 🏕️ 🗺️ 🧳 🏨 🗼 🏛️ 🎡 🌍 📍 🇮🇹 🛫 🌅 🌄 🚀 🏰' },
   { k: 'Oggetti', e: '📱 💻 📷 🎥 🎧 🎤 💡 📚 ✏️ 📌 📎 🛍️ 🎁 💄 👗 👟 👜 💍 ⌚ 🏆 🎯 🎮 💸 🔑' },
   { k: 'Simboli', e: '✅ ❌ ⚠️ ❗ ❓ 💯 🔝 🆕 🆓 🔥 ⭐ ✨ 💫 ➡️ ⬅️ ⬆️ ⬇️ 🔗 📣 📢 🔔 ♻️ ™️ ©️' },
+  { k: 'Animali', e: '🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐔 🐧 🐦 🦄 🐝 🦋 🐢 🐬 🐳' },
+  { k: 'Sport', e: '⚽ 🏀 🏈 ⚾ 🎾 🏐 🏉 🎱 🏓 🏸 🥊 🥋 ⛳ 🏊 🚴 🏃 🧘 🏋️ 🤸 ⛷️ 🏄 🏆 🥇 🎯' },
+  { k: 'Lavoro', e: '💼 📊 📈 📉 🗂️ 📅 🗓️ ⏰ 📝 📌 📍 💡 🧠 🤝 📧 📞 💬 🖥️ ⌨️ 🖨️ 📦 🚚 🏢 💰' },
+  { k: 'Bandiere', e: '🇮🇹 🇪🇺 🇬🇧 🇺🇸 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇨🇭 🇦🇹 🇳🇱 🇧🇪 🇬🇷 🇧🇷 🇦🇷 🇯🇵 🏳️‍🌈 🏁 🚩 🏴 🏳️ 🇨🇦 🇦🇺 🇮🇪' },
 ];
 
 export function EmojiTool({ tone = 'paper' }: { tone?: Tone }) {
@@ -659,7 +764,7 @@ export function EmojiTool({ tone = 'paper' }: { tone?: Tone }) {
   return (
     <Section tone={tone} id="emoticon">
       <Container>
-        <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
           <div className="rounded-[28px] bg-white p-5 ring-1 ring-line sm:p-7">
             <div className="flex flex-wrap gap-2" role="tablist" aria-label="Categorie di emoticon">
               {EMOJI.map((c) => (
@@ -731,6 +836,7 @@ export function PreventivoPanel({ className = '' }: { className?: string }) {
   const [months, setMonths] = useState(3);
   const q = gestitoQuote(n, contents, ugc, months);
   useDebouncedTrack('calculator_use', { calculator: 'preventivo_campagna', creators: n, contents, ugc, months, result_band: `${Math.round(q.monthly)}/mese` }, [n, contents, ugc, months]);
+  useEffect(() => setToolContext('preventivo_campagna', `${n} influencer · ${contents} contenuti al mese ciascuno · ${ugc} video UGC al mese · ${months} mesi · ${it(q.monthly)} € al mese, totale ${it(q.total)} €`), [n, contents, ugc, months, q.monthly, q.total]);
   const msg = `Ciao Influencee, vorrei un preventivo per una campagna gestita da voi: ${n} influencer con ${contents} contenut${contents === 1 ? 'o' : 'i'} al mese, ${ugc} video UGC al mese, durata ${months} mes${months === 1 ? 'e' : 'i'}. Stima dal sito: ${it(q.monthly)} € al mese.`;
   const wa = `https://wa.me/${WHATSAPP.tel.replace('+', '')}?text=${encodeURIComponent(msg)}`;
   const rows: [string, number][] = [['Creator', q.creators], ['Video UGC', q.ugcCost], ['Gestione del team', q.fees]];

@@ -17,7 +17,7 @@
    ════════════════════════════════════════════════════════════════════ */
 
 /** ⚠ Inserire l'ID della proprietà GA4 (Amministrazione → Stream di dati). */
-export const GA4_ID = '';
+export const GA4_ID = 'G-5BD025G8VP'; // proprietà GA4 già usata da influencee.it
 /** Domini collegati: il visitatore resta lo stesso tra sito e app. */
 const LINKED_DOMAINS = ['influencee.it', 'app.influencee.it'];
 
@@ -127,8 +127,14 @@ export function initAnalytics() {
     gtag('config', GA4_ID, { send_page_view: false, linker: { domains: LINKED_DOMAINS } });
   }
 
-  // Tutti i clic su link e pulsanti
-  document.addEventListener(
+  bindClicks(document);
+  bindSubmits(document);
+  bindScroll();
+}
+
+/** Clic su link e pulsanti dentro `root` (tutto il documento, o solo l'area dei tool su WordPress). */
+function bindClicks(root: Document | HTMLElement) {
+  root.addEventListener(
     'click',
     (e) => {
       const el = (e.target as Element | null)?.closest('a, button');
@@ -153,20 +159,26 @@ export function initAnalytics() {
     },
     { capture: true },
   );
+}
 
-  // Invio di moduli (richiesta demo)
-  document.addEventListener(
+/** Invio di moduli: ogni modulo è un lead. `data-form` dice quale (richiesta demo, lead di un tool…). */
+function bindSubmits(root: Document | HTMLElement) {
+  root.addEventListener(
     'submit',
     (e) => {
       const form = e.target as HTMLFormElement;
+      if (form.hasAttribute('data-track-ignore')) return;
       const where = locate(form);
-      track('demo_form_submit', { form_name: form.getAttribute('data-form') || 'richiesta_demo', ...where });
-      track('generate_lead', { lead_source: form.getAttribute('data-form') || 'modulo_demo', currency: 'EUR', value: 0, ...where });
+      const name = form.getAttribute('data-form') || 'modulo';
+      track('form_submit', { form_name: name, ...where });
+      track('generate_lead', { lead_source: name, currency: 'EUR', value: 0, ...where });
     },
     { capture: true },
   );
+}
 
-  // Profondità di scroll per pagina
+/** Profondità di scroll per pagina. */
+function bindScroll() {
   let marks = new Set<number>();
   const onScroll = () => {
     const h = document.scrollingElement ?? document.documentElement;
@@ -178,6 +190,19 @@ export function initAnalytics() {
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('influencee:page', () => (marks = new Set()));
+}
+
+/** Modalità WordPress: il tag GA4 del sito è già installato (page_view e consenso li gestisce lui).
+ *  Qui si aggiungono solo gli eventi dentro l'area dei tool. */
+export function initEmbedAnalytics(root: HTMLElement, path: string) {
+  if (started || typeof window === 'undefined') return;
+  started = true;
+  window.dataLayer = window.dataLayer || [];
+  ctx = { page_path: path, ...pageTypeOf(path) };
+  bindClicks(root);
+  bindSubmits(root);
+  bindScroll();
+  observeSections(root);
 }
 
 /* ─── Cambio pagina (pagina virtuale) e sezioni viste ──────────── */
@@ -196,23 +221,27 @@ export function pageView(path: string, title: string) {
     is_landing: landing,
     ...(landing ? landingParams() : {}),
   });
-  // sezioni viste almeno al 40%, una volta per pagina
+  setTimeout(() => observeSections(document), 400);
+}
+
+/** Sezioni viste almeno al 40%, una volta per pagina. */
+function observeSections(scope: Document | HTMLElement) {
   observer?.disconnect();
   const seen = new Set<Element>();
+  const all = () => Array.from(scope.querySelectorAll('section'));
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((en) => {
         if (!en.isIntersecting || seen.has(en.target)) return;
         seen.add(en.target);
-        const all = Array.from(document.querySelectorAll('main section'));
-        const idx = all.indexOf(en.target);
+        const list = all();
         const name = en.target.querySelector('h1, h2')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 60) ?? 'senza_titolo';
-        track('section_view', { section_name: name, section_index: idx + 1, sections_total: all.length });
+        track('section_view', { section_name: name, section_index: list.indexOf(en.target as HTMLElement) + 1, sections_total: list.length });
       });
     },
     { threshold: 0.4 },
   );
-  setTimeout(() => document.querySelectorAll('main section').forEach((s) => observer?.observe(s)), 400);
+  all().forEach((s) => observer?.observe(s));
 }
 
 /** Sorgente della prima visita: utile anche senza GA4 (GTM, CRM). */

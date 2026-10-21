@@ -35,7 +35,7 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `signup_brand_click` | Clic su "Prova gratis", "Registra la tua azienda" e simili | Dettaglio del lato brand, il pubblico pagante |
 | `signup_creator_click` | Clic su "Iscriviti gratis", "Sono un creator" e simili | Dettaglio del lato creator, l'offerta del marketplace |
 | `whatsapp_click` | Qualunque link WhatsApp: pulsante fisso, sezione "Gestiamo noi", footer, FAQ | Canale preventivi |
-| `demo_form_submit` | Invio del modulo "Richiedi una demo" | Lead dal modulo |
+| `form_submit` | Invio di un modulo (`form_name`: `richiesta_demo_whatsapp`, `lead_fake_follower`, `lead_costo_influencer`, `lead_engagement_rate`, `lead_preventivo_campagna`, `lead_offerte_lavoro`, `lead_pubblica_offerta`, `lead_emoticon`, `lead_hub_tool`) | Quale modulo e quale tool porta lead |
 
 ### Eventi di navigazione e interesse
 
@@ -56,7 +56,7 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `calculator_use` | Uso del calcolatore (engagement rate o check sponsor), 1,2 secondi dopo l'ultima modifica | Quanto è usato lo strumento gratuito e con che esito (`calculator`, `result_band`, `tier`): chi lo usa e poi clicca "Confronta i creator" è un brand ad alta intenzione |
 | `calculator_use` (tool restaurati) | Fake follower checker (`calculator: fake_follower`, con `risk_signals`, `warn_signals`, `tier`, `platform`) e calcolatore costo (`calculator: costo_influencer`, con `tier`, `quantity`, `result_band` = forbice in €) | Quali tool portano brand ad alta intenzione: chi controlla un profilo e poi clicca "Cerca creator verificati" sta per scegliere un creator. Confronta `risk_signals` alti con i clic su WhatsApp: chi trova profili a rischio cerca qualcuno di cui fidarsi |
 | `calculator_use` (preventivo) | Preventivo della campagna gestita (`calculator: preventivo_campagna`, con `creators`, `contents`, `ugc`, `months`, `result_band` = € al mese) | Che dimensione di campagna chiedono le aziende. Il clic su "Invia su WhatsApp" vale `generate_lead` con il messaggio già compilato: confronta i preventivi calcolati con quelli inviati |
-| `demo_form_submit` + `generate_lead` | Invio del modulo demo (`form_name` / `lead_source` = `richiesta_demo_whatsapp`): apre WhatsApp con nome, azienda e settore | Il modulo prima non inviava dati: ora ogni invio è una richiesta reale su WhatsApp. Nome e azienda non vanno mai a GA4 |
+| `form_submit` + `generate_lead` | Invio del modulo demo (`form_name` / `lead_source` = `richiesta_demo_whatsapp`): apre WhatsApp con nome, azienda e settore | Il modulo prima non inviava dati: ora ogni invio è una richiesta reale su WhatsApp. Nome e azienda non vanno mai a GA4 |
 | `tool_use` | Azioni nei tool senza calcolo: copia di un'emoticon o del testo (`tool: emoticon`), copia del risultato del checker, copia del testo dell'offerta | Valore reale dei tool "di traffico" (emoticon): se l'uso è alto ma i clic verso l'app sono zero, il tool porta visite e non clienti |
 | `tool_filter` | Filtro per pubblico nell'hub dei tool (`filter`: brand, creator, smm) | Chi visita l'hub: decide quali tool restaurare dopo |
 | `job_search` | Ricerca nella bacheca offerte, 1,2 secondi dopo l'ultima modifica (`has_keyword`, `has_location`, `compenso`, `results`) | Domanda dei creator per tipo di compenso; `results = 0` frequente = mancano offerte, da chiedere ai brand |
@@ -83,9 +83,9 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 
 ## 3. Configurazione in GA4 (una volta sola)
 
-1. **Inserire l'ID** della proprietà in `GA4_ID` (`analytics.ts`) e ripubblicare. In alternativa si usa Google Tag Manager, che legge lo stesso `dataLayer`.
-2. **Dimensioni personalizzate** (Amministrazione → Definizioni personalizzate), tutte con ambito evento: `page_type`, `audience`, `link_text`, `link_type`, `cta_location`, `section_name`, `section_index`, `menu_group`, `signup_audience`, `lead_source`, `faq_question`, `percent_scrolled`, `calculator`, `result_band`, `tier`.
-3. **Eventi chiave**: `begin_sign_up`, `generate_lead`. Opzionali, per avere il dettaglio: `signup_brand_click`, `signup_creator_click`, `whatsapp_click`, `demo_form_submit`.
+1. **Proprietà**: `G-5BD025G8VP`, la stessa del sito WordPress attuale (`GA4_ID` in `analytics.ts`). Sul WordPress il plugin `influencee-tools` non installa un secondo tag: usa quello già presente e aggiunge solo gli eventi dell'area dei tool (`initEmbedAnalytics`).
+2. **Dimensioni personalizzate** (Amministrazione → Definizioni personalizzate), tutte con ambito evento: `page_type`, `audience`, `link_text`, `link_type`, `cta_location`, `section_name`, `section_index`, `menu_group`, `signup_audience`, `lead_source`, `faq_question`, `percent_scrolled`, `calculator`, `result_band`, `tier`, `form_name`, `tool`, `action`, `platform`, `risk_signals`, `creators`, `months`, `compenso`, `results`, `step`, `filter`.
+3. **Eventi chiave**: `begin_sign_up`, `generate_lead`. Opzionali, per avere il dettaglio: `signup_brand_click`, `signup_creator_click`, `whatsapp_click`, `form_submit`. Nei report dei lead usa `lead_source` per separare i tool: ogni lead dei tool arriva anche a tandem-forms (vedi `RESTAURO-TOOL.md`).
 4. **Raggruppamento contenuti**: si usa `content_group`, che è uguale a `page_type`.
 5. **Dominio incrociato**: `influencee.it` e `app.influencee.it` (Stream di dati → Configura le impostazioni del tag). Nel codice è già attivo (`linker`). Così chi passa dal sito all'app resta lo stesso utente e la sorgente non diventa "referral da influencee.it".
 6. **Esclusione referral**: `app.influencee.it`, `wa.me`, `paypal.com`.

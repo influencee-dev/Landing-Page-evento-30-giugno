@@ -313,6 +313,8 @@ export interface Job {
   remote: boolean;
   types: Compenso[];
   date: string; // ISO
+  /** pagina dell'offerta (WP Job Manager) con il pulsante per candidarsi */
+  url?: string;
 }
 export const COMPENSI: { k: Compenso; label: string }[] = [
   { k: 'pagata', label: 'Pagata' },

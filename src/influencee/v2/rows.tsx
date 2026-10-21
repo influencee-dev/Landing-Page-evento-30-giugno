@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown, ChevronRight, Coffee, Dumbbell, FileText, Gamepad2, HeartPulse, Laugh, MousePointerClick, Music2, Megaphone, Users, LayoutGrid, BarChart3, PawPrint, PiggyBank, Plane, Search, Shirt, Smartphone, Sofa, Sparkles, UtensilsCrossed } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, reveal, useInk, type Tone } from '../ds';
 import { faqOpen, track } from './analytics';
+import { setToolContext } from './tools';
 import { APP, CATEGORIES, FACTS, MARKET, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -44,7 +45,7 @@ export function HeroPlatform({ crumbs, eyebrow, title, lead, actions, visual, no
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_15%,rgba(255,31,143,0.22),transparent_55%),radial-gradient(ellipse_at_70%_95%,rgba(200,255,26,0.12),transparent_50%)]" />
       <Container>
         {crumbs && <Crumbs items={crumbs} />}
-        <div className="mt-8 grid items-center gap-12 lg:mt-10 lg:grid-cols-[1fr_1.05fr]">
+        <div className="mt-8 grid grid-cols-1 items-center gap-12 lg:mt-10 lg:grid-cols-[1fr_1.05fr]">
           <motion.div {...reveal()}>
             <Eyebrow>{eyebrow}</Eyebrow>
             <Heading as="h1" size="display" text={title} className="mt-6 lg:!text-[4rem]" />
@@ -119,7 +120,7 @@ export function AnswerBox({ q, a, points, visual }: { q: string; a: string; poin
   return (
     <Section tone="paper">
       <Container>
-        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
           <motion.div {...reveal()}>
             <Eyebrow>In breve</Eyebrow>
             <h2 className="mt-5 font-heading text-3xl font-semibold tracking-[-0.03em] sm:text-[2.6rem] sm:leading-[1.05]">{q}</h2>
@@ -155,7 +156,7 @@ export function FeatureSplit({ tone = 'white', eyebrow, title, lead, items }: { 
         {title && <SectionHeader eyebrow={eyebrow} title={title} lead={lead} />}
         <div className={`${title ? GAP.header : ''} space-y-20 sm:space-y-28`}>
           {items.map((it, i) => (
-            <div key={it.title} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div key={it.title} className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <motion.div {...reveal()} className={i % 2 ? 'lg:order-2' : ''}>
                 <p className={`${TYPE.label} text-brand`}>{it.eyebrow}</p>
                 <h3 className="mt-3 font-heading text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{it.title}</h3>
@@ -219,7 +220,7 @@ export function Steps({ tone = 'white', eyebrow, title, lead, steps, action }: {
     <Section tone={tone}>
       <Container>
         <SectionHeader eyebrow={eyebrow} title={title} lead={lead} />
-        <ol className={`${GAP.header} grid ${GAP.grid} sm:grid-cols-2 lg:grid-cols-${Math.min(steps.length, 4)}`}>
+        <ol className={`${GAP.header} grid grid-cols-1 ${GAP.grid} sm:grid-cols-2 lg:grid-cols-${Math.min(steps.length, 4)}`}>
           {steps.map((s, i) => (
             <motion.li key={s.t} {...reveal(i)} className={`relative overflow-hidden rounded-3xl p-7 ${STEP_BG[i % STEP_BG.length]}`}>
               <span className="pointer-events-none absolute -right-4 -top-6 font-heading text-[7rem] font-semibold leading-none tracking-[-0.06em] opacity-15">{i + 1}</span>
@@ -266,7 +267,7 @@ export function TiersRow({ tone = 'white', title = 'Le fasce di follower\n*che u
     <Section tone={tone}>
       <Container>
         <SectionHeader eyebrow="Fasce" title={title} lead={lead} />
-        <div className={`${GAP.header} grid gap-3 sm:grid-cols-2 lg:grid-cols-5`}>
+        <div className={`${GAP.header} grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5`}>
           {TIERS.map((t, i) => {
             const on = t.id === highlight;
             const er = MARKET.erIG[i];
@@ -300,7 +301,7 @@ export function DemoForm({ tone = 'soft', title = 'Richiedi una demo\n*con il tu
   return (
     <Section tone={tone} id="demo">
       <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1fr]">
           <div>
             <SectionHeader align="left" eyebrow="Demo" title={title} lead={lead} />
             <form
@@ -311,7 +312,7 @@ export function DemoForm({ tone = 'soft', title = 'Richiedi una demo\n*con il tu
                 window.open(`https://wa.me/${WHATSAPP.tel.replace('+', '')}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
                 setSent(true);
               }}
-              className="mt-8 grid gap-3 rounded-[28px] bg-white p-5 ring-1 ring-line sm:grid-cols-2 sm:p-6"
+              className="mt-8 grid grid-cols-1 gap-3 rounded-[28px] bg-white p-5 ring-1 ring-line sm:grid-cols-2 sm:p-6"
             >
               <label htmlFor="df-name"><span className="text-xs font-semibold text-mute">Nome</span><input id="df-name" required value={d.name} onChange={(e) => setD({ ...d, name: e.target.value })} className={`mt-1.5 ${field}`} /></label>
               <label htmlFor="df-company"><span className="text-xs font-semibold text-mute">Azienda</span><input id="df-company" required value={d.company} onChange={(e) => setD({ ...d, company: e.target.value })} className={`mt-1.5 ${field}`} /></label>
@@ -340,7 +341,7 @@ export function Plans({ tone = 'white', compact = false }: { tone?: Tone; compac
     <Section tone={tone}>
       <Container>
         <SectionHeader eyebrow="Prezzi" title={'Prezzi chiari,\n*senza commissioni per il brand*'} lead={`Inizi gratis. Premium sblocca tutti i risultati e i filtri, con ${FACTS.trialDays} giorni di prova senza carta.`} />
-        <div className={`${GAP.header} grid ${GAP.grid} ${compact ? 'mx-auto max-w-3xl sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
+        <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} ${compact ? 'mx-auto max-w-3xl sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
           {list.map((p, i) => (
             <motion.div key={p.name} {...reveal(i)} className={`flex flex-col rounded-3xl p-7 ${p.featured ? 'bg-ink text-white shadow-float' : 'bg-white ring-1 ring-line'}`}>
               <div className="flex items-center justify-between">
@@ -412,7 +413,7 @@ export function RegionGrid({ tone = 'white', title = 'Influencer\n*per regione e
     <Section tone={tone}>
       <Container>
         <SectionHeader eyebrow="Regioni" title={title} lead={lead} />
-        <div className={`${GAP.header} grid ${GAP.grid} sm:grid-cols-2 lg:grid-cols-4`}>
+        <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} sm:grid-cols-2 lg:grid-cols-4`}>
           {list.map((r, i) => (
             <motion.div key={r.slug} {...reveal(i % 4)} className="rounded-3xl bg-white p-5 ring-1 ring-line">
               <a href={`#/influencer-italiani/influencer-${r.slug}/`} className="font-heading text-lg font-semibold tracking-tight hover:text-brand">
@@ -438,7 +439,7 @@ export function FaqSeo({ tone = 'white', title = 'Domande\n*frequenti*', items, 
   const [open, setOpen] = useState(0);
   return (
     <Section tone={tone}>
-      <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.4fr]">
+      <Container className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.4fr]">
         <div>
           <SectionHeader align="left" eyebrow="FAQ" title={title} />
           <div className="mt-10">{aside ?? <HelpCard />}</div>
@@ -453,13 +454,11 @@ export function FaqSeo({ tone = 'white', title = 'Domande\n*frequenti*', items, 
                 <h3 className="font-heading text-lg font-semibold tracking-tight sm:text-xl">{it.q}</h3>
                 <ChevronDown className={`h-5 w-5 shrink-0 transition ${open === i ? 'rotate-180 text-brand' : 'text-mute'}`} />
               </button>
-              <AnimatePresence initial={false}>
-                {open === i && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                    <p className="max-w-2xl pb-6 text-[16px] leading-relaxed text-mute">{it.a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <div className={`grid transition-[grid-template-rows] duration-300 ${open === i ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                <div className="overflow-hidden" aria-hidden={open !== i}>
+                  <p className="max-w-2xl pb-6 text-[16px] leading-relaxed text-mute">{it.a}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -474,7 +473,7 @@ export function Related({ tone = 'white', title = 'Continua a\n*esplorare*', lin
     <Section tone={tone}>
       <Container>
         <SectionHeader align="left" title={title} />
-        <div className={`${GAP.header} grid ${GAP.grid} sm:grid-cols-2 lg:grid-cols-${Math.min(links.length, 4)}`}>
+        <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} sm:grid-cols-2 lg:grid-cols-${Math.min(links.length, 4)}`}>
           {links.map((l, i) => (
             <motion.a key={l.href} href={l.href} {...reveal(i)} className="group flex flex-col rounded-3xl bg-paper p-6 transition hover:bg-brand-soft">
               <span className="font-heading text-lg font-semibold tracking-tight">{l.label}</span>
@@ -495,7 +494,7 @@ export function CtaDual({ title = 'Inizia oggi,\n*è gratis*' }: { title?: strin
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(255,31,143,0.3),transparent_55%)]" />
       <Container>
         <SectionHeader title={title} lead="Scegli da che parte stai: l’iscrizione richiede pochi minuti." />
-        <div className={`${GAP.header} grid ${GAP.grid} md:grid-cols-2`}>
+        <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} md:grid-cols-2`}>
           <motion.a {...reveal()} href={APP.brand} className="group rounded-3xl bg-white p-8 text-ink transition hover:-translate-y-1">
             <p className={`${TYPE.label} text-brand`}>Aziende e agenzie</p>
             <p className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em]">Trova i creator giusti</p>
@@ -542,7 +541,7 @@ export function CtaBandV2({ title, lead, primary, secondary, tone = 'soft' }: { 
 export function Prose({ tone = 'white', blocks, aside }: { tone?: Tone; blocks: { h: string; p: string[] }[]; aside: React.ReactNode }) {
   return (
     <Section tone={tone}>
-      <Container className="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+      <Container className="grid grid-cols-1 gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
         <div className="space-y-12">
           {blocks.map((b) => (
             <motion.div key={b.h} {...reveal()}>
@@ -609,7 +608,7 @@ export function FooterV2() {
   return (
     <footer className="border-t border-line bg-white font-sans text-ink">
       <Container className="py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_repeat(5,1fr)]">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_repeat(5,1fr)]">
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-sm text-mute">{SITE.tagline}. Solo creator italiani, numeri con la loro fonte.</p>
@@ -711,7 +710,7 @@ export function AudienceRow({ tone = 'white', items }: { tone?: Tone; items: { t
     <Section tone={tone}>
       <Container>
         <SectionHeader eyebrow="Per chi è" title={'Per aziende, agenzie\n*e creator*'} />
-        <div className={`${GAP.header} grid ${GAP.grid} lg:grid-cols-3`}>
+        <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} lg:grid-cols-3`}>
           {items.map((it, i) => (
             <motion.a key={it.tag} href={it.href} {...reveal(i)} className={`group flex flex-col overflow-hidden rounded-[30px] ${it.dark ? 'bg-ink text-white' : i === 2 ? 'bg-acid text-ink' : 'bg-brand-soft text-ink'}`}>
               <div className="relative h-64 overflow-hidden px-6 pt-6">
@@ -747,7 +746,7 @@ export function ManagedRow({ tone = 'ink' }: { tone?: Tone }) {
   return (
     <Section tone={tone}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_50%,rgba(37,211,102,0.18),transparent_55%)]" />
-      <Container className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+      <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
         <motion.div {...reveal()}>
           <Eyebrow>Progetti gestiti</Eyebrow>
           <Heading text={'Preferisci che\n*ce ne occupiamo noi?*'} className="mt-5" />
@@ -855,6 +854,7 @@ export function ErCalculator({ tone = 'white' }: { tone?: Tone }) {
   const sp = MARKET.sponsor.find((x) => ratio < x.max)!;
   const erBand = er >= ref.v * 1.15 ? 'sopra la media' : er >= ref.v * 0.85 ? 'in linea con la media' : 'sotto la media';
   const result = mode === 'er' ? erBand : sp.label;
+  React.useEffect(() => setToolContext('engagement_rate', mode === 'er' ? `${f.toLocaleString('it-IT')} follower · ${n.toLocaleString('it-IT')} interazioni medie · ER ${er.toLocaleString('it-IT', { maximumFractionDigits: 2 })}% (${erBand}, fascia ${MARKET.tiers[tierIdx]})` : `Check sponsor ${ratio.toLocaleString('it-IT', { maximumFractionDigits: 2 })}% su ${v.toLocaleString('it-IT')} visualizzazioni: ${sp.label}`), [mode, f, n, v, er, ratio, erBand, sp.label, tierIdx]);
   React.useEffect(() => {
     const t = setTimeout(() => track('calculator_use', { calculator: mode === 'er' ? 'engagement_rate' : 'check_sponsor', result_band: result.slice(0, 60), tier: MARKET.tiers[tierIdx] }), 1200);
     return () => clearTimeout(t);
@@ -869,7 +869,7 @@ export function ErCalculator({ tone = 'white' }: { tone?: Tone }) {
   return (
     <Section tone={tone} id="calcolatore">
       <Container>
-        <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
           <div className="rounded-[30px] bg-white p-6 ring-1 ring-line shadow-[0_30px_60px_-40px_rgba(29,29,31,0.35)] sm:p-8">
             <div className="flex gap-1 rounded-full bg-paper p-1 text-sm font-semibold" role="tablist">
               {([['er', 'Engagement rate'], ['sponsor', 'Check sponsor']] as const).map(([k, l]) => (

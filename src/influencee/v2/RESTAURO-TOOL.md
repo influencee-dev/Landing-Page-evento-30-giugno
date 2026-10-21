@@ -98,3 +98,19 @@ Ogni tool passa prima da Figma (stessa pagina del file), poi va nel codice con l
 3. **Eventi verificati in Chromium** con `?debug_analytics`: ogni pulsante ha il suo evento e un form conta come lead solo se il lead arriva davvero.
 4. **Stesso URL** per le pagine con traffico; 301 per i doppioni.
 5. **Niente note interne in pagina** ("prototipo", "stesso URL del sito attuale", "da inserire").
+
+## Plugin WordPress (21/10/2026)
+
+I tool restaurati vanno su influencee.it con il plugin `influencee-tools` (guida: `wp-plugin/influencee-tools/LEGGIMI-INSTALLAZIONE.md`).
+
+| Requisito | Come è fatto | Verificato su WordPress locale (6.x, tema Hello Elementor, WP Job Manager, SQLite) |
+| --- | --- | --- |
+| Stesso URL delle 8 pagine | il plugin serve la pagina con header e footer del tema; interruttore per pagina | ✅ 8 pagine; spegnendone una torna la pagina Elementor |
+| SEO/GEO/AEO leggibile senza JavaScript | HTML pre-renderizzato: un `<title>`, description, OG, JSON-LD (WebApplication, BreadcrumbList, FAQPage), FAQ con le risposte nell'HTML, `/llms.txt` | ✅ title ×1, H1 ×1, FAQ schema = FAQ visibili, nessun link `#/`, 1.360–2.090 parole per pagina |
+| Tracciamenti GA4 | eventi sul tag del sito (G-5BD025G8VP), solo nell'area dei tool | ✅ `calculator_use`, `tool_use`, `job_search`, `job_post_step`, `form_submit`, `generate_lead` con `lead_source` |
+| Ogni tool genera lead in tandem | `<form data-tandem>` con email/telefono e il risultato del tool in `risultato_tool` | ✅ 8 lead su 8 arrivati all'endpoint `/wp-json/tandem-forms/v1/capture` con lo script tandem reale del sito |
+| Offerte reali | WP Job Manager: pubblicate negli ultimi 180 giorni, non chiuse, non scadute | ✅ esclusa l'offerta del 2022 e quella chiusa |
+| Non rompere il tema | CSS senza `@layer`, tutto sotto `#influencee-tools` | ✅ nessuna pagina più larga dello schermo a 390 px e a 1280 px |
+| Tornare indietro | disattivare il plugin | ✅ tornano le pagine di prima |
+
+Analisi SEO con Ubersuggest dal vivo: `SEO-TOOL-WP.md` §0-bis.

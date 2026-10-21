@@ -13,12 +13,6 @@
 - [Influencer italiani](https://influencee.it/influencer-italiani/): per categoria, regione e città
 - [Benchmark engagement rate](https://influencee.it/benchmark-engagement-rate/): metodo di calcolo e valori per fascia
 
-- [Quanto costa un influencer](https://influencee.it/social-media-tool/costo-influencer/): calcolatore con la formula di prezzo di influencee e la media di mercato per fascia
-- [Calcolo engagement rate](https://influencee.it/come-calcolare-engagement-rate/): calcolatore gratuito e check sponsor
-- [Tool gratuiti](https://influencee.it/social-media-tool/): fake follower checker, costo influencer, engagement rate, emoticon
-- [Fake follower Instagram](https://influencee.it/followe-instagram-fake-follower/): controlla un profilo con 5 segnali e soglie dichiarate
-- [Offerte di lavoro per influencer](https://influencee.it/offerte-lavoro-influencer/) e [pubblica un'offerta](https://influencee.it/pubblica-offerta-lavoro/)
-- [Campagna gestita: preventivo online](https://influencee.it/preventivo-campagne/): listino del servizio gestito per creator fino a 70.000 follower; 500 € al mese a influencer, 150 € a video UGC più la gestione, sconti fino all'8% sulla durata
 - [Contenuti UGC](https://influencee.it/contenuti-ugc/), [Campagne locali](https://influencee.it/influencer-marketing-locale/), [Creator professionisti](https://influencee.it/creator-professionisti/)
 - [Creator verificati](https://influencee.it/creator-verificati/): come vengono verificati i dati
 - [Contratto](https://influencee.it/funzionalita/contratto-influencer/) e [Calendario campagne](https://influencee.it/funzionalita/calendario-campagne/)
@@ -31,4 +25,14 @@
 - Engagement rate: mediana delle interazioni su reel e video degli ultimi 90 giorni (esclusa l'ultima settimana) divisa per i follower; non calcolato con meno di 5 video
 - Badge Verificato: account social collegato con login ufficiale o verifica dello staff
 - Nessuna commissione per il brand sulle collaborazioni
-- Fake follower checker, soglie indicative: engagement sotto il 50% della media di fascia, crescita oltre il 20% in 30 giorni, check sponsor sotto l'1,5%, visualizzazioni dei reel sotto il 5% dei follower, commenti sotto l'1% dei like
+
+## Tool gratuiti (senza registrazione, calcolo nel browser, nessun dato letto dai social)
+- [Fake follower Instagram](https://influencee.it/followe-instagram-fake-follower/): 5 segnali con soglie indicative dichiarate — engagement sotto il 50% della media di fascia, crescita oltre il 20% in 30 giorni, interazioni ÷ visualizzazioni sotto l'1,5%, visualizzazioni dei reel sotto il 5% dei follower, commenti sotto l'1% dei like
+- [Quanto costa un influencer](https://influencee.it/social-media-tool/costo-influencer/): costo medio di un post Instagram in Italia per fascia (DeRev) — nano 200 €, micro 950 €, mid 3.550 €, macro circa 8.000 € (stima), oltre 1 milione 23.750 €
+- [Calcolo engagement rate](https://influencee.it/come-calcolare-engagement-rate/): ER = interazioni ÷ follower × 100, mediana degli ultimi contenuti; medie Instagram per fascia: nano 7,7%, micro 4,6% (ONIM), mid 4,56%, mega 1,61% (DeRev); check sponsor sotto 1,5% = probabile reach a pagamento
+- [Preventivo campagna gestita](https://influencee.it/preventivo-campagne/): listino del servizio gestito per creator fino a 70.000 follower — 500 € al mese a influencer, 475 € per contenuto in più, 250 € di gestione a influencer, 150 € a video UGC + 100 € di gestione, sconti 5/6/8% a 3/6/12 mesi
+- [Agenzia influencer](https://influencee.it/agenzia-influencer/): il servizio di agenzia di Influencee per campagne gestite
+- [Offerte di lavoro per influencer](https://influencee.it/offerte-lavoro-influencer/): collaborazioni pagate, cambio merce o % sulle vendite; candidature gratuite per i creator
+- [Pubblica un annuncio](https://influencee.it/pubblica-offerta-lavoro/): gratis per le aziende, nessuna commissione sulle collaborazioni
+- [Emoticon da copiare](https://influencee.it/social-media-tool/emoticon-da-copiare/): 13 categorie e quasi 300 emoji, copia con un clic
+- [Tutti i tool](https://influencee.it/social-media-tool/)
