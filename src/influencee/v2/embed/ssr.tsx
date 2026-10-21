@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { jsonLd } from '../App';
 import { ENV } from '../env';
 import { allPaths, resolve } from '../pages';
+import { CreatorProfile, TOKENS, profileData } from '../profile';
 import { EXCLUDED, groupOf, slugOf, wpHref } from './routes';
 
 /* Pre-rendering delle pagine tool in HTML statico per il plugin WordPress.
@@ -39,4 +40,10 @@ export function renderAll() {
     const images = [...html.matchAll(/\{\{ASSETS\}\}\/img\/([^"]+)"/g)].map((m) => m[1]);
     return { path, group: groupOf(path), slug: slugOf(path), meta: r.meta, ld: jsonLd(r.meta), html, images: [...new Set(images)] };
   });
+}
+
+/** Modello della pagina profilo creator: segnaposto {{campo}} riempiti da PHP per ogni profilo. */
+export function renderProfile() {
+  const html = rewrite(unhide(renderToString(<CreatorProfile p={TOKENS} />)));
+  return { html, data: profileData() };
 }

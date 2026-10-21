@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { initEmbedAnalytics } from '../analytics';
 import { ENV } from '../env';
 import { resolve } from '../pages';
+import { CreatorProfile } from '../profile';
 import { wpHref } from './routes';
 import './embed.css';
 
@@ -29,12 +30,13 @@ function boot() {
   const root = document.getElementById('influencee-tools');
   if (!root) return;
   const path = root.getAttribute('data-route') || window.location.pathname;
-  const page = resolve(path);
-  if (!page) return;
+  const profile = window.INFLUENCEE_TOOLS?.profile;
+  const el = path.startsWith('/creator/') && profile ? <CreatorProfile p={profile} /> : resolve(path)?.el;
+  if (!el) return;
   const assets = window.INFLUENCEE_TOOLS?.assets ?? '';
   initEmbedAnalytics(root, path);
   fixLinks(root, assets);
-  createRoot(root).render(<React.StrictMode>{page.el}</React.StrictMode>);
+  createRoot(root).render(<React.StrictMode>{el}</React.StrictMode>);
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

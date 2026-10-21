@@ -138,3 +138,10 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 - **Nessun dato personale negli eventi.** Si inviano solo testi dei pulsanti, URL e titoli delle sezioni, mai email o telefoni dell'utente.
 - **Verifica.** Apri il sito con `?debug_analytics` nell'indirizzo per vedere gli eventi nella console. In GA4 usa Amministrazione → DebugView.
 - **Da aggiornare nella privacy policy:** uso di GA4, finalità di analisi, base giuridica (consenso), conservazione di 14 mesi.
+
+### Pagine profilo creator (`/creator/…`, plugin WordPress)
+
+| cosa | quando | perché conta | decisione che abilita |
+|---|---|---|---|
+| `page_type=profilo_creator` | ogni visita a un profilo | quali profili attirano aziende da Google | quali creator spingere nelle campagne e nelle pagine città |
+| `generate_lead` con `lead_source=lead_creator_profilo` | invio di "Vuoi collaborare con …?" | richieste dirette su un creator (nome e handle nel campo risultato in tandem) | contattare il creator e proporre anche creator simili |

@@ -66,6 +66,7 @@ export function pageTypeOf(path: string): { page_type: string; audience: string 
   if (path === '/influencer-italiani/') return { page_type: 'hub_influencer', audience: 'brand' };
   if (path.endsWith('-influencers/')) return { page_type: 'categoria', audience: 'brand' };
   if (path === '/contatti-influencee/' || path === '/contatti/') return { page_type: 'contatti', audience: 'brand' };
+  if (path.startsWith('/creator/')) return { page_type: 'profilo_creator', audience: 'brand' };
   if (path === '/blog/') return { page_type: 'blog', audience: 'misto' };
   return { page_type: 'altro', audience: 'misto' };
 }

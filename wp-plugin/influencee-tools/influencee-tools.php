@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Tools
  * Description:       Tool gratuiti di influencer marketing (fake follower, costo influencer, engagement rate, preventivo campagna, offerte di lavoro, emoticon) con SEO/GEO/AEO, eventi GA4 e lead verso tandem-forms. Serve le pagine tool con il loro URL attuale.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,12 +11,13 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFT_VERSION', '1.1.0' );
+define( 'INFT_VERSION', '1.2.0' );
 define( 'INFT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFT_URL', plugin_dir_url( __FILE__ ) );
 
 require_once INFT_DIR . 'includes/privacy.php';
 require_once INFT_DIR . 'includes/mcp-abilities.php';
+require_once INFT_DIR . 'includes/profiles.php';
 
 /* ════════════════════════════════════════════════════════════════════
    DATI DELLE PAGINE
@@ -56,6 +57,7 @@ function inft_settings() {
 			'off'       => array(), // eccezioni: percorsi spenti anche se il gruppo è acceso
 			'on'        => array(), // eccezioni: percorsi accesi anche se il gruppo è spento
 			'creators'  => 1,       // mostra i profili dei creator (tipo di contenuto "creator")
+			'profiles'  => 0,       // pagine /creator/<slug>/ con la nuova grafica (spente finché non le accendi)
 			'redirects' => 0,       // redirect 301 dei vecchi URL (spenti finché non li attivi)
 			'privacy'   => 1,       // toglie email e telefoni dalle bio dei creator nelle API e nelle pagine pubbliche
 			'mcp_admin_only' => 1,  // la porta MCP del sito solo per amministratori (di default basta essere iscritti)
@@ -82,8 +84,15 @@ function inft_current() {
 	if ( false !== $current ) {
 		return $current;
 	}
-	$current = null;
 	if ( is_admin() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		$current = null;
+		return $current;
+	}
+	if ( ! did_action( 'wp' ) ) {
+		return null; // richiesta non ancora letta: niente cache
+	}
+	$current = inft_profile_page();
+	if ( $current ) {
 		return $current;
 	}
 	$path  = inft_request_path();
@@ -166,6 +175,9 @@ add_action(
 		}
 		status_header( 200 );
 		$html = (string) file_get_contents( $file );
+		if ( ! empty( $page['profile'] ) ) {
+			$html = inft_profile_fill( $html, $page['profile'] );
+		}
 		$html = str_replace( '{{ASSETS}}', esc_url( untrailingslashit( INFT_URL . 'assets' ) ), $html );
 		$html = preg_replace_callback(
 			'#<!--INFLUENCEE_CREATORS:([^>]*?)-->#',
@@ -266,6 +278,9 @@ add_action(
 		);
 		if ( '/offerte-lavoro-influencer/' === $page['path'] ) {
 			$data['jobs'] = inft_jobs();
+		}
+		if ( ! empty( $page['profile'] ) ) {
+			$data['profile'] = $page['profile'];
 		}
 		$data['creators'] = (object) inft_creators_rendered();
 		wp_add_inline_script( 'inft', 'window.INFLUENCEE_TOOLS=' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . ';', 'before' );
@@ -417,6 +432,9 @@ function inft_creators_query( $key ) {
 	parse_str( html_entity_decode( $key ), $f );
 	$limit = isset( $f['limit'] ) ? max( 1, min( 48, (int) $f['limit'] ) ) : 12;
 	$base  = array( 'post_type' => 'creator', 'post_status' => 'publish', 'numberposts' => $limit, 'orderby' => 'date', 'order' => 'DESC', 'suppress_filters' => false );
+	if ( ! empty( $f['exclude'] ) ) {
+		$base['post__not_in'] = array( (int) $f['exclude'] ); // pagina profilo: non ripete il creator stesso
+	}
 	$tax   = array();
 	if ( ! empty( $f['cat'] ) ) {
 		$tax[] = array( 'taxonomy' => 'creator_category', 'field' => 'slug', 'terms' => array_map( 'sanitize_title', explode( ',', $f['cat'] ) ) );
@@ -426,7 +444,7 @@ function inft_creators_query( $key ) {
 		$posts = get_posts( $base + array( 'tax_query' => array_merge( $tax, array( array( 'taxonomy' => 'creator_city', 'field' => 'slug', 'terms' => sanitize_title( $f['city'] ) ) ) ) ) );
 		// città con pochi profili: si completa con la regione
 		if ( count( $posts ) < 3 && ! empty( $f['region'] ) ) {
-			$more  = get_posts( array_merge( $base, array( 'numberposts' => $limit - count( $posts ), 'post__not_in' => wp_list_pluck( $posts, 'ID' ) ) ) + array( 'tax_query' => array_merge( $tax, array( array( 'taxonomy' => 'creator_region', 'field' => 'slug', 'terms' => sanitize_title( $f['region'] ) ) ) ) ) );
+			$more  = get_posts( array_merge( $base, array( 'numberposts' => $limit - count( $posts ), 'post__not_in' => array_merge( isset( $base['post__not_in'] ) ? $base['post__not_in'] : array(), wp_list_pluck( $posts, 'ID' ) ) ) ) + array( 'tax_query' => array_merge( $tax, array( array( 'taxonomy' => 'creator_region', 'field' => 'slug', 'terms' => sanitize_title( $f['region'] ) ) ) ) ) );
 			$posts = array_merge( $posts, $more );
 		}
 	} elseif ( ! empty( $f['region'] ) ) {
@@ -533,6 +551,7 @@ add_action(
 						'off'       => $list( isset( $in['off'] ) ? $in['off'] : '' ),
 						'on'        => $list( isset( $in['on'] ) ? $in['on'] : '' ),
 						'creators'  => empty( $in['creators'] ) ? 0 : 1,
+						'profiles'  => empty( $in['profiles'] ) ? 0 : 1,
 						'redirects' => empty( $in['redirects'] ) ? 0 : 1,
 						'privacy'   => empty( $in['privacy'] ) ? 0 : 1,
 						'mcp_admin_only' => empty( $in['mcp_admin_only'] ) ? 0 : 1,
@@ -624,7 +643,9 @@ function inft_settings_page() {
 				</td></tr>
 				<tr><th scope="row">Profili dei creator</th><td>
 					<label><input type="checkbox" name="inft_settings[creators]" value="1" <?php checked( ! empty( $s['creators'] ) ); ?>> Mostra i profili (tipo di contenuto "creator") nelle pagine città, regione, categoria, hub e home</label>
-					<p class="description">Si mostrano nome, handle, città, categoria e foto. Le bio non vengono mostrate perché a volte contengono email e telefoni.</p>
+					<p class="description">Nelle liste si mostrano nome, handle, città, categoria e foto, mai le bio (a volte contengono email e telefoni).</p>
+					<p><label><input type="checkbox" name="inft_settings[profiles]" value="1" <?php checked( ! empty( $s['profiles'] ) ); ?>> <b>Pagine profilo con la nuova grafica</b> (<code>/creator/…</code>): foto, follower, fascia, costo medio, modulo "Vuoi collaborare?" verso tandem e creator della stessa zona</label></p>
+					<p class="description">I profili restano gestiti dal plugin dei creator: cambia solo come si vedono. La bio si vede senza email e telefoni. Spegnendo la casella torna subito la pagina di prima.</p>
 				</td></tr>
 			</tbody></table>
 						<h2>Privacy e MCP</h2>

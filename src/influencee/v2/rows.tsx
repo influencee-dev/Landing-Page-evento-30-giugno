@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown, ChevronRight, Coffee, Dumbbell, FileText, Gamepad2, HeartPulse, Laugh, MousePointerClick, Music2, Megaphone, Users, LayoutGrid, BarChart3, PawPrint, PiggyBank, Plane, Search, Shirt, Smartphone, Sofa, Sparkles, UtensilsCrossed } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, reveal, useInk, type Tone } from '../ds';
 import { faqOpen, track } from './analytics';
+import { ENV } from './env';
 import { setToolContext } from './tools';
 import { APP, CATEGORIES, cityPath, regionPath, FACTS, MARKET, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
 
@@ -15,7 +16,9 @@ import { APP, CATEGORIES, cityPath, regionPath, FACTS, MARKET, PLANS, REGIONS, S
    · FAQ visibili e uguali al JSON-LD FAQPage.
    ════════════════════════════════════════════════════════════════════ */
 
-export type Crumb = { label: string; href?: string };
+/** opt: nel modello del plugin la voce è facoltativa (si toglie se il campo è vuoto) */
+export type Crumb = { label: string; href?: string; opt?: string };
+const ifMark = (k: string | undefined, close = false) => (ENV.ssr && k ? <div style={{ display: 'contents' }} dangerouslySetInnerHTML={{ __html: `<!--${close ? '/' : ''}IF:${k}-->` }} /> : null);
 
 export function Crumbs({ items, center = false }: { items: Crumb[]; center?: boolean }) {
   const { dark } = useInk();
@@ -23,7 +26,9 @@ export function Crumbs({ items, center = false }: { items: Crumb[]; center?: boo
   return (
     <nav aria-label="Percorso" className={`flex flex-wrap items-center gap-1 text-sm ${center ? 'justify-center' : ''} ${dark ? 'text-white/55' : 'text-mute'}`}>
       {all.map((c, i) => (
-        <span key={c.label} className="flex items-center gap-1">
+        <React.Fragment key={c.label}>
+        {ifMark(c.opt)}
+        <span className="flex items-center gap-1">
           {i > 0 && <ChevronRight className="h-3.5 w-3.5 opacity-60" />}
           {c.href && i < all.length - 1 ? (
             <a href={c.href} className={`transition ${dark ? 'hover:text-white' : 'hover:text-ink'}`}>
@@ -33,6 +38,8 @@ export function Crumbs({ items, center = false }: { items: Crumb[]; center?: boo
             <span className={dark ? 'text-white' : 'text-ink'}>{c.label}</span>
           )}
         </span>
+        {ifMark(c.opt, true)}
+        </React.Fragment>
       ))}
     </nav>
   );

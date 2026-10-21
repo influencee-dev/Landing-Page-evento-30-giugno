@@ -1,4 +1,5 @@
 import type { Job } from './data';
+import type { Profile } from './profile';
 
 /* Ambiente di esecuzione: sito v2 (anteprima) oppure plugin WordPress. */
 export const ENV = {
@@ -11,7 +12,7 @@ export const ENV = {
 declare global {
   interface Window {
     /** Dati passati dal plugin WordPress (offerte reali da WP Job Manager, URL delle immagini). */
-    INFLUENCEE_TOOLS?: { jobs?: Job[]; assets?: string; path?: string; creators?: Record<string, string> };
+    INFLUENCEE_TOOLS?: { jobs?: Job[]; assets?: string; path?: string; creators?: Record<string, string>; profile?: Profile };
   }
 }
 

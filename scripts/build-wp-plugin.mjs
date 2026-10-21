@@ -45,8 +45,9 @@ writeFileSync(join(OUT, 'assets/influencee-tools.css'), `/* Influencee Tools: st
 
 // 3. pagine pre-renderizzate + meta (title, description, JSON-LD)
 const vite = await createServer({ configFile: join(ROOT, 'vite.wp-plugin.config.ts'), server: { middlewareMode: true }, appType: 'custom', logLevel: 'warn' });
-const { renderAll } = await vite.ssrLoadModule('/src/influencee/v2/embed/ssr.tsx');
+const { renderAll, renderProfile } = await vite.ssrLoadModule('/src/influencee/v2/embed/ssr.tsx');
 const pages = renderAll();
+const profile = renderProfile();
 await vite.close();
 const meta = {};
 const imgs = new Set();
@@ -56,6 +57,8 @@ for (const p of pages) {
   p.images.forEach((i) => imgs.add(i));
 }
 writeFileSync(join(OUT, 'pages/meta.json'), JSON.stringify(meta, null, 1));
+writeFileSync(join(OUT, 'pages/creator-profile.html'), profile.html);
+writeFileSync(join(OUT, 'pages/profile-data.json'), JSON.stringify(profile.data));
 for (const i of imgs) {
   const src = [join(ROOT, 'public', i), join(ROOT, 'public', i.replace(/\.webp$/, '.png'))].find(existsSync);
   if (src) copyFileSync(src, join(OUT, 'assets/img', i));

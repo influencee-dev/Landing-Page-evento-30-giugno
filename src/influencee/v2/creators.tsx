@@ -19,10 +19,11 @@ export interface CreatorFilter {
   region?: string; // slug creator_region (o regione per riempire la città)
   cat?: string[]; // slug creator_category
   limit?: number;
+  exclude?: number | string; // id del profilo da non ripetere (pagina profilo)
 }
 
 export const creatorKey = (f: CreatorFilter) =>
-  [f.city && `city=${f.city}`, f.region && `region=${f.region}`, f.cat?.length && `cat=${f.cat.join(',')}`, `limit=${f.limit ?? 12}`].filter(Boolean).join('&');
+  [f.city && `city=${f.city}`, f.region && `region=${f.region}`, f.cat?.length && `cat=${f.cat.join(',')}`, `limit=${f.limit ?? 12}`, f.exclude && `exclude=${f.exclude}`].filter(Boolean).join('&');
 
 export function CreatorList({ title, lead, filter, tone = 'white' }: { title: string; lead?: string; filter: CreatorFilter; tone?: Tone }) {
   const key = creatorKey(filter);

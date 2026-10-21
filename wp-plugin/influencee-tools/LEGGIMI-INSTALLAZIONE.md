@@ -76,6 +76,7 @@ Apri ogni pagina in una finestra in incognito:
 | `lead_offerte_lavoro` | bacheca | creator che vuole le offerte della sua categoria |
 | `lead_emoticon`, `lead_hub_tool` | tool gratuiti | contatto per la newsletter dei nuovi tool |
 | `lead_creator_citta`, `lead_creator_regione`, `lead_creator_categoria`, `lead_creator_hub` | città, regioni, categorie, hub | azienda che cerca creator di una zona o di un settore |
+| `lead_creator_profilo` | pagine `/creator/…` (se accese) | azienda che vuole collaborare con quel creator: nel campo "risultato" arrivano nome, handle, categoria e città |
 | `lead_demo`, `lead_demo_home`, `lead_demo_contatti` | pagine brand, home, contatti | richiesta di demo |
 | `lead_creator_avvisi` | diventa creator, UGC creator | creator che vuole le offerte della sua categoria |
 | `whatsapp_click` | ovunque | richiesta diretta su WhatsApp |
@@ -164,3 +165,26 @@ Le bio dei profili, copiate da Instagram, contengono a volte email e numeri di t
 - le pagine `/creator/…`, comprese nei dati strutturati.
 
 Con l'opzione **Privacy** (accesa di default), per chi non è redattore email e telefoni diventano "[contatto rimosso]". Gli amministratori e i redattori vedono ancora la bio completa.
+
+## 11. Pagine profilo dei creator con la nuova grafica (versione 1.2.0)
+
+Le 325 pagine `/creator/<nome>/` possono usare la stessa grafica delle altre pagine. **I profili restano gestiti dal plugin dei creator del sito**: cambia solo come si vedono.
+
+**Come accenderle:** Impostazioni → Influencee Tools → *Profili dei creator* → spunta **"Pagine profilo con la nuova grafica"** → Salva. Spegnendo la casella torna subito la pagina di prima.
+
+**Cosa mostra ogni pagina:**
+- foto, nome, @handle, categoria, città, follower, fascia (Nano…Mega);
+- il prezzo indicato dal creator, se c'è;
+- engagement medio e costo medio della fascia (fonti ONIM e DeRev, le stesse del calcolatore);
+- la bio senza email e telefoni;
+- il modulo **"Vuoi collaborare con …?"**, che arriva in tandem come `lead_creator_profilo`;
+- altri creator della stessa zona e FAQ.
+
+**SEO:**
+- titolo tipo "Nome (@handle): influencer food a Milano", al massimo 60 caratteri;
+- description;
+- dati strutturati `ProfilePage` con la persona, il percorso (Home › Influencer italiani › regione › città) e le FAQ, uguali al testo visibile.
+
+**Dati:** il plugin legge i dati dal plugin dei creator (`/igm/v1/creators`) e li tiene in memoria per un'ora. Dopo aver modificato un profilo, usa "Svuota cache" o attendi un'ora.
+
+**Prima di accenderle per tutti:** apri 3–4 profili (uno con foto e prezzo, uno senza città) e controlla che i dati siano giusti.
