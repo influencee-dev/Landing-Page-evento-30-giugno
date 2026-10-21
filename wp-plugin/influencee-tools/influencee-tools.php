@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Tools
  * Description:       Tool gratuiti di influencer marketing (fake follower, costo influencer, engagement rate, preventivo campagna, offerte di lavoro, emoticon) con SEO/GEO/AEO, eventi GA4 e lead verso tandem-forms. Serve le pagine tool con il loro URL attuale.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,9 +11,12 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFT_VERSION', '1.0.0' );
+define( 'INFT_VERSION', '1.1.0' );
 define( 'INFT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFT_URL', plugin_dir_url( __FILE__ ) );
+
+require_once INFT_DIR . 'includes/privacy.php';
+require_once INFT_DIR . 'includes/mcp-abilities.php';
 
 /* ════════════════════════════════════════════════════════════════════
    DATI DELLE PAGINE
@@ -54,6 +57,8 @@ function inft_settings() {
 			'on'        => array(), // eccezioni: percorsi accesi anche se il gruppo è spento
 			'creators'  => 1,       // mostra i profili dei creator (tipo di contenuto "creator")
 			'redirects' => 0,       // redirect 301 dei vecchi URL (spenti finché non li attivi)
+			'privacy'   => 1,       // toglie email e telefoni dalle bio dei creator nelle API e nelle pagine pubbliche
+			'mcp_admin_only' => 1,  // la porta MCP del sito solo per amministratori (di default basta essere iscritti)
 		)
 	);
 }
@@ -529,10 +534,43 @@ add_action(
 						'on'        => $list( isset( $in['on'] ) ? $in['on'] : '' ),
 						'creators'  => empty( $in['creators'] ) ? 0 : 1,
 						'redirects' => empty( $in['redirects'] ) ? 0 : 1,
+						'privacy'   => empty( $in['privacy'] ) ? 0 : 1,
+						'mcp_admin_only' => empty( $in['mcp_admin_only'] ) ? 0 : 1,
 					);
 				},
 			)
 		);
+	}
+);
+
+/** Crea o revoca l'accesso MCP per Claude: password per le applicazioni dell'utente corrente. */
+add_action(
+	'admin_post_inft_mcp_access',
+	function () {
+		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'inft_mcp_access' ) || ! class_exists( 'WP_Application_Passwords' ) ) {
+			wp_die( 'Non consentito.' );
+		}
+		$user = wp_get_current_user();
+		$name = 'Claude MCP (Influencee Tools)';
+		foreach ( WP_Application_Passwords::get_user_application_passwords( $user->ID ) as $item ) {
+			if ( $name === $item['name'] ) {
+				WP_Application_Passwords::delete_application_password( $user->ID, $item['uuid'] );
+			}
+		}
+		$back = admin_url( 'options-general.php?page=influencee-tools' );
+		if ( 'crea' === ( isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '' ) ) {
+			$new = WP_Application_Passwords::create_new_application_password( $user->ID, array( 'name' => $name ) );
+			if ( is_wp_error( $new ) ) {
+				wp_safe_redirect( add_query_arg( 'inft_mcp', 'errore', $back ) );
+				exit;
+			}
+			// mostrato una sola volta: transient di 5 minuti legato all'utente
+			set_transient( 'inft_mcp_key_' . $user->ID, base64_encode( $user->user_login . ':' . $new[0] ), 300 );
+			wp_safe_redirect( add_query_arg( 'inft_mcp', 'creato', $back ) );
+			exit;
+		}
+		wp_safe_redirect( add_query_arg( 'inft_mcp', 'revocato', $back ) );
+		exit;
 	}
 );
 
@@ -589,7 +627,18 @@ function inft_settings_page() {
 					<p class="description">Si mostrano nome, handle, città, categoria e foto. Le bio non vengono mostrate perché a volte contengono email e telefoni.</p>
 				</td></tr>
 			</tbody></table>
-						<h2>Redirect 301 dei vecchi URL</h2>
+						<h2>Privacy e MCP</h2>
+			<p><label><input type="checkbox" name="inft_settings[privacy]" value="1" <?php checked( ! empty( $s['privacy'] ) ); ?>> Togli email e telefoni dalle bio dei creator per chi non è redattore (API <code>/igm/v1/creators</code>, <code>/wp/v2/creator</code>, pagine <code>/creator/…</code> e dati strutturati)</label></p>
+			<p><label><input type="checkbox" name="inft_settings[mcp_admin_only]" value="1" <?php checked( ! empty( $s['mcp_admin_only'] ) ); ?>> Server MCP del sito solo per amministratori (di default WordPress lo apre a ogni utente con accesso)</label></p>
+			<p>Azioni MCP del plugin: <code>influencee/stato</code>, <code>influencee/pagine</code>, <code>influencee/redirect</code>, <code>influencee/svuota-cache</code>, <code>influencee/controlla-pagina</code>, <code>influencee/rimuovi-creator</code>. Indirizzo: <code><?php echo esc_html( rest_url( 'mcp/mcp-adapter-default-server' ) ); ?></code></p>
+			<?php $log = array_reverse( (array) get_option( 'inft_mcp_log', array() ) ); if ( $log ) : ?>
+				<details><summary>Ultime azioni eseguite via MCP (<?php echo count( $log ); ?>)</summary><table class="widefat striped"><thead><tr><th>Quando</th><th>Utente</th><th>Azione</th><th>Dati</th><th>Esito</th></tr></thead><tbody>
+				<?php foreach ( array_slice( $log, 0, 20 ) as $l ) : ?>
+					<tr><td><?php echo esc_html( $l['quando'] ); ?></td><td><?php echo esc_html( $l['utente'] ); ?></td><td><?php echo esc_html( $l['azione'] ); ?></td><td><code><?php echo esc_html( mb_substr( (string) $l['input'], 0, 120 ) ); ?></code></td><td><?php echo esc_html( $l['esito'] ); ?></td></tr>
+				<?php endforeach; ?>
+				</tbody></table></details>
+			<?php endif; ?>
+			<h2>Redirect 301 dei vecchi URL</h2>
 			<p><label><input type="checkbox" name="inft_settings[redirects]" value="1" <?php checked( ! empty( $s['redirects'] ) ); ?>> Attiva i redirect qui sotto (dal piano SEO)</label></p>
 			<ul style="list-style:disc;margin-left:20px">
 			<?php foreach ( inft_redirect_map() as $from => $to ) : ?>
@@ -598,6 +647,26 @@ function inft_settings_page() {
 			</ul>
 			<?php submit_button( 'Salva' ); ?>
 		</form>
+			<?php
+			$key = get_transient( 'inft_mcp_key_' . get_current_user_id() );
+			if ( $key ) {
+				delete_transient( 'inft_mcp_key_' . get_current_user_id() );
+			}
+			?>
+			<?php if ( $key ) : ?>
+				<div class="notice notice-warning" style="padding:12px"><p><b>Valore da copiare adesso: non verrà più mostrato.</b> Inseriscilo come variabile d'ambiente <code>INFLUENCEE_WP_AUTH</code> nelle impostazioni dell'ambiente di Claude Code. Non incollarlo in chat.</p>
+				<p><input type="text" readonly value="<?php echo esc_attr( $key ); ?>" style="width:100%;font-family:monospace" onclick="this.select()"></p></div>
+			<?php elseif ( isset( $_GET['inft_mcp'] ) && 'revocato' === $_GET['inft_mcp'] ) : ?>
+				<div class="notice notice-success"><p>Accesso di Claude revocato.</p></div>
+			<?php endif; ?>
+			<h2>Accesso per Claude (MCP)</h2>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin:8px 0 16px">
+				<?php wp_nonce_field( 'inft_mcp_access' ); ?>
+				<input type="hidden" name="action" value="inft_mcp_access">
+				<button class="button button-primary" name="do" value="crea">Crea accesso per Claude</button>
+				<button class="button" name="do" value="revoca">Revoca accesso</button>
+				<span class="description">Crea una password per le applicazioni del tuo utente (nome "Claude MCP (Influencee Tools)"). Rifarlo sostituisce la precedente.</span>
+			</form>
 	</div>
 	<?php
 }

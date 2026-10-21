@@ -110,3 +110,57 @@ Ne esce un nuovo `dist-wp/influencee-tools.zip`. In WordPress si carica sopra la
 ## 8. Tornare indietro
 
 **Plugin → Influencee Tools → Disattiva.** Le pagine tornano subito come prima: il plugin non modifica né cancella le pagine WordPress.
+
+## 9. Collegare Claude al sito (MCP)
+
+Dalla versione 1.1.0 il plugin aggiunge 6 azioni al server MCP già presente nel sito (`https://influencee.it/wp-json/mcp/mcp-adapter-default-server`, plugin "MCP Adapter"). Così Claude può gestire i rilasci senza avere accesso a tutto il server.
+
+| Azione | Cosa fa | Modifica il sito? |
+| --- | --- | --- |
+| `influencee/stato` | gruppi accesi, pagine attive, eccezioni, plugin collegati | no |
+| `influencee/pagine` | accende o spegne un gruppo o singole pagine | sì, reversibile |
+| `influencee/redirect` | attiva o disattiva i 301 | sì, reversibile |
+| `influencee/svuota-cache` | svuota LiteSpeed e la cache di WordPress | no |
+| `influencee/controlla-pagina` | title, description, H1, dati strutturati, profili e moduli di un URL | no |
+| `influencee/rimuovi-creator` | sposta nel cestino un profilo, solo con conferma | sì, recuperabile per 30 giorni |
+
+**Sicurezza**
+- **Chi può usarle:** ogni azione richiede il ruolo amministratore. Il plugin alza a "solo amministratori" anche l'accesso all'intero server MCP: di default WordPress lo apre a qualunque utente iscritto.
+- **Cosa non possono fare:** niente comandi, file o database.
+- **Registro:** in Impostazioni → Influencee Tools → "Ultime azioni eseguite via MCP" trovi chi ha fatto cosa e quando.
+- **Interfaccia `claude/v1`:** il sito ne ha già una con comandi, file e database. È protetta da password, ma è meglio **non collegarla** a un assistente: se qualcosa va storto i danni possono essere seri. Valutate di disattivarla se non la usate.
+
+**Come si collega (una volta sola)**
+1. Impostazioni → Influencee Tools → **Crea accesso per Claude**. Copia il valore che compare: si vede una sola volta.
+2. In Claude Code apri le impostazioni dell'ambiente (menù dell'ambiente nel titolo della sessione → Modifica). Aggiungi la variabile d'ambiente `INFLUENCEE_WP_AUTH` con quel valore. **Non incollarlo in chat.**
+3. Nel repository aggiungi questi due file. Per sicurezza Claude non li crea da solo, perché aprirebbero una connessione per sé stesso; puoi chiedermi di farlo e approvare.
+
+`.mcp.json`
+```json
+{
+  "mcpServers": {
+    "influencee-wp": {
+      "type": "http",
+      "url": "https://influencee.it/wp-json/mcp/mcp-adapter-default-server",
+      "headers": { "Authorization": "Basic ${INFLUENCEE_WP_AUTH}" }
+    }
+  }
+}
+```
+
+`.claude/settings.json`
+```json
+{ "enabledMcpjsonServers": ["influencee-wp"] }
+```
+
+4. Apri una nuova sessione: Claude vede gli strumenti di `influencee-wp`.
+5. Per togliere l'accesso: **Revoca accesso** nella stessa pagina. L'accesso smette di funzionare subito.
+
+## 10. Privacy dei profili creator (versione 1.1.0)
+
+Le bio dei profili, copiate da Instagram, contengono a volte email e numeri di telefono. Oggi sono leggibili da chiunque, senza password, in tre punti:
+- `/wp-json/igm/v1/creators`: 325 profili, con 39 email e un telefono;
+- `/wp-json/wp/v2/creator`;
+- le pagine `/creator/…`, comprese nei dati strutturati.
+
+Con l'opzione **Privacy** (accesa di default), per chi non è redattore email e telefoni diventano "[contatto rimosso]". Gli amministratori e i redattori vedono ancora la bio completa.
