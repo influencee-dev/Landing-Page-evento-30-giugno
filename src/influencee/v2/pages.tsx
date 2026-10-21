@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Button } from '../ds';
 import { HeroReels, ReelWall, WorkReelCard } from '../rows/reels';
 import { REELS } from '../site/data';
-import { APP, CATEGORIES, CREATOR_TYPES, FACTS, FAQ, GESTITO, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
+import { APP, CATEGORIES, cityPath, regionPath, CREATOR_TYPES, FACTS, FAQ, GESTITO, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
 import { AnnunciMock, CalendarMock, CollabMock, ContractMock, DiscoveryMock, KitMock, TrustMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
 import {
   AnswerBox,
@@ -30,6 +30,7 @@ import {
   type Crumb,
   type FeatureItem,
 } from './rows';
+import { CreatorList } from './creators';
 import { CostCalcPanel, PreventivoPanel, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -182,8 +183,10 @@ function Home() {
           { tag: 'Creator', title: 'Il tuo lavoro in ordine', text: 'Media kit aggiornato, proposte dai brand, contratti e scadenze in un posto solo. Iscrizione gratuita.', href: '#/diventa-creator/', cta: 'Per i creator', visual: <KitMock /> },
         ]}
       />
+      <CreatorList title={'Creator italiani\n*su Influencee*'} lead="Alcuni dei profili presenti nel sito: nella piattaforma li filtri per categoria, città, fascia di follower ed engagement." filter={{ limit: 8 }} />
       <CategoryGrid />
       <Plans compact />
+      <ToolLead tool="demo_home" context="Home" eyebrow="Demo" title={'Ti mostriamo la piattaforma\n*con il tuo settore*'} lead="Lasciaci i contatti: in una call ti mostriamo creator del tuo settore e come si gestisce una campagna." bullets={['Creator del tuo settore e della tua zona', 'Campagne, contratto e link tracciati', 'Nessun impegno']} cta="Richiedi la demo" />
       <FaqSeo items={[...FAQ.piattaforma.slice(0, 2), FAQ.brand[0], FAQ.creator[0], FAQ.creator[1]]} />
       <ManagedRow />
       <CtaDual />
@@ -293,7 +296,7 @@ function Agencies() {
       <ManagedRow />
       <Plans compact />
       <FaqSeo items={[FAQ.brand[0], FAQ.piattaforma[1], FAQ.piattaforma[2], FEATURE_FAQ.campagne[2]]} />
-      <CtaBandV2 title={'Porta i tuoi clienti\n*su influencee*'} primary={{ label: 'Registra l’agenzia', href: APP.brand }} secondary={{ label: 'Scrivici', href: '#/contatti/' }} />
+      <CtaBandV2 title={'Porta i tuoi clienti\n*su influencee*'} primary={{ label: 'Registra l’agenzia', href: APP.brand }} secondary={{ label: 'Scrivici', href: '#/contatti-influencee/' }} />
     </>
   );
 }
@@ -526,10 +529,12 @@ function Pricing() {
 function ItaliansHub() {
   return (
     <>
-      <HeroReels crumbs={<CrumbsDark items={[{ label: 'Influencer italiani' }]} />} eyebrow="Influencer italiani" title={'Influencer italiani\n*per categoria e città*'} lead={`Creator italiani divisi in ${FACTS.categories} categorie, 5 fasce di follower e tutte le regioni. Trova il profilo giusto per la tua campagna.`} actions={brandCtas} />
+      <HeroReels crumbs={<CrumbsDark items={[{ label: 'Influencer italiani' }]} />} eyebrow="Influencer italiani" title={'Influencer italiani:\n*la lista per categoria e città*'} lead={`Creator italiani divisi in ${FACTS.categories} categorie, 5 fasce di follower e tutte le regioni. Trova il profilo giusto per la tua campagna.`} actions={brandCtas} />
       <AnswerBox q="Come trovare influencer italiani?" a="Parti da categoria e zona: food a Napoli, fitness a Milano, viaggi in Sicilia. Poi scegli la fascia di follower in base all’obiettivo, nano e micro per campagne locali e di nicchia, mid e macro per la visibilità nazionale. Su influencee filtri tutto questo in un’unica ricerca, solo tra creator italiani." />
+      <CreatorList title={'Creator italiani\n*su Influencee*'} lead="Alcuni dei profili presenti nel sito. Nella piattaforma li filtri per categoria, città, fascia di follower ed engagement." filter={{ limit: 24 }} />
       <CategoryGrid />
       <RegionGrid tone="paper" />
+      <ToolLead tool="creator_hub" context="Hub influencer italiani" eyebrow="Selezione gratuita" title={'Ti mandiamo i creator\n*adatti alla tua campagna*'} lead="Dicci categoria, zona e budget: il team ti propone una prima selezione di creator italiani." bullets={['Creator italiani per categoria e città', 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <TiersRow />
       <FaqSeo items={[
         { q: 'Quali sono le categorie di influencer?', a: 'Su influencee sono 18: cucina e food, viaggi, moda, beauty, fitness e sport, tecnologia, gaming, famiglia, animali, musica, lifestyle, casa e design, motori, finanza personale, salute e benessere, arte e fotografia, libri e cultura, intrattenimento e comicità.' },
@@ -558,6 +563,8 @@ function CategoryPage({ slug }: { slug: string }) {
     <>
       <HeroReels crumbs={<CrumbsDark items={[{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `${k.short} influencer` }]} />} eyebrow={k.name} title={`${k.short} influencer\n*italiani*`} lead={`${k.lead} Cercali per città e fascia di follower e lancia la tua campagna.`} actions={<><Button href={APP.brand}>Cerca creator {k.short}</Button><Button href={APP.creator} variant="secondary">Sei un creator {k.short}? Iscriviti</Button></>} />
       <AnswerBox q={`Come scegliere un ${k.short.toLowerCase()} influencer?`} a={`Guarda tre cose: la coerenza dei contenuti con il tuo prodotto, l’engagement confrontato con quello della stessa fascia di follower e la zona del pubblico se la campagna è locale. Su influencee filtri i creator della categoria ${k.name} per città, fascia e tipo, e in ogni scheda vedi numeri, crescita e brand con cui hanno già collaborato.`} />
+      {k.wp.length > 0 && <CreatorList title={`${k.short} influencer\n*italiani su Influencee*`} lead={`Alcuni dei creator ${k.name.toLowerCase()} presenti nel sito: apri il profilo o cercane altri con i filtri della piattaforma.`} filter={{ cat: k.wp, limit: 12 }} />}
+      <ToolLead tool="creator_categoria" context={`Categoria: ${k.name}`} eyebrow="Selezione gratuita" title={`Ti mandiamo i ${k.short.toLowerCase()} influencer\n*adatti alla tua campagna*`} lead="Dicci prodotto e budget: il team ti propone una prima selezione di creator della categoria, con prezzo indicativo." bullets={[`Creator ${k.name.toLowerCase()} italiani`, 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <FeatureSplit items={[{ ...F.ricerca, title: `Trova creator ${k.name.toLowerCase()} con i filtri giusti` }, F.campagne]} />
       <RegionGrid tone="paper" title={`${k.short} influencer\n*per regione*`} />
       <CategoryGrid exclude={k.slug} title={'Altre\n*categorie*'} />
@@ -571,12 +578,14 @@ function RegionPage({ region, city }: { region: string; city?: string }) {
   const r = REGIONS.find((x) => x.slug === region)!;
   const ct = city ? r.cities.find((x) => x.slug === city)! : undefined;
   const place = ct ? ct.name : r.name;
-  const crumbs: Crumb[] = [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `Influencer ${r.name}`, href: ct ? `#/influencer-italiani/influencer-${r.slug}/` : undefined }];
+  const crumbs: Crumb[] = [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `Influencer ${r.name}`, href: ct ? `#${regionPath(r)}` : undefined }];
   if (ct) crumbs.push({ label: `Influencer ${ct.name}` });
   return (
     <>
-      <HeroReels crumbs={<CrumbsDark items={crumbs} />} eyebrow={ct ? `${r.name}` : 'Regione'} title={`Influencer a *${place}*`} lead={`Creator ${ct ? 'di ' : 'in '}${place} per campagne locali: ristoranti, negozi, palestre, eventi e aperture. Filtra per categoria e fascia di follower.`} actions={<><Button href={APP.brand}>Cerca creator a {place}</Button><Button href={APP.creator} variant="secondary">Sei di {place}? Iscriviti</Button></>} />
+      <HeroReels crumbs={<CrumbsDark items={crumbs} />} eyebrow={ct ? `${r.name}` : 'Regione'} title={ct ? (ct.demonym ? `Influencer ${ct.demonym}:\n*creator di ${place}*` : `Influencer a *${place}*`) : r.demonym ? `Influencer ${r.demonym}:\n*creator in ${place}*` : `Influencer in *${place}*`} lead={`Creator ${ct ? 'di ' : 'in '}${place} per campagne locali: ristoranti, negozi, palestre, eventi e aperture. Filtra per categoria e fascia di follower.`} actions={<><Button href={APP.brand}>Cerca creator a {place}</Button><Button href={APP.creator} variant="secondary">Sei di {place}? Iscriviti</Button></>} />
       <AnswerBox q={`Come trovare influencer a ${place}?`} a={`Per una campagna a ${place} conta il pubblico locale: scegli creator che vivono in zona e raccontano la città, poi filtra per categoria (food, fitness, beauty…) e fascia di follower. Su influencee la posizione dei creator segue i comuni ISTAT, quindi puoi cercare per regione, provincia e città.`} />
+      <CreatorList title={ct ? `Influencer ${ct.demonym ?? `di ${ct.name}`}\n*su Influencee*` : `Influencer ${r.demonym ?? `in ${r.name}`}\n*su Influencee*`} lead={`Creator ${ct ? `di ${ct.name}` : `in ${r.name}`} presenti nel sito. Apri il profilo o cercane altri con i filtri della piattaforma.`} filter={ct ? { city: ct.slug, region: r.slug, limit: 9 } : { region: r.slug, limit: 12 }} />
+      <ToolLead tool={ct ? 'creator_citta' : 'creator_regione'} context={ct ? `Città: ${ct.name} (${r.name})` : `Regione: ${r.name}`} eyebrow="Selezione gratuita" title={`Ti mandiamo i creator ${ct ? `di ${ct.name}` : `in ${r.name}`}\n*adatti alla tua campagna*`} lead="Dicci attività e budget: il team ti propone una prima selezione di creator della zona, con prezzo indicativo." bullets={[`Creator ${ct ? `di ${ct.name}` : `in ${r.name}`} per la tua categoria`, 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <CategoryGrid title={`Influencer a ${place}\n*per categoria*`} lead="Scegli il settore della tua campagna." />
       {!ct && r.cities.length > 0 && <RegionGrid tone="paper" only={r.slug} title={`Città della\n*regione ${r.name}*`} lead="Apri la pagina della città." />}
       <FaqSeo items={placeFaq(place)} />
@@ -843,6 +852,18 @@ function TrustPage() {
 
 /* ─── Risolutore delle route ────────────────────────────────────── */
 const T = (s: string) => `${s} | ${SITE.name}`;
+/** Modulo lead (tandem) in fondo alle pagine che non ne hanno già uno: demo per i brand, avvisi per i creator. */
+const BRAND_LEAD = ['/piattaforma-influencer/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/prezzi/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/'];
+const CREATOR_LEAD = ['/diventa-creator/', '/ugc-creator/'];
+function withLead(r: Resolved): Resolved {
+  const p = r.meta.path;
+  if (BRAND_LEAD.includes(p) || p.startsWith('/funzionalita/'))
+    return { ...r, el: <>{r.el}<ToolLead tool="demo" context={`Pagina: ${r.meta.label}`} tone="paper" eyebrow="Demo" title={'Ti mostriamo la piattaforma\n*con il tuo settore*'} lead="Lasciaci i contatti: in una call ti mostriamo creator del tuo settore e come si gestisce una campagna su Influencee." bullets={['Creator del tuo settore e della tua zona', 'Campagne, contratto e link tracciati', 'Nessun impegno']} cta="Richiedi la demo" /></> };
+  if (CREATOR_LEAD.includes(p))
+    return { ...r, el: <>{r.el}<ToolLead tool="creator_avvisi" context={`Pagina: ${r.meta.label}`} tone="paper" eyebrow="Per i creator" title={'Ricevi le offerte\n*della tua categoria*'} lead="Lasciaci email e categoria: ti scriviamo quando un brand cerca creator come te." bullets={['Solo offerte della tua categoria', 'Iscrizione gratuita', 'Ti cancelli quando vuoi']} cta="Avvisami" phone="no" withCategory /></> };
+  return r;
+}
+
 /** Primo title che resta entro 60 caratteri (con il nome del sito). */
 const fit = (opts: string[]) => opts.map(T).find((t) => t.length <= 60) ?? T(opts[opts.length - 1]);
 
@@ -870,7 +891,7 @@ export function resolve(path: string): Resolved | null {
     '/social-media-tool/emoticon-da-copiare/': () => ({ meta: { path: p, label: 'Emoticon da copiare', type: 'tool', kw: 'emoji da copiare', title: T('Emoticon ed emoji da copiare e incollare'), description: 'Emoji ed emoticon da copiare e incollare gratis: faccine, cuori, mani, cibo, viaggi e simboli. Un clic per copiare su Instagram, TikTok e WhatsApp.', crumbs: [{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Emoticon da copiare' }], faq: EMOJI_FAQ }, el: <EmojiPage /> }),
     '/benchmark-engagement-rate/': () => ({ meta: { path: p, label: 'Benchmark', type: 'page', kw: 'engagement rate instagram', title: T('Engagement rate per fascia: i valori medi'), description: 'Valori di riferimento dell’engagement rate per fascia di follower e metodo di influencee. Benchmark pubblico gratuito, solo dati aggregati.', crumbs: [{ label: 'Benchmark engagement rate' }], faq: [{ q: 'Qual è un buon engagement rate su Instagram?', a: 'Dipende dalla fascia di follower e dalla categoria: i profili più piccoli hanno di solito valori più alti. Confronta il creator con la mediana della sua fascia invece che con un numero unico.' }, { q: 'Cos’è il check sponsor?', a: 'Uno strumento gratuito che divide le interazioni di un contenuto per le sue visualizzazioni. Sotto l’1,5% la reach arriva probabilmente da pubblicità; tra 1,9% e 2,7% è una media organica sana; sopra il 2,7% il contenuto va molto bene in modo organico.' }, { q: 'Il benchmark è gratuito?', a: 'Sì, il benchmark pubblico è consultabile senza registrazione. Mostra solo valori aggregati, mai dati di singoli creator.' }] }, el: <Benchmark /> }),
     '/prezzi/': () => ({ meta: { path: p, label: 'Prezzi', type: 'pricing', kw: 'prezzi piattaforma influencer', title: T('Prezzi: gratis o Premium da 19 € al mese'), description: `Piano gratuito per sempre e Premium da 19 € al mese, 49 € a trimestre o 199 € all’anno IVA inclusa. ${FACTS.trialDays} giorni di prova, nessuna carta.`, crumbs: [{ label: 'Prezzi' }], faq: [FAQ.brand[0]] }, el: <Pricing /> }),
-    '/influencer-italiani/': () => ({ meta: { path: p, label: 'Influencer italiani', type: 'page', kw: 'influencer italiani', title: T('Influencer italiani per categoria e città'), description: 'Influencer e content creator italiani per categoria, regione e città, in 5 fasce di follower. Trova il creator giusto per la tua campagna.', crumbs: [{ label: 'Influencer italiani' }], faq: [FAQ.piattaforma[3], FEATURE_FAQ.ricerca[0]] }, el: <ItaliansHub /> }),
+    '/influencer-italiani/': () => ({ meta: { path: p, label: 'Influencer italiani', type: 'page', kw: 'influencer italiani', title: T('Influencer italiani: lista di creator per città'), description: 'La lista degli influencer e creator italiani per categoria, regione e città, in 5 fasce di follower. Trova il creator giusto per la tua campagna.', crumbs: [{ label: 'Influencer italiani' }], faq: [FAQ.piattaforma[3], FEATURE_FAQ.ricerca[0]] }, el: <ItaliansHub /> }),
     '/come-calcolare-engagement-rate/': () => ({ meta: { path: p, label: 'Calcolo engagement rate', type: 'tool', kw: 'engagement rate instagram', title: T('Engagement rate Instagram: come calcolarlo'), description: 'Come calcolare l’engagement rate: formula, calcolatore gratuito per Instagram e TikTok e confronto con la media della fascia. Con check sponsor dei reel.', crumbs: [{ label: 'Risorse' }, { label: 'Calcolo engagement rate' }], faq: CALC_FAQ }, el: <CalcPage /> }),
     '/social-media-tool/costo-influencer/': () => ({ meta: { path: p, label: 'Quanto costa un influencer', type: 'tool', kw: 'quanto costa un influencer', title: T('Quanto costa un influencer? Prezzi e calcolo'), description: 'Quanto costa un post di un influencer in Italia: nano circa 200 €, micro 950 €, mid 3.550 € (DeRev). Calcola la stima per Instagram e TikTok, gratis.', crumbs: [{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Quanto costa un influencer' }], faq: COST_FAQ }, el: <CostPage /> }),
     '/contenuti-ugc/': () => ({ meta: { path: p, label: 'Contenuti UGC', type: 'software', kw: 'contenuti ugc', title: T('Contenuti UGC per brand: video dei creator'), description: 'Cosa sono i contenuti UGC e come ottenerli: creator italiani, brief, consegne e diritti d’uso nel contratto. Per i tuoi canali e le inserzioni.', crumbs: [{ label: 'Contenuti UGC' }], faq: UGC_FAQ }, el: <UgcBrandPage /> }),
@@ -879,19 +900,19 @@ export function resolve(path: string): Resolved | null {
     '/creator-verificati/': () => ({ meta: { path: p, label: 'Creator verificati', type: 'software', kw: 'influencer verificati', title: T('Creator verificati e dati con la loro fonte'), description: 'Come verifichiamo i creator: badge da account collegato, livello di ogni dato e data di aggiornamento. Come riconoscere follower falsi.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Creator verificati' }], faq: TRUST_FAQ }, el: <TrustPage /> }),
     '/funzionalita/contratto-influencer/': () => ({ meta: { path: p, label: 'Contratto influencer', type: 'software', kw: 'contratto influencer', title: T('Contratto influencer generato dai termini'), description: 'Il contratto con il creator nasce dai termini accettati da entrambi: contenuti, scadenze, compenso e diritti d’uso. DOCX o PDF con impronta.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Contratto' }], faq: CONTRACT_FAQ }, el: <FeaturePage crumb="Contratto" eyebrow="Contratto" title={'Il contratto con l’influencer,\n*generato in automatico*'} lead="Termini in versioni, doppia accettazione e un contratto generato dalle condizioni concordate. Con valutazione reciproca a fine collaborazione." visual={<ContractMock className="mx-auto max-w-[500px]" />} answer={{ q: 'Cosa deve contenere un contratto con un influencer?', a: CONTRACT_FAQ[0].a, points: ['Contenuti e scadenze', 'Compenso e formula', 'Diritti d’uso e durata', 'Versione accettata da entrambi'] }} items={[{ eyebrow: 'Contratto', title: 'Dai termini al documento', text: 'Quando brand e creator accettano la stessa versione dei termini, la piattaforma genera il contratto con parti, contenuti, scadenze, compenso e diritti d’uso, e ne registra l’impronta.', bullets: ['DOCX, PDF quando disponibile', 'Impronta del documento', 'Sempre legato alla collaborazione'], visual: <ContractMock /> }, F.campagne]} faq={CONTRACT_FAQ} related={[{ label: 'Calendario', text: 'Scadenze e consegne', href: '#/funzionalita/calendario-campagne/' }, { label: 'Contenuti UGC', text: 'Diritti d’uso per le ads', href: '#/contenuti-ugc/' }, { label: 'Quanto costa', text: 'Formule di compenso', href: '#/social-media-tool/costo-influencer/' }]} /> }),
     '/funzionalita/calendario-campagne/': () => ({ meta: { path: p, label: 'Calendario campagne', type: 'software', kw: 'calendario campagne influencer', title: T('Calendario campagne influencer e scadenze'), description: 'Tutte le scadenze delle collaborazioni in un calendario: consegne, revisioni, pubblicazioni e contenuti in ritardo, per brand e creator.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Calendario campagne' }], faq: CAL_FAQ }, el: <FeaturePage crumb="Calendario campagne" eyebrow="Calendario" title={'Il calendario delle campagne\n*con gli influencer*'} lead="Consegne, revisioni e pubblicazioni di tutti i creator in una vista a calendario o a lista, con le consegne in ritardo in evidenza." visual={<CalendarMock className="mx-auto max-w-[480px]" />} answer={{ q: 'Come si organizza una campagna con più influencer?', a: CAL_FAQ[0].a, points: ['Vista calendario o lista', 'Stato di ogni contenuto', 'Etichetta "In ritardo"', 'Chat con ogni creator'] }} items={[{ eyebrow: 'Calendario', title: 'Tutte le scadenze in una vista', text: 'Ogni collaborazione porta in calendario le sue date: brief, consegne, revisioni e pubblicazione. Passa dalla vista mensile alla lista quando gestisci molte campagne insieme.', bullets: ['Campagne e scadenze insieme', 'Vista per periodo', 'Anche per i creator'], visual: <CalendarMock /> }, { ...F.campagne, title: 'Consegne, modifiche e approvazioni' }, F.link]} faq={CAL_FAQ} related={[{ label: 'Contratto', text: 'Termini e documento', href: '#/funzionalita/contratto-influencer/' }, { label: 'Per le agenzie', text: 'Più campagne in parallelo', href: '#/piattaforma-agenzie/' }, { label: 'Link tracciati', text: 'Misura i risultati', href: '#/funzionalita/link-tracciati/' }]} /> }),
-    '/contatti/': () => ({ meta: { path: p, label: 'Contatti', type: 'page', kw: 'contatti influencee', title: T('Contatti'), description: 'Scrivi al team di influencee per una demo con il tuo settore o per aiuto con la piattaforma.', crumbs: [{ label: 'Contatti' }] }, el: <Contacts /> }),
+    '/contatti-influencee/': () => ({ meta: { path: p, label: 'Contatti', type: 'page', kw: 'contatti influencee', title: T('Contatti'), description: 'Scrivi al team di influencee per una demo con il tuo settore o per aiuto con la piattaforma.', crumbs: [{ label: 'Contatti' }] }, el: <Contacts /> }),
     '/blog/': () => ({ meta: { path: p, label: 'Blog', type: 'page', kw: 'blog influencer marketing', title: T('Blog di influencer marketing'), description: 'Guide pratiche di influencer marketing per brand e creator: engagement, campagne, strumenti social.', crumbs: [{ label: 'Blog' }] }, el: <Blog /> }),
   };
   // Alias (in produzione: 301). /annunci-collaborazioni/ era una pagina nuova, accorpata alla bacheca indicizzata.
-  const alias: Record<string, string> = { '/annunci-collaborazioni/': '/offerte-lavoro-influencer/', '/preventivi-influencer/': '/preventivo-campagne/' };
+  const alias: Record<string, string> = { '/annunci-collaborazioni/': '/offerte-lavoro-influencer/', '/preventivi-influencer/': '/preventivo-campagne/', '/contatti/': '/contatti-influencee/' };
   if (alias[p]) return fixed[alias[p]]();
-  if (fixed[p]) return fixed[p]();
+  if (fixed[p]) return withLead(fixed[p]());
 
   // Pagine per categoria: /<slug>/
   const cat = seg.length === 1 ? CATEGORIES.find((k) => k.slug === seg[0]) : undefined;
   if (cat)
     return {
-      meta: { path: p, label: `${cat.short} influencer`, type: 'page', kw: cat.kw, title: T(`${cat.short} influencer italiani`), description: `${cat.lead} Trova ${cat.short.toLowerCase()} influencer italiani per città e fascia di follower e lancia la tua campagna.`.slice(0, 155), crumbs: [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `${cat.short} influencer` }], faq: catFaq(cat) },
+      meta: { path: p, label: `${cat.short} influencer`, type: 'page', kw: cat.kw, title: T(cat.title ?? `${cat.short} influencer italiani`), description: `${cat.lead} Trova ${cat.short.toLowerCase()} influencer italiani per città e fascia di follower e lancia la tua campagna.`.slice(0, 155), crumbs: [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `${cat.short} influencer` }], faq: catFaq(cat) },
       el: <CategoryPage slug={cat.slug} />,
     };
 
@@ -900,22 +921,22 @@ export function resolve(path: string): Resolved | null {
     const r = REGIONS.find((x) => x.slug === seg[1].replace('influencer-', ''));
     if (!r) return null;
     if (seg[2]) {
-      const ct = r.cities.find((x) => `influencer-${x.slug}` === seg[2]);
+      const ct = r.cities.find((x) => (x.seg ?? `influencer-${x.slug}`) === seg[2]);
       if (!ct) return null;
-      return { meta: { path: p, label: `Influencer ${ct.name}`, type: 'page', kw: `influencer ${ct.name.toLowerCase()}`, title: fit([`Influencer ${ct.name}: creator per campagne locali`, `Influencer ${ct.name}: creator locali`, `Influencer ${ct.name}`]), description: `Trova influencer e content creator a ${ct.name} per ristoranti, negozi, palestre ed eventi. Filtra per categoria e fascia di follower.`, crumbs: [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `Influencer ${r.name}`, href: `#/influencer-italiani/influencer-${r.slug}/` }, { label: `Influencer ${ct.name}` }], faq: placeFaq(ct.name) }, el: <RegionPage region={r.slug} city={ct.slug} /> };
+      return { meta: { path: p, label: `Influencer ${ct.name}`, type: 'page', kw: `influencer ${ct.name.toLowerCase()}`, title: fit([...(ct.demonym ? [`Influencer ${ct.demonym}: creator di ${ct.name}`] : []), `Influencer ${ct.name}: creator per campagne locali`, `Influencer ${ct.name}: creator locali`, `Influencer ${ct.name}`]), description: `${ct.demonym ? `Influencer ${ct.demonym} e ` : 'Influencer e '}content creator di ${ct.name}: profili per categoria, per campagne locali con ristoranti, negozi, palestre ed eventi.`.slice(0, 155), crumbs: [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `Influencer ${r.name}`, href: `#/influencer-italiani/influencer-${r.slug}/` }, { label: `Influencer ${ct.name}` }], faq: placeFaq(ct.name) }, el: <RegionPage region={r.slug} city={ct.slug} /> };
     }
-    return { meta: { path: p, label: `Influencer ${r.name}`, type: 'page', kw: `influencer ${r.name.toLowerCase()}`, title: fit([`Influencer ${r.name}: creator per città`, `Influencer ${r.name}: creator`, `Influencer ${r.name}`]), description: `Influencer e content creator in ${r.name} per campagne locali. Cerca per città, categoria e fascia di follower.`, crumbs: [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `Influencer ${r.name}` }], faq: placeFaq(r.name) }, el: <RegionPage region={r.slug} /> };
+    return { meta: { path: p, label: `Influencer ${r.name}`, type: 'page', kw: `influencer ${r.name.toLowerCase()}`, title: fit([...(r.demonym ? [`Influencer ${r.demonym}: creator in ${r.name}`] : []), `Influencer ${r.name}: creator per città`, `Influencer ${r.name}: creator`, `Influencer ${r.name}`]), description: `Influencer e content creator in ${r.name} per campagne locali. Cerca per città, categoria e fascia di follower.`, crumbs: [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `Influencer ${r.name}` }], faq: placeFaq(r.name) }, el: <RegionPage region={r.slug} /> };
   }
   return null;
 }
 
 /** Elenco di tutte le route (sitemap e test). */
 export function allPaths() {
-  const out = ['/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/preventivo-campagne/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
+  const out = ['/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/preventivo-campagne/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti-influencee/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
   CATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   REGIONS.forEach((r) => {
-    out.push(`/influencer-italiani/influencer-${r.slug}/`);
-    r.cities.forEach((ct) => out.push(`/influencer-italiani/influencer-${r.slug}/influencer-${ct.slug}/`));
+    out.push(regionPath(r));
+    r.cities.forEach((ct) => out.push(cityPath(r, ct)));
   });
   return out;
 }

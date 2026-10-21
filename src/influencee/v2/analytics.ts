@@ -65,7 +65,7 @@ export function pageTypeOf(path: string): { page_type: string; audience: string 
   if (path.startsWith('/influencer-italiani/influencer-')) return { page_type: path.split('/').filter(Boolean).length > 2 ? 'citta' : 'regione', audience: 'brand' };
   if (path === '/influencer-italiani/') return { page_type: 'hub_influencer', audience: 'brand' };
   if (path.endsWith('-influencers/')) return { page_type: 'categoria', audience: 'brand' };
-  if (path === '/contatti/') return { page_type: 'contatti', audience: 'brand' };
+  if (path === '/contatti-influencee/' || path === '/contatti/') return { page_type: 'contatti', audience: 'brand' };
   if (path === '/blog/') return { page_type: 'blog', audience: 'misto' };
   return { page_type: 'altro', audience: 'misto' };
 }

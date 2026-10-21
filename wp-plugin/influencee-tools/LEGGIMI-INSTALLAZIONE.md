@@ -1,14 +1,10 @@
 # Influencee Tools: installazione su influencee.it
 
-Il plugin serve 8 pagine tool con il loro URL attuale, quindi il posizionamento su Google non si perde:
-- hub dei tool;
-- fake follower;
-- costo influencer;
-- engagement rate;
-- preventivo campagna;
-- bacheca offerte;
-- pubblica offerta;
-- emoticon.
+Il plugin serve le pagine del nuovo sito con l'URL attuale, quindi il posizionamento su Google non si perde. Sono 158, in tre gruppi:
+
+- **Tool (8), accesi:** fake follower, costo influencer, engagement rate, preventivo campagna, bacheca offerte, pubblica offerta, emoticon e hub dei tool.
+- **Pagine nuove (22), accese:** prezzi, funzionalità, aziende, agenzie, micro influencer, UGC, campagne locali, creator verificati e professionisti, diventa creator, nuove categorie (tech, gaming, casa, motori, finanza, libri).
+- **Sostituzioni (128), spente:** home, hub influencer italiani, 20 regioni, 92 città, categorie, piattaforma, contatti. Hanno traffico (14.287 clic in Search Console): si accendono dopo, un gruppo alla volta (vedi §4).
 
 Header e footer restano quelli del sito. Se qualcosa non va, si spegne una pagina o tutto il plugin e torna la pagina di prima.
 
@@ -42,6 +38,7 @@ Apri ogni pagina in una finestra in incognito:
 | `/pubblica-offerta-lavoro/` | Il form in 3 passi arriva a "Offerta ricevuta" |
 | `/social-media-tool/emoticon-da-copiare/` | Un clic copia l'emoji |
 | `/social-media-tool/` | Il filtro "Per creator" cambia i tool mostrati |
+| `/prezzi/`, `/influencer-marketing-aziende/`, `/tech-influencers/` | Pagine nuove: in fondo c'è il modulo "Richiedi la demo" o "Ricevi la selezione" |
 
 **Prova un lead**: compila il modulo in fondo a una pagina con un'email di prova e controlla che arrivi in tandem. Nel lead c'è anche il campo "risultato_tool", con il risultato del calcolo.
 
@@ -51,7 +48,14 @@ Apri ogni pagina in una finestra in incognito:
 
 ## 4. Impostazioni
 
-- **Pagine**: togli la spunta "attiva" per tornare alla pagina Elementor di prima solo su quella pagina.
+- **Gruppi**: ogni gruppo si accende o si spegne con una spunta. Dentro "Elenco" vedi tutte le pagine, con un pallino verde se sono attive.
+- **Eccezioni**: un indirizzo per riga, per spegnere una sola pagina o per accenderne una sola di un gruppo spento.
+- **Accendere le sostituzioni senza rischi**:
+  1. Scrivi `/influencer-italiani/influencer-campania/influencer-napoli/` in "Pagine da accendere" e salva.
+  2. Controlla la pagina e, per due settimane, in Search Console la query "influencer napoletani" (oggi in posizione 7).
+  3. Se tiene o sale, accendi il gruppo "Sostituzioni" e metti la home tra le "Pagine da spegnere".
+  4. Accendi la home per ultima.
+- **Profili dei creator**: le pagine città, regione, categoria, hub e home mostrano i profili del tipo di contenuto "Creator": nome, handle, città, categoria e foto. **Le bio non si mostrano**, perché a volte contengono email e telefoni. Chi chiede la rimozione si toglie da WordPress (Creator → cestina).
 - **Redirect 301 dei vecchi URL**: sono spenti all'inizio. Accendili dopo aver controllato le pagine. Mandano i vecchi URL doppi o rotti (`/social-media-tool-form/`, `/preventivi-influencer/`, `/tool-finanziario/`…) alla pagina giusta.
 - **llms.txt**: il plugin pubblica `https://influencee.it/llms.txt`, la descrizione del sito per i motori AI (GEO).
 
@@ -71,13 +75,18 @@ Apri ogni pagina in una finestra in incognito:
 | `lead_pubblica_offerta` | pubblica offerta | azienda con un'offerta pronta |
 | `lead_offerte_lavoro` | bacheca | creator che vuole le offerte della sua categoria |
 | `lead_emoticon`, `lead_hub_tool` | tool gratuiti | contatto per la newsletter dei nuovi tool |
+| `lead_creator_citta`, `lead_creator_regione`, `lead_creator_categoria`, `lead_creator_hub` | città, regioni, categorie, hub | azienda che cerca creator di una zona o di un settore |
+| `lead_demo`, `lead_demo_home`, `lead_demo_contatti` | pagine brand, home, contatti | richiesta di demo |
+| `lead_creator_avvisi` | diventa creator, UGC creator | creator che vuole le offerte della sua categoria |
 | `whatsapp_click` | ovunque | richiesta diretta su WhatsApp |
 
 ## 6. Da fare su WordPress (fuori dal plugin)
 
 - [ ] **Pixel Meta**: togliere le graffe dall'ID, `fbq('init','595078877779895')`. Oggi non registra niente.
 - [ ] **Banner cookie**: oggi il sito non ne mostra uno, ma GA4 e il Pixel sono attivi. In Italia serve un banner con "Accetta" e "Rifiuta" (Consent Mode v2), per esempio Complianz o Cookiebot.
-- [ ] **Menù**: la voce "Free Social Media Tool" deve puntare a `/social-media-tool/`, non a `/social-media-tool-form/`.
+- [ ] **Menù**:
+  - la voce "Free Social Media Tool" deve puntare a `/social-media-tool/`, non a `/social-media-tool-form/`;
+  - aggiungi le pagine nuove: Prezzi `/prezzi/`, Per le aziende `/influencer-marketing-aziende/`, Per le agenzie `/piattaforma-agenzie/`, Funzionalità `/funzionalita/database-influencer/`, Diventa creator `/diventa-creator/`.
 - [ ] **Link a doppio senso**: dalla pagina `/agenzia-influencer/` aggiungi un pulsante "Calcola il preventivo" verso `/preventivo-campagne/`.
 - [ ] **WP Job Manager**: in Impostazioni → Offerte, attiva "Nascondi le offerte scadute" e chiudi le offerte del 2021–2022.
 - [ ] **Chi risponde ai lead**:

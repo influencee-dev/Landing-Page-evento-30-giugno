@@ -68,58 +68,75 @@ export interface Category {
   short: string;
   kw: string;
   lead: string;
+  /** title SEO quando serve più del modello "<Short> influencer italiani" (query reali da Ubersuggest) */
+  title?: string;
+  /** categorie dei profili creator su WordPress (tassonomia creator_category) che rientrano qui */
+  wp: string[];
 }
 export const CATEGORIES: Category[] = [
-  { slug: 'food-influencers', name: 'Cucina e food', short: 'Food', kw: 'food influencer italiani', lead: 'Chef, food creator e appassionati di cucina che raccontano ricette, locali e prodotti.' },
-  { slug: 'travel-influencers', name: 'Viaggi', short: 'Travel', kw: 'travel influencer italiani', lead: 'Creator di viaggio che ispirano weekend, destinazioni e prenotazioni.' },
-  { slug: 'fashion-influencers', name: 'Moda', short: 'Fashion', kw: 'fashion influencer italiani', lead: 'Outfit, tendenze e brand emergenti: profili per collezioni e campagne stagionali.' },
-  { slug: 'beauty-influencers', name: 'Beauty', short: 'Beauty', kw: 'beauty influencer italiani', lead: 'Skincare, make-up e routine raccontati da creator seguiti per i loro consigli.' },
-  { slug: 'fitness-influencers', name: 'Fitness e sport', short: 'Fitness', kw: 'fitness influencer italiani', lead: 'Allenamento, sport e nutrizione con community motivate e attive.' },
-  { slug: 'tech-influencers', name: 'Tecnologia', short: 'Tech', kw: 'tech influencer italiani', lead: 'Recensioni, unboxing e tutorial su prodotti e servizi digitali.' },
-  { slug: 'gaming-influencers', name: 'Gaming', short: 'Gaming', kw: 'gaming influencer italiani', lead: 'Streamer e gamer con community fedeli su YouTube e TikTok.' },
-  { slug: 'family-influencers', name: 'Famiglia e genitorialità', short: 'Family', kw: 'mamme influencer', lead: 'Genitori che raccontano quotidianità, casa e prodotti per i più piccoli.' },
-  { slug: 'pet-influencers', name: 'Animali', short: 'Pet', kw: 'pet influencer', lead: 'Cani, gatti e i loro umani: contenuti amati e molto condivisi.' },
-  { slug: 'music-influencers', name: 'Musica', short: 'Musica', kw: 'music influencer', lead: 'Musicisti e creator musicali per lanci, eventi e campagne audio.' },
-  { slug: 'lifestyle-influencers', name: 'Lifestyle', short: 'Lifestyle', kw: 'lifestyle influencer italiani', lead: 'Vita quotidiana, consigli e scoperte: il formato più versatile per i brand.' },
-  { slug: 'home-influencers', name: 'Casa e design', short: 'Casa', kw: 'home influencer', lead: 'Arredo, design e organizzazione della casa raccontati con gusto.' },
-  { slug: 'motori-influencers', name: 'Motori', short: 'Motori', kw: 'influencer motori', lead: 'Auto, moto e mobilità: creator competenti per un pubblico appassionato.' },
-  { slug: 'finanza-influencers', name: 'Finanza personale', short: 'Finanza', kw: 'finfluencer italiani', lead: 'Risparmio, investimenti e lavoro spiegati in modo semplice.' },
-  { slug: 'salute-influencers', name: 'Salute e benessere', short: 'Salute', kw: 'influencer salute e benessere', lead: 'Benessere, prevenzione e stile di vita, anche con professionisti della salute.' },
-  { slug: 'arte-influencers', name: 'Arte e fotografia', short: 'Arte', kw: 'influencer fotografia', lead: 'Fotografi, illustratori e artisti con un’estetica riconoscibile.' },
-  { slug: 'book-influencers', name: 'Libri e cultura', short: 'Libri', kw: 'book influencer italiani', lead: 'Lettori, divulgatori e creator culturali per editoria ed eventi.' },
-  { slug: 'comici-influencers', name: 'Intrattenimento e comicità', short: 'Comicità', kw: 'influencer comici italiani', lead: 'Sketch, ironia e format virali che fanno girare il brand.' },
+  { slug: 'food-influencers', name: 'Cucina e food', short: 'Food', kw: 'food influencer italiani', lead: 'Chef, food creator e appassionati di cucina che raccontano ricette, locali e prodotti.', wp: ['food', 'chef', 'nutrizione'], title: 'Food influencer e food blogger italiani' },
+  { slug: 'travel-influencers', name: 'Viaggi', short: 'Travel', kw: 'travel influencer italiani', lead: 'Creator di viaggio che ispirano weekend, destinazioni e prenotazioni.', wp: ['travel'], title: 'Travel influencer e travel blogger italiani' },
+  { slug: 'fashion-influencers', name: 'Moda', short: 'Fashion', kw: 'fashion influencer italiani', lead: 'Outfit, tendenze e brand emergenti: profili per collezioni e campagne stagionali.', wp: ['fashion', 'model', 'model-photographer'], title: 'Fashion influencer e fashion blogger italiani' },
+  { slug: 'beauty-influencers', name: 'Beauty', short: 'Beauty', kw: 'beauty influencer italiani', lead: 'Skincare, make-up e routine raccontati da creator seguiti per i loro consigli.', wp: ['beauty'] },
+  { slug: 'fitness-influencers', name: 'Fitness e sport', short: 'Fitness', kw: 'fitness influencer italiani', lead: 'Allenamento, sport e nutrizione con community motivate e attive.', wp: ['fitness', 'sport', 'fit', 'gym', 'athlete'], title: 'Fitness e sport influencer italiani' },
+  { slug: 'tech-influencers', name: 'Tecnologia', short: 'Tech', kw: 'tech influencer italiani', lead: 'Recensioni, unboxing e tutorial su prodotti e servizi digitali.', wp: [] },
+  { slug: 'gaming-influencers', name: 'Gaming', short: 'Gaming', kw: 'gaming influencer italiani', lead: 'Streamer e gamer con community fedeli su YouTube e TikTok.', wp: [] },
+  { slug: 'mom-influencers', name: 'Famiglia e genitorialità', short: 'Family', kw: 'mamme influencer', lead: 'Genitori che raccontano quotidianità, casa e prodotti per i più piccoli.', wp: ['mom', 'mum', 'parenting'], title: 'Mamme influencer italiane' },
+  { slug: 'pets-influencers', name: 'Animali', short: 'Pet', kw: 'pet influencer', lead: 'Cani, gatti e i loro umani: contenuti amati e molto condivisi.', wp: [], title: 'Pet influencer italiani: cani e gatti' },
+  { slug: 'music-influencers', name: 'Musica', short: 'Musica', kw: 'music influencer', lead: 'Musicisti e creator musicali per lanci, eventi e campagne audio.', wp: ['music', 'producer'] },
+  { slug: 'lifestyle-influencers', name: 'Lifestyle', short: 'Lifestyle', kw: 'lifestyle influencer italiani', lead: 'Vita quotidiana, consigli e scoperte: il formato più versatile per i brand.', wp: ['lifestyle', 'content-creator', 'digital-creator', 'blogger', 'personal-blog', 'public-figure'] },
+  { slug: 'home-influencers', name: 'Casa e design', short: 'Casa', kw: 'home influencer', lead: 'Arredo, design e organizzazione della casa raccontati con gusto.', wp: ['design'] },
+  { slug: 'motori-influencers', name: 'Motori', short: 'Motori', kw: 'influencer motori', lead: 'Auto, moto e mobilità: creator competenti per un pubblico appassionato.', wp: [] },
+  { slug: 'finanza-influencers', name: 'Finanza personale', short: 'Finanza', kw: 'finfluencer italiani', lead: 'Risparmio, investimenti e lavoro spiegati in modo semplice.', wp: [] },
+  { slug: 'health-influencers', name: 'Salute e benessere', short: 'Salute', kw: 'influencer salute e benessere', lead: 'Benessere, prevenzione e stile di vita, anche con professionisti della salute.', wp: ['health', 'nutrizione'], title: 'Influencer salute e benessere italiani' },
+  { slug: 'photography-influencers', name: 'Arte e fotografia', short: 'Arte', kw: 'influencer fotografia', lead: 'Fotografi, illustratori e artisti con un’estetica riconoscibile.', wp: ['photographer', 'photograph', 'photography', 'artist', 'art', 'model-photographer'], title: 'Fotografi e artisti influencer italiani' },
+  { slug: 'book-influencers', name: 'Libri e cultura', short: 'Libri', kw: 'book influencer italiani', lead: 'Lettori, divulgatori e creator culturali per editoria ed eventi.', wp: ['cultura', 'editor', 'journalist', 'journalism'] },
+  { slug: 'comic-influencers', name: 'Intrattenimento e comicità', short: 'Comicità', kw: 'influencer comici italiani', lead: 'Sketch, ironia e format virali che fanno girare il brand.', wp: ['comic', 'comedy', 'comedian', 'actor'], title: 'Influencer comici italiani' },
 ];
 
 /* ─── Regioni e città (schema URL del vecchio sito, già indicizzato) ─
    /influencer-italiani/influencer-<regione>/influencer-<città>/        */
+export interface City {
+  slug: string;
+  name: string;
+  /** segmento dell'URL quando non è influencer-<slug> (es. il refuso indicizzato infleuncer-ravenna) */
+  seg?: string;
+  /** abitanti, usato nei title: "influencer napoletani" ha più ricerche di "influencer napoli" */
+  demonym?: string;
+}
 export interface Region {
   slug: string;
   name: string;
-  cities: { slug: string; name: string }[];
+  demonym?: string;
+  cities: City[];
 }
-const c = (name: string) => ({ slug: name.toLowerCase().replace(/[’'\s]+/g, '-'), name });
+/** Regioni e città con gli slug esatti delle pagine già indicizzate su influencee.it (REST API, 21/10/2026),
+ *  in ordine di clic da Search Console. */
 export const REGIONS: Region[] = [
-  { slug: 'lombardia', name: 'Lombardia', cities: [c('Milano'), c('Bergamo'), c('Brescia')] },
-  { slug: 'lazio', name: 'Lazio', cities: [c('Roma'), c('Latina')] },
-  { slug: 'campania', name: 'Campania', cities: [c('Napoli'), c('Salerno')] },
-  { slug: 'sicilia', name: 'Sicilia', cities: [c('Palermo'), c('Catania')] },
-  { slug: 'veneto', name: 'Veneto', cities: [c('Venezia'), c('Verona'), c('Padova')] },
-  { slug: 'emilia-romagna', name: 'Emilia-Romagna', cities: [c('Bologna'), c('Modena'), c('Rimini')] },
-  { slug: 'piemonte', name: 'Piemonte', cities: [c('Torino')] },
-  { slug: 'puglia', name: 'Puglia', cities: [c('Bari'), c('Lecce'), c('Foggia')] },
-  { slug: 'toscana', name: 'Toscana', cities: [c('Firenze'), c('Pisa')] },
-  { slug: 'liguria', name: 'Liguria', cities: [c('Genova')] },
-  { slug: 'sardegna', name: 'Sardegna', cities: [c('Cagliari')] },
-  { slug: 'calabria', name: 'Calabria', cities: [c('Reggio Calabria'), c('Cosenza')] },
-  { slug: 'marche', name: 'Marche', cities: [c('Ancona')] },
-  { slug: 'abruzzo', name: 'Abruzzo', cities: [c('Pescara')] },
-  { slug: 'friuli-venezia-giulia', name: 'Friuli-Venezia Giulia', cities: [c('Trieste'), c('Udine')] },
-  { slug: 'trentino-alto-adige', name: 'Trentino-Alto Adige', cities: [c('Trento'), c('Bolzano')] },
-  { slug: 'umbria', name: 'Umbria', cities: [c('Perugia')] },
-  { slug: 'basilicata', name: 'Basilicata', cities: [c('Potenza'), c('Matera')] },
-  { slug: 'molise', name: 'Molise', cities: [c('Campobasso')] },
-  { slug: 'valle-d-aosta', name: 'Valle d’Aosta', cities: [c('Aosta')] },
+  { slug: 'lombardia', name: 'Lombardia', demonym: 'lombardi', cities: [{ slug: 'milano', name: 'Milano', demonym: 'milanesi' }, { slug: 'monza', name: 'Monza', demonym: 'monzesi' }, { slug: 'varese', name: 'Varese', demonym: 'varesini' }, { slug: 'como', name: 'Como', demonym: 'comaschi' }, { slug: 'bergamo', name: 'Bergamo', demonym: 'bergamaschi' }, { slug: 'brescia', name: 'Brescia', demonym: 'bresciani' }, { slug: 'pavia', name: 'Pavia' }, { slug: 'lecco', name: 'Lecco' }, { slug: 'lodi', name: 'Lodi' }, { slug: 'cremona', name: 'Cremona' }, { slug: 'mantova', name: 'Mantova' }] },
+  { slug: 'emilia-romagna', name: 'Emilia-Romagna', demonym: 'emiliani', cities: [{ slug: 'bologna', name: 'Bologna', demonym: 'bolognesi' }, { slug: 'reggioemilia', name: 'Reggio Emilia' }, { slug: 'parma', name: 'Parma', demonym: 'parmigiani' }, { slug: 'piacenza', name: 'Piacenza' }, { slug: 'modena', name: 'Modena', demonym: 'modenesi' }, { slug: 'ferrara', name: 'Ferrara' }, { slug: 'forli-cesena', name: 'Forlì-Cesena' }, { slug: 'rimini', name: 'Rimini' }, { slug: 'infleuncer-ravenna', name: 'Ravenna', seg: 'infleuncer-ravenna' }] },
+  { slug: 'veneto', name: 'Veneto', demonym: 'veneti', cities: [{ slug: 'venezia', name: 'Venezia', demonym: 'veneziani' }, { slug: 'padova', name: 'Padova', demonym: 'padovani' }, { slug: 'vicenza', name: 'Vicenza', demonym: 'vicentini' }, { slug: 'verona', name: 'Verona', demonym: 'veronesi' }, { slug: 'treviso', name: 'Treviso', demonym: 'trevigiani' }, { slug: 'belluno', name: 'Belluno' }, { slug: 'rovigo', name: 'Rovigo' }] },
+  { slug: 'campania', name: 'Campania', demonym: 'campani', cities: [{ slug: 'napoli', name: 'Napoli', demonym: 'napoletani' }, { slug: 'salerno', name: 'Salerno', demonym: 'salernitani' }, { slug: 'benevento', name: 'Benevento' }, { slug: 'caserta', name: 'Caserta' }, { slug: 'avellino', name: 'Avellino' }] },
+  { slug: 'toscana', name: 'Toscana', demonym: 'toscani', cities: [{ slug: 'firenze', name: 'Firenze', demonym: 'fiorentini' }, { slug: 'pisa', name: 'Pisa' }, { slug: 'livorno', name: 'Livorno' }, { slug: 'lucca', name: 'Lucca' }, { slug: 'pistoia', name: 'Pistoia' }, { slug: 'prato', name: 'Prato' }, { slug: 'arezzo', name: 'Arezzo' }, { slug: 'siena', name: 'Siena' }] },
+  { slug: 'puglia', name: 'Puglia', demonym: 'pugliesi', cities: [{ slug: 'bari', name: 'Bari', demonym: 'baresi' }, { slug: 'lecce', name: 'Lecce', demonym: 'leccesi' }, { slug: 'foggia', name: 'Foggia' }, { slug: 'taranto', name: 'Taranto', demonym: 'tarantini' }, { slug: 'brindisi', name: 'Brindisi' }] },
+  { slug: 'sicilia', name: 'Sicilia', demonym: 'siciliani', cities: [{ slug: 'catania', name: 'Catania', demonym: 'catanesi' }, { slug: 'palermo', name: 'Palermo', demonym: 'palermitani' }, { slug: 'siracusa', name: 'Siracusa' }, { slug: 'messina', name: 'Messina', demonym: 'messinesi' }, { slug: 'trapani', name: 'Trapani' }, { slug: 'ragusa', name: 'Ragusa' }, { slug: 'agrigento', name: 'Agrigento' }] },
+  { slug: 'lazio', name: 'Lazio', demonym: 'laziali', cities: [{ slug: 'roma', name: 'Roma', demonym: 'romani' }, { slug: 'latina', name: 'Latina' }, { slug: 'frosinone', name: 'Frosinone' }, { slug: 'viterbo', name: 'Viterbo' }, { slug: 'rieti', name: 'Rieti' }] },
+  { slug: 'abruzzo', name: 'Abruzzo', demonym: 'abruzzesi', cities: [{ slug: 'pescara', name: 'Pescara', demonym: 'pescaresi' }, { slug: 'teramo', name: 'Teramo' }, { slug: 'laquila', name: 'L’Aquila' }, { slug: 'chieti', name: 'Chieti' }] },
+  { slug: 'marche', name: 'Marche', demonym: 'marchigiani', cities: [{ slug: 'ancona', name: 'Ancona' }, { slug: 'pesaro', name: 'Pesaro' }, { slug: 'ascoli-piceno', name: 'Ascoli Piceno' }, { slug: 'macerata', name: 'Macerata' }] },
+  { slug: 'piemonte', name: 'Piemonte', demonym: 'piemontesi', cities: [{ slug: 'torino', name: 'Torino', demonym: 'torinesi' }, { slug: 'cuneo', name: 'Cuneo' }, { slug: 'alessandria', name: 'Alessandria' }, { slug: 'novara', name: 'Novara' }, { slug: 'asti', name: 'Asti' }] },
+  { slug: 'liguria', name: 'Liguria', demonym: 'liguri', cities: [{ slug: 'genova', name: 'Genova', demonym: 'genovesi' }, { slug: 'la-spezia', name: 'La Spezia' }, { slug: 'savona', name: 'Savona' }, { slug: 'imperia', name: 'Imperia' }] },
+  { slug: 'friuli-venezia-giulia', name: 'Friuli-Venezia Giulia', demonym: 'friulani', cities: [{ slug: 'pordenone', name: 'Pordenone' }, { slug: 'udine', name: 'Udine' }, { slug: 'trieste', name: 'Trieste', demonym: 'triestini' }, { slug: 'gorizia', name: 'Gorizia' }] },
+  { slug: 'umbria', name: 'Umbria', demonym: 'umbri', cities: [{ slug: 'perugia', name: 'Perugia', demonym: 'perugini' }, { slug: 'terni', name: 'Terni' }] },
+  { slug: 'trentino-alto-adige', name: 'Trentino-Alto Adige', demonym: 'trentini', cities: [{ slug: 'bolzano', name: 'Bolzano' }, { slug: 'trento', name: 'Trento' }] },
+  { slug: 'calabria', name: 'Calabria', demonym: 'calabresi', cities: [{ slug: 'reggio-calabria', name: 'Reggio Calabria' }, { slug: 'cosenza', name: 'Cosenza' }, { slug: 'catanzaro', name: 'Catanzaro' }] },
+  { slug: 'sardegna', name: 'Sardegna', demonym: 'sardi', cities: [{ slug: 'nuoro', name: 'Nuoro' }, { slug: 'cagliari', name: 'Cagliari', demonym: 'cagliaritani' }, { slug: 'sassari', name: 'Sassari' }] },
+  { slug: 'valle-daosta', name: 'Valle d’Aosta', demonym: 'valdostani', cities: [{ slug: 'aosta', name: 'Aosta' }] },
+  { slug: 'basilicata', name: 'Basilicata', demonym: 'lucani', cities: [{ slug: 'potenza', name: 'Potenza' }, { slug: 'matera', name: 'Matera' }] },
+  { slug: 'molise', name: 'Molise', demonym: 'molisani', cities: [{ slug: 'campobasso', name: 'Campobasso' }] },
 ];
+export const regionPath = (r: Region) => `/influencer-italiani/influencer-${r.slug}/`;
+export const cityPath = (r: Region, ct: City) => `${regionPath(r)}${ct.seg ?? `influencer-${ct.slug}`}/`;
+
 
 /* ─── Piani in vendita oggi (app: switch piani_2026 spento) ─────────
    ⚠ Se si accendono i piani 2026 (Base 35 €, Business 57 €, Illimitato

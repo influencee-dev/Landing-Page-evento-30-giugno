@@ -4,7 +4,7 @@ import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, reveal, useInk, type Tone } from '../ds';
 import { faqOpen, track } from './analytics';
 import { setToolContext } from './tools';
-import { APP, CATEGORIES, FACTS, MARKET, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
+import { APP, CATEGORIES, cityPath, regionPath, FACTS, MARKET, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
 
 /* ════════════════════════════════════════════════════════════════════
    ROW DEL SITO v2 — stesso design system (fasce a tutta larghezza,
@@ -294,7 +294,7 @@ export function TiersRow({ tone = 'white', title = 'Le fasce di follower\n*che u
 }
 
 /* ─── Richiesta demo: il modulo apre WhatsApp con il messaggio pronto ─ */
-export function DemoForm({ tone = 'soft', title = 'Richiedi una demo\n*con il tuo settore*', lead = 'Ti mostriamo la piattaforma con creator del tuo settore. Compila e premi invia: si apre WhatsApp con la richiesta già scritta.' }: { tone?: Tone; title?: string; lead?: string }) {
+export function DemoForm({ tone = 'soft', title = 'Richiedi una demo\n*con il tuo settore*', lead = 'Ti mostriamo la piattaforma con creator del tuo settore. Compila il modulo: ti ricontatta una persona del team.' }: { tone?: Tone; title?: string; lead?: string }) {
   const [d, setD] = useState({ name: '', company: '', sector: '', note: '' });
   const [sent, setSent] = useState(false);
   const field = 'h-12 w-full rounded-2xl bg-paper px-4 text-[15px] outline-none ring-1 ring-line focus:ring-brand';
@@ -304,28 +304,39 @@ export function DemoForm({ tone = 'soft', title = 'Richiedi una demo\n*con il tu
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1fr]">
           <div>
             <SectionHeader align="left" eyebrow="Demo" title={title} lead={lead} />
+            {sent ? (
+              <div className="mt-8 rounded-[28px] bg-ink p-7 text-white" role="status">
+                <p className="font-heading text-2xl font-semibold tracking-tight">Richiesta ricevuta, grazie!</p>
+                <p className="mt-2 text-white/65">Ti ricontatta una persona del team per fissare la demo. Se hai fretta scrivici su WhatsApp.</p>
+                <a href={WHATSAPP.href} className="mt-5 inline-flex h-11 items-center gap-2 rounded-full bg-[#25d366] px-5 text-sm font-semibold text-ink"><WaIcon className="h-4 w-4" /> Scrivici su WhatsApp</a>
+              </div>
+            ) : (
             <form
-              data-form="richiesta_demo_whatsapp"
+              id="lead-form-demo-contatti"
+              name="Richiesta demo"
+              data-tandem=""
+              data-form="lead_demo_contatti"
               onSubmit={(e) => {
                 e.preventDefault();
-                const msg = `Ciao Influencee, sono ${d.name}${d.company ? ` di ${d.company}` : ''}. Vorrei una demo della piattaforma${d.sector ? ` per il settore ${d.sector}` : ''}.${d.note ? ` ${d.note}` : ''}`;
-                window.open(`https://wa.me/${WHATSAPP.tel.replace('+', '')}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
                 setSent(true);
               }}
-              className="mt-8 grid grid-cols-1 gap-3 rounded-[28px] bg-white p-5 ring-1 ring-line sm:grid-cols-2 sm:p-6"
+              className="mt-8 grid gap-3 rounded-[28px] bg-white p-5 ring-1 ring-line sm:grid-cols-2 sm:p-6"
             >
-              <label htmlFor="df-name"><span className="text-xs font-semibold text-mute">Nome</span><input id="df-name" required value={d.name} onChange={(e) => setD({ ...d, name: e.target.value })} className={`mt-1.5 ${field}`} /></label>
-              <label htmlFor="df-company"><span className="text-xs font-semibold text-mute">Azienda</span><input id="df-company" required value={d.company} onChange={(e) => setD({ ...d, company: e.target.value })} className={`mt-1.5 ${field}`} /></label>
+              <label htmlFor="df-name"><span className="text-xs font-semibold text-mute">Nome</span><input id="df-name" name="nome" required autoComplete="given-name" value={d.name} onChange={(e) => setD({ ...d, name: e.target.value })} className={`mt-1.5 ${field}`} /></label>
+              <label htmlFor="df-company"><span className="text-xs font-semibold text-mute">Azienda</span><input id="df-company" name="azienda" required autoComplete="organization" value={d.company} onChange={(e) => setD({ ...d, company: e.target.value })} className={`mt-1.5 ${field}`} /></label>
+              <label htmlFor="df-email"><span className="text-xs font-semibold text-mute">Email</span><input id="df-email" name="email" type="email" required autoComplete="email" className={`mt-1.5 ${field}`} /></label>
+              <label htmlFor="df-tel"><span className="text-xs font-semibold text-mute">Telefono (facoltativo)</span><input id="df-tel" name="telefono" type="tel" autoComplete="tel" className={`mt-1.5 ${field}`} /></label>
               <label htmlFor="df-sector" className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Settore</span>
-                <select id="df-sector" value={d.sector} onChange={(e) => setD({ ...d, sector: e.target.value })} className={`mt-1.5 ${field}`}>
+                <select id="df-sector" name="settore" required value={d.sector} onChange={(e) => setD({ ...d, sector: e.target.value })} className={`mt-1.5 ${field}`}>
                   <option value="">Scegli il settore</option>
                   {CATEGORIES.map((c) => <option key={c.slug}>{c.short}</option>)}
                 </select>
               </label>
-              <label htmlFor="df-note" className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Cosa vuoi vedere (facoltativo)</span><input id="df-note" value={d.note} onChange={(e) => setD({ ...d, note: e.target.value })} placeholder="Es. micro influencer food a Milano" className={`mt-1.5 ${field}`} /></label>
-              <button type="submit" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-semibold text-white sm:col-span-2"><WaIcon className="h-4 w-4" /> Invia su WhatsApp</button>
-              {sent && <p className="text-sm text-mute sm:col-span-2" role="status">Si è aperto WhatsApp con la richiesta pronta: premi invia e ti rispondiamo lì.</p>}
+              <label htmlFor="df-note" className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Cosa vuoi vedere (facoltativo)</span><input id="df-note" name="richiesta" value={d.note} onChange={(e) => setD({ ...d, note: e.target.value })} placeholder="Es. micro influencer food a Milano" className={`mt-1.5 ${field}`} /></label>
+              <button type="submit" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-semibold text-white sm:col-span-2">Richiedi la demo</button>
+              <p className="text-[11px] text-mute sm:col-span-2">Usiamo i tuoi dati solo per risponderti. <a href="/privacy-policy/" className="underline">Informativa privacy</a> · Preferisci WhatsApp? <a href={WHATSAPP.href} className="font-semibold text-brand-ink">Scrivici</a></p>
             </form>
+            )}
           </div>
           <HelpCard />
         </div>
@@ -416,12 +427,12 @@ export function RegionGrid({ tone = 'white', title = 'Influencer\n*per regione e
         <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} sm:grid-cols-2 lg:grid-cols-4`}>
           {list.map((r, i) => (
             <motion.div key={r.slug} {...reveal(i % 4)} className="rounded-3xl bg-white p-5 ring-1 ring-line">
-              <a href={`#/influencer-italiani/influencer-${r.slug}/`} className="font-heading text-lg font-semibold tracking-tight hover:text-brand">
+              <a href={`#${regionPath(r)}`} className="font-heading text-lg font-semibold tracking-tight hover:text-brand">
                 Influencer {r.name}
               </a>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {r.cities.map((ct) => (
-                  <a key={ct.slug} href={`#/influencer-italiani/influencer-${r.slug}/influencer-${ct.slug}/`} className="rounded-full bg-paper px-3 py-1 text-xs font-medium transition hover:bg-brand hover:text-white">
+                  <a key={ct.slug} href={`#${cityPath(r, ct)}`} className="rounded-full bg-paper px-3 py-1 text-xs font-medium transition hover:bg-brand hover:text-white">
                     {ct.name}
                   </a>
                 ))}
@@ -603,7 +614,7 @@ export function FooterV2() {
       ],
     },
     { t: 'Influencer italiani', l: [['Tutti', '#/influencer-italiani/'], ...CATEGORIES.slice(0, 8).map((k) => [k.short + ' influencer', `#/${k.slug}/`])] },
-    { t: 'Città', l: REGIONS.slice(0, 8).map((r) => [`Influencer ${r.cities[0].name}`, `#/influencer-italiani/influencer-${r.slug}/influencer-${r.cities[0].slug}/`]) },
+    { t: 'Città', l: REGIONS.slice(0, 8).map((r) => [`Influencer ${r.cities[0].name}`, `#${cityPath(r, r.cities[0])}`]) },
   ];
   return (
     <footer className="border-t border-line bg-white font-sans text-ink">
@@ -643,7 +654,7 @@ export function FooterV2() {
           <span>© 2026 {SITE.company} · Influencee è un marchio di {SITE.company}</span>
           <span className="flex gap-4">
             <a href="#/blog/">Blog</a>
-            <a href="#/contatti/">Contatti</a>
+            <a href="#/contatti-influencee/">Contatti</a>
             <a href="https://app.influencee.it/privacy-policy/">Privacy</a>
             <a href={APP.login}>Accedi</a>
           </span>
@@ -659,7 +670,7 @@ const CAT_IMG: Record<string, string> = {
   'fitness-influencers': 'reel-fitness-scegli-corso.webp',
   'beauty-influencers': 'reel-beauty-estetica-tecnologia.webp',
   'home-influencers': 'reel-casa-spazio-esterno.webp',
-  'salute-influencers': 'reel-salute-farmacia-vaccini.webp',
+  'health-influencers': 'reel-salute-farmacia-vaccini.webp',
   'lifestyle-influencers': 'reel-eventi-inaugurazione.webp',
 };
 const CAT_ICON: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -670,17 +681,17 @@ const CAT_ICON: Record<string, React.ComponentType<{ className?: string }>> = {
   'fitness-influencers': Dumbbell,
   'tech-influencers': Smartphone,
   'gaming-influencers': Gamepad2,
-  'family-influencers': Baby,
-  'pet-influencers': PawPrint,
+  'mom-influencers': Baby,
+  'pets-influencers': PawPrint,
   'music-influencers': Music2,
   'lifestyle-influencers': Coffee,
   'home-influencers': Sofa,
   'motori-influencers': Car,
   'finanza-influencers': PiggyBank,
-  'salute-influencers': HeartPulse,
-  'arte-influencers': Camera,
+  'health-influencers': HeartPulse,
+  'photography-influencers': Camera,
   'book-influencers': BookOpen,
-  'comici-influencers': Laugh,
+  'comic-influencers': Laugh,
 };
 const STEP_BG = ['bg-brand-soft text-ink', 'bg-ink text-white', 'bg-acid text-ink', 'bg-paper text-ink'];
 const STEP_ICONS = [Search, Megaphone, FileText, MousePointerClick, BadgeCheck, Users, LayoutGrid, BarChart3];

@@ -1,5 +1,4 @@
 import WP_PATHS_LIST from './wp-paths.json';
-import { APP } from '../data';
 
 /* ════════════════════════════════════════════════════════════════════
    PLUGIN WORDPRESS "influencee-tools"
@@ -8,7 +7,7 @@ import { APP } from '../data';
    trasformare i link della v2 (#/percorso/) in link del sito WordPress.
    ════════════════════════════════════════════════════════════════════ */
 
-/** Pagine che il plugin serve al posto della pagina Elementor (stesso URL). */
+/** Tool restaurati (gruppo "tool"): il plugin li serve al posto della pagina Elementor. */
 export const TOOL_ROUTES = [
   '/social-media-tool/',
   '/followe-instagram-fake-follower/',
@@ -23,25 +22,23 @@ export const TOOL_ROUTES = [
 /** URL pubblicati oggi su influencee.it (pagine + articoli, da REST API, 21/10/2026). */
 const WP_PATHS = new Set<string>(WP_PATHS_LIST as string[]);
 
-/** Pagine della v2 che su WordPress non esistono ancora: pagina più vicina. */
+/** Pagine della v2 che il plugin non porta su WordPress: link alla pagina più vicina. */
 const LINK_MAP: Record<string, string> = {
-  '/prezzi/': '/piattaforma-influencer/',
+  '/blog/': '/news-influencer-marketing/', // il blog resta quello di WordPress
+  '/benchmark-engagement-rate/': '/come-calcolare-engagement-rate/', // eviterebbe concorrenza su "engagement rate instagram"
   '/contatti/': '/contatti-influencee/',
-  '/micro-influencer/': '/guida-definitiva-al-micro-influencer-marketing-2026/',
-  '/ugc-creator/': '/content-creator/',
-  '/diventa-creator/': APP.creator,
-  '/blog/': '/news-influencer-marketing/',
-  '/benchmark-engagement-rate/': '/come-calcolare-engagement-rate/',
-  '/creator-verificati/': '/piattaforma-influencer/',
-  '/influencer-marketing-aziende/': '/piattaforma-influencer-marketing/',
-  '/piattaforma-agenzie/': '/agenzie/',
-  '/contenuti-ugc/': '/gestione-ugc/',
-  '/influencer-marketing-locale/': '/local-influencer-marketing-per-promuovere-le-imprese-locali/',
-  '/creator-professionisti/': '/piattaforma-influencer/',
-  '/funzionalita/contratto-influencer/': '/contratto-social-media-influencer-ugc/',
   '/annunci-collaborazioni/': '/offerte-lavoro-influencer/',
   '/preventivi-influencer/': '/preventivo-campagne/',
 };
+export const EXCLUDED = new Set(Object.keys(LINK_MAP));
+
+/** Gruppo di una pagina nel plugin: decide se è accesa all'installazione.
+ *  tool = i tool restaurati (accesi) · nuova = URL che oggi su WordPress non esiste (accesa)
+ *  sostituzione = URL che su WordPress esiste già con traffico (spenta finché il titolare non la accende). */
+export function groupOf(path: string): 'tool' | 'nuova' | 'sostituzione' {
+  if ((TOOL_ROUTES as readonly string[]).includes(path)) return 'tool';
+  return WP_PATHS.has(path) ? 'sostituzione' : 'nuova';
+}
 
 /** Trasforma un href della v2 in un href valido su influencee.it. */
 export function wpHref(href: string): string {
@@ -49,10 +46,8 @@ export function wpHref(href: string): string {
   const [raw, hash] = href.slice(1).split('#');
   const path = raw.split('?')[0].replace(/\/?$/, '/');
   let out: string;
-  if ((TOOL_ROUTES as readonly string[]).includes(path) || WP_PATHS.has(path)) out = path;
-  else if (LINK_MAP[path]) out = LINK_MAP[path];
-  else if (path.startsWith('/influencer-italiani/') || path.endsWith('-influencers/')) out = '/influencer-italiani/';
-  else out = '/piattaforma-influencer/';
+  if (LINK_MAP[path]) out = LINK_MAP[path];
+  else out = path; // tutte le altre pagine della v2 sono servite dal plugin o esistono già su WordPress
   return hash ? `${out}#${hash}` : out;
 }
 

@@ -38,7 +38,10 @@ const scope = {
 };
 const css = readFileSync(join(ROOT, 'dist-wp/build/influencee-tools.css'), 'utf8');
 const scoped = (await postcss([scope]).process(css, { from: undefined })).css;
-writeFileSync(join(OUT, 'assets/influencee-tools.css'), `/* Influencee Tools: stili isolati sotto ${SCOPE} */\n${SCOPE}{font-family:var(--font-sans,Inter,sans-serif);color:var(--color-ink,#1d1d1f);background:#fff;line-height:1.5;-webkit-font-smoothing:antialiased}\n${scoped}`);
+// proprietà che il tema Hello Elementor impone a pulsanti e campi e che il reset di Tailwind non tocca
+// (es. white-space:nowrap sui pulsanti: le domande delle FAQ uscivano dallo schermo su mobile)
+const THEME_RESET = `${SCOPE} button,${SCOPE} [type=button],${SCOPE} [type=submit],${SCOPE} [type=reset]{white-space:normal;-webkit-user-select:auto;user-select:auto;vertical-align:middle;transition:none;box-shadow:none;cursor:pointer}${SCOPE} input,${SCOPE} select,${SCOPE} textarea{box-shadow:none;transition:none}`;
+writeFileSync(join(OUT, 'assets/influencee-tools.css'), `/* Influencee Tools: stili isolati sotto ${SCOPE} */\n${SCOPE}{font-family:var(--font-sans,Inter,sans-serif);color:var(--color-ink,#1d1d1f);background:#fff;line-height:1.5;-webkit-font-smoothing:antialiased}\n${THEME_RESET}\n${scoped}`);
 
 // 3. pagine pre-renderizzate + meta (title, description, JSON-LD)
 const vite = await createServer({ configFile: join(ROOT, 'vite.wp-plugin.config.ts'), server: { middlewareMode: true }, appType: 'custom', logLevel: 'warn' });
@@ -49,7 +52,7 @@ const meta = {};
 const imgs = new Set();
 for (const p of pages) {
   writeFileSync(join(OUT, 'pages', `${p.slug}.html`), p.html);
-  meta[p.path] = { slug: p.slug, label: p.meta.label, title: p.meta.title, description: p.meta.description, ld: p.ld };
+  meta[p.path] = { slug: p.slug, group: p.group, label: p.meta.label, title: p.meta.title, description: p.meta.description, ld: p.ld };
   p.images.forEach((i) => imgs.add(i));
 }
 writeFileSync(join(OUT, 'pages/meta.json'), JSON.stringify(meta, null, 1));
@@ -66,4 +69,5 @@ rmSync(join(ROOT, 'dist-wp/influencee-tools.zip'), { force: true });
 execFileSync('zip', ['-qr', 'influencee-tools.zip', 'influencee-tools'], { cwd: join(ROOT, 'dist-wp') });
 const kb = (f) => Math.round(readFileSync(f).length / 1024);
 console.log(`ok · pagine ${pages.length} · immagini ${imgs.size} · js ${kb(join(OUT, 'assets/influencee-tools.js'))} KB · css ${kb(join(OUT, 'assets/influencee-tools.css'))} KB · zip ${kb(join(ROOT, 'dist-wp/influencee-tools.zip'))} KB`);
-for (const p of pages) console.log(' ', p.path, '→', p.slug, `${Math.round(p.html.length / 1024)} KB`, p.meta.title);
+const byG = {}; pages.forEach((p) => (byG[p.group] = (byG[p.group] || 0) + 1)); console.log('  gruppi:', JSON.stringify(byG));
+for (const p of pages.filter((x) => x.group !== 'sostituzione' || ['/', '/influencer-italiani/'].includes(x.path))) console.log(' ', p.group.padEnd(12), p.path, '→', p.meta.title);

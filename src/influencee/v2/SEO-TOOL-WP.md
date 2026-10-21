@@ -456,3 +456,56 @@ Live: due title ("Costo post influencer", "Calcolatore Costo Influencer") e due 
 - [ ] 301 da mantenere o aggiungere: `/costo-influencer/` (attivo), `/come-calcolare-il-costo-degli-influencer/`, `/come-calcolare-costo-influencer/` (e `/5/`), `/come-riconoscere-e-rimuovere-fake-follower/`, `/emoticon-da-copiare/`, `/tool-influencer/`, `/social-media-tool-form/`, `/preventivi-influencer/`, `/offerta-lavoro/<slug>/`.
 - [ ] Link a doppio senso `/agenzia-influencer/` ↔ `/preventivo-campagne/`.
 - [ ] Dopo 4 settimane: in GSC, CTR di costo-influencer (oggi 1,83%) ed ER (1,18%). Obiettivo: oltre il 3% in posizione 6–8.
+
+
+---
+
+## 13. Tutte le altre pagine del sito su WordPress (21/10/2026)
+
+Il plugin `influencee-tools` serve **158 pagine** della v2. Fonti: Search Console del vecchio sito, i 284 URL pubblicati (REST API) e Ubersuggest `page_keywords` dal vivo.
+
+| Gruppo | Pagine | All'installazione | Perché |
+| --- | --- | --- | --- |
+| Tool | 8 | accesi | già testati, stesso URL |
+| Pagine nuove | 22 | accese | URL che oggi non esistono: non tolgono nulla |
+| Sostituzioni | 128 | **spente** | home, hub, 20 regioni, 92 città, categorie, piattaforma, contatti: **14.287 clic** in Search Console |
+
+**Cosa cercano le persone su queste pagine** (Ubersuggest, Italia):
+
+| Pagina | Query | Volume | Posizione |
+| --- | --- | --- | --- |
+| Napoli | influencer napoletani | 1.600 | 7 |
+| hub | tutti influencer | 260 | 3 |
+| hub | creator italiani | 140 | 3 |
+| hub | top 100 influencer italia | 260 | 9 |
+| hub | classifica influencer italia | 110 | 6 |
+| food | foodie influencers | 210 | 3 |
+| food | food blogger italiani | 260 | 15 |
+| Milano | influencer milano | 140 | 6 |
+
+Sono ricerche di **liste di persone**: per questo le pagine v2 ora mostrano i **profili veri** del tipo di contenuto `creator` di WordPress (325 profili), stampati nell'HTML con il dato strutturato `ItemList`, come fa oggi il plugin SEO del sito.
+
+**Scelte**
+
+- **URL di WordPress, mai i nostri:** 92 città con gli slug esatti, compreso il refuso indicizzato `infleuncer-ravenna`, più `reggioemilia`, `laquila` e `valle-daosta`.
+- **Categorie:** con lo stesso significato prendono lo slug di WordPress (`comic`, `mom`, `pets`, `health`, `photography`). Tech, gaming, casa, motori, finanza e libri sono pagine nuove.
+- **Title con gli abitanti** per le 30 città principali, perché "influencer napoletani" ha 1.600 ricerche contro le 110 di "influencer napoli". Esempi: "Influencer napoletani: creator di Napoli", "Influencer veneti: creator in Veneto".
+- **Contatti** sull'URL esistente `/contatti-influencee/`.
+- **Restano a WordPress, senza modifiche:** gli articoli del blog (es. 7.393 clic su "migliori app gestione follower"), le pagine `/agenzie/` ("agenzia influencer", pos. 17) e `/agenzia-influencer/`, e le categorie senza equivalente nell'app (entrepreneur, luxury, model, wedding).
+- **Non portate:** il blog della v2 (c'è quello di WordPress) e il benchmark (farebbe concorrenza a "engagement rate instagram").
+- **Lead su ogni pagina** (tandem): città, regioni, categorie e hub ("Ti mandiamo i creator di Napoli…"), home e pagine brand (demo), pagine creator (avvisi offerte), contatti.
+
+**Ordine consigliato per accendere le sostituzioni**
+
+1. **Napoli**, una sola città: si accende con l'eccezione "accendi". Poi due settimane di controllo in Search Console su "influencer napoletani".
+2. **Le altre città e regioni.**
+3. **Categorie e hub.**
+4. **La home per ultima:** 3.595 clic, quasi tutti sul marchio.
+
+**Verifica su WordPress locale** (tema Hello Elementor, WP Job Manager, tipo `creator` con tassonomie, finto plugin SEO che duplica i meta):
+- 158 pagine su 158: un `<title>` ≤60 caratteri, un H1, description 70–158 caratteri, dati strutturati, nessun segnaposto;
+- i 157 link interni puntano tutti a pagine esistenti;
+- nessun elemento fuori schermo a 390 e 1280 px;
+- nessun errore JavaScript;
+- lead arrivati a tandem da città, home, contatti e pagine creator;
+- le bio con email e telefono non compaiono mai.

@@ -68,8 +68,9 @@ function useToolContext(tool: string) {
   );
 }
 
-export function ToolLead({ tool, eyebrow, title, lead, bullets, cta, phone = 'facoltativo', withCategory = false, tone = 'paper' }: { tool: string; eyebrow: string; title: string; lead: string; bullets: string[]; cta: string; phone?: 'no' | 'facoltativo' | 'obbligatorio'; withCategory?: boolean; tone?: Tone }) {
-  const context = useToolContext(tool);
+export function ToolLead({ tool, eyebrow, title, lead, bullets, cta, phone = 'facoltativo', withCategory = false, tone = 'paper', context: fixedContext }: { tool: string; eyebrow: string; title: string; lead: string; bullets: string[]; cta: string; phone?: 'no' | 'facoltativo' | 'obbligatorio'; withCategory?: boolean; tone?: Tone; context?: string }) {
+  const liveContext = useToolContext(tool);
+  const context = fixedContext ?? liveContext;
   const [sent, setSent] = useState(false);
   const field = 'mt-1.5 h-12 w-full rounded-2xl bg-paper px-4 text-[15px] text-ink outline-none ring-1 ring-line focus:ring-brand';
   return (

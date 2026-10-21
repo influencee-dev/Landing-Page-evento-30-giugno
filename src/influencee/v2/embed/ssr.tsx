@@ -2,8 +2,8 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { jsonLd } from '../App';
 import { ENV } from '../env';
-import { resolve } from '../pages';
-import { TOOL_ROUTES, slugOf, wpHref } from './routes';
+import { allPaths, resolve } from '../pages';
+import { EXCLUDED, groupOf, slugOf, wpHref } from './routes';
 
 /* Pre-rendering delle pagine tool in HTML statico per il plugin WordPress.
    L'HTML contiene tutto il testo (H1, risposte "In breve", FAQ con le risposte,
@@ -31,12 +31,12 @@ function rewrite(html: string) {
 }
 
 export function renderAll() {
-  return TOOL_ROUTES.map((path) => {
+  return allPaths().filter((p) => !EXCLUDED.has(p)).map((path) => {
     const r = resolve(path);
     if (!r) throw new Error(`Route senza pagina: ${path}`);
     const body = renderToString(<React.Fragment>{r.el}</React.Fragment>);
     const html = rewrite(unhide(body));
     const images = [...html.matchAll(/\{\{ASSETS\}\}\/img\/([^"]+)"/g)].map((m) => m[1]);
-    return { path, slug: slugOf(path), meta: r.meta, ld: jsonLd(r.meta), html, images: [...new Set(images)] };
+    return { path, group: groupOf(path), slug: slugOf(path), meta: r.meta, ld: jsonLd(r.meta), html, images: [...new Set(images)] };
   });
 }
