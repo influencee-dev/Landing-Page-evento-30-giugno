@@ -278,12 +278,7 @@ function inft_article_data( $post ) {
 
 /** Dati strutturati: Article + percorso + FAQ, con editore Influencee. */
 function inft_article_ld( $a ) {
-	$logo    = get_theme_mod( 'custom_logo' ) ? wp_get_attachment_image_url( (int) get_theme_mod( 'custom_logo' ), 'full' ) : get_site_icon_url( 512 );
-	// stessa entità delle altre pagine del plugin (@id /#org): coerenza per Google e motori AI
-	$org     = array( '@type' => 'Organization', '@id' => home_url( '/#org' ), 'name' => 'Influencee', 'legalName' => INFT_COMPANY, 'url' => home_url( '/' ) );
-	if ( $logo ) {
-		$org['logo'] = array( '@type' => 'ImageObject', 'url' => $logo );
-	}
+	$org     = inft_org_ld(); // stessa entità delle altre pagine (Core)
 	$article = array(
 		'@type'            => 'BlogPosting',
 		'@id'              => $a['url'] . '#articolo',
@@ -338,7 +333,7 @@ function inft_article_card( $p ) {
 	$min = max( 1, (int) round( count( preg_split( '/\s+/u', trim( wp_strip_all_tags( $p->post_content ) ) ) ) / 200 ) );
 	return '<article class="ia-card"><a href="' . esc_url( get_permalink( $p ) ) . '">'
 		. ( $img ? '<img src="' . esc_url( $img ) . '" alt="" loading="lazy" decoding="async" width="768" height="576">' : '<span class="ia-card-ph" aria-hidden="true"></span>' )
-		. '<span class="ia-card-meta"><span class="ia-pill ia-pill-sm">' . esc_html( $c ? $c[0]->name : 'Blog' ) . '</span> ' . (int) $min . ' min</span>'
+		. '<span class="ia-card-meta"><span class="inf-pill inf-pill-sm">' . esc_html( $c ? $c[0]->name : 'Blog' ) . '</span> ' . (int) $min . ' min</span>'
 		. '<h3>' . esc_html( wp_strip_all_tags( get_the_title( $p ) ) ) . '</h3>'
 		. '<time datetime="' . esc_attr( get_post_time( 'c', false, $p ) ) . '">' . esc_html( get_the_date( 'j F Y', $p ) ) . '</time>'
 		. '</a></article>';
@@ -356,16 +351,16 @@ function inft_article_related( $post, $a ) {
 function inft_article_html( $post ) {
 	$a   = inft_article_data( $post );
 	$e   = 'esc_html';
-	$h   = '<main id="ia" class="ia" data-page-type="articolo">';
+	$h   = '<main id="ia" class="ia inf-scope" data-inft-track data-page-type="articolo">';
 	$h  .= '<article class="ia-art">';
 	// testata
-	$h .= '<header class="ia-hero">';
+	$h .= '<header class="ia-hero" data-section="testata">';
 	if ( $a['image'] ) {
 		$h .= '<img class="ia-hero-bg" src="' . esc_url( $a['image'] ) . '" alt="" fetchpriority="high" decoding="async">';
 	}
 	$h .= '<div class="ia-wrap ia-hero-in">';
 	$h .= '<nav class="ia-crumbs" aria-label="Percorso"><ol><li><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li><li><a href="' . esc_url( $a['blog_url'] ) . '">Blog</a></li><li><a href="' . esc_url( $a['cat_url'] ) . '">' . $e( $a['cat'] ) . '</a></li><li aria-current="page">Articolo</li></ol></nav>';
-	$h .= '<a class="ia-pill" href="' . esc_url( $a['cat_url'] ) . '">' . $e( $a['cat'] ) . '</a>';
+	$h .= '<a class="inf-pill" href="' . esc_url( $a['cat_url'] ) . '">' . $e( $a['cat'] ) . '</a>';
 	$h .= '<h1>' . $e( $a['title'] ) . '</h1>';
 	if ( $a['excerpt'] ) {
 		$h .= '<p class="ia-lead">' . $e( $a['excerpt'] ) . '</p>';
@@ -374,46 +369,46 @@ function inft_article_html( $post ) {
 	$h .= '</div></header>';
 	// corpo + colonna
 	$h .= '<div class="ia-wrap ia-grid"><div class="ia-body">';
-	$h .= '<div class="ia-content">' . $a['html'] . '</div>'; // phpcs:ignore -- testo dell'articolo già filtrato da WordPress e ripulito
+	$h .= '<div class="ia-content" data-section="testo" data-inft-read>' . $a['html'] . '</div>'; // phpcs:ignore -- testo dell'articolo già filtrato da WordPress e ripulito
 	if ( $a['faq_show'] ) {
-		$h .= '<section class="ia-faq" aria-labelledby="ia-faq-t"><h2 id="ia-faq-t">Domande frequenti</h2>';
+		$h .= '<section class="ia-faq" data-section="faq" aria-labelledby="ia-faq-t"><h2 id="ia-faq-t">Domande frequenti</h2>';
 		foreach ( $a['faq'] as $q ) {
 			$h .= '<details><summary>' . $e( $q['q'] ) . '</summary><p>' . $e( $q['a'] ) . '</p></details>';
 		}
 		$h .= '</section>';
 	}
-	$h .= '<aside class="ia-author">' . ( $a['avatar'] ? '<img src="' . esc_url( $a['avatar'] ) . '" alt="" width="64" height="64" loading="lazy">' : '' ) . '<div><p class="ia-author-n">' . $e( $a['author'] ) . '</p><p>' . $e( $a['author_bio'] ) . '</p></div></aside>';
+	$h .= '<aside class="ia-author" data-section="autore">' . ( $a['avatar'] ? '<img src="' . esc_url( $a['avatar'] ) . '" alt="" width="64" height="64" loading="lazy">' : '' ) . '<div><p class="ia-author-n">' . $e( $a['author'] ) . '</p><p>' . $e( $a['author_bio'] ) . '</p></div></aside>';
 	$h .= '</div><aside class="ia-side">';
 	if ( $a['toc'] ) {
-		$h .= '<nav class="ia-toc" aria-labelledby="ia-toc-t"><p id="ia-toc-t" class="ia-label">In questo articolo</p><ol>';
+		$h .= '<nav class="ia-toc" data-section="indice" aria-labelledby="ia-toc-t"><p id="ia-toc-t" class="inf-label">In questo articolo</p><ol>';
 		foreach ( $a['toc'] as $t ) {
 			$h .= '<li><a href="#' . esc_attr( $t['id'] ) . '">' . $e( $t['text'] ) . '</a></li>';
 		}
-		$h .= '</ol><button type="button" class="ia-copy" data-ia-copy>Copia il link</button></nav>';
+		$h .= '</ol><button type="button" class="ia-copy" data-inft-copy>Copia il link</button></nav>';
 	}
-	$h .= '<div class="ia-cta"><p class="ia-cta-t">Vuoi applicarlo alla tua campagna?</p><p>Ti proponiamo una prima selezione di creator italiani adatti al tuo brand.</p><a href="#ia-lead" class="ia-btn ia-btn-acid">Parliamone</a></div>';
+	$h .= '<div class="ia-cta" data-section="box_laterale"><p class="ia-cta-t">Vuoi applicarlo alla tua campagna?</p><p>Ti proponiamo una prima selezione di creator italiani adatti al tuo brand.</p><a href="#ia-lead" class="inf-btn inf-btn-acid">Parliamone</a></div>';
 	$h .= '</aside></div></article>';
 	// lead verso tandem (lo script del sito raccoglie i form con data-tandem)
-	$h .= '<section id="ia-lead" class="ia-leadsec"><div class="ia-wrap ia-lead-grid"><div><p class="ia-eyebrow">Selezione gratuita</p><h2>Ti mandiamo i creator <em>adatti alla tua campagna</em></h2><p>Dicci categoria, zona e budget: il team di Influencee ti propone una prima selezione di creator italiani. Nessun impegno.</p></div>';
-	$h .= '<form class="ia-form" id="lead-form-articolo" data-tandem data-form="lead_articolo" data-inft-lead>'
-		. '<p class="ia-f"><label for="ia-nome">Nome</label><input id="ia-nome" name="nome" autocomplete="name" required></p>'
-		. '<p class="ia-f"><label for="ia-email">Email</label><input id="ia-email" type="email" name="email" autocomplete="email" required></p>'
-		. '<p class="ia-f"><label for="ia-tel">Telefono (facoltativo)</label><input id="ia-tel" type="tel" name="telefono" autocomplete="tel"></p>'
-		. '<p class="ia-f"><label for="ia-rich">Di cosa hai bisogno</label><textarea id="ia-rich" name="richiesta" rows="3" placeholder="Brand, categoria, zona, budget…"></textarea></p>'
-		. '<p class="ia-f"><label for="ia-art">Articolo letto</label><textarea id="ia-art" name="risultato_tool" rows="2" readonly>' . $e( 'Articolo: ' . $a['title'] ) . '</textarea></p>'
-		. '<label class="ia-check"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e tool gratuiti di Influencee (facoltativo)</label>'
-		. '<button type="submit" class="ia-btn">Ricevi la selezione</button>'
-		. '<p class="ia-small">Usiamo i tuoi dati solo per risponderti. <a href="' . esc_url( home_url( '/privacy-policy/' ) ) . '">Informativa privacy</a></p>'
-		. '<p class="ia-ok" role="status" hidden>Richiesta ricevuta: ti rispondiamo presto.</p>'
+	$h .= '<section id="ia-lead" class="ia-leadsec" data-section="modulo_lead"><div class="ia-wrap ia-lead-grid"><div><p class="inf-eyebrow">Selezione gratuita</p><h2>Ti mandiamo i creator <em>adatti alla tua campagna</em></h2><p>Dicci categoria, zona e budget: il team di Influencee ti propone una prima selezione di creator italiani. Nessun impegno.</p></div>';
+	$h .= '<form class="inf-form" id="lead-form-articolo" data-tandem data-form="lead_articolo" data-inft-lead>'
+		. '<p class="inf-f"><label for="ia-nome">Nome</label><input id="ia-nome" name="nome" autocomplete="name" required></p>'
+		. '<p class="inf-f"><label for="ia-email">Email</label><input id="ia-email" type="email" name="email" autocomplete="email" required></p>'
+		. '<p class="inf-f"><label for="ia-tel">Telefono (facoltativo)</label><input id="ia-tel" type="tel" name="telefono" autocomplete="tel"></p>'
+		. '<p class="inf-f"><label for="ia-rich">Di cosa hai bisogno</label><textarea id="ia-rich" name="richiesta" rows="3" placeholder="Brand, categoria, zona, budget…"></textarea></p>'
+		. '<p class="inf-f"><label for="ia-art">Articolo letto</label><textarea id="ia-art" name="risultato_tool" rows="2" readonly>' . $e( 'Articolo: ' . $a['title'] ) . '</textarea></p>'
+		. '<label class="inf-check"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e tool gratuiti di Influencee (facoltativo)</label>'
+		. '<button type="submit" class="inf-btn">Ricevi la selezione</button>'
+		. '<p class="inf-small">Usiamo i tuoi dati solo per risponderti. <a href="' . esc_url( home_url( '/privacy-policy/' ) ) . '">Informativa privacy</a></p>'
+		. '<p class="inf-ok" role="status" hidden>Richiesta ricevuta: ti rispondiamo presto.</p>'
 		. '</form></div></section>';
 	// correlati
 	$rel = inft_article_related( $post, $a );
 	if ( $rel ) {
-		$h .= '<section class="ia-related"><div class="ia-wrap"><h2>Articoli <em>correlati</em></h2><div class="ia-cards">';
+		$h .= '<section class="ia-related" data-section="correlati"><div class="ia-wrap"><h2>Articoli <em>correlati</em></h2><div class="ia-cards">';
 		foreach ( $rel as $p ) {
 			$h .= inft_article_card( $p );
 		}
-		$h .= '</div><p class="ia-more"><a href="' . esc_url( $a['blog_url'] ) . '" class="ia-btn ia-btn-line">Tutti gli articoli</a></p></div></section>';
+		$h .= '</div><p class="ia-more"><a href="' . esc_url( $a['blog_url'] ) . '" class="inf-btn inf-btn-line">Tutti gli articoli</a></p></div></section>';
 	}
 	return $h . '</main>';
 }
@@ -465,9 +460,9 @@ add_action(
 		if ( ! inft_article_current() ) {
 			return;
 		}
-		wp_enqueue_style( 'inft-fonts', 'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700&family=Inter:wght@400;600&display=swap', array(), null );
-		wp_enqueue_style( 'inft-articolo', INFT_URL . 'assets/articolo.css', array(), INFT_VERSION );
-		wp_enqueue_script( 'inft-articolo', INFT_URL . 'assets/articolo.js', array(), INFT_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+		inft_enqueue_base(); // Core: CSS base + tracciamento GA4
+		wp_enqueue_style( 'inft-articolo', INFA_URL . 'assets/articolo.css', array( 'inft-base' ), INFA_VERSION );
+		wp_enqueue_script( 'inft-articolo', INFA_URL . 'assets/articolo.js', array(), INFA_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	},
 	100
 );

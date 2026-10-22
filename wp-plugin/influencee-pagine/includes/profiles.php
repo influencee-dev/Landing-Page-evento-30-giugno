@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 function inft_profile_data() {
 	static $d = null;
 	if ( null === $d ) {
-		$file = INFT_DIR . 'pages/profile-data.json';
+		$file = INFP_DIR . 'pages/profile-data.json';
 		$d    = file_exists( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : array();
 		$d    = is_array( $d ) ? $d : array();
 	}
@@ -278,7 +278,7 @@ function inft_profile_ld( $p, $url, $title, $desc ) {
 /** La pagina profilo della richiesta corrente, nel formato delle altre pagine del plugin. */
 function inft_profile_page() {
 	$s = inft_settings();
-	if ( empty( $s['profiles'] ) || ! did_action( 'wp' ) || ! is_singular( 'creator' ) || ! file_exists( INFT_DIR . 'pages/creator-profile.html' ) ) {
+	if ( empty( $s['profiles'] ) || ! did_action( 'wp' ) || ! is_singular( 'creator' ) || ! file_exists( INFP_DIR . 'pages/creator-profile.html' ) ) {
 		return null;
 	}
 	$post = get_queried_object();
@@ -291,6 +291,7 @@ function inft_profile_page() {
 	$url               = get_permalink( $post );
 	return array(
 		'slug'        => 'creator-profile',
+		'src'         => INFP_DIR,
 		'group'       => 'profilo',
 		'label'       => 'Creator della stessa zona',
 		'title'       => $t,

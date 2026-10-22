@@ -1,0 +1,37 @@
+/* Influencee Core · CSS base condiviso dalle pagine HTML5 dei plugin (Articoli, Annunci).
+   Colori e caratteri del sito (src/index.css). Tutto sotto .inf-scope per non toccare tema, header e footer. */
+.inf-scope{--ink:#1d1d1f;--paper:#f6f6f6;--line:#e4e4e4;--mute:#6b6b6b;--brand:#ff1f8f;--brand-ink:#d6006f;--brand-soft:#ffe3f1;--acid:#c8ff1a;--acid-soft:#f2ffc9;--head:"Inter Tight","Inter",ui-sans-serif,system-ui,sans-serif;
+  font-family:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#fff;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
+.inf-scope *,.inf-scope *::before,.inf-scope *::after{box-sizing:border-box}
+.inf-scope img{max-width:100%;height:auto}
+.inf-scope a{color:inherit}
+.inf-scope h1,.inf-scope h2,.inf-scope h3{font-family:var(--head);font-weight:600;color:inherit;margin:0}
+.inf-scope em{font-style:normal;color:var(--brand)}
+.inf-wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+@media(min-width:640px){.inf-wrap{padding:0 24px}}
+.inf-label{margin:0;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.inf-eyebrow{display:inline-block;margin:0;border-radius:999px;background:var(--brand-soft);color:var(--brand-ink);padding:6px 12px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.inf-pill{display:inline-block;border-radius:999px;background:var(--acid);color:var(--ink)!important;padding:6px 14px;font-size:14px;font-weight:600;text-decoration:none}
+.inf-pill-sm{margin:0;background:var(--brand);color:#fff!important;padding:4px 10px;font-size:12px}
+.inf-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;background:var(--ink);color:#fff!important;padding:12px 22px;font:600 15px/1.2 "Inter",sans-serif;text-decoration:none;cursor:pointer;white-space:normal;text-align:center}
+.inf-btn:hover{opacity:.9}
+.inf-btn[disabled]{opacity:.5;cursor:wait}
+.inf-btn-acid{background:var(--acid);color:var(--ink)!important}
+.inf-btn-line{background:#fff;color:var(--ink)!important;box-shadow:inset 0 0 0 1px var(--line)}
+.inf-form{display:grid;gap:14px;border-radius:28px;background:#fff;padding:24px;box-shadow:0 24px 48px -16px rgba(29,29,31,.28)}
+@media(min-width:640px){.inf-form{padding:32px}}
+.inf-f{display:grid;gap:6px;margin:0}
+.inf-f label,.inf-f .inf-f-l{font-size:13px;font-weight:600}
+.inf-f small{font-weight:400;color:var(--mute)}
+.inf-form input:not([type=checkbox]):not([type=radio]),.inf-form textarea,.inf-form select{width:100%;border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:12px 14px;font:400 16px/1.4 "Inter",sans-serif;color:var(--ink);box-shadow:none}
+.inf-form input:focus,.inf-form textarea:focus,.inf-form select:focus{outline:2px solid var(--brand);outline-offset:1px}
+.inf-form textarea[readonly]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.inf-form .inf-check{display:flex;align-items:flex-start;gap:8px;font-weight:400;font-size:13px;color:var(--mute)}
+.inf-form .inf-check input{width:auto;margin-top:2px}
+.inf-hint{margin:0;font-size:12px;color:var(--mute)}
+.inf-err{margin:0;font-size:12px;font-weight:600;color:#b42318}
+.inf-small{margin:0;font-size:11px;color:var(--mute)}
+.inf-ok{margin:0;border-radius:14px;background:var(--acid-soft);padding:12px 14px;font-weight:600}
+.inf-form.is-sent>.inf-f,.inf-form.is-sent>label,.inf-form.is-sent>button,.inf-form.is-sent>.inf-small{display:none}
+.inf-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
+.inf-scope [hidden]{display:none!important}

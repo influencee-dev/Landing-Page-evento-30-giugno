@@ -20,7 +20,7 @@
 .ia-crumbs a{text-decoration:none}.ia-crumbs a:hover{color:#fff}
 .ia-crumbs [aria-current]{color:#fff}
 .ia-hero-in{max-width:960px}
-.ia-pill{display:inline-block;margin-top:40px;border-radius:999px;background:var(--acid);color:var(--ink)!important;padding:6px 14px;font-size:14px;font-weight:600;text-decoration:none}
+.ia-hero .inf-pill{margin-top:40px}
 .ia-hero h1{margin-top:24px;font-size:clamp(2.1rem,6vw,4.25rem);line-height:1.04;letter-spacing:-.035em;color:#fff}
 .ia-lead{max-width:36rem;margin:24px auto 0;font-size:clamp(1rem,2.2vw,1.125rem);line-height:1.6;color:rgba(255,255,255,.75)}
 .ia-meta{margin:32px 0 0;display:flex;align-items:center;justify-content:center;gap:12px;font-size:14px}
@@ -80,7 +80,6 @@
 /* colonna laterale */
 .ia-side{display:grid;gap:16px;align-content:start}
 @media(min-width:1024px){.ia-side{position:sticky;top:110px}}
-.ia-label{margin:0;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .ia-toc{border-radius:24px;background:#fff;padding:24px;box-shadow:0 1px 0 rgba(29,29,31,.04),0 12px 32px -12px rgba(29,29,31,.14);border:1px solid var(--line)}
 .ia-toc ol{list-style:none;counter-reset:t;margin:16px 0 0;padding:0;font-size:14px}
 .ia-toc li{counter-increment:t;margin-top:10px}
@@ -93,30 +92,14 @@
 .ia-cta .ia-cta-t{margin:0;font-family:var(--head);font-size:20px;line-height:1.2;font-weight:600;color:#fff}
 
 /* pulsanti */
-.ia-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;background:var(--ink);color:#fff!important;padding:12px 22px;font:600 15px/1.2 "Inter",sans-serif;text-decoration:none;cursor:pointer;white-space:normal;text-align:center}
-.ia-btn:hover{opacity:.9}
-.ia-btn-acid{margin-top:20px;width:100%;background:var(--acid);color:var(--ink)!important}
-.ia-btn-line{background:#fff;color:var(--ink)!important;box-shadow:inset 0 0 0 1px var(--line)}
 
 /* lead verso tandem */
 .ia-leadsec{background:var(--paper);padding:64px 0}
 @media(min-width:640px){.ia-leadsec{padding:96px 0}}
 .ia-lead-grid{display:grid;gap:40px;align-items:center}
 @media(min-width:1024px){.ia-lead-grid{grid-template-columns:1fr 1fr}}
-.ia-eyebrow{display:inline-block;margin:0;border-radius:999px;background:var(--brand-soft);color:var(--brand-ink);padding:6px 12px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
 .ia-leadsec h2{margin-top:20px;font-size:clamp(2rem,4.6vw,3rem);line-height:1.05;letter-spacing:-.03em}
 .ia-leadsec h2+p{margin:20px 0 0;font-size:17px;line-height:1.6;color:var(--mute);max-width:34rem}
-.ia-form{display:grid;gap:14px;border-radius:28px;background:#fff;padding:24px;box-shadow:0 24px 48px -16px rgba(29,29,31,.28)}
-@media(min-width:640px){.ia-form{padding:32px}}
-.ia-form .ia-f{display:grid;gap:6px;margin:0}.ia-form .ia-f label{font-size:13px;font-weight:600}
-.ia-form input,.ia-form textarea{width:100%;border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:12px 14px;font:400 16px/1.4 "Inter",sans-serif;color:var(--ink);box-shadow:none}
-.ia-form input:focus,.ia-form textarea:focus{outline:2px solid var(--brand);outline-offset:1px}
-.ia-form textarea[readonly]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.ia-form .ia-check{display:flex;align-items:flex-start;gap:8px;font-weight:400;color:var(--mute)}
-.ia-form .ia-check input{width:auto;margin-top:2px}
-.ia-small{margin:0;font-size:11px;color:var(--mute)}
-.ia-ok{margin:0;border-radius:14px;background:var(--acid-soft);padding:12px 14px;font-weight:600}
-.ia-form.is-sent>.ia-f,.ia-form.is-sent>label,.ia-form.is-sent>button,.ia-form.is-sent>.ia-small{display:none}
 
 /* articoli correlati */
 .ia-related{padding:64px 0 88px}
@@ -129,7 +112,6 @@
 .ia-card-ph{background:linear-gradient(135deg,#ff1f8f,#d6006f 55%,#1d1d1f)}
 .ia-card a:hover img{transform:scale(1.02)}
 .ia-card-meta{display:flex;align-items:center;gap:10px;margin-top:18px;font-size:14px;color:var(--mute)}
-.ia-pill-sm{margin:0;background:var(--brand);color:#fff!important;padding:4px 10px;font-size:12px}
 .ia-card h3{margin-top:12px;font-size:1.25rem;line-height:1.3;letter-spacing:-.02em}
 .ia-card a:hover h3{color:var(--brand)}
 .ia-card time{display:block;margin-top:8px;font-size:14px;color:var(--mute)}
@@ -170,3 +152,5 @@
 .ifn-post__mockup [class$="__stats"]{display:flex;flex-wrap:wrap;gap:18px;margin-top:10px}
 .ifn-post__mockup [class$="__stat"] strong{display:block;font-family:var(--head);font-size:20px}
 .ifn-post__mockup [class$="__stat"] span{font-size:13px;color:var(--mute)}
+
+.ia-cta .inf-btn{margin-top:20px;width:100%}

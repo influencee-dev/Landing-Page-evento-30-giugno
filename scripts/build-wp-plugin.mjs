@@ -1,4 +1,9 @@
-// Build del plugin WordPress "influencee-tools" → dist-wp/influencee-tools.zip
+// Build dei plugin WordPress Influencee → dist-wp/<plugin>.zip
+//   influencee-core     motore pagine, SEO/GEO/AEO, tracciamento, CSS/JS (bundle del sito v2 + base HTML5), MCP
+//   influencee-tools    pagine dei tool (gruppo "tool"), senza offerte di lavoro
+//   influencee-pagine   pagine nuove e sostituzioni, profili creator, elenco
+//   influencee-articoli articoli del blog (PHP + CSS/JS propri)
+//   influencee-annunci  offerte di lavoro collegate all'app (PHP + CSS/JS propri)
 // Uso: node scripts/build-wp-plugin.mjs
 import { build, createServer } from 'vite';
 import postcss from 'postcss';
@@ -7,10 +12,14 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
-const OUT = join(ROOT, 'dist-wp/influencee-tools');
-rmSync(OUT, { recursive: true, force: true });
+const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci'];
+const D = (slug) => join(ROOT, 'dist-wp', slug);
+for (const slug of [...PLUGINS, 'influencee-tools-legacy']) rmSync(D(slug), { recursive: true, force: true });
+rmSync(join(ROOT, 'dist-wp/influencee-tools'), { recursive: true, force: true });
+const OUT = D('influencee-core'); // bundle e immagini stanno nel Core
 mkdirSync(join(OUT, 'assets/img'), { recursive: true });
-mkdirSync(join(OUT, 'pages'), { recursive: true });
+mkdirSync(join(D('influencee-tools'), 'pages'), { recursive: true });
+mkdirSync(join(D('influencee-pagine'), 'pages'), { recursive: true });
 
 // 1. bundle client (JS + CSS)
 await build({ configFile: join(ROOT, 'vite.wp-plugin.config.ts'), logLevel: 'warn' });
@@ -49,28 +58,31 @@ const { renderAll, renderProfile } = await vite.ssrLoadModule('/src/influencee/v
 const pages = renderAll();
 const profile = renderProfile();
 await vite.close();
-const meta = {};
+const meta = { 'influencee-tools': {}, 'influencee-pagine': {} };
 const imgs = new Set();
 for (const p of pages) {
-  writeFileSync(join(OUT, 'pages', `${p.slug}.html`), p.html);
-  meta[p.path] = { slug: p.slug, group: p.group, label: p.meta.label, title: p.meta.title, description: p.meta.description, ld: p.ld };
+  const target = p.group === 'tool' ? 'influencee-tools' : 'influencee-pagine';
+  writeFileSync(join(D(target), 'pages', `${p.slug}.html`), p.html);
+  meta[target][p.path] = { slug: p.slug, group: p.group, label: p.meta.label, title: p.meta.title, description: p.meta.description, ld: p.ld };
   p.images.forEach((i) => imgs.add(i));
 }
-writeFileSync(join(OUT, 'pages/meta.json'), JSON.stringify(meta, null, 1));
-writeFileSync(join(OUT, 'pages/creator-profile.html'), profile.html);
-writeFileSync(join(OUT, 'pages/profile-data.json'), JSON.stringify(profile.data));
+for (const t of Object.keys(meta)) writeFileSync(join(D(t), 'pages/meta.json'), JSON.stringify(meta[t], null, 1));
+writeFileSync(join(D('influencee-pagine'), 'pages/creator-profile.html'), profile.html);
+writeFileSync(join(D('influencee-pagine'), 'pages/profile-data.json'), JSON.stringify(profile.data));
 for (const i of imgs) {
   const src = [join(ROOT, 'public', i), join(ROOT, 'public', i.replace(/\.webp$/, '.png'))].find(existsSync);
   if (src) copyFileSync(src, join(OUT, 'assets/img', i));
   else console.warn('immagine mancante:', i);
 }
 
-// 4. PHP + readme, zip
-cpSync(join(ROOT, 'wp-plugin/influencee-tools'), OUT, { recursive: true });
+// 4. PHP, CSS/JS propri, guida; uno zip per plugin
+for (const slug of PLUGINS) cpSync(join(ROOT, 'wp-plugin', slug), D(slug), { recursive: true });
 copyFileSync(join(ROOT, 'src/influencee/v2/llms.txt'), join(OUT, 'llms.txt'));
-rmSync(join(ROOT, 'dist-wp/influencee-tools.zip'), { force: true });
-execFileSync('zip', ['-qr', 'influencee-tools.zip', 'influencee-tools'], { cwd: join(ROOT, 'dist-wp') });
 const kb = (f) => Math.round(readFileSync(f).length / 1024);
-console.log(`ok · pagine ${pages.length} · immagini ${imgs.size} · js ${kb(join(OUT, 'assets/influencee-tools.js'))} KB · css ${kb(join(OUT, 'assets/influencee-tools.css'))} KB · zip ${kb(join(ROOT, 'dist-wp/influencee-tools.zip'))} KB`);
-const byG = {}; pages.forEach((p) => (byG[p.group] = (byG[p.group] || 0) + 1)); console.log('  gruppi:', JSON.stringify(byG));
-for (const p of pages.filter((x) => x.group !== 'sostituzione' || ['/', '/influencer-italiani/'].includes(x.path))) console.log(' ', p.group.padEnd(12), p.path, '→', p.meta.title);
+for (const slug of PLUGINS) {
+  rmSync(join(ROOT, 'dist-wp', `${slug}.zip`), { force: true });
+  execFileSync('zip', ['-qr', `${slug}.zip`, slug], { cwd: join(ROOT, 'dist-wp') });
+}
+console.log(`ok · pagine ${pages.length} · immagini ${imgs.size} · js ${kb(join(OUT, 'assets/influencee-tools.js'))} KB · css ${kb(join(OUT, 'assets/influencee-tools.css'))} KB`);
+for (const slug of PLUGINS) console.log(`  ${slug.padEnd(20)} ${String(kb(join(ROOT, 'dist-wp', `${slug}.zip`))).padStart(5)} KB`, slug === 'influencee-tools' || slug === 'influencee-pagine' ? `· ${Object.keys(meta[slug]).length} pagine` : '');
+console.log('  tool:', Object.keys(meta['influencee-tools']).join(' '));

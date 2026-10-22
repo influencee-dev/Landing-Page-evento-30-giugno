@@ -1,6 +1,6 @@
 <?php
 /**
- * Azioni MCP di Influencee Tools (WordPress Abilities API + MCP Adapter).
+ * Azioni MCP dei plugin Influencee (WordPress Abilities API + MCP Adapter).
  *
  * Il server MCP già presente nel sito (/wp-json/mcp/mcp-adapter-default-server) espone
  * le "abilities" marcate mcp.public. Qui registriamo solo azioni mirate e reversibili
@@ -36,7 +36,7 @@ add_action(
 				'influencee',
 				array(
 					'label'       => 'Influencee',
-					'description' => 'Gestione delle pagine del sito influencee.it servite dal plugin Influencee Tools.',
+					'description' => 'Gestione delle pagine del sito influencee.it servite dai plugin Influencee.',
 				)
 			);
 		}
@@ -57,11 +57,14 @@ add_action(
 		wp_register_ability(
 			'influencee/stato',
 			array(
-				'label'               => 'Stato di Influencee Tools',
+				'label'               => 'Stato dei plugin Influencee',
 				'description'         => 'Versione del plugin, gruppi di pagine accesi o spenti, eccezioni, redirect, profili creator e plugin collegati (tandem-forms, WP Job Manager, LiteSpeed).',
 				'category'            => 'influencee',
 				'input_schema'        => array( 'type' => 'object', 'properties' => new stdClass(), 'additionalProperties' => false ),
 				'execute_callback'    => function () {
+					if ( ! function_exists( 'is_plugin_active' ) ) {
+						require_once ABSPATH . 'wp-admin/includes/plugin.php';
+					}
 					$s      = inft_settings();
 					$count  = array();
 					$active = array();
@@ -74,7 +77,7 @@ add_action(
 					}
 					$routes = rest_get_server()->get_routes();
 					return array(
-						'versione'        => INFT_VERSION,
+						'versione'        => INFC_VERSION,
 						'gruppi'          => $s['groups'],
 						'pagine_totali'   => $count,
 						'pagine_attive'   => $active,
@@ -85,6 +88,12 @@ add_action(
 						'tandem_forms'    => isset( $routes['/tandem-forms/v1/capture'] ),
 						'wp_job_manager'  => post_type_exists( 'job_listing' ),
 						'litespeed_cache' => defined( 'LSCWP_V' ),
+						'plugin'          => array_map(
+							function ( $f ) {
+								return is_plugin_active( $f ) ? 'attivo' : ( file_exists( WP_PLUGIN_DIR . '/' . $f ) ? 'spento' : 'non installato' );
+							},
+							array_combine( array_keys( inft_family() ), array_keys( inft_family() ) )
+						),
 					);
 				},
 				'permission_callback' => 'inft_mcp_can',
@@ -268,7 +277,8 @@ add_action(
 			)
 		);
 
-		// 7. Articoli del blog col nuovo modello
+		// 7. Articoli del blog col nuovo modello (solo se Influencee Articoli è attivo)
+		if ( function_exists( 'inft_articles_list' ) ) {
 		wp_register_ability(
 			'influencee/articoli',
 			array(
@@ -328,12 +338,14 @@ add_action(
 			)
 		);
 
-		// 8. Aggiornare questo plugin (solo il pacchetto influencee-tools, con controllo dell'impronta)
+		}
+
+		// 8. Aggiornare un plugin Influencee (solo i pacchetti della famiglia, con controllo dell'impronta)
 		wp_register_ability(
 			'influencee/aggiorna-plugin',
 			array(
-				'label'               => 'Aggiorna il plugin Influencee Tools',
-				'description'         => 'Installa una nuova versione di questo plugin da uno zip in base64. Accetta solo lo zip di influencee-tools (cartella influencee-tools/ con il file principale "Plugin Name: Influencee Tools") e solo se l\'impronta sha256 coincide. Il plugin resta attivo con le stesse impostazioni. Richiede conferma.',
+				'label'               => 'Aggiorna un plugin Influencee',
+				'description'         => 'Installa o aggiorna un plugin Influencee (influencee-core, influencee-tools, influencee-pagine, influencee-articoli, influencee-annunci) da uno zip in base64. Accetta solo zip con una di queste cartelle e il file principale col nome giusto, e solo se l\'impronta sha256 coincide. Le impostazioni restano; con attiva=true il plugin viene attivato. Richiede conferma.',
 				'category'            => 'influencee',
 				'input_schema'        => array(
 					'type'                 => 'object',
@@ -341,6 +353,7 @@ add_action(
 						'zip_base64' => array( 'type' => 'string', 'maxLength' => 25000000 ),
 						'sha256'     => array( 'type' => 'string', 'pattern' => '^[a-f0-9]{64}$' ),
 						'conferma'   => array( 'type' => 'boolean' ),
+						'attiva'     => array( 'type' => 'boolean' ),
 					),
 					'required'             => array( 'zip_base64', 'sha256', 'conferma' ),
 					'additionalProperties' => false,
@@ -389,7 +402,7 @@ function inft_purge_cache() {
 	return defined( 'LSCWP_V' ) ? 'litespeed + wordpress' : 'wordpress';
 }
 
-/** Installa lo zip del plugin dopo i controlli: impronta, dimensione, contenuto solo influencee-tools/. */
+/** Installa lo zip del plugin dopo i controlli: impronta, dimensione, contenuto solo cartelle dei plugin Influencee. */
 function inft_mcp_update_plugin( $in ) {
 	if ( empty( $in['conferma'] ) ) {
 		return new WP_Error( 'inft_conferma', 'Serve conferma: true.' );
@@ -411,38 +424,45 @@ function inft_mcp_update_plugin( $in ) {
 	require_once ABSPATH . 'wp-admin/includes/misc.php';
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$tmp = wp_tempnam( 'influencee-tools.zip' );
+	$tmp = wp_tempnam( 'influencee-plugin.zip' );
 	file_put_contents( $tmp, $zip ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 	$za = new ZipArchive();
 	if ( true !== $za->open( $tmp ) ) {
 		wp_delete_file( $tmp );
 		return new WP_Error( 'inft_zip', 'Zip non leggibile.' );
 	}
-	$ok = $za->numFiles > 0;
+	$family = array( 'influencee-core' => 'Influencee Core', 'influencee-tools' => 'Influencee Tools', 'influencee-pagine' => 'Influencee Pagine', 'influencee-articoli' => 'Influencee Articoli', 'influencee-annunci' => 'Influencee Annunci' );
+	$first  = $za->numFiles > 0 ? (string) $za->getNameIndex( 0 ) : '';
+	$slug   = strtok( $first, '/' );
+	$ok     = isset( $family[ $slug ] );
 	for ( $i = 0; $ok && $i < $za->numFiles; $i++ ) {
 		$name = (string) $za->getNameIndex( $i );
-		$ok   = 0 === strpos( $name, 'influencee-tools/' ) && false === strpos( $name, '..' );
+		$ok   = 0 === strpos( $name, $slug . '/' ) && false === strpos( $name, '..' );
 	}
-	$main = $ok ? (string) $za->getFromName( 'influencee-tools/influencee-tools.php' ) : '';
+	$main = $ok ? (string) $za->getFromName( $slug . '/' . $slug . '.php' ) : '';
 	$za->close();
-	if ( ! $ok || ! preg_match( '/Plugin Name:\s*Influencee Tools\s*$/mi', $main ) || ! preg_match( '/Version:\s*([0-9.]+)/i', $main, $ver ) ) {
+	if ( ! $ok || ! preg_match( '/Plugin Name:\s*' . preg_quote( $family[ $slug ], '/' ) . '\s*$/mi', $main ) || ! preg_match( '/Version:\s*([0-9.]+)/i', $main, $ver ) ) {
 		wp_delete_file( $tmp );
-		return new WP_Error( 'inft_contenuto', 'Lo zip non è il plugin Influencee Tools: rifiutato.' );
+		return new WP_Error( 'inft_contenuto', 'Lo zip non è un plugin Influencee: rifiutato.' );
 	}
+	$file = $slug . '/' . $slug . '.php';
 	if ( ! WP_Filesystem() ) {
 		wp_delete_file( $tmp );
 		return new WP_Error( 'inft_fs', 'WordPress non può scrivere i file dei plugin su questo server.' );
 	}
-	$before   = INFT_VERSION;
+	$data     = file_exists( WP_PLUGIN_DIR . '/' . $file ) ? get_plugin_data( WP_PLUGIN_DIR . '/' . $file, false, false ) : array();
+	$before   = isset( $data['Version'] ) ? $data['Version'] : '';
+	$was_on   = is_plugin_active( $file );
 	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
 	$res      = $upgrader->install( $tmp, array( 'overwrite_package' => true ) );
 	wp_delete_file( $tmp );
 	if ( is_wp_error( $res ) || ! $res ) {
 		return is_wp_error( $res ) ? $res : new WP_Error( 'inft_install', 'Installazione non riuscita.' );
 	}
-	if ( ! is_plugin_active( 'influencee-tools/influencee-tools.php' ) ) {
-		activate_plugin( 'influencee-tools/influencee-tools.php' );
+	$act = null;
+	if ( $was_on || ! empty( $in['attiva'] ) ) {
+		$act = activate_plugin( $file );
 	}
 	inft_purge_cache();
-	return array( 'installato' => true, 'versione_prima' => $before, 'versione_nuova' => $ver[1], 'cache' => 'svuotata' );
+	return array( 'plugin' => $slug, 'installato' => true, 'versione_prima' => $before ? $before : 'nuovo', 'versione_nuova' => $ver[1], 'attivo' => is_plugin_active( $file ), 'errore_attivazione' => is_wp_error( $act ) ? $act->get_error_message() : null, 'cache' => 'svuotata' );
 }

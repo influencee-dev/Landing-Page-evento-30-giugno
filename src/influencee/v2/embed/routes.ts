@@ -30,7 +30,9 @@ const LINK_MAP: Record<string, string> = {
   '/annunci-collaborazioni/': '/offerte-lavoro-influencer/',
   '/preventivi-influencer/': '/preventivo-campagne/',
 };
-export const EXCLUDED = new Set(Object.keys(LINK_MAP));
+/** Offerte di lavoro: le serve il plugin Influencee Annunci (collegato ad app.influencee.it), non il pre-rendering. */
+export const ANNUNCI_ROUTES = ['/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/'];
+export const EXCLUDED = new Set([...Object.keys(LINK_MAP), ...ANNUNCI_ROUTES]);
 
 /** Gruppo di una pagina nel plugin: decide se è accesa all'installazione.
  *  tool = i tool restaurati (accesi) · nuova = URL che oggi su WordPress non esiste (accesa)

@@ -155,3 +155,12 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `generate_lead` con `lead_source=lead_articolo` | invio del modulo in fondo all articolo (titolo nel campo risultato in tandem) | quali articoli portano richieste | dove mettere più CTA e cosa scrivere |
 | `internal_link_click` / `cta_location` (indice, testo, correlati, box laterale) | clic nell articolo | percorsi verso tool e pagine commerciali | migliorare i link interni |
 | `faq_open`, `share` (copia link) | interazioni | domande più aperte, articoli condivisi | FAQ e contenuti da approfondire |
+
+### Offerte di lavoro (plugin Influencee Annunci)
+
+| cosa | quando | perché conta | decisione che abilita |
+|---|---|---|---|
+| `page_type=offerte_lavoro`, `job_click`, `post_job_click` | bacheca | quali annunci attirano e quanti brand vogliono pubblicare | annunci da spingere, testi della bacheca |
+| `post_job_step` (`step` 1-5, `compenso`) | ogni passo superato del percorso | dove si fermano i brand (es. passo 4 con la partita IVA) | semplificare il passo che perde di più |
+| `generate_lead` con `lead_source=lead_pubblica_offerta`, `post_job_done` | invio del percorso | offerte arrivate (anche in tandem e tra le Bozze annunci) | chi richiamare, quante offerte diventano annunci |
+| `claim_click` (verso app.influencee.it, `utm_campaign=pubblica_offerta`) | clic su "crea l'account / scegli la password" | quanti brand entrano davvero nell'app | lavorare sul passaggio sito → app |
