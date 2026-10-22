@@ -23,6 +23,9 @@ function infe_pagina_plugin() {
 
 /** Pagina o articolo singolo il cui contenuto è disegnato con Elementor. */
 function infe_contenuto_elementor() {
+	if ( infe_pagina_plugin() ) {
+		return false; // la pagina WordPress può essere Elementor, ma il contenuto lo disegna il plugin
+	}
 	if ( ! is_singular() ) {
 		return false;
 	}

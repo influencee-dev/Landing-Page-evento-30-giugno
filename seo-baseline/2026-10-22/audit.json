@@ -1,0 +1,639 @@
+[
+ {
+  "url": "/",
+  "status": 200,
+  "secondi": 16.8,
+  "kb": 130,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 19,
+  "js": 16,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Influencee",
+  "n_title": 1,
+  "description": true,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebPage",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/chi-siamo/",
+  "status": 200,
+  "secondi": 20.6,
+  "kb": 70,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 22,
+  "js": 17,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com",
+   "www.google.com"
+  ],
+  "title": "Chi Siamo – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 3,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/influencer-italiani/",
+  "status": 200,
+  "secondi": 9.3,
+  "kb": 125,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 18,
+  "js": 17,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-geo",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Influencer Italiani – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BreadcrumbList",
+   "CollectionPage",
+   "FAQPage",
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/influencer-italiani/influencer-campania/",
+  "status": 200,
+  "secondi": 7.6,
+  "kb": 100,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 18,
+  "js": 17,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-geo",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Influencer Campania – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BreadcrumbList",
+   "CollectionPage",
+   "FAQPage",
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/influencer-italiani/influencer-campania/influencer-napoli/",
+  "status": 200,
+  "secondi": 7.6,
+  "kb": 101,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 18,
+  "js": 17,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-geo",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Influencer Napoli – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BreadcrumbList",
+   "CollectionPage",
+   "FAQPage",
+   "ItemList",
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/food-influencers/",
+  "status": 200,
+  "secondi": 9.2,
+  "kb": 67,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 19,
+  "js": 16,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com",
+   "cdnjs.cloudflare.com"
+  ],
+  "title": "Food influencers – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/sport-influencers/",
+  "status": 200,
+  "secondi": 7.1,
+  "kb": 67,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 19,
+  "js": 16,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com",
+   "cdnjs.cloudflare.com"
+  ],
+  "title": "Sport Influencer – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/influencer-italiane/",
+  "status": 200,
+  "secondi": 8.1,
+  "kb": 102,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 19,
+  "js": 20,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Influencer Italiane – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 2,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/social-media-tool/",
+  "status": 200,
+  "secondi": 15.2,
+  "kb": 88,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 20,
+  "js": 14,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Tool influencer marketing gratuiti | Influencee",
+  "n_title": 1,
+  "description": true,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BreadcrumbList",
+   "FAQPage",
+   "Organization",
+   "WebPage",
+   "WebSite"
+  ],
+  "ld_doppi": false
+ },
+ {
+  "url": "/social-media-tool/costo-influencer/",
+  "status": 200,
+  "secondi": 8.8,
+  "kb": 97,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 19,
+  "js": 13,
+  "plugin_file": [
+   "elementor",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Quanto costa un influencer? Prezzi e calcolo | Influencee",
+  "n_title": 1,
+  "description": true,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BreadcrumbList",
+   "FAQPage",
+   "Organization",
+   "WebApplication",
+   "WebPage",
+   "WebSite"
+  ],
+  "ld_doppi": false
+ },
+ {
+  "url": "/social-media-tool/emoticon-da-copiare/",
+  "status": 200,
+  "secondi": 7.3,
+  "kb": 73,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 19,
+  "js": 13,
+  "plugin_file": [
+   "elementor",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Emoticon ed emoji da copiare e incollare | Influencee",
+  "n_title": 1,
+  "description": true,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BreadcrumbList",
+   "FAQPage",
+   "Organization",
+   "WebApplication",
+   "WebPage",
+   "WebSite"
+  ],
+  "ld_doppi": false
+ },
+ {
+  "url": "/offerte-lavoro-influencer/",
+  "status": 200,
+  "secondi": 7.5,
+  "kb": 58,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 19,
+  "js": 21,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Offerte di lavoro per Influencer – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/pubblica-offerta-lavoro/",
+  "status": 200,
+  "secondi": 8.2,
+  "kb": 82,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 22,
+  "js": 30,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "pubblica offerta lavoro – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 2,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/benchmark-influencer-2026-i-nuovi-standard-del-mercato/",
+  "status": 200,
+  "secondi": 8.5,
+  "kb": 60,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 7,
+  "js": 9,
+  "plugin_file": [
+   "influencee-articoli",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Benchmark Influencer 2026: I nuovi standard del Mercato – Influencee",
+  "n_title": 1,
+  "description": true,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BlogPosting",
+   "BreadcrumbList",
+   "FAQPage",
+   "Organization"
+  ],
+  "ld_doppi": false
+ },
+ {
+  "url": "/migliori-app-gestione-follower/",
+  "status": 200,
+  "secondi": 7.7,
+  "kb": 58,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 6,
+  "js": 9,
+  "plugin_file": [
+   "influencee-articoli",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Le Migliori App per la Gestione dei Follower su Instagram nel 2026 – Influencee",
+  "n_title": 1,
+  "description": true,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BlogPosting",
+   "BreadcrumbList",
+   "FAQPage",
+   "Organization"
+  ],
+  "ld_doppi": false
+ },
+ {
+  "url": "/instagram-follower-gratis-perche-evitarli-e-come-crescere-davvero/",
+  "status": 200,
+  "secondi": 7.3,
+  "kb": 59,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 8,
+  "js": 9,
+  "plugin_file": [
+   "influencee-articoli",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Instagram Follower Gratis nel 2026: Perché Evitarli e Come Crescere Davvero – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "BlogPosting",
+   "BreadcrumbList",
+   "FAQPage",
+   "Organization"
+  ],
+  "ld_doppi": false
+ },
+ {
+  "url": "/news-influencer-marketing/",
+  "status": 200,
+  "secondi": 7.2,
+  "kb": 107,
+  "chi": "wordpress",
+  "header": "vecchio",
+  "css": 23,
+  "js": 17,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-header-footer",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [
+   "hello-elementor"
+  ],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com",
+   "cdnjs.cloudflare.com"
+  ],
+  "title": "News – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 0,
+  "h1": 1,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ },
+ {
+  "url": "/privacy-policy/",
+  "status": 200,
+  "secondi": 9.1,
+  "kb": 109,
+  "chi": "plugin-influencee",
+  "header": "tema",
+  "css": 17,
+  "js": 16,
+  "plugin_file": [
+   "elementor",
+   "elementor-pro",
+   "influencee-core",
+   "influencee-tema",
+   "mailin",
+   "wp-job-manager"
+  ],
+  "tema_wp": [],
+  "esterni": [
+   "cdn.brevo.com",
+   "cdn.by.wonderpush.com"
+  ],
+  "title": "Privacy Policy – Influencee",
+  "n_title": 1,
+  "description": false,
+  "n_canonical": 1,
+  "h1": 1,
+  "ld": [
+   "Organization",
+   "SiteNavigationElement",
+   "WebSite"
+  ],
+  "ld_doppi": true
+ }
+]

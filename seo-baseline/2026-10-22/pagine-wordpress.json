@@ -1,0 +1,1793 @@
+[
+{
+"id": 27281,
+"url": "/cost/",
+"titolo": "cost",
+"template": "",
+"elementor": true,
+"kb": 14,
+"modificata": "2026-06-19"
+},
+{
+"id": 27248,
+"url": "/agenzia-content-creator/",
+"titolo": "Agenzia content creator e UGC creator in Italia",
+"template": "",
+"elementor": false,
+"kb": 21,
+"modificata": "2026-06-17"
+},
+{
+"id": 27131,
+"url": "/influencee-extension-privacy/",
+"titolo": "influencee extension privacy",
+"template": "",
+"elementor": true,
+"kb": 12,
+"modificata": "2026-05-14"
+},
+{
+"id": 26653,
+"url": "/selezione-ambassador-influencee-2026/",
+"titolo": "Selezione Ambassador Influencee 2026",
+"template": "",
+"elementor": true,
+"kb": 29,
+"modificata": "2026-04-03"
+},
+{
+"id": 26626,
+"url": "/guida-ristoranti/",
+"titolo": "guida ristoranti",
+"template": "",
+"elementor": true,
+"kb": 12,
+"modificata": "2026-03-05"
+},
+{
+"id": 26587,
+"url": "/promo-social-media/",
+"titolo": "promo social media",
+"template": "",
+"elementor": true,
+"kb": 23,
+"modificata": "2026-02-21"
+},
+{
+"id": 26575,
+"url": "/corso-content-creator/",
+"titolo": "corso content creator",
+"template": "",
+"elementor": true,
+"kb": 47,
+"modificata": "2026-02-21"
+},
+{
+"id": 18,
+"url": "/chi-siamo/",
+"titolo": "Chi Siamo",
+"template": "",
+"elementor": true,
+"kb": 20,
+"modificata": "2026-01-19"
+},
+{
+"id": 26506,
+"url": "/social-media-tool-form/",
+"titolo": "social media tool form",
+"template": "",
+"elementor": true,
+"kb": 30,
+"modificata": "2026-02-23"
+},
+{
+"id": 26432,
+"url": "/guide-e-risorse/",
+"titolo": "guide e risorse",
+"template": "",
+"elementor": true,
+"kb": 31,
+"modificata": "2026-02-24"
+},
+{
+"id": 26385,
+"url": "/guida-definitiva-al-micro-influencer-marketing-2026/",
+"titolo": "Guida Definitiva al Micro Influencer marketing 2026",
+"template": "",
+"elementor": false,
+"kb": 22,
+"modificata": "2026-01-24"
+},
+{
+"id": 26370,
+"url": "/gestione-social-influencee/",
+"titolo": "gestione social influencee",
+"template": "",
+"elementor": true,
+"kb": 13,
+"modificata": "2026-06-18"
+},
+{
+"id": 26363,
+"url": "/gestione-campagne-influecer/",
+"titolo": "gestione campagne influecer",
+"template": "",
+"elementor": true,
+"kb": 22,
+"modificata": "2026-06-18"
+},
+{
+"id": 23423,
+"url": "/amministrazione-pagamenti-influencer/",
+"titolo": "Amministrazione pagamenti influencer",
+"template": "",
+"elementor": true,
+"kb": 31,
+"modificata": "2026-01-19"
+},
+{
+"id": 2,
+"url": "/agenzia-influencer/",
+"titolo": "Agenzia influencer",
+"template": "",
+"elementor": true,
+"kb": 31,
+"modificata": "2026-06-18"
+},
+{
+"id": 1129,
+"url": "/academy-influencer-marketing/",
+"titolo": "Academy Influencer Marketing",
+"template": "",
+"elementor": true,
+"kb": 27,
+"modificata": "2026-01-19"
+},
+{
+"id": 24205,
+"url": "/tool-influencer/",
+"titolo": "Alberatura &#8211; tool influencer &#8211; per Brand",
+"template": "",
+"elementor": true,
+"kb": 22,
+"modificata": "2026-06-18"
+},
+{
+"id": 24171,
+"url": "/gestionale-influencer/",
+"titolo": "Alberatura &#8211; gestionale influencer &#8211; per Agenzie",
+"template": "",
+"elementor": true,
+"kb": 42,
+"modificata": "2026-06-18"
+},
+{
+"id": 26320,
+"url": "/gestione-ugc/",
+"titolo": "gestione UGC",
+"template": "",
+"elementor": true,
+"kb": 24,
+"modificata": "2026-01-08"
+},
+{
+"id": 13805,
+"url": "/comic-influencers/",
+"titolo": "Comic Influencers",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2026-01-19"
+},
+{
+"id": 13796,
+"url": "/artist-influencer/",
+"titolo": "Artist Influencers",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2026-01-19"
+},
+{
+"id": 25935,
+"url": "/contratto-social-media-influencer-ugc/",
+"titolo": "contratto social media, influencer, UGC",
+"template": "",
+"elementor": true,
+"kb": 30,
+"modificata": "2026-01-19"
+},
+{
+"id": 24505,
+"url": "/consulenza-creator/",
+"titolo": "consulenza creator",
+"template": "",
+"elementor": true,
+"kb": 27,
+"modificata": "2026-06-18"
+},
+{
+"id": 13821,
+"url": "/content-creator/",
+"titolo": "Content Creator Italiani",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2026-01-19"
+},
+{
+"id": 8627,
+"url": "/beauty-influencers/",
+"titolo": "Beauty Influencers",
+"template": "",
+"elementor": true,
+"kb": 24,
+"modificata": "2026-01-19"
+},
+{
+"id": 1505,
+"url": "/academy-influencer-marketing/corso-facebook/",
+"titolo": "Corso Facebook",
+"template": "",
+"elementor": true,
+"kb": 31,
+"modificata": "2026-01-19"
+},
+{
+"id": 26084,
+"url": "/converti-immagini-in-webp/",
+"titolo": "Converti Immagini in webp",
+"template": "",
+"elementor": true,
+"kb": 36,
+"modificata": "2025-11-12"
+},
+{
+"id": 26079,
+"url": "/social-media-tool/comprimi-immagini-online/",
+"titolo": "Comprimi Immagini online",
+"template": "",
+"elementor": true,
+"kb": 37,
+"modificata": "2025-11-12"
+},
+{
+"id": 26053,
+"url": "/social-media-tool/calcola-preventivo-gestione-social/",
+"titolo": "Calcola Preventivo Gestione Social",
+"template": "",
+"elementor": true,
+"kb": 42,
+"modificata": "2025-11-12"
+},
+{
+"id": 26016,
+"url": "/social-media-tool/generatore-prompt-per-social-media-manager/",
+"titolo": "Generatore Prompt per social media manager",
+"template": "",
+"elementor": true,
+"kb": 47,
+"modificata": "2025-11-12"
+},
+{
+"id": 25921,
+"url": "/social-media-tool/report-social-organico/",
+"titolo": "Report Social Organico",
+"template": "",
+"elementor": true,
+"kb": 46,
+"modificata": "2025-11-12"
+},
+{
+"id": 25886,
+"url": "/social-media-tool/anteprima-dei-tuoi-post-sui-social/",
+"titolo": "Anteprima dei tuoi post sui social",
+"template": "",
+"elementor": true,
+"kb": 42,
+"modificata": "2025-11-12"
+},
+{
+"id": 25873,
+"url": "/social-media-tool/social-campaign-planner/",
+"titolo": "Social campaign planner",
+"template": "",
+"elementor": true,
+"kb": 51,
+"modificata": "2025-11-12"
+},
+{
+"id": 25863,
+"url": "/social-media-tool/",
+"titolo": "social media tool",
+"template": "",
+"elementor": true,
+"kb": 29,
+"modificata": "2026-01-25"
+},
+{
+"id": 25855,
+"url": "/social-media-tool/calendario-editoriale/",
+"titolo": "Calendario Editoriale",
+"template": "elementor_header_footer",
+"elementor": true,
+"kb": 56,
+"modificata": "2025-11-12"
+},
+{
+"id": 25850,
+"url": "/social-media-tool/piano-editoriale-online/",
+"titolo": "Piano Editoriale Online",
+"template": "",
+"elementor": true,
+"kb": 41,
+"modificata": "2025-11-12"
+},
+{
+"id": 25841,
+"url": "/social-media-tool/social-media-strategy-tool/",
+"titolo": "Social Media Strategy Tool",
+"template": "",
+"elementor": true,
+"kb": 46,
+"modificata": "2025-11-12"
+},
+{
+"id": 25781,
+"url": "/social-media-tool/emoticon-da-copiare/",
+"titolo": "Emoticon da copiare",
+"template": "",
+"elementor": true,
+"kb": 57,
+"modificata": "2025-11-12"
+},
+{
+"id": 25753,
+"url": "/corso-gratuito-social-ads-2025/",
+"titolo": "corso gratuito social ads 2025",
+"template": "",
+"elementor": true,
+"kb": 35,
+"modificata": "2026-04-03"
+},
+{
+"id": 25703,
+"url": "/corsi-content-creator/",
+"titolo": "corsi content creator",
+"template": "",
+"elementor": true,
+"kb": 28,
+"modificata": "2025-11-24"
+},
+{
+"id": 25705,
+"url": "/programma-corso-content-creator/",
+"titolo": "programma corso content creator",
+"template": "",
+"elementor": true,
+"kb": 23,
+"modificata": "2025-09-27"
+},
+{
+"id": 25602,
+"url": "/tutorial-piattaforma-influencee/",
+"titolo": "Tutorial Piattaforma Influencee",
+"template": "",
+"elementor": true,
+"kb": 76,
+"modificata": "2026-06-18"
+},
+{
+"id": 25042,
+"url": "/influencer-italiani/influencer-liguria/influencer-imperia/",
+"titolo": "Influencer Imperia",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 24959,
+"url": "/influencer-italiani/influencer-friuli-venezia-giulia/influencer-gorizia/",
+"titolo": "Influencer Gorizia",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 24686,
+"url": "/promo-bundle/",
+"titolo": "Promo bundle",
+"template": "elementor_canvas",
+"elementor": true,
+"kb": 61,
+"modificata": "2025-08-26"
+},
+{
+"id": 24521,
+"url": "/modulo-consulenza-creator/",
+"titolo": "modulo consulenza creator",
+"template": "",
+"elementor": true,
+"kb": 26,
+"modificata": "2025-08-06"
+},
+{
+"id": 24179,
+"url": "/demo-piattaforma-influencer/",
+"titolo": "Demo piattaforma influencer",
+"template": "",
+"elementor": true,
+"kb": 7,
+"modificata": "2026-06-18"
+},
+{
+"id": 23399,
+"url": "/creator-manager/",
+"titolo": "Creator manager",
+"template": "",
+"elementor": true,
+"kb": 30,
+"modificata": "2025-09-26"
+},
+{
+"id": 23400,
+"url": "/gestione-campagne-influencer/",
+"titolo": "Gestione campagne influencer",
+"template": "",
+"elementor": true,
+"kb": 32,
+"modificata": "2025-09-26"
+},
+{
+"id": 23364,
+"url": "/trova-influencer/",
+"titolo": "Trova influencer italiani e content creator",
+"template": "",
+"elementor": true,
+"kb": 31,
+"modificata": "2026-06-18"
+},
+{
+"id": 23320,
+"url": "/piattaforma-influencer/",
+"titolo": "Piattaforma influencer",
+"template": "",
+"elementor": true,
+"kb": 71,
+"modificata": "2026-06-18"
+},
+{
+"id": 8639,
+"url": "/travel-influencers/",
+"titolo": "Travel Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 8637,
+"url": "/pets-influencers/",
+"titolo": "Pets Influencers",
+"template": "",
+"elementor": true,
+"kb": 16,
+"modificata": "2025-07-03"
+},
+{
+"id": 8757,
+"url": "/influencer-italiani/",
+"titolo": "Influencer Italiani",
+"template": "",
+"elementor": true,
+"kb": 38,
+"modificata": "2025-06-09"
+},
+{
+"id": 5697,
+"url": "/influencer-italiani/influencer-campania/influencer-salerno/",
+"titolo": "Influencer Salerno",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 5685,
+"url": "/influencer-italiani/influencer-campania/influencer-napoli/",
+"titolo": "Influencer Napoli",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 5411,
+"url": "/influencer-italiani/influencer-lombardia/influencer-como/",
+"titolo": "Influencer Como",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 13183,
+"url": "/influencer-italiani/influencer-sardegna/influencer-nuoro/",
+"titolo": "Influencer Nuoro",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-07"
+},
+{
+"id": 13882,
+"url": "/wedding-influencers/",
+"titolo": "Wedding Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 8547,
+"url": "/fashion-influencers/",
+"titolo": "Fashion Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 13864,
+"url": "/music-influencers/",
+"titolo": "Music Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 13848,
+"url": "/mom-influencers/",
+"titolo": "Mom Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 13830,
+"url": "/photography-influencers/",
+"titolo": "Photography Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 4795,
+"url": "/influencer-italiani/influencer-lombardia/influencer-milano/",
+"titolo": "Influencer Milano",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 8633,
+"url": "/lifestyle-influencers/",
+"titolo": "Lifestyle Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 8631,
+"url": "/health-influencers/",
+"titolo": "Health Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 12869,
+"url": "/influencer-italiani/influencer-calabria/influencer-catanzaro/",
+"titolo": "Influencer Catanzaro",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-05"
+},
+{
+"id": 12860,
+"url": "/influencer-italiani/influencer-calabria/influencer-reggio-calabria/",
+"titolo": "Influencer Reggio Calabria",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-07-01"
+},
+{
+"id": 12851,
+"url": "/influencer-italiani/influencer-calabria/influencer-cosenza/",
+"titolo": "Influencer Cosenza",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-05"
+},
+{
+"id": 12821,
+"url": "/influencer-italiani/influencer-umbria/influencer-terni/",
+"titolo": "Influencer Terni",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-08"
+},
+{
+"id": 12812,
+"url": "/influencer-italiani/influencer-sicilia/influencer-ragusa/",
+"titolo": "Influencer Ragusa",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12803,
+"url": "/influencer-italiani/influencer-sicilia/influencer-siracusa/",
+"titolo": "Influencer Siracusa",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12794,
+"url": "/influencer-italiani/influencer-sicilia/influencer-agrigento/",
+"titolo": "Influencer Agrigento",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 8629,
+"url": "/fitness-influencers/",
+"titolo": "Fitness Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 12774,
+"url": "/influencer-italiani/influencer-sicilia/influencer-messina/",
+"titolo": "Influencer Messina",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12759,
+"url": "/influencer-italiani/influencer-puglia/influencer-foggia/",
+"titolo": "Influencer Foggia",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 11299,
+"url": "/virtual-influencer/",
+"titolo": "Virtual Influencer",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 12750,
+"url": "/influencer-italiani/influencer-puglia/influencer-brindisi/",
+"titolo": "Influencer Brindisi",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12741,
+"url": "/influencer-italiani/influencer-puglia/influencer-taranto/",
+"titolo": "Influencer Taranto",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12729,
+"url": "/influencer-italiani/influencer-marche/influencer-ascoli-piceno/",
+"titolo": "Influencer Ascoli Piceno",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12720,
+"url": "/influencer-italiani/influencer-marche/influencer-macerata/",
+"titolo": "Influencer Macerata",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-06"
+},
+{
+"id": 12707,
+"url": "/influencer-italiani/influencer-liguria/influencer-savona/",
+"titolo": "Influencer Savona",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 13839,
+"url": "/entrepreneur-influencers/",
+"titolo": "Entrepreneur Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 12688,
+"url": "/influencer-italiani/influencer-liguria/influencer-la-spezia/",
+"titolo": "Influencer La Spezia",
+"template": "",
+"elementor": true,
+"kb": 15,
+"modificata": "2025-09-06"
+},
+{
+"id": 12671,
+"url": "/influencer-italiani/influencer-campania/influencer-caserta/",
+"titolo": "Influencer Caserta",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 12670,
+"url": "/influencer-italiani/influencer-campania/influencer-benevento/",
+"titolo": "Influencer Benevento",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12636,
+"url": "/influencer-italiani/influencer-abruzzo/influencer-laquila/",
+"titolo": "Influencer L&#8217;Aquila",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-05"
+},
+{
+"id": 12618,
+"url": "/influencer-italiani/influencer-toscana/influencer-siena/",
+"titolo": "Influencer Siena",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 12609,
+"url": "/influencer-italiani/influencer-toscana/influencer-prato/",
+"titolo": "Influencer Prato",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 13280,
+"url": "/influencer-italiani/influencer-friuli-venezia-giulia/influencer-trieste/",
+"titolo": "Influencer Trieste",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12586,
+"url": "/influencer-italiani/influencer-toscana/influencer-pistoia/",
+"titolo": "Influencer Pistoia",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12577,
+"url": "/influencer-italiani/influencer-toscana/influencer-lucca/",
+"titolo": "Influencer Lucca",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 12562,
+"url": "/influencer-italiani/influencer-toscana/influencer-livorno/",
+"titolo": "Influencer Livorno",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 3908,
+"url": "/offerte-lavoro-influencer/",
+"titolo": "Offerte di lavoro per Influencer",
+"template": "",
+"elementor": true,
+"kb": 6,
+"modificata": "2025-03-14"
+},
+{
+"id": 3906,
+"url": "/pubblica-offerta-lavoro/",
+"titolo": "pubblica offerta lavoro",
+"template": "",
+"elementor": true,
+"kb": 10,
+"modificata": "2025-10-13"
+},
+{
+"id": 12550,
+"url": "/influencer-italiani/influencer-toscana/influencer-arezzo/",
+"titolo": "Influencer Arezzo",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 118,
+"url": "/",
+"titolo": "home",
+"template": "",
+"elementor": true,
+"kb": 80,
+"modificata": "2026-06-18"
+},
+{
+"id": 11820,
+"url": "/influencer-italiani/influencer-abruzzo/influencer-pescara/",
+"titolo": "Influencer Pescara",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-05"
+},
+{
+"id": 12520,
+"url": "/influencer-italiani/influencer-piemonte/influencer-cuneo/",
+"titolo": "Influencer Cuneo",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 3775,
+"url": "/piattaforma-influencer-marketing/",
+"titolo": "piattaforma influencer marketing",
+"template": "",
+"elementor": true,
+"kb": 38,
+"modificata": "2025-05-05"
+},
+{
+"id": 8635,
+"url": "/luxury-influencers/",
+"titolo": "Luxury Influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 12500,
+"url": "/influencer-italiani/influencer-piemonte/influencer-asti/",
+"titolo": "Influencer Asti",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-07"
+},
+{
+"id": 12488,
+"url": "/influencer-italiani/influencer-piemonte/influencer-alessandria/",
+"titolo": "Influencer Alessandria",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12470,
+"url": "/influencer-italiani/influencer-veneto/influencer-vicenza/",
+"titolo": "Influencer Vicenza",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-08"
+},
+{
+"id": 12459,
+"url": "/influencer-italiani/influencer-veneto/influencer-treviso/",
+"titolo": "Influencer Treviso",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 6191,
+"url": "/food-influencers/",
+"titolo": "Food influencers",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-07-03"
+},
+{
+"id": 8894,
+"url": "/influencer-italiani/influencer-campania/",
+"titolo": "Influencer Campania",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-05"
+},
+{
+"id": 12427,
+"url": "/influencer-italiani/influencer-veneto/influencer-rovigo/",
+"titolo": "Influencer Rovigo",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 12627,
+"url": "/influencer-italiani/influencer-abruzzo/influencer-chieti/",
+"titolo": "Influencer Chieti",
+"template": "",
+"elementor": true,
+"kb": 16,
+"modificata": "2025-09-05"
+},
+{
+"id": 12388,
+"url": "/influencer-italiani/influencer-lazio/influencer-viterbo/",
+"titolo": "Influencer Viterbo",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12372,
+"url": "/influencer-italiani/influencer-lazio/influencer-rieti/",
+"titolo": "Influencer Rieti",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 12360,
+"url": "/influencer-italiani/influencer-lazio/influencer-frosinone/",
+"titolo": "Influencer Frosinone",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12327,
+"url": "/influencer-italiani/influencer-emilia-romagna/influencer-reggioemilia/",
+"titolo": "Influencer Reggio Emilia",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12317,
+"url": "/influencer-italiani/influencer-emilia-romagna/infleuncer-ravenna/",
+"titolo": "Influencer Ravenna",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12306,
+"url": "/influencer-italiani/influencer-emilia-romagna/influencer-piacenza/",
+"titolo": "Influencer Piacenza",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12297,
+"url": "/influencer-italiani/influencer-emilia-romagna/influencer-modena/",
+"titolo": "Influencer Modena",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 6273,
+"url": "/social-media-tool/costo-influencer/",
+"titolo": "Costo post influencer",
+"template": "",
+"elementor": true,
+"kb": 30,
+"modificata": "2025-11-12"
+},
+{
+"id": 13226,
+"url": "/influencer-italiani/influencer-basilicata/",
+"titolo": "Influencer Basilicata",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-05"
+},
+{
+"id": 12271,
+"url": "/influencer-italiani/influencer-emilia-romagna/influencer-forli-cesena/",
+"titolo": "Influencer Forli-Cesena",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12262,
+"url": "/influencer-italiani/influencer-lombardia/influencer-varese/",
+"titolo": "Influencer Varese",
+"template": "",
+"elementor": true,
+"kb": 20,
+"modificata": "2025-09-06"
+},
+{
+"id": 12248,
+"url": "/influencer-italiani/influencer-lombardia/influencer-pavia/",
+"titolo": "Influencer Pavia",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 12236,
+"url": "/influencer-italiani/influencer-lombardia/influencer-monza/",
+"titolo": "Influencer Monza",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12217,
+"url": "/influencer-italiani/influencer-lombardia/influencer-mantova/",
+"titolo": "Influencer Mantova",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-08"
+},
+{
+"id": 12186,
+"url": "/influencer-italiani/influencer-lombardia/influencer-lecco/",
+"titolo": "Influencer Lecco",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 12175,
+"url": "/influencer-italiani/influencer-lombardia/influencer-cremona/",
+"titolo": "Influencer Cremona",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 12164,
+"url": "/influencer-italiani/influencer-lombardia/influencer-brescia/",
+"titolo": "Influencer Brescia",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 13244,
+"url": "/influencer-italiani/influencer-basilicata/influencer-potenza/",
+"titolo": "Influencer Potenza",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-05"
+},
+{
+"id": 13235,
+"url": "/influencer-italiani/influencer-basilicata/influencer-matera/",
+"titolo": "Influencer Matera",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-05"
+},
+{
+"id": 8890,
+"url": "/influencer-italiani/influencer-puglia/",
+"titolo": "Influencer Puglia",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12145,
+"url": "/influencer-italiani/influencer-emilia-romagna/influencer-ferrara/",
+"titolo": "Influencer Ferrara",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 12139,
+"url": "/influencer-italiani/influencer-campania/influencer-avellino/",
+"titolo": "Influencer Avellino",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 8055,
+"url": "/contatti-influencee/",
+"titolo": "Contatti",
+"template": "",
+"elementor": true,
+"kb": 12,
+"modificata": "2025-03-10"
+},
+{
+"id": 6304,
+"url": "/influencer-italiani/influencer-veneto/influencer-verona/",
+"titolo": "Influencer Verona",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-08"
+},
+{
+"id": 13143,
+"url": "/influencer-italiani/influencer-sardegna/",
+"titolo": "Influencer Sardegna",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 13154,
+"url": "/influencer-italiani/influencer-sardegna/influencer-cagliari/",
+"titolo": "Influencer Cagliari",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-07"
+},
+{
+"id": 21206,
+"url": "/preventivo-campagne/",
+"titolo": "preventivo campagne",
+"template": "elementor_theme",
+"elementor": true,
+"kb": 8,
+"modificata": "2025-03-17"
+},
+{
+"id": 13171,
+"url": "/influencer-italiani/influencer-sardegna/influencer-sassari/",
+"titolo": "Influencer Sassari",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 6227,
+"url": "/influencer-italiani/influencer-emilia-romagna/influencer-parma/",
+"titolo": "Influencer Parma",
+"template": "",
+"elementor": true,
+"kb": 20,
+"modificata": "2025-09-06"
+},
+{
+"id": 13,
+"url": "/agenzie/",
+"titolo": "Influencer per agenzie",
+"template": "",
+"elementor": true,
+"kb": 14,
+"modificata": "2025-07-03"
+},
+{
+"id": 10581,
+"url": "/influencer-italiani/influencer-lombardia/influencer-bergamo/",
+"titolo": "Influencer Bergamo",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-06"
+},
+{
+"id": 5757,
+"url": "/influencer-italiani/influencer-umbria/influencer-perugia/",
+"titolo": "Influencer Perugia",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 5740,
+"url": "/influencer-italiani/influencer-liguria/influencer-genova/",
+"titolo": "Influencer Genova",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 5726,
+"url": "/influencer-italiani/influencer-sicilia/influencer-catania/",
+"titolo": "Influencer Catania",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 5713,
+"url": "/influencer-italiani/influencer-sicilia/influencer-palermo/",
+"titolo": "Influencer Palermo",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 5670,
+"url": "/influencer-italiani/influencer-marche/influencer-pesaro/",
+"titolo": "Influencer Pesaro e Urbino",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 5656,
+"url": "/influencer-italiani/influencer-marche/influencer-ancona/",
+"titolo": "Influencer Ancona",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 5642,
+"url": "/influencer-italiani/influencer-veneto/influencer-padova/",
+"titolo": "Influencer Padova",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 5632,
+"url": "/influencer-italiani/influencer-veneto/influencer-venezia/",
+"titolo": "Influencer Venezia",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 5622,
+"url": "/influencer-italiani/influencer-toscana/influencer-pisa/",
+"titolo": "Influencer Pisa",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 5585,
+"url": "/influencer-italiani/influencer-toscana/influencer-firenze/",
+"titolo": "Influencer Firenze",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 5560,
+"url": "/influencer-italiani/influencer-emilia-romagna/influencer-rimini/",
+"titolo": "Influencer Rimini",
+"template": "",
+"elementor": true,
+"kb": 20,
+"modificata": "2025-09-06"
+},
+{
+"id": 5548,
+"url": "/influencer-italiani/influencer-piemonte/influencer-torino/",
+"titolo": "Influencer Torino",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 5454,
+"url": "/influencer-italiani/influencer-puglia/influencer-lecce/",
+"titolo": "Influencer Lecce",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 5452,
+"url": "/influencer-italiani/influencer-puglia/influencer-bari/",
+"titolo": "Influencer Bari",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 5425,
+"url": "/influencer-italiani/influencer-lazio/influencer-latina/",
+"titolo": "Influencer Latina",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-06"
+},
+{
+"id": 19057,
+"url": "/preventivi-influencer/",
+"titolo": "preventivi influencer",
+"template": "",
+"elementor": true,
+"kb": 65,
+"modificata": "2026-06-18"
+},
+{
+"id": 24,
+"url": "/influencer/",
+"titolo": "piattaforma per creator",
+"template": "",
+"elementor": true,
+"kb": 31,
+"modificata": "2026-06-18"
+},
+{
+"id": 5010,
+"url": "/influencer-italiani/influencer-lazio/influencer-roma/",
+"titolo": "Influencer Roma",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 4953,
+"url": "/influencer-italiani/influencer-emilia-romagna/influencer-bologna/",
+"titolo": "Influencer Bologna",
+"template": "",
+"elementor": true,
+"kb": 20,
+"modificata": "2025-09-06"
+},
+{
+"id": 13873,
+"url": "/sport-influencers/",
+"titolo": "Sport Influencer",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-10-14"
+},
+{
+"id": 13858,
+"url": "/model-influencers/",
+"titolo": "Model Influencers",
+"template": "",
+"elementor": true,
+"kb": 16,
+"modificata": "2025-07-03"
+},
+{
+"id": 12783,
+"url": "/influencer-italiani/influencer-sicilia/influencer-trapani/",
+"titolo": "Influencer Trapani",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 12645,
+"url": "/influencer-italiani/influencer-abruzzo/influencer-teramo/",
+"titolo": "Influencer Teramo",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-05"
+},
+{
+"id": 1945,
+"url": "/academy-influencer-marketing/corso-come-diventare-influencer/",
+"titolo": "Corso Come diventare un Influencer",
+"template": "",
+"elementor": true,
+"kb": 26,
+"modificata": "2025-03-17"
+},
+{
+"id": 13316,
+"url": "/influencer-italiani/influencer-valle-daosta/influencer-aosta/",
+"titolo": "Influencer Aosta",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-08"
+},
+{
+"id": 12529,
+"url": "/influencer-italiani/influencer-piemonte/influencer-novara/",
+"titolo": "Influencer Novara",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-07"
+},
+{
+"id": 1512,
+"url": "/academy-influencer-marketing/corso-linkedin/",
+"titolo": "Corso Linkedin per Influencer",
+"template": "",
+"elementor": true,
+"kb": 32,
+"modificata": "2025-03-17"
+},
+{
+"id": 1510,
+"url": "/academy-influencer-marketing/corso-instagram-per-influencer/",
+"titolo": "Corso Instagram per Influencer",
+"template": "",
+"elementor": true,
+"kb": 38,
+"modificata": "2025-03-17"
+},
+{
+"id": 13306,
+"url": "/influencer-italiani/influencer-valle-daosta/",
+"titolo": "Influencer Valle D&#8217;Aosta",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 13298,
+"url": "/influencer-italiani/influencer-molise/influencer-campobasso/",
+"titolo": "Influencer Campobasso",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-07"
+},
+{
+"id": 13289,
+"url": "/influencer-italiani/influencer-molise/",
+"titolo": "Influencer Molise",
+"template": "",
+"elementor": true,
+"kb": 16,
+"modificata": "2025-09-07"
+},
+{
+"id": 13271,
+"url": "/influencer-italiani/influencer-friuli-venezia-giulia/influencer-pordenone/",
+"titolo": "Influencer Pordenone",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 13264,
+"url": "/influencer-italiani/influencer-friuli-venezia-giulia/influencer-udine/",
+"titolo": "Influencer Udine",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 13253,
+"url": "/influencer-italiani/influencer-friuli-venezia-giulia/",
+"titolo": "Influencer Friuli-Venezia Giulia",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 8884,
+"url": "/influencer-italiani/influencer-veneto/",
+"titolo": "Influencer Veneto",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-08"
+},
+{
+"id": 8888,
+"url": "/influencer-italiani/influencer-toscana/",
+"titolo": "Influencer Toscana",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 8900,
+"url": "/influencer-italiani/influencer-umbria/",
+"titolo": "Influencer Umbria",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 8898,
+"url": "/influencer-italiani/influencer-liguria/",
+"titolo": "Influencer Liguria",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-06"
+},
+{
+"id": 8896,
+"url": "/influencer-italiani/influencer-sicilia/",
+"titolo": "Influencer Sicilia",
+"template": "",
+"elementor": true,
+"kb": 16,
+"modificata": "2025-09-07"
+},
+{
+"id": 8892,
+"url": "/influencer-italiani/influencer-marche/",
+"titolo": "Influencer Marche",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 8886,
+"url": "/influencer-italiani/influencer-lazio/",
+"titolo": "Influencer Lazio",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-06"
+},
+{
+"id": 8882,
+"url": "/influencer-italiani/influencer-piemonte/",
+"titolo": "Influencer Piemonte",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-07"
+},
+{
+"id": 8867,
+"url": "/influencer-italiani/influencer-lombardia/",
+"titolo": "Influencer Lombardia",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-06"
+},
+{
+"id": 8819,
+"url": "/influencer-italiani/influencer-emilia-romagna/",
+"titolo": "Influencer Emilia Romagna",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-06"
+},
+{
+"id": 13217,
+"url": "/influencer-italiani/influencer-trentino-alto-adige/influencer-trento/",
+"titolo": "Influencer Trento",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 13203,
+"url": "/influencer-italiani/influencer-trentino-alto-adige/influencer-bolzano/",
+"titolo": "Influencer Bolzano",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 13193,
+"url": "/influencer-italiani/influencer-trentino-alto-adige/",
+"titolo": "Influencer Trentino-Alto Adige",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 12417,
+"url": "/influencer-italiani/influencer-veneto/influencer-belluno/",
+"titolo": "Influencer Belluno",
+"template": "",
+"elementor": true,
+"kb": 19,
+"modificata": "2025-09-08"
+},
+{
+"id": 12204,
+"url": "/influencer-italiani/influencer-lombardia/influencer-lodi/",
+"titolo": "Influencer Lodi",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-08"
+},
+{
+"id": 6239,
+"url": "/influencer-italiane/",
+"titolo": "Influencer Italiane",
+"template": "",
+"elementor": true,
+"kb": 52,
+"modificata": "2025-03-11"
+},
+{
+"id": 261,
+"url": "/privacy-policy/",
+"titolo": "Privacy Policy",
+"template": "",
+"elementor": true,
+"kb": 60,
+"modificata": "2025-10-16"
+},
+{
+"id": 10599,
+"url": "/influencer-italiani/influencer-calabria/",
+"titolo": "Influencer Calabria",
+"template": "",
+"elementor": true,
+"kb": 17,
+"modificata": "2025-09-05"
+},
+{
+"id": 10589,
+"url": "/influencer-italiani/influencer-abruzzo/",
+"titolo": "Influencer Abruzzo",
+"template": "",
+"elementor": true,
+"kb": 18,
+"modificata": "2025-09-05"
+},
+{
+"id": 1137,
+"url": "/academy-influencer-marketing/corso-tiktok-per-influencer/",
+"titolo": "Corso TikTok per Influencer",
+"template": "",
+"elementor": true,
+"kb": 27,
+"modificata": "2025-03-17"
+},
+{
+"id": 207,
+"url": "/news-influencer-marketing/",
+"titolo": "News",
+"template": "elementor_header_footer",
+"elementor": true,
+"kb": 7,
+"modificata": "2025-03-14"
+},
+{
+"id": 8599,
+"url": "/benvenuto-su-influencee/",
+"titolo": "Dashboard Benvenuto Influencer",
+"template": "",
+"elementor": true,
+"kb": 15,
+"modificata": "2024-06-09"
+},
+{
+"id": 3556,
+"url": "/termini-legali/",
+"titolo": "Termini legali",
+"template": "",
+"elementor": false,
+"kb": 49,
+"modificata": "2022-01-23"
+},
+{
+"id": 3551,
+"url": "/cookie-policy/",
+"titolo": "Cookie-policy",
+"template": "",
+"elementor": false,
+"kb": 8,
+"modificata": "2022-01-23"
+},
+{
+"id": 3083,
+"url": "/thank-you/",
+"titolo": "Thank you page",
+"template": "",
+"elementor": true,
+"kb": 3,
+"modificata": "2021-05-06"
+}
+]
