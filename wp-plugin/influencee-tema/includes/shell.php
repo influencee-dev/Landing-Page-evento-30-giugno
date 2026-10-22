@@ -136,7 +136,7 @@ function infe_footer_html() {
 		$f .= '<a href="' . esc_url( $s[1] ) . '" rel="noopener" target="_blank">' . esc_html( $s[0] ) . '</a>';
 	}
 	$f .= '</p></div>';
-	foreach ( infe_footer_colonne() as $titolo => $links ) {
+	foreach ( array_merge( infe_footer_colonne(), infe_struttura() ) as $titolo => $links ) {
 		$f .= '<div><p class="inf-label">' . esc_html( $titolo ) . '</p><ul>';
 		foreach ( $links as $l ) {
 			$f .= '<li><a href="' . esc_url( infe_url( $l[1] ) ) . '">' . esc_html( $l[0] ) . '</a></li>';

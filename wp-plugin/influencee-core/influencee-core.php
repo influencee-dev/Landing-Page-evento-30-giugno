@@ -277,6 +277,10 @@ function inft_clean_head( $html ) {
 	);
 	$html = preg_replace( '#<meta\s+(?![^>]*data-inft)[^>]*(?:name=["\']description["\']|property=["\']og:[^"\']+["\']|name=["\']twitter:[^"\']+["\'])[^>]*>\s*#i', '', $html );
 	$html = preg_replace( '#<script\s+type=["\']application/ld\+json["\'](?![^>]*data-inft)[^>]*>.*?</script>\s*#is', '', $html );
+	// un solo canonical: se c'è il nostro, via quello di WordPress o di altri plugin SEO
+	if ( preg_match( '#<link\s+data-inft\s+rel=["\']canonical["\']#i', $html ) ) {
+		$html = preg_replace( '#<link\s+(?![^>]*data-inft)[^>]*rel=["\']canonical["\'][^>]*>\s*#i', '', $html );
+	}
 	return $html;
 }
 

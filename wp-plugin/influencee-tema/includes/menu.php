@@ -79,3 +79,47 @@ function infe_social() {
 function infe_url( $href ) {
 	return 0 === strpos( $href, '/' ) ? home_url( $href ) : $href;
 }
+
+/**
+ * Struttura del sito nel piè di pagina (SEO-PIANO §4.8: categorie e città). Solo pagine che esistono davvero:
+ * pagina WordPress pubblicata o pagina dei plugin accesa. Ricalcolata ogni 12 ore o quando cambiano le impostazioni.
+ */
+function infe_struttura() {
+	$cache = get_transient( 'infe_struttura' );
+	if ( is_array( $cache ) ) {
+		return $cache;
+	}
+	$categorie = array( 'food' => 'Food', 'travel' => 'Travel', 'fashion' => 'Fashion', 'beauty' => 'Beauty', 'fitness' => 'Fitness', 'lifestyle' => 'Lifestyle', 'mom' => 'Family', 'pets' => 'Pet', 'music' => 'Musica', 'health' => 'Salute', 'comic' => 'Comicità', 'photography' => 'Arte e fotografia', 'luxury' => 'Luxury', 'model' => 'Model', 'wedding' => 'Wedding', 'entrepreneur' => 'Imprenditori' );
+	$citta     = array( 'lombardia/milano' => 'Milano', 'lazio/roma' => 'Roma', 'campania/napoli' => 'Napoli', 'piemonte/torino' => 'Torino', 'emilia-romagna/bologna' => 'Bologna', 'toscana/firenze' => 'Firenze', 'veneto/verona' => 'Verona', 'puglia/bari' => 'Bari', 'sicilia/palermo' => 'Palermo', 'liguria/genova' => 'Genova' );
+	$out       = array( 'Influencer per categoria' => array(), 'Influencer per città' => array() );
+	foreach ( $categorie as $slug => $nome ) {
+		$path = '/' . $slug . '-influencers/';
+		if ( infe_esiste( $path ) ) {
+			$out['Influencer per categoria'][] = array( $nome . ' influencer', $path );
+		}
+	}
+	foreach ( $citta as $k => $nome ) {
+		list( $reg, $c ) = explode( '/', $k );
+		$path = '/influencer-italiani/influencer-' . $reg . '/influencer-' . $c . '/';
+		if ( infe_esiste( $path ) ) {
+			$out['Influencer per città'][] = array( 'Influencer ' . $nome, $path );
+		}
+	}
+	$out = array_filter( $out );
+	set_transient( 'infe_struttura', $out, 12 * HOUR_IN_SECONDS );
+	return $out;
+}
+
+/** Il percorso porta a una pagina vera (mai link a pagine che darebbero 404)? */
+function infe_esiste( $path ) {
+	if ( function_exists( 'inft_pages' ) && function_exists( 'inft_is_active' ) ) {
+		$pages = inft_pages();
+		if ( isset( $pages[ $path ] ) && inft_is_active( $path, $pages[ $path ] ) ) {
+			return true;
+		}
+	}
+	$p = get_page_by_path( trim( $path, '/' ), OBJECT, 'page' );
+	return $p && 'publish' === $p->post_status;
+}
+add_action( 'update_option_inft_settings', function () { delete_transient( 'infe_struttura' ); } );
+add_action( 'save_post_page', function () { delete_transient( 'infe_struttura' ); } );
