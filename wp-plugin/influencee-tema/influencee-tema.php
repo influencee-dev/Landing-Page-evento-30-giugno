@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Tema
  * Description:       Intestazione, piè di pagina e layout del sito in HTML5, senza Elementor: stessi link di oggi, un solo CSS e un solo JavaScript leggeri, eventi GA4. Si accende da Influencee → Impostazioni (spento, solo pagine dei plugin, tutto il sito).
- * Version:           1.1.2
+ * Version:           1.1.3
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Requires Plugins:  influencee-core
@@ -13,7 +13,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFE_VERSION', '1.1.2' );
+define( 'INFE_VERSION', '1.1.3' );
 define( 'INFE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFE_URL', plugin_dir_url( __FILE__ ) );
 

@@ -64,6 +64,14 @@ add_filter( 'inft_shell_active', function ( $v ) { return $v || infe_attivo(); }
 
 /* ─── Documento: intestazione ─── */
 
+/** Avvia una sola volta il filtro che toglie header e footer vecchi dall'HTML finale. */
+function infe_avvia_pulizia() {
+	if ( ! infe_stampato( 'pulizia' ) ) {
+		infe_stampato( 'pulizia', true );
+		ob_start( 'infe_pulisci_html' );
+	}
+}
+
 /** Intestazione già stampata in questa richiesta (guscio del Tema o template di un altro plugin). */
 function infe_stampato( $cosa, $segna = false ) {
 	static $fatto = array();
@@ -83,7 +91,7 @@ add_action(
 	function () {
 		if ( infe_attivo() ) {
 			add_filter( 'hello_elementor_header_footer', '__return_false' );
-			ob_start( 'infe_pulisci_html' );
+			infe_avvia_pulizia();
 		}
 	},
 	999
@@ -113,6 +121,7 @@ add_filter( 'body_class', function ( $c ) { return infe_attivo() ? array_merge( 
 add_action(
 	'inft_shell_header',
 	function () {
+		infe_avvia_pulizia(); // le pagine dei plugin arrivano qui prima di template_redirect 999
 		infe_stampato( 'header', true );
 		infe_stampato( 'footer', true ); // il guscio stampa da sé il piè di pagina
 		?><!doctype html>
