@@ -22,7 +22,7 @@ function inft_mcp_log( $ability, $input, $result ) {
 		'quando' => current_time( 'mysql' ),
 		'utente' => $user ? $user->user_login : '',
 		'azione' => $ability,
-		'input'  => wp_json_encode( $input ),
+		'input'  => wp_json_encode( is_array( $input ) && isset( $input['zip_base64'] ) ? array_merge( $input, array( 'zip_base64' => '[' . strlen( (string) $input['zip_base64'] ) . ' caratteri]' ) ) : $input ),
 		'esito'  => is_wp_error( $result ) ? 'errore: ' . $result->get_error_message() : 'ok',
 	);
 	update_option( 'inft_mcp_log', array_slice( $log, -50 ), false );
@@ -267,6 +267,91 @@ add_action(
 				'meta'                => array( 'annotations' => array( 'readonly' => false, 'destructive' => true, 'idempotent' => true ), 'mcp' => array( 'public' => true ) ),
 			)
 		);
+
+		// 7. Articoli del blog col nuovo modello
+		wp_register_ability(
+			'influencee/articoli',
+			array(
+				'label'               => 'Articoli col nuovo modello',
+				'description'         => 'Sceglie come mostrare gli articoli del blog: off (come oggi), lista (solo gli articoli indicati), tutti. Può accendere o spegnere singoli articoli (percorsi tipo /titolo-articolo/) e aggiungere redirect 301 per articoli doppi (attivi solo se i redirect sono attivi). Restituisce lo stato.',
+				'category'            => 'influencee',
+				'input_schema'        => array(
+					'type'                 => 'object',
+					'properties'           => array(
+						'modo'     => array( 'type' => 'string', 'enum' => array( 'off', 'lista', 'tutti' ) ),
+						'accendi'  => array( 'type' => 'array', 'items' => $path, 'maxItems' => 200 ),
+						'spegni'   => array( 'type' => 'array', 'items' => $path, 'maxItems' => 200 ),
+						'redirect' => array( 'type' => 'object', 'additionalProperties' => $path, 'description' => 'Mappa { "/vecchio/": "/nuovo/" } da aggiungere; valore vuoto per togliere.' ),
+					),
+					'additionalProperties' => false,
+				),
+				'execute_callback'    => function ( $in ) {
+					$s     = inft_settings();
+					$known = inft_articles_list();
+					if ( ! empty( $in['modo'] ) ) {
+						$s['articles'] = $in['modo'];
+					}
+					$sconosciuti = array();
+					foreach ( array( 'accendi' => 'articles_on', 'spegni' => 'articles_off' ) as $k => $list ) {
+						$other = 'articles_on' === $list ? 'articles_off' : 'articles_on';
+						foreach ( inft_clean_paths( isset( $in[ $k ] ) ? (array) $in[ $k ] : array() ) as $p ) {
+							if ( ! isset( $known[ $p ] ) ) {
+								$sconosciuti[] = $p;
+								continue;
+							}
+							$s[ $other ] = array_values( array_diff( (array) $s[ $other ], array( $p ) ) );
+							$s[ $list ]  = array_values( array_unique( array_merge( (array) $s[ $list ], array( $p ) ) ) );
+						}
+					}
+					if ( ! empty( $in['redirect'] ) && is_array( $in['redirect'] ) ) {
+						$extra = (array) $s['redirects_extra'];
+						foreach ( $in['redirect'] as $from => $to ) {
+							$f = inft_clean_paths( array( $from ) );
+							if ( ! $f ) {
+								continue;
+							}
+							if ( '' === trim( (string) $to ) ) {
+								unset( $extra[ $f[0] ] );
+							} else {
+								$extra = array_merge( $extra, inft_clean_redirects( array( $f[0] => $to ) ) );
+							}
+						}
+						$s['redirects_extra'] = $extra;
+					}
+					update_option( 'inft_settings', $s );
+					inft_purge_cache();
+					$s = inft_settings();
+					return array( 'modo' => $s['articles'], 'accesi' => $s['articles_on'], 'esclusi' => $s['articles_off'], 'redirect_extra' => $s['redirects_extra'], 'redirect_attivi' => (bool) $s['redirects'], 'sconosciuti' => $sconosciuti, 'articoli_totali' => count( $known ) );
+				},
+				'permission_callback' => 'inft_mcp_can',
+				'meta'                => array( 'annotations' => $write, 'mcp' => array( 'public' => true ) ),
+			)
+		);
+
+		// 8. Aggiornare questo plugin (solo il pacchetto influencee-tools, con controllo dell'impronta)
+		wp_register_ability(
+			'influencee/aggiorna-plugin',
+			array(
+				'label'               => 'Aggiorna il plugin Influencee Tools',
+				'description'         => 'Installa una nuova versione di questo plugin da uno zip in base64. Accetta solo lo zip di influencee-tools (cartella influencee-tools/ con il file principale "Plugin Name: Influencee Tools") e solo se l\'impronta sha256 coincide. Il plugin resta attivo con le stesse impostazioni. Richiede conferma.',
+				'category'            => 'influencee',
+				'input_schema'        => array(
+					'type'                 => 'object',
+					'properties'           => array(
+						'zip_base64' => array( 'type' => 'string', 'maxLength' => 25000000 ),
+						'sha256'     => array( 'type' => 'string', 'pattern' => '^[a-f0-9]{64}$' ),
+						'conferma'   => array( 'type' => 'boolean' ),
+					),
+					'required'             => array( 'zip_base64', 'sha256', 'conferma' ),
+					'additionalProperties' => false,
+				),
+				'execute_callback'    => 'inft_mcp_update_plugin',
+				'permission_callback' => function () {
+					return current_user_can( 'manage_options' ) && current_user_can( 'update_plugins' ) && current_user_can( 'install_plugins' );
+				},
+				'meta'                => array( 'annotations' => array( 'readonly' => false, 'destructive' => true, 'idempotent' => true ), 'mcp' => array( 'public' => true ) ),
+			)
+		);
 	}
 );
 
@@ -302,4 +387,62 @@ function inft_purge_cache() {
 	do_action( 'litespeed_purge_all' );
 	wp_cache_flush();
 	return defined( 'LSCWP_V' ) ? 'litespeed + wordpress' : 'wordpress';
+}
+
+/** Installa lo zip del plugin dopo i controlli: impronta, dimensione, contenuto solo influencee-tools/. */
+function inft_mcp_update_plugin( $in ) {
+	if ( empty( $in['conferma'] ) ) {
+		return new WP_Error( 'inft_conferma', 'Serve conferma: true.' );
+	}
+	if ( ! wp_is_file_mod_allowed( 'inft_update_plugin' ) ) {
+		return new WP_Error( 'inft_bloccato', 'Il sito non permette di modificare i plugin (DISALLOW_FILE_MODS).' );
+	}
+	$zip = base64_decode( (string) $in['zip_base64'], true );
+	if ( false === $zip || strlen( $zip ) < 1000 || strlen( $zip ) > 18 * MB_IN_BYTES ) {
+		return new WP_Error( 'inft_zip', 'Zip non valido o troppo grande.' );
+	}
+	if ( ! hash_equals( strtolower( $in['sha256'] ), hash( 'sha256', $zip ) ) ) {
+		return new WP_Error( 'inft_impronta', 'L\'impronta sha256 non coincide: zip rifiutato.' );
+	}
+	if ( ! class_exists( 'ZipArchive' ) ) {
+		return new WP_Error( 'inft_zip', 'ZipArchive non disponibile sul server.' );
+	}
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/misc.php';
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$tmp = wp_tempnam( 'influencee-tools.zip' );
+	file_put_contents( $tmp, $zip ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$za = new ZipArchive();
+	if ( true !== $za->open( $tmp ) ) {
+		wp_delete_file( $tmp );
+		return new WP_Error( 'inft_zip', 'Zip non leggibile.' );
+	}
+	$ok = $za->numFiles > 0;
+	for ( $i = 0; $ok && $i < $za->numFiles; $i++ ) {
+		$name = (string) $za->getNameIndex( $i );
+		$ok   = 0 === strpos( $name, 'influencee-tools/' ) && false === strpos( $name, '..' );
+	}
+	$main = $ok ? (string) $za->getFromName( 'influencee-tools/influencee-tools.php' ) : '';
+	$za->close();
+	if ( ! $ok || ! preg_match( '/Plugin Name:\s*Influencee Tools\s*$/mi', $main ) || ! preg_match( '/Version:\s*([0-9.]+)/i', $main, $ver ) ) {
+		wp_delete_file( $tmp );
+		return new WP_Error( 'inft_contenuto', 'Lo zip non è il plugin Influencee Tools: rifiutato.' );
+	}
+	if ( ! WP_Filesystem() ) {
+		wp_delete_file( $tmp );
+		return new WP_Error( 'inft_fs', 'WordPress non può scrivere i file dei plugin su questo server.' );
+	}
+	$before   = INFT_VERSION;
+	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
+	$res      = $upgrader->install( $tmp, array( 'overwrite_package' => true ) );
+	wp_delete_file( $tmp );
+	if ( is_wp_error( $res ) || ! $res ) {
+		return is_wp_error( $res ) ? $res : new WP_Error( 'inft_install', 'Installazione non riuscita.' );
+	}
+	if ( ! is_plugin_active( 'influencee-tools/influencee-tools.php' ) ) {
+		activate_plugin( 'influencee-tools/influencee-tools.php' );
+	}
+	inft_purge_cache();
+	return array( 'installato' => true, 'versione_prima' => $before, 'versione_nuova' => $ver[1], 'cache' => 'svuotata' );
 }

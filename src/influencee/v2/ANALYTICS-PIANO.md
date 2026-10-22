@@ -146,3 +146,12 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `page_type=profilo_creator` | ogni visita a un profilo | quali profili attirano aziende da Google | quali creator spingere nelle campagne e nelle pagine città |
 | `generate_lead` con `lead_source=lead_creator_profilo` | invio di "Vuoi collaborare con …?" | richieste dirette su un creator (nome e handle nel campo risultato in tandem) | contattare il creator e proporre anche creator simili |
 | `tool_filter` con `tool_name=elenco_creator` | ricerca o filtri nell'elenco di /influencer-italiani/ | cosa cercano le aziende (categoria, regione, fascia) e quanti risultati trovano | dove reclutare nuovi creator (ricerche con pochi risultati) |
+
+### Articoli del blog (plugin WordPress)
+
+| cosa | quando | perché conta | decisione che abilita |
+|---|---|---|---|
+| `page_type=articolo` + `scroll_depth` | lettura di un articolo | quali articoli vengono letti davvero, non solo aperti | quali argomenti espandere o aggiornare |
+| `generate_lead` con `lead_source=lead_articolo` | invio del modulo in fondo all articolo (titolo nel campo risultato in tandem) | quali articoli portano richieste | dove mettere più CTA e cosa scrivere |
+| `internal_link_click` / `cta_location` (indice, testo, correlati, box laterale) | clic nell articolo | percorsi verso tool e pagine commerciali | migliorare i link interni |
+| `faq_open`, `share` (copia link) | interazioni | domande più aperte, articoli condivisi | FAQ e contenuti da approfondire |

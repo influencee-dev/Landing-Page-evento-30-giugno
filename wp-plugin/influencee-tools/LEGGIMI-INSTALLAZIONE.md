@@ -210,3 +210,60 @@ Se una ricerca non trova nessun creator, la pagina propone il modulo "Ricevi la 
 - **profilo:** hero nero centrato con la foto contornata di verde acido, pillole, tre numeri e i pulsanti "Proponi una collaborazione" e "Invitalo a una campagna" (link campaign.influencee.it del creator), poi "Creator simili".
 
 Rispetto al design originale non vengono mostrati né il badge "Verificato" né "match" ed engagement del singolo creator, perché questi dati non sono nel sito.
+
+## 13. Articoli del blog col nuovo modello (versione 1.3.0)
+
+Gli 85 articoli restano in WordPress e si scrivono come sempre. Il plugin cambia solo come si vedono.
+
+**Struttura:**
+- **HTML5 pulito:** tutto il testo è già nella pagina, quindi Google, ChatGPT, Gemini e Claude lo leggono senza eseguire JavaScript.
+- **CSS:** un solo file piccolo (`assets/articolo.css`).
+- **JavaScript minimo:** solo per Analytics, il pulsante "Copia il link", la conferma del modulo e l'indice che segue la lettura.
+- **Elementor spento SOLO sugli articoli accesi:** i suoi file CSS e JavaScript non vengono caricati e i suoi contenitori vengono tolti dal testo. Gli articoli Elementor usano solo testo, HTML e titoli, quindi non si rompe nulla. L'header e il footer Elementor, già nascosti dal sito, vengono tolti dalla pagina; resta quello del plugin header/footer.
+
+**Ogni articolo ha:**
+- testata col design del sito: categoria, titolo, sottotitolo, autore, data di aggiornamento e minuti di lettura;
+- indice laterale, FAQ visibili, box autore;
+- modulo "Ti mandiamo i creator adatti alla tua campagna", che arriva in tandem come `lead_articolo` con il titolo dell'articolo;
+- articoli correlati;
+- dati strutturati `BlogPosting` + autore (con ruolo, es. "CEO @ Influencee.it") + `BreadcrumbList` + `FAQPage`;
+- canonical e immagine di anteprima se mancano.
+
+Titolo e description restano quelli del plugin SEO del sito.
+
+**Articoli col vecchio modello interno "ifn-post" (26):**
+- dal testo si recuperano autore, ruolo, foto, sottotitolo e immagine;
+- si tolgono i doppioni: percorso, titolo ripetuto, vecchio indice, vecchi correlati;
+- "In breve", numeri, casi reali, CTA e FAQ prendono il design del sito;
+- mockup e illustrazioni mantengono il loro CSS.
+
+**Caratteri rovinati:** in `/come-diventare-influencer-tiktok-2026/` (43 caratteri tipo "Ã¨" o "Â·") vengono corretti automaticamente quando la pagina viene mostrata. Il testo in WordPress resta com'è.
+
+**Come accenderli:** Impostazioni → Influencee Tools → *Articoli del blog*.
+1. Scegli "Solo gli articoli elencati" e scrivi 2 o 3 articoli con poco traffico.
+2. Controlla le pagine.
+3. Passa a "Tutti". Per escludere un articolo, scrivilo in "Articoli da escludere".
+
+Gli articoli che sono anche pagine tool (`/followe-instagram-fake-follower/`, `/come-calcolare-engagement-rate/`) restano tool.
+
+**Redirect proposti per articoli doppi** (da incollare in *Redirect aggiuntivi* e poi attivare i redirect):
+
+```
+/come-diventare-influencer-tiktok-2026/ -> /come-diventare-influencer-su-tiktok-nel-2026/
+/come-creare-un-piano-editoriale-professionale/ -> /come-presentare-il-piano-editoriale-in-modo-professionale/
+/come-calcolare-costo-influencer/ -> /social-media-tool/costo-influencer/   (già nei redirect di base)
+```
+
+- **TikTok:** il primo dei due articoli, pubblicato due giorni dopo, ha caratteri rovinati e un mockup senza grafica. Si tiene il secondo.
+- **Piano editoriale:** l'articolo da chiudere ha 0 clic e posizione 19,8; quello che resta ha 1 clic e posizione 7,4 (Search Console).
+
+## 14. Aggiornare il plugin da Claude (MCP)
+
+Dalla versione 1.3.0 c'è l'azione MCP `influencee/aggiorna-plugin`. Dopo questa installazione fatta a mano, Claude può caricare le versioni nuove da solo, con questi controlli:
+- accetta solo lo zip di Influencee Tools (cartella `influencee-tools/`, file principale "Plugin Name: Influencee Tools");
+- accetta lo zip solo se l'impronta sha256 coincide con quella inviata;
+- solo per amministratori, e serve `conferma: true`;
+- il plugin resta attivo con le stesse impostazioni;
+- ogni azione finisce nel registro MCP delle impostazioni.
+
+Per collegare Claude serve l'accesso del §9 ("Crea accesso per Claude" → variabile `INFLUENCEE_WP_AUTH` nell'ambiente). Con l'azione `influencee/articoli` Claude può anche accendere o spegnere articoli e aggiungere redirect.

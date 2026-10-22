@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Tools
  * Description:       Tool gratuiti di influencer marketing (fake follower, costo influencer, engagement rate, preventivo campagna, offerte di lavoro, emoticon) con SEO/GEO/AEO, eventi GA4 e lead verso tandem-forms. Serve le pagine tool con il loro URL attuale.
- * Version:           1.2.1
+ * Version:           1.3.0
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,13 +11,15 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFT_VERSION', '1.2.1' );
+define( 'INFT_VERSION', '1.3.0' );
 define( 'INFT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFT_URL', plugin_dir_url( __FILE__ ) );
+define( 'INFT_COMPANY', 'Partidea SRL' );
 
 require_once INFT_DIR . 'includes/privacy.php';
 require_once INFT_DIR . 'includes/mcp-abilities.php';
 require_once INFT_DIR . 'includes/profiles.php';
+require_once INFT_DIR . 'includes/articoli.php';
 
 /* ════════════════════════════════════════════════════════════════════
    DATI DELLE PAGINE
@@ -58,6 +60,10 @@ function inft_settings() {
 			'on'        => array(), // eccezioni: percorsi accesi anche se il gruppo è spento
 			'creators'  => 1,       // mostra i profili dei creator (tipo di contenuto "creator")
 			'profiles'  => 0,       // pagine /creator/<slug>/ con la nuova grafica (spente finché non le accendi)
+			'articles'  => 'off',   // articoli col nuovo modello: off | lista (solo quelli in articles_on) | tutti
+			'articles_on'  => array(), // articoli accesi in modalità "lista"
+			'articles_off' => array(), // articoli esclusi anche in modalità "tutti"
+			'redirects_extra' => array(), // redirect 301 aggiuntivi (es. articoli doppi), attivi solo con 'redirects'
 			'redirects' => 0,       // redirect 301 dei vecchi URL (spenti finché non li attivi)
 			'privacy'   => 1,       // toglie email e telefoni dalle bio dei creator nelle API e nelle pagine pubbliche
 			'mcp_admin_only' => 1,  // la porta MCP del sito solo per amministratori (di default basta essere iscritti)
@@ -109,7 +115,44 @@ function inft_current() {
    REDIRECT 301 (dal piano SEO: SEO-PIANO.md §3) — si attivano dalle impostazioni
    ════════════════════════════════════════════════════════════════════ */
 
+/** Elenco di percorsi da un testo (uno per riga o separati da virgole): "/titolo/". */
+function inft_clean_paths( $txt ) {
+	$out = array();
+	foreach ( is_array( $txt ) ? $txt : preg_split( '/[\r\n,]+/', (string) $txt ) as $l ) {
+		$p = trim( (string) wp_parse_url( trim( (string) $l ), PHP_URL_PATH ), '/' );
+		if ( '' !== $p ) {
+			$out[] = '/' . $p . '/';
+		}
+	}
+	return array_values( array_unique( $out ) );
+}
+
+/** Redirect da testo "da -> a" (uno per riga): solo percorsi interni, niente catene verso sé stessi. */
+function inft_clean_redirects( $txt ) {
+	$out = array();
+	foreach ( is_array( $txt ) ? $txt : preg_split( '/[\r\n]+/', (string) $txt ) as $k => $l ) {
+		if ( is_array( $txt ) ) {
+			$l = $k . ' -> ' . $l;
+		}
+		$parts = preg_split( '/\s*(?:->|→|=>|\s)\s*/u', trim( (string) $l ), 2 );
+		if ( count( $parts ) < 2 ) {
+			continue;
+		}
+		$from = inft_clean_paths( array( $parts[0] ) );
+		$to   = inft_clean_paths( array( $parts[1] ) );
+		if ( $from && $to && $from[0] !== $to[0] ) {
+			$out[ $from[0] ] = $to[0];
+		}
+	}
+	return $out;
+}
+
 function inft_redirect_map() {
+	$s = inft_settings();
+	return array_merge( inft_redirect_base(), (array) $s['redirects_extra'] );
+}
+
+function inft_redirect_base() {
 	return array(
 		'/social-media-tool-form/'                    => '/social-media-tool/',
 		'/tool-finanziario/'                          => '/social-media-tool/',
@@ -576,6 +619,10 @@ add_action(
 						'on'        => $list( isset( $in['on'] ) ? $in['on'] : '' ),
 						'creators'  => empty( $in['creators'] ) ? 0 : 1,
 						'profiles'  => empty( $in['profiles'] ) ? 0 : 1,
+						'articles'  => isset( $in['articles'] ) && in_array( $in['articles'], array( 'off', 'lista', 'tutti' ), true ) ? $in['articles'] : 'off',
+						'articles_on'  => inft_clean_paths( isset( $in['articles_on'] ) ? $in['articles_on'] : '' ),
+						'articles_off' => inft_clean_paths( isset( $in['articles_off'] ) ? $in['articles_off'] : '' ),
+						'redirects_extra' => inft_clean_redirects( isset( $in['redirects_extra'] ) ? $in['redirects_extra'] : '' ),
 						'redirects' => empty( $in['redirects'] ) ? 0 : 1,
 						'privacy'   => empty( $in['privacy'] ) ? 0 : 1,
 						'mcp_admin_only' => empty( $in['mcp_admin_only'] ) ? 0 : 1,
@@ -671,11 +718,20 @@ function inft_settings_page() {
 					<p><label><input type="checkbox" name="inft_settings[profiles]" value="1" <?php checked( ! empty( $s['profiles'] ) ); ?>> <b>Pagine profilo con la nuova grafica</b> (<code>/creator/…</code>): foto, follower, fascia, costo medio, modulo "Vuoi collaborare?" verso tandem e creator della stessa zona</label></p>
 					<p class="description">I profili restano gestiti dal plugin dei creator: cambia solo come si vedono. La bio si vede senza email e telefoni. Spegnendo la casella torna subito la pagina di prima.</p>
 				</td></tr>
+				<tr><th scope="row">Articoli del blog</th><td>
+					<?php $am = isset( $s['articles'] ) ? $s['articles'] : 'off'; ?>
+					<p><label><input type="radio" name="inft_settings[articles]" value="off" <?php checked( 'off', $am ); ?>> Spenti (articoli come oggi)</label><br>
+					<label><input type="radio" name="inft_settings[articles]" value="lista" <?php checked( 'lista', $am ); ?>> Solo gli articoli elencati qui sotto (per provare)</label><br>
+					<label><input type="radio" name="inft_settings[articles]" value="tutti" <?php checked( 'tutti', $am ); ?>> Tutti gli articoli</label></p>
+					<p><label>Articoli da accendere in prova (uno per riga, es. <code>/come-funziona-il-pagamento-degli-influencer/</code>)<br><textarea name="inft_settings[articles_on]" rows="3" cols="70"><?php echo esc_textarea( implode( "\n", (array) $s['articles_on'] ) ); ?></textarea></label></p>
+					<p><label>Articoli da escludere anche con "Tutti" (uno per riga)<br><textarea name="inft_settings[articles_off]" rows="2" cols="70"><?php echo esc_textarea( implode( "\n", (array) $s['articles_off'] ) ); ?></textarea></label></p>
+					<p class="description">Nuovo modello: HTML5 leggero col design del sito, indice, autore e data di aggiornamento, FAQ, modulo lead verso tandem, articoli correlati, dati strutturati Article. Elementor non viene caricato sugli articoli accesi; il testo resta quello scritto in WordPress. Gli articoli che sono anche pagine tool (fake follower, engagement rate) restano tool.</p>
+				</td></tr>
 			</tbody></table>
 						<h2>Privacy e MCP</h2>
 			<p><label><input type="checkbox" name="inft_settings[privacy]" value="1" <?php checked( ! empty( $s['privacy'] ) ); ?>> Togli email e telefoni dalle bio dei creator per chi non è redattore (API <code>/igm/v1/creators</code>, <code>/wp/v2/creator</code>, pagine <code>/creator/…</code> e dati strutturati)</label></p>
 			<p><label><input type="checkbox" name="inft_settings[mcp_admin_only]" value="1" <?php checked( ! empty( $s['mcp_admin_only'] ) ); ?>> Server MCP del sito solo per amministratori (di default WordPress lo apre a ogni utente con accesso)</label></p>
-			<p>Azioni MCP del plugin: <code>influencee/stato</code>, <code>influencee/pagine</code>, <code>influencee/redirect</code>, <code>influencee/svuota-cache</code>, <code>influencee/controlla-pagina</code>, <code>influencee/rimuovi-creator</code>. Indirizzo: <code><?php echo esc_html( rest_url( 'mcp/mcp-adapter-default-server' ) ); ?></code></p>
+			<p>Azioni MCP del plugin: <code>influencee/stato</code>, <code>influencee/pagine</code>, <code>influencee/redirect</code>, <code>influencee/svuota-cache</code>, <code>influencee/controlla-pagina</code>, <code>influencee/rimuovi-creator</code>, <code>influencee/articoli</code>, <code>influencee/aggiorna-plugin</code>. Indirizzo: <code><?php echo esc_html( rest_url( 'mcp/mcp-adapter-default-server' ) ); ?></code></p>
 			<?php $log = array_reverse( (array) get_option( 'inft_mcp_log', array() ) ); if ( $log ) : ?>
 				<details><summary>Ultime azioni eseguite via MCP (<?php echo count( $log ); ?>)</summary><table class="widefat striped"><thead><tr><th>Quando</th><th>Utente</th><th>Azione</th><th>Dati</th><th>Esito</th></tr></thead><tbody>
 				<?php foreach ( array_slice( $log, 0, 20 ) as $l ) : ?>
@@ -686,10 +742,11 @@ function inft_settings_page() {
 			<h2>Redirect 301 dei vecchi URL</h2>
 			<p><label><input type="checkbox" name="inft_settings[redirects]" value="1" <?php checked( ! empty( $s['redirects'] ) ); ?>> Attiva i redirect qui sotto (dal piano SEO)</label></p>
 			<ul style="list-style:disc;margin-left:20px">
-			<?php foreach ( inft_redirect_map() as $from => $to ) : ?>
+			<?php foreach ( inft_redirect_base() as $from => $to ) : ?>
 				<li><code><?php echo esc_html( $from ); ?></code> → <code><?php echo esc_html( $to ); ?></code></li>
 			<?php endforeach; ?>
 			</ul>
+			<p><label>Redirect aggiuntivi, uno per riga nel formato <code>/vecchio/ -> /nuovo/</code> (es. articoli doppi)<br><textarea name="inft_settings[redirects_extra]" rows="4" cols="70"><?php foreach ( (array) $s['redirects_extra'] as $from => $to ) { echo esc_textarea( $from . ' -> ' . $to . "\n" ); } ?></textarea></label></p>
 			<?php submit_button( 'Salva' ); ?>
 		</form>
 			<?php
