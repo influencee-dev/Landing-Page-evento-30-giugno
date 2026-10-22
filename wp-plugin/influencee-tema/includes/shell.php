@@ -55,7 +55,7 @@ function infe_attivo() {
 	if ( 'plugin' === $s['tema'] ) {
 		$esito = infe_pagina_plugin();
 	} elseif ( 'tutto' === $s['tema'] ) {
-		$esito = infe_pagina_plugin() || is_singular( array( 'page', 'post' ) ) || infe_elenco();
+		$esito = true; // tutto il sito: anche profili, offerte di lavoro, 404 e archivi degli altri plugin
 	}
 	return $esito;
 }
@@ -64,10 +64,57 @@ add_filter( 'inft_shell_active', function ( $v ) { return $v || infe_attivo(); }
 
 /* ─── Documento: intestazione ─── */
 
+/** Intestazione già stampata in questa richiesta (guscio del Tema o template di un altro plugin). */
+function infe_stampato( $cosa, $segna = false ) {
+	static $fatto = array();
+	if ( $segna ) {
+		$fatto[ $cosa ] = true;
+	}
+	return ! empty( $fatto[ $cosa ] );
+}
+
+/*
+ * Pagine con il template di un altro plugin o del tema (profili creator, offerte di lavoro, 404, archivi):
+ * il tema non stampa il suo header (filtro di Hello Elementor), noi stampiamo i nostri in wp_body_open e wp_footer
+ * e l'HTML finale viene ripulito da header e footer di Elementor Pro o del vecchio plugin.
+ */
+add_action(
+	'template_redirect',
+	function () {
+		if ( infe_attivo() ) {
+			add_filter( 'hello_elementor_header_footer', '__return_false' );
+			ob_start( 'infe_pulisci_html' );
+		}
+	},
+	999
+);
+add_action(
+	'wp_body_open',
+	function () {
+		if ( infe_attivo() && ! infe_stampato( 'header' ) ) {
+			infe_stampato( 'header', true );
+			echo '<a class="it-skip" href="#contenuto">Vai al contenuto</a>' . infe_header_html() . '<div id="contenuto" class="it-contenuto">'; // phpcs:ignore WordPress.Security.EscapeOutput
+		}
+	},
+	1
+);
+add_action(
+	'wp_footer',
+	function () {
+		if ( infe_attivo() && infe_stampato( 'header' ) && ! infe_stampato( 'footer' ) ) {
+			infe_stampato( 'footer', true );
+			echo "</div>\n" . infe_footer_html(); // phpcs:ignore WordPress.Security.EscapeOutput
+		}
+	},
+	1
+);
+add_filter( 'body_class', function ( $c ) { return infe_attivo() ? array_merge( $c, array( 'inf-tema' ) ) : $c; } );
+
 add_action(
 	'inft_shell_header',
 	function () {
-		ob_start( 'infe_pulisci_html' );
+		infe_stampato( 'header', true );
+		infe_stampato( 'footer', true ); // il guscio stampa da sé il piè di pagina
 		?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -75,7 +122,7 @@ add_action(
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <?php wp_head(); ?>
 </head>
-<body <?php body_class( 'inf-tema' ); ?>>
+<body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <a class="it-skip" href="#contenuto">Vai al contenuto</a>
 <?php echo infe_header_html(); // phpcs:ignore WordPress.Security.EscapeOutput -- costruito ed escapato in infe_header_html ?>
@@ -90,12 +137,11 @@ add_action(
 		echo "</div>\n" . infe_footer_html(); // phpcs:ignore WordPress.Security.EscapeOutput -- costruito ed escapato in infe_footer_html
 		wp_footer();
 		echo "\n</body>\n</html>\n";
-		ob_end_flush();
 	}
 );
 
 function infe_logo() {
-	return '<a class="it-logo" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Influencee, home"><span class="it-mark" aria-hidden="true"><span></span><i></i></span>influencee</a>';
+	return '<a class="it-logo" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Influencee, home"><img src="' . esc_url( INFE_URL . 'assets/logo.svg' ) . '" alt="Influencee" width="150" height="24"></a>';
 }
 
 /** Tipo di pagina per GA4 (page_type) quando il contenuto non lo dichiara: tool, articolo, offerte, pagina. */
@@ -115,18 +161,35 @@ function infe_tipo_pagina() {
 
 function infe_header_html() {
 	$t  = esc_attr( infe_tipo_pagina() );
-	$h  = '<header class="it-header inf-scope" data-inft-track data-page-type="' . $t . '" data-section="header"><div class="inf-wrap it-bar">' . infe_logo();
+	$h  = '<header class="it-header inf-scope" data-inft-track data-page-type="' . $t . '" data-section="header"><div class="it-wrapw it-bar">' . infe_logo();
 	$h .= '<nav class="it-nav" id="it-nav" aria-label="Menu principale"><ul class="it-menu">';
-	foreach ( infe_menu() as $g ) {
-		if ( empty( $g['items'] ) ) {
+	foreach ( infe_menu() as $i => $g ) {
+		if ( empty( $g['cols'] ) ) {
 			$h .= '<li><a class="it-top" href="' . esc_url( infe_url( $g['href'] ) ) . '">' . esc_html( $g['label'] ) . '</a></li>';
 			continue;
 		}
-		$h .= '<li class="it-group' . ( ! empty( $g['wide'] ) ? ' it-wide' : '' ) . '"><details><summary class="it-top">' . esc_html( $g['label'] ) . '<svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="it-drop">';
-		foreach ( $g['items'] as $it ) {
-			$h .= '<a href="' . esc_url( infe_url( $it[1] ) ) . '"><b>' . esc_html( $it[0] ) . '</b>' . ( $it[2] ? '<span>' . esc_html( $it[2] ) . '</span>' : '' ) . '</a>';
+		$sez = 'header_' . sanitize_title( $g['label'] );
+		$h  .= '<li class="it-group"><details><summary class="it-top">' . esc_html( $g['label'] ) . '<svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>';
+		$h  .= '<div class="it-mega" data-section="' . esc_attr( $sez ) . '"><div class="it-wrapw it-mega-in' . ( ! empty( $g['wide'] ) ? ' it-mega-wide' : '' ) . '">';
+		foreach ( $g['cols'] as $c ) {
+			if ( empty( $c['items'] ) ) {
+				continue;
+			}
+			$h .= '<div class="it-col"><p class="it-col-t">' . esc_html( $c['title'] ) . '</p><div class="' . ( ! empty( $c['chips'] ) ? 'it-chips' : 'it-voci' ) . '">';
+			foreach ( $c['items'] as $it ) {
+				if ( ! empty( $c['chips'] ) ) {
+					$h .= '<a class="it-chip" href="' . esc_url( infe_url( $it[1] ) ) . '">' . esc_html( $it[0] ) . '</a>';
+					continue;
+				}
+				$h .= '<a class="it-voce" href="' . esc_url( infe_url( $it[1] ) ) . '"><span class="it-ico">' . infe_icona( $it[3] ) . '</span><span><b>' . esc_html( $it[0] ) . '</b>' . ( $it[2] ? '<small>' . esc_html( $it[2] ) . '</small>' : '' ) . '</span></a>';
+			}
+			$h .= '</div></div>';
 		}
-		$h .= '</div></details></li>';
+		if ( ! empty( $g['card'] ) ) {
+			list( $eye, $tit, $txt, $cta, $href ) = $g['card'];
+			$h .= '<div class="it-card"><p class="it-card-eye">' . esc_html( $eye ) . '</p><p class="it-card-t">' . esc_html( $tit ) . '</p><p class="it-card-x">' . esc_html( $txt ) . '</p><a class="inf-btn inf-btn-acid" href="' . esc_url( infe_url( $href ) ) . '">' . esc_html( $cta ) . ' <span aria-hidden="true">→</span></a></div>';
+		}
+		$h .= '</div></div></details></li>';
 	}
 	$h .= '</ul><div class="it-mobile-cta"><a class="inf-btn inf-btn-line" href="' . esc_url( infe_app( '/accounts/login/' ) ) . '">Accedi</a><a class="inf-btn inf-btn-acid" href="' . esc_url( infe_app( '/iscriviti/' ) ) . '">Inizia gratis</a></div></nav>';
 	$h .= '<div class="it-cta"><a class="it-login" href="' . esc_url( infe_app( '/accounts/login/' ) ) . '">Accedi</a><a class="inf-btn inf-btn-acid it-start" href="' . esc_url( infe_app( '/iscriviti/' ) ) . '">Inizia gratis</a>';
@@ -135,21 +198,36 @@ function infe_header_html() {
 }
 
 function infe_footer_html() {
-	$f  = '<footer class="it-footer inf-scope" data-inft-track data-page-type="' . esc_attr( infe_tipo_pagina() ) . '" data-section="footer"><div class="inf-wrap it-fgrid"><div class="it-fbrand">' . infe_logo();
-	$f .= '<p>Influencer 100% italiani. Piattaforma di influencer marketing per aziende, agenzie e creator.</p>';
-	$f .= '<p class="it-social">';
+	$f  = '<footer class="it-footer inf-scope" data-inft-track data-page-type="' . esc_attr( infe_tipo_pagina() ) . '" data-section="footer">';
+	$f .= '<div class="it-fcta" data-section="footer_cta"><div class="it-wrapw it-fcta-in"><div><p class="it-feye">Influencer marketing 100% italiano</p><p class="it-fhead">Brand e creator italiani, <em>nello stesso posto.</em></p></div>';
+	$f .= '<div class="it-fbtn"><a class="inf-btn inf-btn-acid" href="' . esc_url( infe_app( '/iscriviti/brand/' ) ) . '">Sono un brand</a><a class="inf-btn it-btn-ghost" href="' . esc_url( infe_app( '/iscriviti/creator/' ) ) . '">Sono un creator</a></div></div></div>';
+	$f .= '<div class="it-wrapw it-fgrid"><div class="it-fbrand">' . infe_logo();
+	$f .= '<p>Piattaforma di influencer marketing con solo creator italiani: per aziende, agenzie e creator.</p><p class="it-social">';
 	foreach ( infe_social() as $s ) {
-		$f .= '<a href="' . esc_url( $s[1] ) . '" rel="noopener" target="_blank">' . esc_html( $s[0] ) . '</a>';
+		$f .= '<a href="' . esc_url( $s[1] ) . '" rel="noopener" target="_blank" aria-label="' . esc_attr( $s[0] ) . '"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $s[2] . '</svg></a>';
 	}
 	$f .= '</p></div>';
-	foreach ( array_merge( infe_footer_colonne(), infe_struttura() ) as $titolo => $links ) {
-		$f .= '<div><p class="inf-label">' . esc_html( $titolo ) . '</p><ul>';
+	foreach ( infe_footer_colonne() as $titolo => $links ) {
+		$f .= '<div><p class="it-ftit">' . esc_html( $titolo ) . '</p><ul>';
 		foreach ( $links as $l ) {
 			$f .= '<li><a href="' . esc_url( infe_url( $l[1] ) ) . '">' . esc_html( $l[0] ) . '</a></li>';
 		}
 		$f .= '</ul></div>';
 	}
-	$f .= '</div><div class="inf-wrap it-flegal"><span>© ' . esc_html( gmdate( 'Y' ) ) . ' Partidea S.r.l. · P.IVA 04405500408</span><span>';
+	$f .= '</div>';
+	$str = infe_struttura();
+	if ( $str ) {
+		$f .= '<div class="it-wrapw it-fstr">';
+		foreach ( $str as $titolo => $links ) {
+			$f .= '<div><p class="it-ftit">' . esc_html( $titolo ) . '</p><p class="it-fchips">';
+			foreach ( $links as $l ) {
+				$f .= '<a href="' . esc_url( infe_url( $l[1] ) ) . '">' . esc_html( $l[0] ) . '</a>';
+			}
+			$f .= '</p></div>';
+		}
+		$f .= '</div>';
+	}
+	$f .= '<div class="it-wrapw it-flegal"><span>© ' . esc_html( gmdate( 'Y' ) ) . ' Partidea S.r.l. · P.IVA 04405500408</span><span>';
 	foreach ( infe_legali() as $l ) {
 		$f .= '<a href="' . esc_url( infe_url( $l[1] ) ) . '">' . esc_html( $l[0] ) . '</a>';
 	}
@@ -213,7 +291,8 @@ add_action(
 			return;
 		}
 		inft_enqueue_base(); // Core: CSS base e tracciamento GA4
-		wp_enqueue_style( 'infe-tema', INFE_URL . 'assets/tema.css', array( 'inft-base' ), INFE_VERSION );
+		wp_enqueue_style( 'infe-font', 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap', array(), null );
+		wp_enqueue_style( 'infe-tema', INFE_URL . 'assets/tema.css', array( 'inft-base', 'infe-font' ), INFE_VERSION );
 		wp_enqueue_script( 'infe-tema', INFE_URL . 'assets/tema.js', array(), INFE_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	},
 	50

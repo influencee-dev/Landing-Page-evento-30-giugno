@@ -28,10 +28,11 @@
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
     closeAll();
-    if (nav.classList.contains('is-open')) { nav.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); burger.focus(); }
+    if (nav.classList.contains('is-open')) { nav.classList.remove('is-open'); document.body.classList.remove('it-menu-aperto'); burger.setAttribute('aria-expanded', 'false'); burger.focus(); }
   });
   burger.addEventListener('click', function () {
     var open = nav.classList.toggle('is-open');
+    document.body.classList.toggle('it-menu-aperto', open);
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     burger.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu');
   });
