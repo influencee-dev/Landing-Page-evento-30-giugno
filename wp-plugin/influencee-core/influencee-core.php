@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Core
  * Description:       Base comune dei plugin Influencee: SEO/GEO/AEO (title, description, dati strutturati, llms.txt), tracciamento GA4, CSS e JavaScript condivisi, redirect 301, impostazioni e accesso MCP per Claude. Necessario per Influencee Tools, Pagine, Articoli e Annunci.
- * Version:           2.1.0
+ * Version:           2.2.0
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFC_VERSION', '2.1.0' );
+define( 'INFC_VERSION', '2.2.0' );
 define( 'INFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFT_COMPANY', 'Partidea SRL' );
@@ -85,6 +85,7 @@ function inft_settings() {
 			'articles'  => 'off',   // articoli col nuovo modello: off | lista (solo quelli in articles_on) | tutti
 			'articles_on'  => array(), // articoli accesi in modalità "lista"
 			'articles_off' => array(), // articoli esclusi anche in modalità "tutti"
+			'redirect_vecchie' => 0, // pagine vecchie Elementor → pagine nuove, solo se la nuova è online
 			'redirects_extra' => array(), // redirect 301 aggiuntivi (es. articoli doppi), attivi solo con 'redirects'
 			'redirects' => 0,       // redirect 301 dei vecchi URL (spenti finché non li attivi)
 			'privacy'   => 1,       // toglie email e telefoni dalle bio dei creator nelle API e nelle pagine pubbliche
@@ -186,6 +187,65 @@ function inft_redirect_base() {
 		'/annunci-collaborazioni/'                    => '/offerte-lavoro-influencer/',
 	);
 }
+
+/**
+ * Pagine vecchie fatte con Elementor che passano a una pagina nuova (piano wp-plugin/PAGINE-VECCHIE.md).
+ * Il redirect parte solo se la pagina di arrivo è già online: accendendo le pagine nuove, le vecchie si spostano da
+ * sole e non nasce mai un 404.
+ */
+function inft_redirect_vecchie() {
+	$tool = '/social-media-tool/';
+	$map  = array(
+		'/sport-influencers/'                                   => '/fitness-influencers/',
+		'/piattaforma-influencer-marketing/'                    => '/piattaforma-influencer/',
+		'/trova-influencer/'                                    => '/funzionalita/database-influencer/',
+		'/tool-influencer/'                                     => $tool,
+		'/gestione-campagne-influencer/'                        => '/funzionalita/gestione-campagne/',
+		'/gestione-campagne-influecer/'                         => '/funzionalita/gestione-campagne/',
+		'/gestionale-influencer/'                               => '/piattaforma-influencer/',
+		'/demo-piattaforma-influencer/'                         => '/piattaforma-influencer/',
+		'/agenzie/'                                             => '/piattaforma-agenzie/',
+		'/agenzia-content-creator/'                             => '/agenzia-influencer/',
+		'/content-creator/'                                     => '/diventa-creator/',
+		'/gestione-ugc/'                                        => '/contenuti-ugc/',
+		'/guida-definitiva-al-micro-influencer-marketing-2026/' => '/micro-influencer/',
+		'/virtual-influencer/'                                  => '/influencer-italiani/',
+		'/converti-immagini-in-webp/'                           => $tool,
+		'/benvenuto-su-influencee/'                             => '/diventa-creator/',
+		'/cost/'                                                => '/prezzi/',
+	);
+	foreach ( array( 'anteprima-dei-tuoi-post-sui-social', 'generatore-prompt-per-social-media-manager', 'calcola-preventivo-gestione-social', 'comprimi-immagini-online', 'report-social-organico', 'social-media-strategy-tool', 'calendario-editoriale', 'social-campaign-planner', 'piano-editoriale-online' ) as $t ) {
+		$map[ $tool . $t . '/' ] = $tool;
+	}
+	return apply_filters( 'inft_redirect_vecchie', $map );
+}
+
+/** La pagina di arrivo esiste davvero? (pagina dei plugin accesa o pagina WordPress pubblicata) */
+function inft_destinazione_online( $path ) {
+	$pages = inft_pages();
+	if ( isset( $pages[ $path ] ) ) {
+		return inft_is_active( $path, $pages[ $path ] );
+	}
+	$p = get_page_by_path( trim( $path, '/' ), OBJECT, array( 'page', 'post' ) );
+	return $p && 'publish' === $p->post_status;
+}
+
+add_action(
+	'template_redirect',
+	function () {
+		$s = inft_settings();
+		if ( empty( $s['redirect_vecchie'] ) ) {
+			return;
+		}
+		$path = inft_request_path();
+		$map  = inft_redirect_vecchie();
+		if ( isset( $map[ $path ] ) && inft_destinazione_online( $map[ $path ] ) && ! inft_current() ) {
+			wp_safe_redirect( home_url( $map[ $path ] ), 301, 'Influencee' );
+			exit;
+		}
+	},
+	0
+);
 
 add_action(
 	'template_redirect',
@@ -411,6 +471,7 @@ add_action(
 					$out['off']             = inft_known_paths( isset( $in['off'] ) ? $in['off'] : '' );
 					$out['on']              = inft_known_paths( isset( $in['on'] ) ? $in['on'] : '' );
 					$out['redirects']       = empty( $in['redirects'] ) ? 0 : 1;
+					$out['redirect_vecchie'] = empty( $in['redirect_vecchie'] ) ? 0 : 1;
 					$out['redirects_extra'] = inft_clean_redirects( isset( $in['redirects_extra'] ) ? $in['redirects_extra'] : '' );
 					$out['mcp_admin_only']  = empty( $in['mcp_admin_only'] ) ? 0 : 1;
 					return (array) apply_filters( 'inft_settings_sanitize', $out, $in );
@@ -509,6 +570,14 @@ function inft_settings_page() {
 			<?php endif; ?>
 			<?php do_action( 'inft_settings_sections', $s ); // parti dei singoli plugin (profili, articoli, annunci) ?>
 			<h2>Redirect 301 dei vecchi URL</h2>
+			<h3>Pagine vecchie (Elementor) che passano alle pagine nuove</h3>
+			<p><label><input type="checkbox" name="inft_settings[redirect_vecchie]" value="1" <?php checked( ! empty( $s['redirect_vecchie'] ) ); ?>> Attiva: ogni pagina vecchia va con un 301 alla nuova <b>solo quando la nuova è online</b> (mai 404)</label></p>
+			<table class="widefat striped" style="max-width:900px"><thead><tr><th>Pagina vecchia</th><th>Pagina nuova</th><th>Nuova online?</th></tr></thead><tbody>
+			<?php foreach ( inft_redirect_vecchie() as $from => $to ) : ?>
+				<tr><td><code><?php echo esc_html( $from ); ?></code></td><td><code><?php echo esc_html( $to ); ?></code></td><td><?php echo inft_destinazione_online( $to ) ? '✅ sì: il redirect è attivo' : '⏳ non ancora: resta la pagina vecchia'; ?></td></tr>
+			<?php endforeach; ?>
+			</tbody></table>
+			<h3>Altri redirect del piano SEO</h3>
 			<p><label><input type="checkbox" name="inft_settings[redirects]" value="1" <?php checked( ! empty( $s['redirects'] ) ); ?>> Attiva i redirect qui sotto (dal piano SEO)</label></p>
 			<ul style="list-style:disc;margin-left:20px">
 			<?php foreach ( inft_redirect_base() as $from => $to ) : ?>

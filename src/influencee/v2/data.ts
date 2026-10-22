@@ -226,7 +226,6 @@ export const MARKET = {
     { max: Infinity, label: 'Ottimo organico, potenziale virale', tone: 'great' },
   ],
   context: [
-    { v: '~40.000', l: 'influencer con partita IVA in Italia', src: 'AGCOM 2026' },
     { v: '425 mln €', l: 'mercato dell’influencer marketing in Italia nel 2026 (+10,4%)', src: 'Il Sole 24 Ore' },
   ],
 };

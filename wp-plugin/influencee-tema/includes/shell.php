@@ -55,7 +55,7 @@ function infe_attivo() {
 	if ( 'plugin' === $s['tema'] ) {
 		$esito = infe_pagina_plugin();
 	} elseif ( 'tutto' === $s['tema'] ) {
-		$esito = infe_pagina_plugin() || is_singular( array( 'page', 'post' ) );
+		$esito = infe_pagina_plugin() || is_singular( array( 'page', 'post' ) ) || infe_elenco();
 	}
 	return $esito;
 }
@@ -107,6 +107,9 @@ function infe_tipo_pagina() {
 	if ( function_exists( 'inft_article_current' ) && inft_article_current() ) {
 		return 'articolo';
 	}
+	if ( infe_elenco() ) {
+		return 'blog';
+	}
 	return is_front_page() ? 'home' : 'pagina';
 }
 
@@ -125,8 +128,8 @@ function infe_header_html() {
 		}
 		$h .= '</div></details></li>';
 	}
-	$h .= '</ul><div class="it-mobile-cta"><a class="inf-btn inf-btn-line" href="' . esc_url( infe_app( '/login' ) ) . '">Accedi</a><a class="inf-btn inf-btn-acid" href="' . esc_url( infe_app() ) . '">Inizia gratis</a></div></nav>';
-	$h .= '<div class="it-cta"><a class="it-login" href="' . esc_url( infe_app( '/login' ) ) . '">Accedi</a><a class="inf-btn inf-btn-acid it-start" href="' . esc_url( infe_app() ) . '">Inizia gratis</a>';
+	$h .= '</ul><div class="it-mobile-cta"><a class="inf-btn inf-btn-line" href="' . esc_url( infe_app( '/accounts/login/' ) ) . '">Accedi</a><a class="inf-btn inf-btn-acid" href="' . esc_url( infe_app( '/iscriviti/' ) ) . '">Inizia gratis</a></div></nav>';
+	$h .= '<div class="it-cta"><a class="it-login" href="' . esc_url( infe_app( '/accounts/login/' ) ) . '">Accedi</a><a class="inf-btn inf-btn-acid it-start" href="' . esc_url( infe_app( '/iscriviti/' ) ) . '">Inizia gratis</a>';
 	$h .= '<button type="button" class="it-burger" aria-controls="it-nav" aria-expanded="false" aria-label="Apri il menu"><span></span><span></span><span></span></button></div>';
 	return $h . '</div></header>';
 }
@@ -153,6 +156,11 @@ function infe_footer_html() {
 	return $f . '</span></div></footer>';
 }
 
+/** Pagine elenco degli articoli: blog, categorie, tag, autore, ricerca. */
+function infe_elenco() {
+	return is_home() || is_category() || is_tag() || is_author() || is_search() || is_date();
+}
+
 /* ─── Pagine non servite dai plugin (modo "tutto"): stesso guscio, contenuto di WordPress ─── */
 
 add_filter(
@@ -160,6 +168,9 @@ add_filter(
 	function ( $tpl ) {
 		if ( infe_attivo() && ! infe_pagina_plugin() && is_singular( array( 'page', 'post' ) ) ) {
 			return INFE_DIR . 'includes/template-pagina.php';
+		}
+		if ( infe_attivo() && infe_elenco() ) {
+			return INFE_DIR . 'includes/template-elenco.php';
 		}
 		return $tpl;
 	},

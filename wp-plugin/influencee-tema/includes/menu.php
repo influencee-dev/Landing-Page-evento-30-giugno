@@ -6,8 +6,20 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/** La nuova app (iscrizione e accesso), come in tutte le pagine del sito. */
 function infe_app( $path = '' ) {
-	return 'https://campaign.influencee.it' . $path;
+	return 'https://app.influencee.it' . $path;
+}
+
+/** Il primo percorso che porta a una pagina online: la pagina nuova se è accesa, altrimenti quella di oggi. */
+function infe_meglio( $percorsi ) {
+	foreach ( (array) $percorsi as $p ) {
+		if ( 0 !== strpos( $p, '/' ) || false !== strpos( $p, '#' ) || infe_esiste( $p ) ) {
+			return $p;
+		}
+	}
+	$p = (array) $percorsi;
+	return end( $p );
 }
 
 function infe_regioni() {
@@ -20,37 +32,37 @@ function infe_menu() {
 	foreach ( infe_regioni() as $slug => $nome ) {
 		$regioni[] = array( $nome, '/influencer-italiani/influencer-' . $slug . '/', '' );
 	}
-	$regioni[] = array( 'Sfoglia tutto il database →', infe_app(), '' );
+	$regioni[] = array( 'Cerca nel database dei creator →', infe_app( '/iscriviti/brand/' ), '' );
 	$menu = array(
 		array(
 			'label' => 'Piattaforma',
 			'items' => array(
-				array( 'La piattaforma', '/piattaforma-influencer/', 'Ricerca creator, approvazione, contratti, chat' ),
-				array( 'Gestione campagne', '/gestione-campagne-influencer/', 'Dalla proposta ai risultati' ),
+				array( 'La piattaforma', '/piattaforma-influencer/', 'Ricerca creator, campagne, contratti, chat' ),
+				array( 'Gestione campagne', infe_meglio( array( '/funzionalita/gestione-campagne/', '/gestione-campagne-influencer/' ) ), 'Dalla proposta ai risultati' ),
 				array( 'Bacheca offerte di lavoro', '/offerte-lavoro-influencer/', 'Gli annunci dei brand per i creator' ),
 			),
 		),
 		array(
 			'label' => 'Aziende',
 			'items' => array(
-				array( 'Lancia una campagna', '/gestione-campagne-influencer/', 'Per brand ed e-commerce' ),
+				array( 'Lancia una campagna', infe_meglio( array( '/influencer-marketing-aziende/', '/gestione-campagne-influencer/' ) ), 'Per brand ed e-commerce' ),
 				array( 'Servizio full-service', '/agenzia-influencer/', 'La campagna la seguiamo noi' ),
-				array( 'Calcolo preventivo', '/preventivi-influencer/', 'Quanto costa la tua campagna' ),
+				array( 'Calcolo preventivo', infe_meglio( array( '/preventivo-campagne/', '/preventivi-influencer/' ) ), 'Quanto costa la tua campagna' ),
 				array( 'Pubblica un’offerta di lavoro', '/pubblica-offerta-lavoro/', 'Gratis, i creator si candidano' ),
-				array( 'Free social media tool', '/social-media-tool-form/', 'Gli strumenti gratuiti' ),
+				array( 'Tool gratuiti', '/social-media-tool/', 'Fake follower, costo influencer, engagement' ),
 			),
 		),
 		array(
 			'label' => 'Creator',
 			'items' => array(
-				array( 'Entra come creator', '/influencer/', 'Iscrizione gratuita, ricevi proposte' ),
+				array( 'Entra come creator', infe_meglio( array( '/diventa-creator/', '/influencer/' ) ), 'Iscrizione gratuita, ricevi proposte' ),
 				array( 'Calcolatore costo post', '/social-media-tool/costo-influencer/', 'Quanto vale un tuo contenuto' ),
 				array( 'Offerte di lavoro', '/offerte-lavoro-influencer/', 'Candidati agli annunci' ),
 				array( 'Guide gratuite', '/guide-e-risorse/', 'Per crescere sui social' ),
 			),
 		),
 		array( 'label' => 'Trova influencer', 'wide' => true, 'items' => $regioni ),
-		array( 'label' => 'Prezzi', 'href' => '/#prezzi' ),
+		array( 'label' => 'Prezzi', 'href' => infe_meglio( array( '/prezzi/', '/#prezzi' ) ) ),
 		array( 'label' => 'Blog', 'href' => '/news-influencer-marketing/' ),
 	);
 	return apply_filters( 'infe_menu', $menu );
@@ -60,9 +72,9 @@ function infe_footer_colonne() {
 	return apply_filters(
 		'infe_footer_colonne',
 		array(
-			'Cosa offriamo' => array( array( 'Tool influencer e UGC', '/piattaforma-influencer/' ), array( 'Gestione campagne', '/gestione-campagne-influencer/' ), array( 'Calcolo preventivo campagna', '/preventivi-influencer/' ), array( 'Annunci lavoro influencer', '/offerte-lavoro-influencer/' ), array( 'Guide gratuite', '/guide-e-risorse/' ) ),
-			'Aziende'       => array( array( 'Piattaforma influencer', '/piattaforma-influencer/' ), array( 'Progetti influencer', '/agenzia-influencer/' ), array( 'Free social media tool', '/social-media-tool-form/' ), array( 'Pubblica offerte lavoro creator', '/pubblica-offerta-lavoro/' ) ),
-			'Creator'       => array( array( 'Piattaforma creator', '/influencer/' ), array( 'Calcolatore costo', '/social-media-tool/costo-influencer/' ), array( 'Offerte di lavoro', '/offerte-lavoro-influencer/' ), array( 'Trova influencer', '/influencer-italiani/' ), array( 'Blog', '/news-influencer-marketing/' ) ),
+			'Cosa offriamo' => array( array( 'Tool influencer e UGC', '/piattaforma-influencer/' ), array( 'Gestione campagne', infe_meglio( array( '/funzionalita/gestione-campagne/', '/gestione-campagne-influencer/' ) ) ), array( 'Calcolo preventivo campagna', infe_meglio( array( '/preventivo-campagne/', '/preventivi-influencer/' ) ) ), array( 'Annunci lavoro influencer', '/offerte-lavoro-influencer/' ), array( 'Guide gratuite', '/guide-e-risorse/' ) ),
+			'Aziende'       => array( array( 'Piattaforma influencer', '/piattaforma-influencer/' ), array( 'Progetti influencer', '/agenzia-influencer/' ), array( 'Tool gratuiti', '/social-media-tool/' ), array( 'Pubblica offerte lavoro creator', '/pubblica-offerta-lavoro/' ) ),
+			'Creator'       => array( array( 'Piattaforma creator', infe_meglio( array( '/diventa-creator/', '/influencer/' ) ) ), array( 'Calcolatore costo', '/social-media-tool/costo-influencer/' ), array( 'Offerte di lavoro', '/offerte-lavoro-influencer/' ), array( 'Trova influencer', '/influencer-italiani/' ), array( 'Blog', '/news-influencer-marketing/' ) ),
 		)
 	);
 }
@@ -112,6 +124,14 @@ function infe_struttura() {
 
 /** Il percorso porta a una pagina vera (mai link a pagine che darebbero 404)? */
 function infe_esiste( $path ) {
+	static $visti = array();
+	if ( isset( $visti[ $path ] ) ) {
+		return $visti[ $path ];
+	}
+	$visti[ $path ] = infe_esiste_davvero( $path );
+	return $visti[ $path ];
+}
+function infe_esiste_davvero( $path ) {
 	if ( function_exists( 'inft_pages' ) && function_exists( 'inft_is_active' ) ) {
 		$pages = inft_pages();
 		if ( isset( $pages[ $path ] ) && inft_is_active( $path, $pages[ $path ] ) ) {

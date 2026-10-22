@@ -166,7 +166,7 @@ Live: due title ("Costo post influencer", "Calcolatore Costo Influencer") e due 
 - "Costo medio di un post Instagram in Italia per fascia (DeRev): nano 200 €, micro 950 €, mid 3.550 €, macro circa 8.000 € (stima), oltre 1 milione 23.750 €."
 - "Fasce di follower: nano 1.000–10.000, micro 10.000–50.000, mid 50.000–250.000, macro 250.000–1 milione, mega oltre 1 milione."
 - "Il calcolatore di Influencee affianca la formula di prezzo per follower dell'app alla media di mercato della stessa fascia."
-- Contesto con fonte (da `MARKET.context`): "circa 40.000 influencer con partita IVA in Italia (AGCOM 2026)"; "mercato dell'influencer marketing in Italia 425 mln € nel 2026, +10,4% (Il Sole 24 Ore)".
+- Contesto con fonte (da `MARKET.context`): "mercato dell'influencer marketing in Italia 425 mln € nel 2026, +10,4% (Il Sole 24 Ore)".
 
 ---
 

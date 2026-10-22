@@ -78,3 +78,24 @@ details[open]>.it-top svg{transform:rotate(180deg)}
 .it-flegal span{display:flex;flex-wrap:wrap;gap:16px}
 .it-flegal a{color:var(--mute);text-decoration:none}
 .it-flegal a:hover{color:var(--ink)}
+
+/* Elenco degli articoli (blog, categorie, ricerca), nello stile degli articoli */
+.it-elenco{padding:40px 0 72px}
+.it-crumbs{display:flex;flex-wrap:wrap;gap:6px;font-size:13px;color:var(--mute);margin-bottom:20px}
+.it-crumbs a{color:#5A67D8;text-decoration:none}
+.it-elenco h1{font-size:clamp(32px,5vw,48px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.it-elenco-lead{max-width:640px;margin:16px 0 0;font-size:18px;line-height:1.55;color:var(--mute)}
+.it-schede{display:grid;gap:20px;margin-top:36px;grid-template-columns:1fr}
+@media(min-width:640px){.it-schede{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.it-schede{grid-template-columns:repeat(3,1fr)}}
+.it-scheda a{display:flex;flex-direction:column;height:100%;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;text-decoration:none;color:#0f172a;transition:transform .2s,box-shadow .2s,border-color .2s}
+.it-scheda a:hover{transform:translateY(-2px);border-color:#5A67D8;box-shadow:0 6px 20px rgba(90,103,216,.1)}
+.it-scheda img,.it-scheda-ph{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.it-scheda-ph{display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;background:linear-gradient(135deg,#1e1b4b,#4338ca);color:#fff;font-weight:700}
+.it-scheda-cat{margin:16px 18px 0;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A67D8}
+.it-scheda h2{margin:6px 18px 0;font-size:18px;line-height:1.3;letter-spacing:-.01em}
+.it-scheda p{margin:8px 18px 0;font-size:14px;line-height:1.55;color:#64748b}
+.it-scheda-meta{margin:auto 18px 18px;padding-top:14px;font-size:12px;color:#94a3b8}
+.it-pagine{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:40px}
+.it-pagine .page-numbers{display:inline-flex;min-width:40px;height:40px;align-items:center;justify-content:center;padding:0 12px;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#0f172a;font-size:14px}
+.it-pagine .current{background:#0f172a;color:#fff;border-color:#0f172a}
