@@ -201,3 +201,17 @@ Ogni azione finisce nel registro in fondo alla pagina Influencee.
 - [ ] **WP Job Manager:** quando l'app espone l'elenco degli annunci, disattivalo (con i redirect delle offerte vecchie accesi).
 - [ ] **Plugin da spegnere per la velocità:** lista nella chat del 22/10/2026. Fra questi il plugin che crea `claude/v1` ed Elementor MCP Composer, da spegnere anche per sicurezza.
 - [ ] **Chi segue i lead** in tandem: offerte di lavoro, preventivi, articoli, profili.
+
+
+## 9. Influencee Tema (intestazione e piè di pagina senza Elementor)
+
+Serve **Influencee Core 2.1.0** (e Articoli 2.1.0 per gli articoli). Piano completo: `wp-plugin/PIANO-SENZA-ELEMENTOR.md`.
+
+1. Aggiorna Core e Articoli (carica gli zip nuovi → «Sostituisci quello attuale»), poi carica e attiva **influencee-tema.zip**.
+2. **Influencee → Impostazioni → Intestazione e piè di pagina**: parte **spento**. Scegli «Solo le pagine dei plugin»
+   e salva (la cache di LiteSpeed si svuota da sola).
+3. Controlla 3-4 pagine (un tool, un articolo, le offerte di lavoro) da telefono e da computer: menu, sottomenu,
+   piè di pagina, pulsanti «Inizia gratis» e «Accedi».
+4. Quando va bene: «Tutto il sito». Le pagine ancora fatte con Elementor tengono il contenuto Elementor ma prendono
+   la nuova intestazione. Se una pagina ha problemi, scrivila in «Pagine che restano come prima».
+5. **Non disattivare Elementor**: servirà finché tutte le pagine non sono convertite (fase 2 del piano).

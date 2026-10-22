@@ -426,9 +426,9 @@ add_action(
 		}
 		$html = inft_article_html( $post );
 		ob_start( 'inft_article_clean_page' );
-		get_header();
+		inft_get_header(); // Core: intestazione del Tema se acceso, altrimenti quella del tema WordPress
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput -- costruito ed escapato in inft_article_html
-		get_footer();
+		inft_get_footer();
 		ob_end_flush();
 		exit;
 	},

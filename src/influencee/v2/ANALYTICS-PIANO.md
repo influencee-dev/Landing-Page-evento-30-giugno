@@ -164,3 +164,14 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `post_job_step` (`step` 1-5, `compenso`) | ogni passo superato del percorso | dove si fermano i brand (es. passo 4 con la partita IVA) | semplificare il passo che perde di più |
 | `generate_lead` con `lead_source=lead_pubblica_offerta`, `post_job_done` | invio del percorso | offerte arrivate (anche in tandem e tra le Bozze annunci) | chi richiamare, quante offerte diventano annunci |
 | `claim_click` (verso app.influencee.it, `utm_campaign=pubblica_offerta`) | clic su "crea l'account / scegli la password" | quanti brand entrano davvero nell'app | lavorare sul passaggio sito → app |
+
+
+## Intestazione e piè di pagina del sito (plugin Influencee Tema, 22/10/2026)
+
+| Cosa | Evento | Parametri | Perché conta | Decisione che abilita |
+| :-- | :-- | :-- | :-- | :-- |
+| Clic su una voce del menu o del piè di pagina | `internal_link_click` | `cta_location` = `header` / `footer`, `link_text`, `link_url`, `page_type` | Quali voci del menu portano davvero dove | Togliere o spostare le voci che nessuno usa |
+| «Inizia gratis» / «Accedi» nell'intestazione | `app_link_click` | `cta_location` = `header`, `link_text` | Quanti entrano nell'app dall'intestazione | Testo e colore del pulsante principale |
+| Apertura dei sottomenu (Piattaforma, Aziende, Creator, Trova influencer) | `ui_click` | `link_text` = nome del gruppo | Cosa cercano i visitatori nel menu | Ordine dei gruppi |
+
+`page_type` viene dal contenuto (tool, articolo, offerte, pagina, home): l'intestazione lo dichiara solo se il contenuto non lo fa.

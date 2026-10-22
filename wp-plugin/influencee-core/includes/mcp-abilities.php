@@ -345,7 +345,7 @@ add_action(
 			'influencee/aggiorna-plugin',
 			array(
 				'label'               => 'Aggiorna un plugin Influencee',
-				'description'         => 'Installa o aggiorna un plugin Influencee (influencee-core, influencee-tools, influencee-pagine, influencee-articoli, influencee-annunci) da uno zip in base64. Accetta solo zip con una di queste cartelle e il file principale col nome giusto, e solo se l\'impronta sha256 coincide. Le impostazioni restano; con attiva=true il plugin viene attivato. Richiede conferma.',
+				'description'         => 'Installa o aggiorna un plugin Influencee (influencee-core, influencee-tools, influencee-pagine, influencee-articoli, influencee-annunci, influencee-tema, influencee-pulizia) da uno zip in base64. Accetta solo zip con una di queste cartelle e il file principale col nome giusto, e solo se l\'impronta sha256 coincide. Le impostazioni restano; con attiva=true il plugin viene attivato. Richiede conferma.',
 				'category'            => 'influencee',
 				'input_schema'        => array(
 					'type'                 => 'object',
@@ -431,7 +431,7 @@ function inft_mcp_update_plugin( $in ) {
 		wp_delete_file( $tmp );
 		return new WP_Error( 'inft_zip', 'Zip non leggibile.' );
 	}
-	$family = array( 'influencee-core' => 'Influencee Core', 'influencee-tools' => 'Influencee Tools', 'influencee-pagine' => 'Influencee Pagine', 'influencee-articoli' => 'Influencee Articoli', 'influencee-annunci' => 'Influencee Annunci' );
+	$family = array( 'influencee-core' => 'Influencee Core', 'influencee-tools' => 'Influencee Tools', 'influencee-pagine' => 'Influencee Pagine', 'influencee-articoli' => 'Influencee Articoli', 'influencee-annunci' => 'Influencee Annunci', 'influencee-tema' => 'Influencee Tema', 'influencee-pulizia' => 'Influencee Pulizia' );
 	$first  = $za->numFiles > 0 ? (string) $za->getNameIndex( 0 ) : '';
 	$slug   = strtok( $first, '/' );
 	$ok     = isset( $family[ $slug ] );

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Core
  * Description:       Base comune dei plugin Influencee: SEO/GEO/AEO (title, description, dati strutturati, llms.txt), tracciamento GA4, CSS e JavaScript condivisi, redirect 301, impostazioni e accesso MCP per Claude. Necessario per Influencee Tools, Pagine, Articoli e Annunci.
- * Version:           2.0.0
+ * Version:           2.1.0
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFC_VERSION', '2.0.0' );
+define( 'INFC_VERSION', '2.1.0' );
 define( 'INFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFT_COMPANY', 'Partidea SRL' );
@@ -26,6 +26,7 @@ function inft_family() {
 		'influencee-pagine/influencee-pagine.php'     => array( 'Influencee Pagine', 'INFP_VERSION', 'pagine del sito, profili creator, elenco con filtri' ),
 		'influencee-articoli/influencee-articoli.php' => array( 'Influencee Articoli', 'INFA_VERSION', 'articoli del blog in HTML5 leggero' ),
 		'influencee-annunci/influencee-annunci.php'   => array( 'Influencee Annunci', 'INFN_VERSION', 'offerte di lavoro collegate ad app.influencee.it' ),
+		'influencee-tema/influencee-tema.php'         => array( 'Influencee Tema', 'INFE_VERSION', 'intestazione, piè di pagina e layout del sito senza Elementor' ),
 	);
 }
 
@@ -248,7 +249,7 @@ add_action(
 		$html = (string) apply_filters( 'inft_page_html', $html, $page );
 		$html = str_replace( '{{ASSETS}}', esc_url( untrailingslashit( INFC_URL . 'assets' ) ), $html );
 		ob_start( 'inft_clean_head' );
-		get_header();
+		inft_get_header();
 		if ( isset( $page['render'] ) ) {
 			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput -- HTML5 costruito ed escapato dal plugin che lo genera
 		} else {
@@ -257,7 +258,7 @@ add_action(
 			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput -- HTML generato dalla build del plugin
 			echo '</div></main>';
 		}
-		get_footer();
+		inft_get_footer();
 		ob_end_flush();
 		exit;
 	},

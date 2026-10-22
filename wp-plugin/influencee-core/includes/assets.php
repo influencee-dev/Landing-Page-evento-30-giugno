@@ -15,6 +15,25 @@ function inft_enqueue_base() {
 	wp_enqueue_script( 'inft-track', INFC_URL . 'assets/inft-track.js', array(), INFC_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 }
 
+/**
+ * Intestazione e piè di pagina del sito per le pagine dei plugin. Se il plugin Influencee Tema è acceso per questa
+ * pagina usa i suoi (HTML5, senza Elementor); altrimenti quelli del tema WordPress, come prima.
+ */
+function inft_get_header() {
+	if ( has_action( 'inft_shell_header' ) && apply_filters( 'inft_shell_active', false ) ) {
+		do_action( 'inft_shell_header' );
+		return;
+	}
+	get_header();
+}
+function inft_get_footer() {
+	if ( has_action( 'inft_shell_footer' ) && apply_filters( 'inft_shell_active', false ) ) {
+		do_action( 'inft_shell_footer' );
+		return;
+	}
+	get_footer();
+}
+
 /** Stampa i tag SEO di una pagina HTML5 generata da un plugin (description, Open Graph, canonical, JSON-LD). */
 function inft_print_seo( $meta ) {
 	$url = isset( $meta['url'] ) ? $meta['url'] : home_url( isset( $meta['path'] ) ? $meta['path'] : '/' );

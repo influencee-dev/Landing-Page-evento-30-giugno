@@ -6,7 +6,10 @@
   var roots = document.querySelectorAll('[data-inft-track]');
   if (!roots.length) return;
   var debug = /[?&]debug_analytics/.test(location.search);
-  var base = { page_path: location.pathname, page_type: roots[0].getAttribute('data-page-type') || 'altro', audience: roots[0].getAttribute('data-audience') || 'misto' };
+  // il tipo di pagina viene dal contenuto, non dall'intestazione del sito (anche lei tracciata, senza data-page-type)
+  var typed = [].filter.call(roots, function (r) { return r.hasAttribute('data-page-type'); });
+  var main = typed.filter(function (r) { return !/^(header|footer)$/.test(r.getAttribute('data-section') || ''); })[0] || typed[0] || roots[0];
+  var base = { page_path: location.pathname, page_type: main.getAttribute('data-page-type') || 'altro', audience: main.getAttribute('data-audience') || 'misto' };
   function track(ev, p) {
     var o = {}, k;
     for (k in base) o[k] = base[k];
