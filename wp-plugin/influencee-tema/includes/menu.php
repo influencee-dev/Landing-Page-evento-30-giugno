@@ -50,6 +50,10 @@ function infe_citta() {
  * i link semplici hanno solo 'href'. Le voci verso pagine che non esistono vengono saltate.
  */
 function infe_menu() {
+	$cache = get_transient( 'infe_menu_' . INFE_VERSION );
+	if ( is_array( $cache ) ) {
+		return $cache;
+	}
 	$v = function ( $label, $percorsi, $testo = '', $icona = '' ) {
 		$href = infe_se_esiste( $percorsi );
 		return $href ? array( $label, $href, $testo, $icona ) : null;
@@ -161,7 +165,9 @@ function infe_menu() {
 		}
 	}
 	unset( $g );
-	return apply_filters( 'infe_menu', $menu );
+	$menu = apply_filters( 'infe_menu', $menu );
+	set_transient( 'infe_menu_' . INFE_VERSION, $menu, 12 * HOUR_IN_SECONDS );
+	return $menu;
 }
 
 /** Icone (tratto 2, 24×24) per le voci del menu. */
@@ -191,6 +197,10 @@ function infe_icona( $nome ) {
 }
 
 function infe_footer_colonne() {
+	$cache = get_transient( 'infe_footer_' . INFE_VERSION );
+	if ( is_array( $cache ) ) {
+		return $cache;
+	}
 	$col = array(
 		'Aziende'          => array( array( 'Piattaforma influencer', '/piattaforma-influencer/' ), array( 'Influencer marketing per aziende', infe_se_esiste( array( '/influencer-marketing-aziende/', '/gestione-campagne-influencer/' ) ) ), array( 'Servizio full-service', '/agenzia-influencer/' ), array( 'Agenzie', infe_se_esiste( array( '/piattaforma-agenzie/', '/agenzie/' ) ) ), array( 'Pubblica un’offerta di lavoro', '/pubblica-offerta-lavoro/' ), array( 'Prezzi', infe_se_esiste( array( '/prezzi/' ) ) ) ),
 		'Creator'          => array( array( 'Entra come creator', infe_meglio( array( '/diventa-creator/', '/influencer/' ) ) ), array( 'Offerte di lavoro', '/offerte-lavoro-influencer/' ), array( 'Creator UGC', infe_se_esiste( array( '/contenuti-ugc/' ) ) ), array( 'Trova influencer', '/influencer-italiani/' ), array( 'Blog', '/news-influencer-marketing/' ) ),
@@ -202,7 +212,9 @@ function infe_footer_colonne() {
 	foreach ( $col as $t => $links ) {
 		$col[ $t ] = array_values( array_filter( $links, function ( $l ) { return ! empty( $l[1] ); } ) );
 	}
-	return apply_filters( 'infe_footer_colonne', array_filter( $col ) );
+	$col = apply_filters( 'infe_footer_colonne', array_filter( $col ) );
+	set_transient( 'infe_footer_' . INFE_VERSION, $col, 12 * HOUR_IN_SECONDS );
+	return $col;
 }
 
 function infe_legali() {
@@ -270,5 +282,12 @@ function infe_esiste_davvero( $path ) {
 	$p = get_page_by_path( trim( $path, '/' ), OBJECT, 'page' );
 	return $p && 'publish' === $p->post_status;
 }
-add_action( 'update_option_inft_settings', function () { delete_transient( 'infe_struttura_2' ); } );
-add_action( 'save_post_page', function () { delete_transient( 'infe_struttura_2' ); } );
+/** Svuota menu e piè di pagina salvati: quando cambiano le impostazioni o una pagina. */
+function infe_svuota_menu() {
+	delete_transient( 'infe_struttura_2' );
+	delete_transient( 'infe_menu_' . INFE_VERSION );
+	delete_transient( 'infe_footer_' . INFE_VERSION );
+}
+add_action( 'update_option_inft_settings', 'infe_svuota_menu' );
+add_action( 'save_post_page', 'infe_svuota_menu' );
+add_action( 'trashed_post', 'infe_svuota_menu' );
