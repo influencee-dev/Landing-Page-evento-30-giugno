@@ -1,10 +1,10 @@
 import React from 'react';
-import { BadgeCheck, Instagram, MapPin, Users } from 'lucide-react';
-import { Button } from '../ds';
+import { BadgeCheck, Instagram, MapPin } from 'lucide-react';
+import { Button, Container, Pill, Section, TYPE } from '../ds';
 import { CATEGORIES, MARKET, REGIONS, TIERS, cityPath, regionPath, type QA } from './data';
 import { CreatorList } from './creators';
 import { ENV } from './env';
-import { FaqSeo, HeroPlatform, type Crumb } from './rows';
+import { Crumbs, FaqSeo, type Crumb } from './rows';
 import { ToolLead } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -39,13 +39,14 @@ export interface Profile {
   tierEr: string;
   tierCost: string;
   price: string; // fascia di prezzo indicata dal creator, può essere vuota
+  cta: string; // link alla campagna su campaign.influencee.it, può essere vuoto
   where: string; // città, altrimenti regione, altrimenti Italia
   updated: string;
 }
 
 /** Profilo con i segnaposto: serve solo alla build del plugin. */
 export const TOKENS: Profile = Object.fromEntries(
-  ['id', 'name', 'handle', 'instagram', 'image', 'bio', 'category', 'categoryUrl', 'city', 'cityUrl', 'region', 'regionUrl', 'citySlug', 'regionSlug', 'catTerms', 'followers', 'tier', 'tierRange', 'tierEr', 'tierCost', 'price', 'updated', 'where'].map((k) => [k, `{{${k}}}`]),
+  ['id', 'name', 'handle', 'instagram', 'image', 'bio', 'category', 'categoryUrl', 'city', 'cityUrl', 'region', 'regionUrl', 'citySlug', 'regionSlug', 'catTerms', 'followers', 'tier', 'tierRange', 'tierEr', 'tierCost', 'price', 'updated', 'where', 'cta'].map((k) => [k, `{{${k}}}`]),
 ) as unknown as Profile;
 
 /** Blocco facoltativo: nel modello è racchiuso tra commenti che PHP toglie se il dato manca. */
@@ -92,65 +93,69 @@ export function CreatorProfile({ p }: { p: Profile }) {
   if (p.region) crumbs.push({ label: `Influencer ${p.region}`, href: p.regionUrl, opt: 'region' });
   if (p.city) crumbs.push({ label: `Influencer ${p.city}`, href: p.cityUrl, opt: 'city' });
   crumbs.push({ label: p.name });
-  const stat = (k: string, v: string, accent = false) => (
-    <div className={`rounded-2xl p-4 ${accent ? 'bg-acid text-ink' : 'bg-paper text-ink'}`}>
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-60">{k}</p>
-      <p className="mt-1 font-heading text-2xl font-semibold tracking-tight">{v}</p>
+  const stat = (v: string, l: string, accent = false) => (
+    <div className={`rounded-2xl p-4 ${accent ? 'bg-acid text-ink' : 'bg-white/8 ring-1 ring-white/10'}`}>
+      <p className="truncate font-heading text-2xl font-semibold tracking-tight sm:text-3xl">{v}</p>
+      <p className="mt-1 text-xs opacity-70">{l}</p>
     </div>
   );
   return (
     <>
-      <HeroPlatform
-        crumbs={crumbs}
-        eyebrow={`Influencer ${p.category}`}
-        title={`*${p.name}*\ninfluencer a ${p.where}`}
-        lead={p.bio || `${p.name} è un creator ${p.category.toLowerCase()} su Instagram con ${p.followers} follower.`}
-        actions={
-          <>
-            <Button href="#lead-creator_profilo">Vuoi collaborare? Scrivici</Button>
-            <Button href={p.instagram} variant="secondary">
-              Profilo Instagram
-            </Button>
-          </>
-        }
-        note={`Dati dal profilo Instagram pubblico, aggiornati il ${p.updated}.`}
-        visual={
-          <div className="mx-auto max-w-[460px] rounded-[28px] bg-white p-6 text-ink shadow-[0_30px_80px_rgba(0,0,0,0.35)]">
-            <div className="flex items-center gap-4">
-              <Opt when="image" value={p.image}>
-                <img src={p.image} alt={p.name} width={80} height={80} className="h-20 w-20 flex-none overflow-hidden rounded-full bg-acid-soft object-cover text-[0px] ring-4 ring-acid" />
-              </Opt>
-              <div className="min-w-0">
-                <p className="truncate font-heading text-2xl font-semibold tracking-tight">{p.name}</p>
-                <a href={p.instagram} rel="nofollow noopener" className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-brand-ink">
-                  <Instagram className="h-4 w-4" /> @{p.handle}
-                </a>
-                <div className="mt-2 flex flex-wrap gap-1.5 text-xs font-semibold">
-                  <a href={p.categoryUrl} className="rounded-full bg-paper px-2.5 py-1">
-                    {p.category}
-                  </a>
-                  <Opt when="city" value={p.city}>
-                    <a href={p.cityUrl} className="inline-flex items-center gap-1 rounded-full bg-paper px-2.5 py-1">
-                      <MapPin className="h-3 w-3" /> {p.city}
-                    </a>
-                  </Opt>
-                </div>
-              </div>
-            </div>
-            <div className="mt-5 grid grid-cols-2 gap-2">
-              {stat('Follower', p.followers, true)}
-              {stat('Fascia', p.tier)}
-              <Opt when="price" value={p.price}>
-                {stat('Prezzo indicato', p.price)}
-              </Opt>
-              {stat(`Costo medio ${p.tier}`, p.tierCost)}
-            </div>
-            <p className="mt-3 flex items-start gap-2 text-xs text-mute">
-              <Users className="mt-0.5 h-3.5 w-3.5 flex-none" /> Fascia {p.tier}: {p.tierRange} follower · engagement medio su Instagram {p.tierEr} · costo medio di un post {p.tierCost} (DeRev)
-            </p>
+      <Section tone="ink" pad="none" className="pb-16 pt-10 sm:pb-20 sm:pt-14">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[60%] bg-[radial-gradient(ellipse_at_top,rgba(255,31,143,0.28),transparent_65%)]" />
+        <Container className="relative text-center">
+          <Crumbs center items={crumbs} />
+          <Opt when="image" value={p.image}>
+            <img src={p.image} alt={p.name} width={112} height={112} className="mx-auto mt-10 h-28 w-28 overflow-hidden rounded-full bg-white/10 object-cover text-[0px] ring-4 ring-acid ring-offset-4 ring-offset-ink" />
+          </Opt>
+          <h1 className={`mt-6 ${TYPE.display}`}>{p.name}</h1>
+          <p className="mt-3 text-lg text-white/60">
+            Influencer {p.category.toLowerCase()} a {p.where} ·{' '}
+            <a href={p.instagram} rel="nofollow noopener" className="font-semibold text-white hover:text-acid">
+              @{p.handle}
+            </a>
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
+            <a href={p.categoryUrl}>
+              <Pill active>{p.category}</Pill>
+            </a>
+            <Opt when="city" value={p.city}>
+              <a href={p.cityUrl}>
+                <Pill>
+                  <MapPin className="h-3.5 w-3.5" /> {p.city}
+                </Pill>
+              </a>
+            </Opt>
+            <Pill>Fascia {p.tier}</Pill>
+            <Pill>
+              <Instagram className="h-3.5 w-3.5" /> Instagram
+            </Pill>
+            <Opt when="price" value={p.price}>
+              <Pill>Prezzo indicato: {p.price}</Pill>
+            </Opt>
           </div>
-        }
-      />
+          <p className={`mx-auto mt-6 max-w-xl ${TYPE.lead} text-white/70`}>{p.bio}</p>
+          <div className="mx-auto mt-8 grid max-w-lg grid-cols-3 gap-3">
+            {stat(p.followers, 'follower')}
+            {stat(p.tier, 'fascia')}
+            {stat(p.tierCost, `costo medio post ${p.tier}`, true)}
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button href="#lead-creator_profilo">Proponi una collaborazione</Button>
+            <Opt when="cta" value={p.cta}>
+              <Button href={p.cta} variant="secondary">
+                Invitalo a una campagna
+              </Button>
+            </Opt>
+            <Button href={p.instagram} variant="secondary">
+              <Instagram className="h-4 w-4" /> Profilo Instagram
+            </Button>
+          </div>
+          <p className="mx-auto mt-4 max-w-xl text-xs text-white/45">
+            Profilo reale da influencee.it, dati dal profilo Instagram pubblico aggiornati il {p.updated}. Fascia {p.tier} ({p.tierRange} follower): engagement medio su Instagram {p.tierEr}, costo medio di un post {p.tierCost} (fonti ONIM e DeRev).
+          </p>
+        </Container>
+      </Section>
       <ToolLead
         tool="creator_profilo"
         context={`Creator: ${p.name} (@${p.handle}) · ${p.category} · ${p.where}`}
@@ -160,7 +165,7 @@ export function CreatorProfile({ p }: { p: Profile }) {
         bullets={['Disponibilità e prezzo del creator', 'Creator simili della stessa zona', 'Nessun impegno']}
         cta="Chiedi una collaborazione"
       />
-      <CreatorList title={`Altri creator\n*a ${p.where}*`} lead="Altri profili della stessa zona presenti nel sito." filter={{ city: p.citySlug, region: p.regionSlug, limit: 8, exclude: p.id }} />
+      <CreatorList title={'Creator\n*simili*'} lead={`Altri creator della stessa zona su influencee: apri la scheda per vedere follower, fascia e costo medio.`} filter={{ city: p.citySlug, region: p.regionSlug, limit: 8, exclude: p.id }} />
       <FaqSeo items={profileFaq(p)} aside={<div className="flex items-center gap-3 rounded-3xl bg-acid-soft p-5 text-sm"><BadgeCheck className="h-5 w-5 flex-none" /> Sei {p.name}? Puoi chiedere di modificare o togliere il profilo scrivendoci su WhatsApp.</div>} />
     </>
   );

@@ -203,3 +203,10 @@ Se una ricerca non trova nessun creator, la pagina propone il modulo "Ricevi la 
 - **Aggiornamento:** l'elenco si ricarica da solo quando modifichi o cestini un profilo. Altrimenti si aggiorna ogni ora.
 - **GA4:** ogni ricerca manda l'evento `tool_filter` con `tool_name=elenco_creator`, i filtri usati e il numero di risultati. Così vedi cosa cercano le aziende, per esempio "food in Campania", e dove mancano creator.
 - **Come accenderla:** la pagina fa parte del gruppo "sostituzione". Per provarla da sola, scrivi `/influencer-italiani/` nel riquadro "Pagine da accendere" delle impostazioni.
+
+**Design (versione 1.2.1):** scheda, listing e profilo seguono il design del sito già costruito, il catalogo dei moduli con i profili reali di influencee.it:
+- **scheda:** fascia magenta→nero con la categoria, foto tonda sovrapposta, nome e @handle, sotto follower · fascia · città;
+- **listing:** ricerca, nicchie a pillole, colonna filtri (Dimensione, Regione, Città, Ordina per, Azzera filtri) e "N creator trovati · profili reali da influencee.it";
+- **profilo:** hero nero centrato con la foto contornata di verde acido, pillole, tre numeri e i pulsanti "Proponi una collaborazione" e "Invitalo a una campagna" (link campaign.influencee.it del creator), poi "Creator simili".
+
+Rispetto al design originale non vengono mostrati né il badge "Verificato" né "match" ed engagement del singolo creator, perché questi dati non sono nel sito.

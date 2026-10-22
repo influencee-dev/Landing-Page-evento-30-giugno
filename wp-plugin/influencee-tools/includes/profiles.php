@@ -138,6 +138,7 @@ function inft_profile_of( $post ) {
 		'tierEr'      => $tier['er'],
 		'tierCost'    => $tier['cost'],
 		'price'       => ! empty( $igm['price'] ) ? trim( (string) $igm['price'] ) : '',
+		'cta'         => ! empty( $igm['cta_url'] ) && preg_match( '#^https://([a-z0-9-]+\.)?influencee\.it/#i', (string) $igm['cta_url'] ) ? (string) $igm['cta_url'] : '', // link alla campagna sulla piattaforma
 		'updated'     => get_the_modified_date( 'j/n/Y', $post ),
 	);
 	$out['where'] = $out['city'] ? $out['city'] : ( $out['region'] ? $out['region'] : 'Italia' );
@@ -171,7 +172,7 @@ function inft_profile_fill( $html, $p, $escape = true ) {
 			if ( ! $escape ) {
 				return $v;
 			}
-			return preg_match( '/(?:Url|^instagram|^image)$/', $m[1] ) ? esc_url( $v ) : esc_html( $v );
+			return preg_match( '/(?:Url|^instagram|^image|^cta)$/', $m[1] ) ? esc_url( $v ) : esc_html( $v );
 		},
 		$html
 	);

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Tools
  * Description:       Tool gratuiti di influencer marketing (fake follower, costo influencer, engagement rate, preventivo campagna, offerte di lavoro, emoticon) con SEO/GEO/AEO, eventi GA4 e lead verso tandem-forms. Serve le pagine tool con il loro URL attuale.
- * Version:           1.2.0
+ * Version:           1.2.1
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFT_VERSION', '1.2.0' );
+define( 'INFT_VERSION', '1.2.1' );
 define( 'INFT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFT_URL', plugin_dir_url( __FILE__ ) );
 
@@ -407,9 +407,9 @@ function inft_creator_data( $post ) {
 	if ( ! $image && preg_match( '#<img[^>]+src=["\']([^"\']+)#i', (string) $post->post_content, $m ) ) {
 		$image = $m[1];
 	}
-	$term = function ( $tax ) use ( $post ) {
+	$term = function ( $tax, $field = 'name' ) use ( $post ) {
 		$t = get_the_terms( $post->ID, $tax );
-		return is_array( $t ) && $t ? $t[0]->name : '';
+		return is_array( $t ) && $t ? $t[0]->$field : '';
 	};
 	return array(
 		'name'      => wp_strip_all_tags( get_the_title( $post ) ),
@@ -419,6 +419,8 @@ function inft_creator_data( $post ) {
 		'followers' => $followers,
 		'city'      => $term( 'creator_city' ),
 		'category'  => $term( 'creator_category' ),
+		'cat_slug'  => $term( 'creator_category', 'slug' ),
+		'city_slug' => $term( 'creator_city', 'slug' ),
 	);
 }
 
@@ -468,21 +470,40 @@ function inft_creators_html_for( $key ) {
 	} else {
 		$cards = '';
 		foreach ( $list as $c ) {
-			$initials = strtoupper( mb_substr( $c['name'], 0, 2 ) );
-			$avatar   = $c['image'] ? '<img src="' . esc_url( $c['image'] ) . '" alt="' . esc_attr( $c['name'] ) . '" loading="lazy" width="48" height="48" class="h-12 w-12 flex-none overflow-hidden rounded-full object-cover">' : '<span class="flex h-12 w-12 flex-none items-center justify-center overflow-hidden rounded-full bg-acid font-heading text-sm font-semibold">' . esc_html( $initials ) . '</span>';
-			$sub      = array_filter( array( $c['ig'] ? '@' . $c['ig'] : '', $c['category'], $c['city'] ) );
-			if ( $c['followers'] ) {
-				array_unshift( $sub, number_format_i18n( $c['followers'] ) . ' follower' );
-			}
-			$cards .= '<a href="' . esc_url( $c['url'] ) . '" class="group flex items-center gap-3 rounded-2xl bg-white p-3 ring-1 ring-line transition hover:-translate-y-0.5 hover:ring-brand">' . $avatar
-				. '<span class="min-w-0"><span class="block truncate font-heading text-[15px] font-semibold">' . esc_html( $c['name'] ) . '</span>'
-				. '<span class="block truncate text-xs text-mute">' . esc_html( implode( ' · ', array_slice( $sub, 0, 2 ) ) ) . '</span></span></a>';
+			$cards .= inft_creator_card( $c );
 		}
-		$html = '<div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">' . $cards . '</div>';
+		$html = '<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">' . $cards . '</div>';
 	}
 	$done[ $key ] = $html;
 	$GLOBALS['inft_creators_rendered'] = $done;
 	return $html;
+}
+
+/** Card del creator: stesso markup di CreatorTile (src/influencee/v2/creators.tsx). */
+function inft_creator_card( $c ) {
+	$d     = function_exists( 'inft_profile_data' ) ? inft_profile_data() : array();
+	$igm   = function_exists( 'inft_igm_by_slug' ) ? inft_igm_by_slug( basename( untrailingslashit( (string) wp_parse_url( $c['url'], PHP_URL_PATH ) ) ) ) : array();
+	$image = ! empty( $igm['image'] ) ? (string) $igm['image'] : $c['image'];
+	$ig    = ! empty( $igm['handle'] ) ? ltrim( (string) $igm['handle'], '@' ) : $c['ig'];
+	$fol   = ! empty( $igm['followers_n'] ) ? (int) $igm['followers_n'] : (int) $c['followers'];
+	$cat   = isset( $d['cats'][ $c['cat_slug'] ] ) ? $d['cats'][ $c['cat_slug'] ]['name'] : 'Lifestyle';
+	$city  = isset( $d['cities'][ $c['city_slug'] ] ) ? $d['cities'][ $c['city_slug'] ]['name'] : ( $c['city'] ? $c['city'] : 'Italia' );
+	$tier  = $fol && function_exists( 'inft_tier_of' ) && isset( $d['tiers'][ inft_tier_of( $fol ) ] ) ? $d['tiers'][ inft_tier_of( $fol ) ]['name'] : '—';
+	$shadow = 'shadow-[0_8px_22px_-10px_rgba(10,10,10,.45)]';
+	$photo  = $image
+		? '<img src="' . esc_url( $image ) . '" alt="' . esc_attr( $c['name'] ) . '" loading="lazy" width="88" height="88" class="h-[88px] w-[88px] rounded-full border-4 border-white bg-white object-cover text-[0px] ' . $shadow . ' transition duration-500 group-hover:scale-105">'
+		: '<span class="flex h-[88px] w-[88px] items-center justify-center rounded-full border-4 border-white bg-acid font-heading text-2xl font-semibold text-ink ' . $shadow . '">' . esc_html( mb_strtoupper( mb_substr( $c['name'], 0, 2 ) ) ) . '</span>';
+	$stat   = function ( $v, $l ) {
+		return '<span class="block min-w-0"><span class="block truncate px-1 font-heading font-semibold">' . esc_html( $v ) . '</span><span class="block text-[11px] text-mute">' . esc_html( $l ) . '</span></span>';
+	};
+	return '<a href="' . esc_url( $c['url'] ) . '" class="group block overflow-hidden rounded-3xl bg-white ring-1 ring-line transition hover:-translate-y-1 hover:shadow-card">'
+		. '<span class="relative block h-[84px] bg-[linear-gradient(135deg,#E6007E_0%,#A3005E_55%,#0A0A0A_100%)]"><span class="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] truncate rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-ink">' . esc_html( $cat ) . '</span></span>'
+		. '<span class="relative z-[2] -mt-11 flex justify-center">' . $photo . '</span>'
+		. '<span class="block px-4 pb-3.5 pt-3 text-center"><span class="block truncate font-heading font-semibold text-ink">' . esc_html( $c['name'] ) . '</span>'
+		. '<span class="block truncate text-xs text-mute">' . ( $ig ? '@' . esc_html( $ig ) : '&nbsp;' ) . '</span></span>'
+		. '<span class="grid grid-cols-3 divide-x divide-line border-t border-line px-2 py-3 text-center">'
+		. $stat( $fol ? inft_short_number( $fol ) : '—', 'follower' ) . $stat( $tier, 'fascia' ) . $stat( $city, 'città' )
+		. '</span></a>';
 }
 
 function inft_creators_rendered() {
