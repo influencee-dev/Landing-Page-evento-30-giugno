@@ -6,6 +6,7 @@ import { resolve } from '../pages';
 import { CreatorProfile } from '../profile';
 import { wpHref } from './routes';
 import './embed.css';
+import '../v2.css';
 
 /* Bundle del plugin WordPress: sostituisce l'HTML pre-renderizzato con la
    versione interattiva della stessa pagina (calcolatori, filtri, FAQ, lead).

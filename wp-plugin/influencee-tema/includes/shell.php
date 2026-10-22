@@ -291,7 +291,7 @@ add_action(
 			return;
 		}
 		inft_enqueue_base(); // Core: CSS base e tracciamento GA4
-		wp_enqueue_style( 'infe-font', 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap', array(), null );
+		wp_enqueue_style( 'infe-font', 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap', array(), null );
 		wp_enqueue_style( 'infe-tema', INFE_URL . 'assets/tema.css', array( 'inft-base', 'infe-font' ), INFE_VERSION );
 		wp_enqueue_script( 'infe-tema', INFE_URL . 'assets/tema.js', array(), INFE_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	},

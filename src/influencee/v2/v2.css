@@ -1,0 +1,10 @@
+/* Sito influencee v2: sezioni più alte e spaziose (solo v2, il componente Section è condiviso con gli altri template) */
+.in-section[data-pad="default"]{padding-top:6.5rem;padding-bottom:6.5rem}
+.in-section[data-pad="hero"]{padding-bottom:6.5rem}
+@media(min-width:640px){.in-section[data-pad="default"]{padding-top:9rem;padding-bottom:9rem}.in-section[data-pad="hero"]{padding-bottom:9rem}}
+@media(min-width:1024px){.in-section[data-pad="default"]{padding-top:10.5rem;padding-bottom:10.5rem}.in-section[data-pad="hero"]{padding-bottom:10.5rem}}
+
+/* Etichetta sopra i titoli: sticker da storia Instagram al posto della pillola con puntino */
+.in-eyebrow{border-radius:7px;padding:6px 11px;background:#0a0a0a;color:#fff;font-size:13px;font-weight:700;letter-spacing:0;text-transform:none;line-height:1.2;transform:rotate(-2deg);box-shadow:0 6px 14px -8px rgba(10,10,10,.45)}
+.in-eyebrow[data-dark]{background:#c8ff1a;color:#0a0a0a}
+.in-eyebrow .in-eyebrow-dot{display:none}

@@ -122,9 +122,10 @@ export function Eyebrow({ children, className = '' }: { children: React.ReactNod
   const bg = dark ? 'bg-white/10 text-white' : t === 'soft' ? 'bg-white text-brand-ink' : 'bg-brand-soft text-brand-ink';
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 ${TYPE.label} ${bg} ${className}`}
+      data-dark={dark ? '1' : undefined}
+      className={`in-eyebrow inline-flex items-center gap-2 rounded-full px-3 py-1.5 ${TYPE.label} ${bg} ${className}`}
     >
-      <span className={`h-1.5 w-1.5 rounded-full ${dark ? 'bg-acid' : 'bg-brand'}`} />
+      <span className={`in-eyebrow-dot h-1.5 w-1.5 rounded-full ${dark ? 'bg-acid' : 'bg-brand'}`} />
       {children}
     </span>
   );
@@ -190,7 +191,7 @@ export function Section({
 }) {
   const padding = pad === 'default' ? 'py-20 sm:py-28' : pad === 'hero' ? 'pb-20 sm:pb-28' : '';
   return (
-    <section id={id} data-tone={tone} className={`in-section relative overflow-hidden font-sans ${pad === 'none' ? 'in-own-pad' : ''} ${TONE_BG[tone]} ${padding} ${className}`}>
+    <section id={id} data-tone={tone} data-pad={pad} className={`in-section relative overflow-hidden font-sans ${pad === 'none' ? 'in-own-pad' : ''} ${TONE_BG[tone]} ${padding} ${className}`}>
       <ToneCtx.Provider value={tone}>{children}</ToneCtx.Provider>
     </section>
   );

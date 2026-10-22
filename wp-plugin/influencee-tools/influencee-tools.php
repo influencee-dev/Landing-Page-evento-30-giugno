@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Tools
  * Description:       Tool gratuiti di influencer marketing con il loro URL attuale: fake follower checker, calcolatore costo influencer, engagement rate, preventivo campagna, emoticon. Testo completo per Google e motori AI, eventi GA4, lead verso tandem. Le offerte di lavoro sono nel plugin Influencee Annunci.
- * Version:           2.0.1
+ * Version:           2.0.2
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFT_TOOLS_VERSION', '2.0.1' );
+define( 'INFT_TOOLS_VERSION', '2.0.2' );
 define( 'INFT_TOOLS_DIR', plugin_dir_path( __FILE__ ) );
 
 add_action(

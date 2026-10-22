@@ -54,20 +54,20 @@ function infe_menu() {
 		$href = infe_se_esiste( $percorsi );
 		return $href ? array( $label, $href, $testo, $icona ) : null;
 	};
+	// Nel mega menu solo categorie e specialità: le pagine geografiche ricevono i link dal flusso
+	// home → categorie → regioni → città (link juice), non dal menu.
+	$spec      = array( 'sport', 'model', 'luxury', 'wedding', 'entrepreneur' );
 	$categorie = array();
+	$special   = array();
 	foreach ( infe_categorie() as $slug => $nome ) {
-		$categorie[] = $v( $nome, '/' . $slug . '-influencers/' );
+		$voce = $v( $nome, '/' . $slug . '-influencers/' );
+		if ( in_array( $slug, $spec, true ) ) {
+			$special[] = $voce;
+		} else {
+			$categorie[] = $voce;
+		}
 	}
-	$categorie[] = $v( 'Artisti', '/artist-influencer/' );
-	$regioni     = array();
-	foreach ( infe_regioni() as $slug => $nome ) {
-		$regioni[] = array( $nome, '/influencer-italiani/influencer-' . $slug . '/', '', '' );
-	}
-	$citta = array();
-	foreach ( infe_citta() as $k => $nome ) {
-		list( $reg, $c ) = explode( '/', $k );
-		$citta[] = $v( $nome, '/influencer-italiani/influencer-' . $reg . '/influencer-' . $c . '/' );
-	}
+	$special[] = $v( 'Artisti', '/artist-influencer/' );
 	$menu = array(
 		array(
 			'label' => 'Piattaforma',
@@ -144,11 +144,10 @@ function infe_menu() {
 			'label' => 'Trova influencer',
 			'wide'  => true,
 			'cols'  => array(
-				array( 'title' => 'Per categoria', 'chips' => true, 'items' => $categorie ),
-				array( 'title' => 'Per regione', 'chips' => true, 'items' => $regioni ),
-				array( 'title' => 'Città principali', 'chips' => true, 'items' => $citta ),
+				array( 'title' => 'Categorie', 'chips' => true, 'items' => $categorie ),
+				array( 'title' => 'Specialità', 'chips' => true, 'items' => $special ),
 			),
-			'card'  => array( 'Database creator', 'Tutti gli influencer italiani', 'Cerca per regione, città, categoria e fascia di follower.', 'Vedi gli influencer italiani', '/influencer-italiani/' ),
+			'card'  => array( 'Database creator', 'Tutti gli influencer italiani', 'Scegli la categoria del tuo brand, poi la regione e la città della campagna.', 'Vedi gli influencer italiani', '/influencer-italiani/' ),
 		),
 		array( 'label' => 'Prezzi', 'href' => infe_meglio( array( '/prezzi/', '/#prezzi' ) ) ),
 		array( 'label' => 'Blog', 'href' => '/news-influencer-marketing/' ),
