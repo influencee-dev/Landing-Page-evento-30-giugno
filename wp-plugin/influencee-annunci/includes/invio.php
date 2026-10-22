@@ -23,7 +23,7 @@ add_action(
 				'labels'          => array( 'name' => 'Bozze annunci', 'singular_name' => 'Bozza annuncio', 'menu_name' => 'Bozze annunci' ),
 				'public'          => false,
 				'show_ui'         => true,
-				'show_in_menu'    => 'influencee',
+				'show_in_menu'    => false, // la voce si aggiunge sotto Influencee dopo la pagina principale (vedi sotto)
 				'show_in_rest'    => false,
 				'capability_type' => 'post',
 				'capabilities'    => array( 'create_posts' => 'do_not_allow' ),
@@ -32,6 +32,16 @@ add_action(
 			)
 		);
 	}
+);
+
+// «Bozze annunci» sotto il menu Influencee, dopo la pagina delle impostazioni del Core: se la voce arriva prima,
+// WordPress mostra nel menu solo le bozze e la pagina principale sparisce.
+add_action(
+	'admin_menu',
+	function () {
+		add_submenu_page( 'influencee', 'Bozze annunci', 'Bozze annunci', 'edit_posts', 'edit.php?post_type=inf_bozza_annuncio' );
+	},
+	20
 );
 
 add_action(

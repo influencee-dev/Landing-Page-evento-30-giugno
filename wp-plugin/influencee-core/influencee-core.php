@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Core
  * Description:       Base comune dei plugin Influencee: SEO/GEO/AEO (title, description, dati strutturati, llms.txt), tracciamento GA4, CSS e JavaScript condivisi, redirect 301, impostazioni e accesso MCP per Claude. Necessario per Influencee Tools, Pagine, Articoli e Annunci.
- * Version:           2.2.3
+ * Version:           2.2.4
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFC_VERSION', '2.2.3' );
+define( 'INFC_VERSION', '2.2.4' );
 define( 'INFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFT_COMPANY', 'Partidea SRL' );
@@ -432,7 +432,10 @@ add_action(
 	'admin_menu',
 	function () {
 		add_menu_page( 'Influencee', 'Influencee', 'manage_options', 'influencee', 'inft_settings_page', 'dashicons-chart-area', 58 );
-	}
+		// voce esplicita della pagina principale: resta prima anche se altri plugin aggiungono sottovoci
+		add_submenu_page( 'influencee', 'Influencee', 'Impostazioni', 'manage_options', 'influencee', 'inft_settings_page' );
+	},
+	9
 );
 
 // vecchio indirizzo delle impostazioni (Impostazioni → Influencee Tools): porta al nuovo menu
