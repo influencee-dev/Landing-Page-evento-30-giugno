@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Button } from '../ds';
 import { HeroReels, ReelWall, WorkReelCard } from '../rows/reels';
 import { REELS } from '../site/data';
-import { APP, CATEGORIES, cityPath, regionPath, CREATOR_TYPES, FACTS, FAQ, GESTITO, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
+import { APP, CATEGORIES, SUBCATEGORIES, subcategoriesOf, cityPath, regionPath, CREATOR_TYPES, FACTS, FAQ, GESTITO, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
 import { AnnunciMock, CalendarMock, CollabMock, ContractMock, DiscoveryMock, KitMock, TrustMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
 import {
   AnswerBox,
@@ -557,13 +557,29 @@ const placeFaq = (place: string): QA[] => [
   FAQ.brand[2],
 ];
 
+function SubCategoryRow({ parent, current }: { parent: string; current?: string }) {
+  const p = CATEGORIES.find((x) => x.slug === parent)!;
+  const list = [{ slug: p.slug, short: p.short, lead: `Tutti i creator ${p.name.toLowerCase()}` }, ...subcategoriesOf(parent).map((x) => ({ slug: x.slug, short: x.short, lead: x.lead }))];
+  if (list.length < 2) return null;
+  return (
+    <Related title={`${p.short} influencer\n*per specialità*`} links={list.filter((x) => x.slug !== current).map((x) => ({ label: `${x.short} influencer`, text: x.lead, href: `#/${x.slug}/` }))} />
+  );
+}
+
 function CategoryPage({ slug }: { slug: string }) {
-  const k = CATEGORIES.find((x) => x.slug === slug)!;
+  const sub = SUBCATEGORIES.find((x) => x.slug === slug);
+  const k = sub ?? CATEGORIES.find((x) => x.slug === slug)!;
+  const parent = sub ? CATEGORIES.find((x) => x.slug === sub.parent)! : undefined;
+  const cats = sub?.fill ? [...k.wp, ...sub.fill] : k.wp;
+  const listLead = sub?.fill
+    ? `I creator con l’etichetta ${k.name} e i profili ${sub.fill.join(', ')} adatti ai brand ${k.name.toLowerCase()}: apri il profilo o filtra per fascia di follower nella piattaforma.`
+    : `Alcuni dei creator ${k.name.toLowerCase()} presenti nel sito: apri il profilo o cercane altri con i filtri della piattaforma.`;
   return (
     <>
-      <HeroReels crumbs={<CrumbsDark items={[{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `${k.short} influencer` }]} />} eyebrow={k.name} title={`${k.short} influencer\n*italiani*`} lead={`${k.lead} Cercali per città e fascia di follower e lancia la tua campagna.`} actions={<><Button href={APP.brand}>Cerca creator {k.short}</Button><Button href={APP.creator} variant="secondary">Sei un creator {k.short}? Iscriviti</Button></>} />
+      <HeroReels crumbs={<CrumbsDark items={[{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, ...(parent ? [{ label: `${parent.short} influencer`, href: `#/${parent.slug}/` }] : []), { label: `${k.short} influencer` }]} />} eyebrow={k.name} title={`${k.short} influencer\n*italiani*`} lead={`${k.lead} Cercali per città e fascia di follower e lancia la tua campagna.`} actions={<><Button href={APP.brand}>Cerca creator {k.short}</Button><Button href={APP.creator} variant="secondary">Sei un creator {k.short}? Iscriviti</Button></>} />
       <AnswerBox q={`Come scegliere un ${k.short.toLowerCase()} influencer?`} a={`Guarda tre cose: la coerenza dei contenuti con il tuo prodotto, l’engagement confrontato con quello della stessa fascia di follower e la zona del pubblico se la campagna è locale. Su influencee filtri i creator della categoria ${k.name} per città, fascia e tipo, e in ogni scheda vedi numeri, crescita e brand con cui hanno già collaborato.`} />
-      {k.wp.length > 0 && <CreatorList title={`${k.short} influencer\n*italiani su Influencee*`} lead={`Alcuni dei creator ${k.name.toLowerCase()} presenti nel sito: apri il profilo o cercane altri con i filtri della piattaforma.`} filter={{ cat: k.wp, limit: 12 }} />}
+      {cats.length > 0 && <CreatorList title={`${k.short} influencer\n*italiani su Influencee*`} lead={listLead} filter={{ cat: cats, limit: 12 }} />}
+      <SubCategoryRow parent={parent ? parent.slug : k.slug} current={k.slug} />
       <ToolLead tool="creator_categoria" context={`Categoria: ${k.name}`} eyebrow="Selezione gratuita" title={`Ti mandiamo i ${k.short.toLowerCase()} influencer\n*adatti alla tua campagna*`} lead="Dicci prodotto e budget: il team ti propone una prima selezione di creator della categoria, con prezzo indicativo." bullets={[`Creator ${k.name.toLowerCase()} italiani`, 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <FeatureSplit items={[{ ...F.ricerca, title: `Trova creator ${k.name.toLowerCase()} con i filtri giusti` }, F.campagne]} />
       <RegionGrid tone="paper" title={`${k.short} influencer\n*per regione*`} />
@@ -909,10 +925,11 @@ export function resolve(path: string): Resolved | null {
   if (fixed[p]) return withLead(fixed[p]());
 
   // Pagine per categoria: /<slug>/
-  const cat = seg.length === 1 ? CATEGORIES.find((k) => k.slug === seg[0]) : undefined;
+  const cat = seg.length === 1 ? (CATEGORIES.find((k) => k.slug === seg[0]) ?? SUBCATEGORIES.find((k) => k.slug === seg[0])) : undefined;
+  const catParent = cat && 'parent' in cat ? CATEGORIES.find((k) => k.slug === (cat as { parent: string }).parent) : undefined;
   if (cat)
     return {
-      meta: { path: p, label: `${cat.short} influencer`, type: 'page', kw: cat.kw, title: T(cat.title ?? `${cat.short} influencer italiani`), description: `${cat.lead} Trova ${cat.short.toLowerCase()} influencer italiani per città e fascia di follower e lancia la tua campagna.`.slice(0, 155), crumbs: [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, { label: `${cat.short} influencer` }], faq: catFaq(cat) },
+      meta: { path: p, label: `${cat.short} influencer`, type: 'page', kw: cat.kw, title: T(cat.title ?? `${cat.short} influencer italiani`), description: `${cat.lead} Trova ${cat.short.toLowerCase()} influencer italiani per città e fascia di follower e lancia la tua campagna.`.slice(0, 155), crumbs: [{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, ...(catParent ? [{ label: `${catParent.short} influencer`, href: `#/${catParent.slug}/` }] : []), { label: `${cat.short} influencer` }], faq: catFaq(cat) },
       el: <CategoryPage slug={cat.slug} />,
     };
 
@@ -934,6 +951,7 @@ export function resolve(path: string): Resolved | null {
 export function allPaths() {
   const out = ['/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/preventivo-campagne/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti-influencee/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
   CATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
+  SUBCATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   REGIONS.forEach((r) => {
     out.push(regionPath(r));
     r.cities.forEach((ct) => out.push(cityPath(r, ct)));

@@ -65,7 +65,7 @@ Pagine che oggi portano traffico, da Ubersuggest `domain_keywords`:
 | --- | --- |
 | `/influencer-italiani/` e tutte le sottopagine `influencer-<regione>/influencer-<città>/` | **stesso URL**, nuovo template |
 | `/food-influencers/`, `/fitness-influencers/`, `/travel-influencers/` | **stesso URL**, pagina categoria |
-| `/sport-influencers/` | 301 → `/fitness-influencers/` (categoria app "Fitness e sport") |
+| `/sport-influencers/` | sotto-categoria di Fitness, stesso URL (decisione 22/10/2026, vedi `wp-plugin/PAGINE-VECCHIE.md`) |
 | `/piattaforma-influencer/` | **stesso URL**, panoramica piattaforma |
 | `/influencer-italiane/` | stesso URL, articolo blog; link a `/influencer-italiani/` |
 | `/i-migliori-beauty-influencer-su-instagram/`, `/i-10-food-influencer-piu-popolari-su-tiktok/`, `/i-10-fashion-influencer-piu-seguiti-su-instagram/` | stesso URL, articoli blog; link alla pagina categoria |

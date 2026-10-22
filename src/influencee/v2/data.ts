@@ -230,6 +230,24 @@ export const MARKET = {
   ],
 };
 
+/* ─── Sotto-categorie (classificazioni ulteriori dello stesso database) ──
+   Pagine di WordPress con traffico (sport, luxury, wedding, model, imprenditori, artisti) che diventano viste
+   filtrate dell'elenco dei creator, sotto una delle 18 categorie. `fill`: categorie affini mostrate insieme
+   quando nel database ci sono ancora pochi profili con quella etichetta (lo dice il testo della pagina). */
+export interface SubCategory extends Category {
+  parent: string;
+  fill?: string[];
+}
+export const SUBCATEGORIES: SubCategory[] = [
+  { slug: 'sport-influencers', parent: 'fitness-influencers', name: 'Sport', short: 'Sport', kw: 'sport influencer italiani', lead: 'Atleti e creator sportivi: calcio, running, ciclismo, sport outdoor e da palestra, con community appassionate.', wp: ['sport', 'athlete'], title: 'Sport influencer e atleti italiani' },
+  { slug: 'model-influencers', parent: 'fashion-influencers', name: 'Model', short: 'Model', kw: 'model influencer italiani', lead: 'Modelle e modelli che collaborano con brand di moda, beauty e lifestyle.', wp: ['model', 'model-photographer'], title: 'Model influencer italiani' },
+  { slug: 'luxury-influencers', parent: 'fashion-influencers', name: 'Luxury', short: 'Luxury', kw: 'luxury influencer italiani', lead: 'Creator di moda, viaggi e lifestyle adatti a brand premium e luxury.', wp: ['luxury'], fill: ['fashion', 'travel', 'lifestyle'], title: 'Luxury influencer italiani' },
+  { slug: 'wedding-influencers', parent: 'lifestyle-influencers', name: 'Wedding', short: 'Wedding', kw: 'wedding influencer italiani', lead: 'Creator per matrimoni e cerimonie: atelier, location, wedding planner e fornitori.', wp: ['wedding'], fill: ['fashion', 'lifestyle'], title: 'Wedding influencer italiani' },
+  { slug: 'entrepreneur-influencers', parent: 'lifestyle-influencers', name: 'Imprenditori', short: 'Imprenditori', kw: 'imprenditori influencer', lead: 'Imprenditori e professionisti che raccontano business, carriera e progetti.', wp: ['entrepreneur'], title: 'Imprenditori influencer italiani' },
+  { slug: 'artist-influencer', parent: 'photography-influencers', name: 'Artisti', short: 'Artist', kw: 'artist influencer italiani', lead: 'Artisti, illustratori e designer che portano i brand dentro progetti creativi.', wp: ['artist', 'art', 'design'], title: 'Artist influencer italiani' },
+];
+export const subcategoriesOf = (parent: string) => SUBCATEGORIES.filter((s) => s.parent === parent);
+
 /* ─── Menu ──────────────────────────────────────────────────────── */
 export interface MenuItem {
   label: string;

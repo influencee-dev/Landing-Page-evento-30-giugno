@@ -11,13 +11,28 @@ si elimina solo dopo che il suo indirizzo porta (301) a una pagina online.
 | `/pubblica-offerta-lavoro/` | 1 | Influencee Annunci |
 | `/news-influencer-marketing/` (pagina del blog) | 0 | Influencee Tema 1.0.3 (elenco articoli) |
 
+## A bis. Sotto-categorie del database creator (Pagine 2.0.2, gruppo «sostituzione»)
+
+Stesso indirizzo, nessun redirect: diventano una classificazione in più dello stesso elenco dei creator, sotto la
+loro famiglia. La pagina della famiglia ha i link alle sue specialità, la specialità ha la breadcrumb verso la famiglia.
+
+| Pagina | Clic | Famiglia | Etichette WordPress (Creator → Categorie) |
+| :-- | --: | :-- | :-- |
+| `/sport-influencers/` | 332 | Fitness | `sport` (18), `athlete` (1) |
+| `/luxury-influencers/` | 79 | Moda | `luxury` (0): per ora mostra creator moda, viaggi, lifestyle (lo dice il testo) |
+| `/wedding-influencers/` | 68 | Lifestyle | `wedding` (0): per ora mostra creator moda e lifestyle (lo dice il testo) |
+| `/model-influencers/` | 51 | Moda | `model` (6), `model-photographer` (1) |
+| `/entrepreneur-influencers/` | 37 | Lifestyle | `entrepreneur` (4) |
+| `/artist-influencer/` | 18 | Arte e fotografia | `artist` (23), `art` (2), `design` (1) |
+
+Per riempire luxury e wedding basta dare ai creator giusti la categoria `luxury` o `wedding` in WordPress.
+
 ## B. Redirect 301 automatici verso le pagine nuove (Core 2.2.0, «Pagine vecchie»)
 
 Partono da soli quando la pagina nuova è online. Poi la pagina vecchia si può mettere nel cestino.
 
 | Pagina vecchia | Clic | Va a | Si accende con |
 | :-- | --: | :-- | :-- |
-| `/sport-influencers/` | 332 | `/fitness-influencers/` | gruppo «sostituzione» |
 | `/piattaforma-influencer-marketing/` | 29 | `/piattaforma-influencer/` | gruppo «sostituzione» |
 | `/trova-influencer/` | 25 | `/funzionalita/database-influencer/` | gruppo «nuova» |
 | `/tool-influencer/` | 4 | `/social-media-tool/` | già online |
@@ -39,7 +54,6 @@ Partono da soli quando la pagina nuova è online. Poi la pagina vecchia si può 
 | :-- | --: | :-- |
 | `/influencer-italiane/` | 455 | la pagina con più clic tra le vecchie: per ultima, da sola |
 | `/influencer/` | 201 | pagina «per i creator»; in alternativa 301 a `/diventa-creator/` (da decidere dopo) |
-| `/luxury-influencers/`, `/wedding-influencers/`, `/model-influencers/`, `/entrepreneur-influencers/`, `/artist-influencer/` | 253 | categorie che l'app non ha: stesso testo |
 | `/academy-influencer-marketing/` | 61 | pagina principale dell'academy |
 | `/chi-siamo/` | 42 | |
 | `/contratto-social-media-influencer-ugc/` | 17 | |

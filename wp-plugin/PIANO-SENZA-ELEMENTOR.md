@@ -54,12 +54,11 @@ La conversione non è una copia cieca: per ognuna delle 67 pagine vale l'azione 
 
 | Pagine | Azione | Nota |
 | :-- | :-- | :-- |
-| `/sport-influencers/` (332 clic) | piano SEO: 301 → `/fitness-influencers/` | **da decidere**: solo quando `/fitness-influencers/` è online e parla anche di sport; altrimenti conversione allo stesso URL |
+| `/sport-influencers/`, `/luxury-influencers/`, `/model-influencers/`, `/wedding-influencers/`, `/entrepreneur-influencers/`, `/artist-influencer/` | **deciso 22/10**: sotto-categorie dell'elenco creator, stesso URL, nel plugin Pagine | niente 301; vedi `PAGINE-VECCHIE.md` § A bis |
 | `/social-media-tool-form/`, `/tool-influencer/` | 301 → `/social-media-tool/` | il primo è già nei redirect del Core (spenti), il secondo va aggiunto |
 | `/piattaforma-influencer-marketing/` | 301 → `/piattaforma-influencer/` | stessa ricerca di due pagine (cannibalizzazione) |
 | `/preventivi-influencer/` e i 9 tool in `/social-media-tool/…` | restauro del tool (fase 2 di `RESTAURO-TOOL.md`) oppure 301 → `/social-media-tool/` | mai 404 |
 | `/influencer-italiane/` (455 clic) | stesso URL, contenuto da articolo; link a `/influencer-italiani/` | |
-| `/luxury-influencers/`, `/model-influencers/`, `/wedding-influencers/`, `/entrepreneur-influencers/`, `/artist-influencer/` | stesso URL, stesso testo: solo HTML5 | categorie senza equivalente nell'app |
 | `/offerte-lavoro-influencer/`, `/pubblica-offerta-lavoro/` | già nel plugin Annunci | |
 | Tutte le altre (academy, chi siamo, corsi, privacy…) | conversione allo stesso URL | |
 
