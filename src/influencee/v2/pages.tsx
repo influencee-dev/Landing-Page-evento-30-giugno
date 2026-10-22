@@ -31,6 +31,7 @@ import {
   type FeatureItem,
 } from './rows';
 import { CreatorDirectory, CreatorList } from './creators';
+import { SUB_STORY } from './substory';
 import { CostCalcPanel, PreventivoPanel, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -546,8 +547,19 @@ function ItaliansHub() {
   );
 }
 
-const catFaq = (k: { short: string }): QA[] => [
-  { q: `Quanto costa un ${k.short.toLowerCase()} influencer?`, a: 'Dipende da fascia di follower, formato e diritti d’uso. Molti creator indicano nella scheda un prezzo indicativo per reel, storia e post; il compenso finale si concorda nella collaborazione, anche in cambio merce o affiliazione.' },
+/** «un/uno food influencer», «i/gli sport influencer»: articolo giusto in italiano (s+consonante, z, vocale). */
+function catOne(k: { short: string; slug: string }) {
+  if (k.slug === 'entrepreneur-influencers') return 'un imprenditore influencer';
+  const w = k.short.toLowerCase();
+  return `${/^(s[^aeiou]|z|gn|ps|x|y)/.test(w) ? 'uno' : 'un'} ${w} influencer`;
+}
+function catMany(k: { short: string; slug: string }) {
+  const w = k.short.toLowerCase();
+  return `${/^(s[^aeiou]|z|gn|ps|x|y|[aeiou])/.test(w) ? 'gli' : 'i'} ${w} influencer`;
+}
+
+const catFaq = (k: { short: string; slug: string }): QA[] => [
+  { q: `Quanto costa ${catOne(k)}?`, a: 'Dipende da fascia di follower, formato e diritti d’uso. Molti creator indicano nella scheda un prezzo indicativo per reel, storia e post; il compenso finale si concorda nella collaborazione, anche in cambio merce o affiliazione.' },
   { q: `Come contattare ${k.short.toLowerCase()} influencer italiani?`, a: 'Su influencee li inviti a una campagna o pubblichi un annuncio a cui si candidano. Con Premium vedi anche i contatti dei creator che li hanno resi disponibili.' },
   FAQ.brand[0],
 ];
@@ -571,16 +583,39 @@ function CategoryPage({ slug }: { slug: string }) {
   const k = sub ?? CATEGORIES.find((x) => x.slug === slug)!;
   const parent = sub ? CATEGORIES.find((x) => x.slug === sub.parent)! : undefined;
   const cats = sub?.fill ? [...k.wp, ...sub.fill] : k.wp;
+  const story = sub ? SUB_STORY[sub.slug] : undefined; // testi della vecchia pagina che si posizionano
   const listLead = sub?.fill
     ? `I creator con l’etichetta ${k.name} e i profili ${sub.fill.join(', ')} adatti ai brand ${k.name.toLowerCase()}: apri il profilo o filtra per fascia di follower nella piattaforma.`
     : `Alcuni dei creator ${k.name.toLowerCase()} presenti nel sito: apri il profilo o cercane altri con i filtri della piattaforma.`;
   return (
     <>
-      <HeroReels crumbs={<CrumbsDark items={[{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, ...(parent ? [{ label: `${parent.short} influencer`, href: `#/${parent.slug}/` }] : []), { label: `${k.short} influencer` }]} />} eyebrow={k.name} title={`${k.short} influencer\n*italiani*`} lead={`${k.lead} Cercali per città e fascia di follower e lancia la tua campagna.`} actions={<><Button href={APP.brand}>Cerca creator {k.short}</Button><Button href={APP.creator} variant="secondary">Sei un creator {k.short}? Iscriviti</Button></>} />
-      <AnswerBox q={`Come scegliere un ${k.short.toLowerCase()} influencer?`} a={`Guarda tre cose: la coerenza dei contenuti con il tuo prodotto, l’engagement confrontato con quello della stessa fascia di follower e la zona del pubblico se la campagna è locale. Su influencee filtri i creator della categoria ${k.name} per città, fascia e tipo, e in ogni scheda vedi numeri, crescita e brand con cui hanno già collaborato.`} />
+      <HeroReels crumbs={<CrumbsDark items={[{ label: 'Influencer italiani', href: '#/influencer-italiani/' }, ...(parent ? [{ label: `${parent.short} influencer`, href: `#/${parent.slug}/` }] : []), { label: `${k.short} influencer` }]} />} eyebrow={story ? story.h1 : k.name} title={`${k.short} influencer\n*italiani*`} lead={story ? story.hero : `${k.lead} Cercali per città e fascia di follower e lancia la tua campagna.`} actions={<><Button href={APP.brand}>Cerca creator {k.short}</Button><Button href={APP.creator} variant="secondary">Sei un creator {k.short}? Iscriviti</Button></>} />
+      <AnswerBox q={`Come scegliere ${catOne(k)}?`} a={`Guarda tre cose: la coerenza dei contenuti con il tuo prodotto, l’engagement confrontato con quello della stessa fascia di follower e la zona del pubblico se la campagna è locale. Su influencee filtri i creator della categoria ${k.name} per città, fascia e tipo, e in ogni scheda vedi numeri, crescita e brand con cui hanno già collaborato.`} />
       {cats.length > 0 && <CreatorList title={`${k.short} influencer\n*italiani su Influencee*`} lead={listLead} filter={{ cat: cats, limit: 12 }} />}
+      {story && (
+        <Prose
+          tone="paper"
+          blocks={[
+            { h: story.h2, p: [story.intro] },
+            { h: story.perche.h, p: [story.perche.intro], list: story.perche.list },
+            { h: story.come.h, p: [story.come.p] },
+            { h: story.costo.h, p: [story.costo.p] },
+          ]}
+          aside={
+            <div className="rounded-[28px] bg-ink p-7 text-white sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-acid">Calcolatore gratuito</p>
+              <p className="mt-3 font-heading text-2xl font-semibold tracking-[-0.02em]">Quanto costa {catOne(k)}?</p>
+              <p className="mt-3 text-[15px] leading-relaxed text-white/70">Scegli piattaforma, fascia di follower e tipo di contenuto: ottieni una stima del compenso in pochi secondi.</p>
+              <div className="mt-6 flex flex-col gap-3">
+                <Button href="#/social-media-tool/costo-influencer/">Calcola il costo</Button>
+                <Button href="#/preventivo-campagne/" variant="secondary">Preventivo della campagna</Button>
+              </div>
+            </div>
+          }
+        />
+      )}
       <SubCategoryRow parent={parent ? parent.slug : k.slug} current={k.slug} />
-      <ToolLead tool="creator_categoria" context={`Categoria: ${k.name}`} eyebrow="Selezione gratuita" title={`Ti mandiamo i ${k.short.toLowerCase()} influencer\n*adatti alla tua campagna*`} lead="Dicci prodotto e budget: il team ti propone una prima selezione di creator della categoria, con prezzo indicativo." bullets={[`Creator ${k.name.toLowerCase()} italiani`, 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
+      <ToolLead tool="creator_categoria" context={`Categoria: ${k.name}`} eyebrow="Selezione gratuita" title={`Ti mandiamo ${catMany(k)}\n*adatti alla tua campagna*`} lead="Dicci prodotto e budget: il team ti propone una prima selezione di creator della categoria, con prezzo indicativo." bullets={[`Creator ${k.name.toLowerCase()} italiani`, 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <FeatureSplit items={[{ ...F.ricerca, title: `Trova creator ${k.name.toLowerCase()} con i filtri giusti` }, F.campagne]} />
       <RegionGrid tone="paper" title={`${k.short} influencer\n*per regione*`} />
       <CategoryGrid exclude={k.slug} title={'Altre\n*categorie*'} />

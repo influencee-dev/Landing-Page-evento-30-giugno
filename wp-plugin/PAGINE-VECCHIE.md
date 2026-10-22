@@ -27,6 +27,8 @@ loro famiglia. La pagina della famiglia ha i link alle sue specialità, la speci
 
 Per riempire luxury e wedding basta dare ai creator giusti la categoria `luxury` o `wedding` in WordPress.
 
+Testi: ogni specialità riprende i testi della vecchia pagina Elementor che si posizionano (introduzione, «Trova i migliori…», perché collaborare, come scegliere, quanto costa), salvati in `src/influencee/v2/substory.ts` dalla scansione del 22/10/2026; l'H1 vecchio resta come etichetta sopra il titolo.
+
 ## B. Redirect 301 automatici verso le pagine nuove (Core 2.2.0, «Pagine vecchie»)
 
 Partono da soli quando la pagina nuova è online. Poi la pagina vecchia si può mettere nel cestino.

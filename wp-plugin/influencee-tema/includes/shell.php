@@ -215,18 +215,6 @@ function infe_footer_html() {
 		$f .= '</ul></div>';
 	}
 	$f .= '</div>';
-	$str = infe_struttura();
-	if ( $str ) {
-		$f .= '<div class="it-wrapw it-fstr">';
-		foreach ( $str as $titolo => $links ) {
-			$f .= '<div><p class="it-ftit">' . esc_html( $titolo ) . '</p><p class="it-fchips">';
-			foreach ( $links as $l ) {
-				$f .= '<a href="' . esc_url( infe_url( $l[1] ) ) . '">' . esc_html( $l[0] ) . '</a>';
-			}
-			$f .= '</p></div>';
-		}
-		$f .= '</div>';
-	}
 	$f .= '<div class="it-wrapw it-flegal"><span>© ' . esc_html( gmdate( 'Y' ) ) . ' Partidea S.r.l. · P.IVA 04405500408</span><span>';
 	foreach ( infe_legali() as $l ) {
 		$f .= '<a href="' . esc_url( infe_url( $l[1] ) ) . '">' . esc_html( $l[0] ) . '</a>';

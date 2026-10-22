@@ -556,7 +556,7 @@ export function CtaBandV2({ title, lead, primary, secondary, tone = 'soft' }: { 
 }
 
 /* ─── Testo editoriale (pagine guida: UGC, micro influencer) ────── */
-export function Prose({ tone = 'white', blocks, aside }: { tone?: Tone; blocks: { h: string; p: string[] }[]; aside: React.ReactNode }) {
+export function Prose({ tone = 'white', blocks, aside }: { tone?: Tone; blocks: { h: string; p: string[]; list?: { t: string; x: string }[] }[]; aside: React.ReactNode }) {
   return (
     <Section tone={tone}>
       <Container className="grid grid-cols-1 gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
@@ -569,6 +569,16 @@ export function Prose({ tone = 'white', blocks, aside }: { tone?: Tone; blocks: 
                   {t}
                 </p>
               ))}
+              {b.list && (
+                <ul className="mt-5 space-y-3">
+                  {b.list.map((li) => (
+                    <li key={li.t} className="flex gap-3 text-[17px] leading-relaxed text-ink/80">
+                      <span aria-hidden className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-brand" />
+                      <span><strong className="font-semibold text-ink">{li.t}:</strong> {li.x}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </motion.div>
           ))}
         </div>

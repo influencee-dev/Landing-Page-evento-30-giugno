@@ -191,14 +191,18 @@ function infe_icona( $nome ) {
 }
 
 function infe_footer_colonne() {
-	return apply_filters(
-		'infe_footer_colonne',
-		array(
-			'Cosa offriamo' => array( array( 'Tool influencer e UGC', '/piattaforma-influencer/' ), array( 'Gestione campagne', infe_meglio( array( '/funzionalita/gestione-campagne/', '/gestione-campagne-influencer/' ) ) ), array( 'Calcolo preventivo campagna', infe_meglio( array( '/preventivo-campagne/', '/preventivi-influencer/' ) ) ), array( 'Annunci lavoro influencer', '/offerte-lavoro-influencer/' ), array( 'Guide gratuite', '/guide-e-risorse/' ) ),
-			'Aziende'       => array( array( 'Piattaforma influencer', '/piattaforma-influencer/' ), array( 'Progetti influencer', '/agenzia-influencer/' ), array( 'Tool gratuiti', '/social-media-tool/' ), array( 'Pubblica offerte lavoro creator', '/pubblica-offerta-lavoro/' ) ),
-			'Creator'       => array( array( 'Piattaforma creator', infe_meglio( array( '/diventa-creator/', '/influencer/' ) ) ), array( 'Calcolatore costo', '/social-media-tool/costo-influencer/' ), array( 'Offerte di lavoro', '/offerte-lavoro-influencer/' ), array( 'Trova influencer', '/influencer-italiani/' ), array( 'Blog', '/news-influencer-marketing/' ) ),
-		)
+	$col = array(
+		'Aziende'          => array( array( 'Piattaforma influencer', '/piattaforma-influencer/' ), array( 'Influencer marketing per aziende', infe_se_esiste( array( '/influencer-marketing-aziende/', '/gestione-campagne-influencer/' ) ) ), array( 'Servizio full-service', '/agenzia-influencer/' ), array( 'Agenzie', infe_se_esiste( array( '/piattaforma-agenzie/', '/agenzie/' ) ) ), array( 'Pubblica un’offerta di lavoro', '/pubblica-offerta-lavoro/' ), array( 'Prezzi', infe_se_esiste( array( '/prezzi/' ) ) ) ),
+		'Creator'          => array( array( 'Entra come creator', infe_meglio( array( '/diventa-creator/', '/influencer/' ) ) ), array( 'Offerte di lavoro', '/offerte-lavoro-influencer/' ), array( 'Creator UGC', infe_se_esiste( array( '/contenuti-ugc/' ) ) ), array( 'Trova influencer', '/influencer-italiani/' ), array( 'Blog', '/news-influencer-marketing/' ) ),
+		// tool gratuiti: tutti, con il modulo per ricevere il risultato o la selezione (lead)
+		'Tool gratuiti'    => array( array( 'Calcolo preventivo campagna', infe_se_esiste( array( '/preventivo-campagne/', '/preventivi-influencer/' ) ) ), array( 'Quanto costa un influencer', '/social-media-tool/costo-influencer/' ), array( 'Calcolo engagement rate', infe_se_esiste( array( '/come-calcolare-engagement-rate/' ) ) ), array( 'Check fake follower', infe_se_esiste( array( '/followe-instagram-fake-follower/' ) ) ), array( 'Emoticon da copiare', infe_se_esiste( array( '/social-media-tool/emoticon-da-copiare/' ) ) ), array( 'Tutti i tool', '/social-media-tool/' ) ),
+		// lead magnet: risorse gratuite in cambio del contatto o dell'iscrizione
+		'Risorse gratuite' => array( array( 'Selezione gratuita di creator', '/influencer-italiani/' ), array( 'Guide e risorse', infe_se_esiste( array( '/guide-e-risorse/' ) ) ), array( 'Contratto influencer e UGC', infe_se_esiste( array( '/contratto-social-media-influencer-ugc/', '/funzionalita/contratto-influencer/' ) ) ), array( 'Media kit per creator', infe_se_esiste( array( '/funzionalita/media-kit/' ) ) ), array( 'Academy influencer marketing', infe_se_esiste( array( '/academy-influencer-marketing/' ) ) ) ),
 	);
+	foreach ( $col as $t => $links ) {
+		$col[ $t ] = array_values( array_filter( $links, function ( $l ) { return ! empty( $l[1] ); } ) );
+	}
+	return apply_filters( 'infe_footer_colonne', array_filter( $col ) );
 }
 
 function infe_legali() {
