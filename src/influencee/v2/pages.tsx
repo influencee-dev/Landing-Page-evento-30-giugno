@@ -30,7 +30,7 @@ import {
   type Crumb,
   type FeatureItem,
 } from './rows';
-import { CreatorList } from './creators';
+import { CreatorDirectory, CreatorList } from './creators';
 import { CostCalcPanel, PreventivoPanel, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -531,7 +531,7 @@ function ItaliansHub() {
     <>
       <HeroReels crumbs={<CrumbsDark items={[{ label: 'Influencer italiani' }]} />} eyebrow="Influencer italiani" title={'Influencer italiani:\n*la lista per categoria e città*'} lead={`Creator italiani divisi in ${FACTS.categories} categorie, 5 fasce di follower e tutte le regioni. Trova il profilo giusto per la tua campagna.`} actions={brandCtas} />
       <AnswerBox q="Come trovare influencer italiani?" a="Parti da categoria e zona: food a Napoli, fitness a Milano, viaggi in Sicilia. Poi scegli la fascia di follower in base all’obiettivo, nano e micro per campagne locali e di nicchia, mid e macro per la visibilità nazionale. Su influencee filtri tutto questo in un’unica ricerca, solo tra creator italiani." />
-      <CreatorList title={'Creator italiani\n*su Influencee*'} lead="Alcuni dei profili presenti nel sito. Nella piattaforma li filtri per categoria, città, fascia di follower ed engagement." filter={{ limit: 24 }} />
+      <CreatorDirectory title={'Tutti i creator italiani\n*su Influencee*'} lead="Cerca per nome o città e filtra per categoria, regione e fascia di follower. Apri il profilo per vedere dati e costo medio." />
       <CategoryGrid />
       <RegionGrid tone="paper" />
       <ToolLead tool="creator_hub" context="Hub influencer italiani" eyebrow="Selezione gratuita" title={'Ti mandiamo i creator\n*adatti alla tua campagna*'} lead="Dicci categoria, zona e budget: il team ti propone una prima selezione di creator italiani." bullets={['Creator italiani per categoria e città', 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />

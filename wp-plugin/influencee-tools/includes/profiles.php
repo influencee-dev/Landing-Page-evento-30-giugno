@@ -299,3 +299,54 @@ function inft_profile_page() {
 		'profile'     => $p,
 	);
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   ELENCO COMPLETO PER I FILTRI (pagina /influencer-italiani/)
+   Solo dati pubblici delle card: nome, link, foto, handle, follower,
+   categoria, regione, città. Mai bio o contatti. Cache di un'ora.
+   ════════════════════════════════════════════════════════════════════ */
+
+function inft_creators_directory() {
+	$s = inft_settings();
+	if ( empty( $s['creators'] ) || ! post_type_exists( 'creator' ) ) {
+		return array();
+	}
+	$list = get_transient( 'inft_creators_dir' );
+	if ( is_array( $list ) ) {
+		return $list;
+	}
+	$d     = inft_profile_data();
+	$list  = array();
+	$posts = get_posts( array( 'post_type' => 'creator', 'post_status' => 'publish', 'numberposts' => 2000, 'orderby' => 'title', 'order' => 'ASC', 'suppress_filters' => false ) );
+	foreach ( $posts as $post ) {
+		$c    = inft_creator_data( $post );
+		$igm  = inft_igm_by_slug( $post->post_name );
+		$cats = wp_get_post_terms( $post->ID, 'creator_category', array( 'fields' => 'slugs' ) );
+		$reg  = wp_get_post_terms( $post->ID, 'creator_region', array( 'fields' => 'slugs' ) );
+		$city = wp_get_post_terms( $post->ID, 'creator_city', array( 'fields' => 'slugs' ) );
+		$reg  = is_array( $reg ) && $reg ? $reg[0] : '';
+		if ( ! $reg && is_array( $city ) && $city && isset( $d['cities'][ $city[0] ]['regionSlug'] ) ) {
+			$reg = $d['cities'][ $city[0] ]['regionSlug'];
+		}
+		$list[] = array(
+			'n' => $c['name'],
+			'u' => $c['url'],
+			'i' => ! empty( $igm['image'] ) ? (string) $igm['image'] : $c['image'],
+			'h' => ! empty( $igm['handle'] ) ? ltrim( (string) $igm['handle'], '@' ) : $c['ig'],
+			'f' => ! empty( $igm['followers_n'] ) ? (int) $igm['followers_n'] : (int) $c['followers'],
+			'k' => is_array( $cats ) ? array_values( $cats ) : array(),
+			'r' => $reg,
+			'c' => is_array( $city ) && $city && isset( $d['cities'][ $city[0] ]['name'] ) ? $d['cities'][ $city[0] ]['name'] : $c['city'],
+		);
+	}
+	set_transient( 'inft_creators_dir', $list, HOUR_IN_SECONDS );
+	return $list;
+}
+
+/** Profilo modificato: elenco e dati del plugin dei profili si ricaricano. */
+function inft_forget_creators() {
+	delete_transient( 'inft_creators_dir' );
+	delete_transient( 'inft_igm_creators' );
+}
+add_action( 'save_post_creator', 'inft_forget_creators' );
+add_action( 'trashed_post', 'inft_forget_creators' );

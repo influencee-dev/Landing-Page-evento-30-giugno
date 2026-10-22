@@ -296,6 +296,9 @@ add_filter(
 
 /** Svuota LiteSpeed (se presente) e la cache oggetti di WordPress. */
 function inft_purge_cache() {
+	if ( function_exists( 'inft_forget_creators' ) ) {
+		inft_forget_creators();
+	}
 	do_action( 'litespeed_purge_all' );
 	wp_cache_flush();
 	return defined( 'LSCWP_V' ) ? 'litespeed + wordpress' : 'wordpress';

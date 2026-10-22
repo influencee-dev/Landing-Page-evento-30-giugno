@@ -282,6 +282,9 @@ add_action(
 		if ( ! empty( $page['profile'] ) ) {
 			$data['profile'] = $page['profile'];
 		}
+		if ( '/influencer-italiani/' === $page['path'] ) {
+			$data['directory'] = inft_creators_directory(); // filtri dell'elenco completo
+		}
 		$data['creators'] = (object) inft_creators_rendered();
 		wp_add_inline_script( 'inft', 'window.INFLUENCEE_TOOLS=' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . ';', 'before' );
 	},

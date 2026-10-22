@@ -188,3 +188,18 @@ Le 325 pagine `/creator/<nome>/` possono usare la stessa grafica delle altre pag
 **Dati:** il plugin legge i dati dal plugin dei creator (`/igm/v1/creators`) e li tiene in memoria per un'ora. Dopo aver modificato un profilo, usa "Svuota cache" o attendi un'ora.
 
 **Prima di accenderle per tutti:** apri 3–4 profili (uno con foto e prezzo, uno senza città) e controlla che i dati siano giusti.
+
+## 12. Elenco completo dei creator con filtri (pagina /influencer-italiani/)
+
+La pagina `/influencer-italiani/` mostra tutti i profili pubblicati, non solo una selezione. Si può:
+- cercare per nome, @handle o città;
+- filtrare per categoria, regione e fascia di follower (Nano…Mega);
+- caricare altri 24 profili con "Mostra altri".
+
+Se una ricerca non trova nessun creator, la pagina propone il modulo "Ricevi la selezione", che arriva in tandem.
+
+- **Google** legge i primi 24 profili già nell'HTML. Gli altri restano raggiungibili dalle pagine città, regione e categoria.
+- **Privacy:** nell'elenco ci sono solo nome, foto, handle, follower, città e categoria, mai bio o contatti.
+- **Aggiornamento:** l'elenco si ricarica da solo quando modifichi o cestini un profilo. Altrimenti si aggiorna ogni ora.
+- **GA4:** ogni ricerca manda l'evento `tool_filter` con `tool_name=elenco_creator`, i filtri usati e il numero di risultati. Così vedi cosa cercano le aziende, per esempio "food in Campania", e dove mancano creator.
+- **Come accenderla:** la pagina fa parte del gruppo "sostituzione". Per provarla da sola, scrivi `/influencer-italiani/` nel riquadro "Pagine da accendere" delle impostazioni.
