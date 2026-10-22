@@ -43,6 +43,18 @@
   }
   f.querySelectorAll('input[name=kind]').forEach(function (r) { r.addEventListener('change', syncKind); });
   syncKind();
+  // partita IVA oppure codice fiscale (brand senza partita IVA)
+  function syncFiscale() {
+    var t = (f.querySelector('input[name=tipo_fiscale]:checked') || {}).value || 'piva';
+    f.querySelectorAll('[data-fiscale]').forEach(function (el) { el.hidden = el.getAttribute('data-fiscale') !== t; });
+    f.querySelector('[name=piva]').required = t === 'piva';
+    f.querySelector('[name=codice_fiscale]').required = t === 'cf';
+    var rs = f.querySelector('[name=ragione_sociale]');
+    rs.required = t === 'piva';
+    f.querySelector('[data-rs-label]').innerHTML = t === 'piva' ? 'Ragione sociale *' : 'Nome dell’attività <small>(facoltativo)</small>';
+  }
+  f.querySelectorAll('input[name=tipo_fiscale]').forEach(function (r) { r.addEventListener('change', syncFiscale); });
+  syncFiscale();
   // la piattaforma del contenuto segue la prima piattaforma scelta
   f.querySelectorAll('input[name="platforms[]"]').forEach(function (c) {
     c.addEventListener('change', function () {
@@ -62,6 +74,14 @@
     var s = 0;
     for (var i = 0; i < 11; i++) { var d = +v[i]; if (i % 2) { d *= 2; if (d > 9) d -= 9; } s += d; }
     return s % 10 === 0;
+  }
+  function cfOk(v) {
+    v = v.replace(/\s+/g, '').toUpperCase();
+    if (/^\d{11}$/.test(v)) return pivaOk(v);
+    if (!/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$/.test(v)) return false;
+    var odd = [1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23], s = 0;
+    for (var i = 0; i < 15; i++) { var c = v[i], n = /\d/.test(c) ? +c : c.charCodeAt(0) - 65; s += i % 2 === 0 ? odd[n] : n; }
+    return String.fromCharCode(65 + s % 26) === v[15];
   }
   function fail(el, msg) {
     errBox.textContent = msg; errBox.hidden = false;
@@ -85,8 +105,10 @@
     }
     var group = s.querySelector('[data-min]');
     if (group && !group.querySelector('input:checked')) return fail(group.querySelector('input'), 'Scegli almeno una piattaforma.');
+    var cf = s.querySelector('[name=codice_fiscale]');
+    if (cf && !cf.closest('[hidden]') && !cfOk(cf.value)) return fail(cf, 'Il codice fiscale non è valido: controlla i 16 caratteri.');
     var piva = s.querySelector('[name=piva]');
-    if (piva && f.querySelector('[name=paese]').value === 'IT' && !pivaOk(piva.value)) return fail(piva, 'La partita IVA non è valida: controlla le 11 cifre.');
+    if (piva && !piva.closest('[hidden]') && f.querySelector('[name=paese]').value === 'IT' && !pivaOk(piva.value)) return fail(piva, 'La partita IVA non è valida: controlla le 11 cifre.');
     return true;
   }
   next.addEventListener('click', function () {

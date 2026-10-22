@@ -82,6 +82,8 @@ function infn_valida( $in ) {
 		'max_creators'          => $num( 'max_creators' ) ? (int) $num( 'max_creators' ) : null,
 		'citta'                 => $txt( 'citta', 80 ),
 		'destination_url'       => esc_url_raw( $txt( 'destination_url', 1000 ) ),
+		'tipo_fiscale'          => 'cf' === $txt( 'tipo_fiscale', 4 ) ? 'cf' : 'piva',
+		'codice_fiscale'        => strtoupper( preg_replace( '/\s+/', '', $txt( 'codice_fiscale', 16 ) ) ),
 		'paese'                 => 'ALTRO' === $txt( 'paese', 5 ) ? 'ALTRO' : 'IT',
 		'piva'                  => strtoupper( preg_replace( '/\s+/', '', $txt( 'piva', 16 ) ) ),
 		'ragione_sociale'       => $txt( 'ragione_sociale', 255 ),
@@ -95,7 +97,7 @@ function infn_valida( $in ) {
 	if ( ! isset( infn_tipi_attivita()[ $d['tipo_attivita'] ] ) ) {
 		$err['tipo_attivita'] = 'Scegli che attività hai.';
 	}
-	foreach ( array( 'azienda' => 'Indica il nome dell’azienda.', 'citta_sede' => 'Indica la città.', 'title' => 'Scrivi un titolo.', 'brief' => 'Scrivi cosa chiedi.', 'ragione_sociale' => 'Indica la ragione sociale.', 'nome' => 'Indica il nome.', 'cognome' => 'Indica il cognome.' ) as $k => $m ) {
+	foreach ( array( 'azienda' => 'Indica il nome dell’azienda.', 'citta_sede' => 'Indica la città.', 'title' => 'Scrivi un titolo.', 'brief' => 'Scrivi cosa chiedi.', 'nome' => 'Indica il nome.', 'cognome' => 'Indica il cognome.' ) as $k => $m ) {
 		if ( '' === $d[ $k ] ) {
 			$err[ $k ] = $m;
 		}
@@ -130,7 +132,23 @@ function infn_valida( $in ) {
 	if ( null !== $d['max_creators'] && ( $d['max_creators'] < 1 || $d['max_creators'] > 500 ) ) {
 		$err['max_creators'] = 'Da 1 a 500 creator.';
 	}
-	if ( 'IT' === $d['paese'] ) {
+	if ( 'cf' === $d['tipo_fiscale'] ) {
+		// brand senza partita IVA: basta il codice fiscale (privati, professionisti senza P.IVA, associazioni)
+		$d['piva'] = '';
+		$d['paese'] = 'IT';
+		if ( ! infn_cf_valido( $d['codice_fiscale'] ) ) {
+			$err['codice_fiscale'] = 'Il codice fiscale non è valido: controlla i 16 caratteri.';
+		}
+		if ( '' === $d['ragione_sociale'] ) {
+			$d['ragione_sociale'] = trim( $d['nome'] . ' ' . $d['cognome'] );
+		}
+	} elseif ( '' === $d['ragione_sociale'] ) {
+		$err['ragione_sociale'] = 'Indica la ragione sociale.';
+	}
+	if ( 'cf' === $d['tipo_fiscale'] ) {
+		// niente partita IVA da controllare
+	} elseif ( 'IT' === $d['paese'] ) {
+		$d['codice_fiscale'] = '';
 		$d['piva'] = preg_replace( '/^IT/', '', $d['piva'] );
 		if ( ! infn_piva_valida( $d['piva'] ) ) {
 			$err['piva'] = 'La partita IVA non è valida: controlla le 11 cifre.';

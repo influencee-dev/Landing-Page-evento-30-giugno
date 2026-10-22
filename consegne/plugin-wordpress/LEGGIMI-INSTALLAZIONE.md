@@ -91,8 +91,10 @@ L'account si crea **alla fine**. I dati dell'iscrizione all'app sono mescolati c
 | 1. La tua attività | tipo (azienda o negozio, e-commerce, agenzia), nome, città, sito | iscrizione brand: tipo, città |
 | 2. L'offerta | titolo, cosa chiedi, piattaforme | annuncio veloce |
 | 3. Compenso e contenuti | cosa offri (compenso €, cambio merce, % sulle vendite) e il suo campo; contenuto (piattaforma, tipo, quanti, giorni); candidature entro; quanti creator; città dei creator; pagina del prodotto | annuncio veloce |
-| 4. Dati per fatture e contratti | paese, partita IVA (con controllo delle 11 cifre), ragione sociale, nome, cognome, ruolo, telefono + **scelta dei creator bloccata** ("si sblocca nell'app") | iscrizione brand: azienda e referente |
+| 4. Dati per fatture e contratti | **partita IVA** (paese + 11 cifre controllate) **oppure codice fiscale** per chi non ha la partita IVA (16 caratteri controllati, o 11 cifre per le associazioni); ragione sociale (facoltativa senza P.IVA), nome, cognome, ruolo, telefono + **scelta dei creator bloccata** ("si sblocca nell'app") | iscrizione brand: azienda e referente |
 | 5. Account e pubblicazione | riepilogo, email di lavoro, consenso facoltativo alle novità | — |
+
+**Decisioni (22/10/2026):** sono ammessi i brand senza partita IVA, con codice fiscale; l'offerta va online **subito**, senza revisione dello staff.
 
 Dopo l'invio, il brand va su app.influencee.it e crea l'account **con email e password**.
 - **La password non passa da WordPress:** si sceglie sul sito dell'app, che è più sicuro.

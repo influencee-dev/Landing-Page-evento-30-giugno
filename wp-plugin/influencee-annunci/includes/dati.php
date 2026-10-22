@@ -201,3 +201,25 @@ function infn_creator_count() {
 	$c = wp_count_posts( 'creator' );
 	return isset( $c->publish ) ? (int) $c->publish : 0;
 }
+
+/**
+ * Codice fiscale italiano: 16 caratteri con carattere di controllo (anche con omocodia),
+ * oppure 11 cifre per enti e associazioni (stesso controllo della partita IVA).
+ */
+function infn_cf_valido( $cf ) {
+	$cf = strtoupper( preg_replace( '/\s+/', '', (string) $cf ) );
+	if ( preg_match( '/^\d{11}$/', $cf ) ) {
+		return infn_piva_valida( $cf );
+	}
+	if ( ! preg_match( '/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$/', $cf ) ) {
+		return false;
+	}
+	$odd = array( 1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23 );
+	$sum = 0;
+	for ( $i = 0; $i < 15; $i++ ) {
+		$c = $cf[ $i ];
+		$v = ctype_digit( $c ) ? (int) $c : ord( $c ) - 65;
+		$sum += 0 === $i % 2 ? $odd[ $v ] : $v; // posizioni dispari (1ª, 3ª…) e pari
+	}
+	return chr( 65 + $sum % 26 ) === $cf[15];
+}
