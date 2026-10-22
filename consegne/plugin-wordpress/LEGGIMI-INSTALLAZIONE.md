@@ -54,7 +54,7 @@ In alto vedi quali plugin sono attivi e se tandem-forms riceve i lead.
 
 ### Offerte di lavoro (Annunci)
 - **Servi le pagine:** la casella è spenta all'installazione. Accendila e la bacheca e "Pubblica un'offerta" sostituiscono le pagine di WP Job Manager. Spegnendola tornano quelle di prima.
-- **Elenco annunci dell'app:** lascia vuoto finché l'app non lo espone. Nel frattempo la bacheca mostra le offerte di WP Job Manager degli ultimi 180 giorni; se non ce ne sono, invita a pubblicare e a iscriversi come creator.
+- **Elenco annunci dell'app:** lascia vuoto finché l'app non lo espone (vedi punto 6). Nel frattempo la bacheca mostra le offerte di WP Job Manager degli ultimi 180 giorni; se non ce ne sono, invita a pubblicare e a iscriversi come creator.
 - **Ricezione bozze nell'app + segreto:** da compilare quando l'app avrà il collegamento (punto 6).
   - **Senza collegamento:** l'offerta si salva in WordPress (menu Influencee → **Bozze annunci**), il lead va in tandem, il brand riceve un'email di riepilogo e crea l'account sull'app.
   - **Con collegamento:** l'offerta va nell'app e il brand sceglie solo la password per pubblicare.
@@ -132,26 +132,41 @@ Dopo l'invio, il brand va su app.influencee.it e crea l'account **con email e pa
 
    Nell'app, i brand arrivati così hanno la provenienza "Annunci".
 
-## 6. Collegamento con l'app (da fare nell'app)
+## 6. Collegamento con l'app
 
-Servono due cose nel repository `appinfluencee`, come previsto dalle regole dell'app (piano scritto, interruttore spento all'inizio):
+Fatto nel repository `appinfluencee` (piano `docs/plans/2026-10-22-annunci-dal-sito.md`), sui branch
+`feat/annunci-elenco-json` e `feat/annunci-bozze-sito`. Gli interruttori partono spenti: si accendono quando i branch
+sono in produzione.
 
-1. **Elenco pubblico degli annunci aperti**, in JSON, per esempio `https://app.influencee.it/annunci/elenco.json`. Solo i dati già pubblici nella bacheca dell'app:
+1. **Elenco degli annunci aperti** `https://app.influencee.it/annunci/elenco.json` (switch `annunci.elenco_sito`):
    ```json
-   {"annunci":[{"uuid":"…","title":"…","brief":"…","org_name":"…","platforms":["instagram"],"kind":"paid_fee","fee_amount":250,"product_desc":"","product_value":null,"commission_pct":null,"deliverables":[{"platform":"instagram","content_type":"reel","qty":2,"due_days":14}],"citta":"Milano","apply_by":"2026-11-30","published_at":"2026-10-22T10:00:00Z","url":"https://app.influencee.it/annunci/<uuid>/"}]}
+   {"annunci":[{"uuid":"…","title":"…","brief":"…","org_name":"…","platforms":["instagram"],"kind":"paid_fee","fee_amount":250,"product_desc":"","product_value":null,"commission_pct":null,"deliverables":[{"platform":"instagram","content_type":"reel","qty":2,"due_days":14}],"citta":"Milano","max_creators":3,"apply_by":"2026-11-30","published_at":"2026-10-22T10:00:00Z","url":"https://app.influencee.it/annunci/<uuid>/"}]}
    ```
-   I dati strutturati JobPosting per Google vanno sulla pagina del singolo annuncio nell'app, solo per gli annunci pagati.
-2. **Ricezione delle bozze**, per esempio `POST https://app.influencee.it/annunci/bozze/`:
-   - il corpo è JSON `{versione, id_sito, creata, fonte:"sito_offerta", bozza:{…campi del percorso…}}`;
+   Solo i dati già pubblici nella bacheca. Con lo stesso switch la pagina dell'annuncio nell'app ha i dati JobPosting
+   per Google, solo per gli annunci con compenso in denaro.
+2. **Ricezione delle bozze** `POST https://app.influencee.it/annunci/bozze/` (switch `annunci.bozze_sito`):
+   - corpo JSON `{versione, id_sito, creata, fonte:"sito_offerta", bozza:{…campi del percorso…}}`;
    - intestazioni `X-Influencee-Timestamp` e `X-Influencee-Signature: sha256=HMAC_SHA256(timestamp + "." + corpo, segreto)`;
-   - l'app risponde `{"claim_url":"https://app.influencee.it/iscriviti/brand/?bozza=<token>"}`.
+   - risposta `{"ok":true,"claim_url":"https://app.influencee.it/annunci/bozza/<token>/"}`, oppure `422` con
+     `{"campi":{"piva":"…"}}`: il sito mostra l'errore sul campo giusto (per esempio partita IVA già di un altro account).
 
-   La pagina del link mostra il riepilogo, chiede solo la password (poi Google) e pubblica l'annuncio.
+   Il link mostra il riepilogo e chiede solo la password: l'account si crea e l'annuncio va online subito. Se l'email
+   ha già un account brand, si accede e si conferma.
 
-   **Il segreto:** stesso valore nell'app e in WordPress. In WordPress mettilo meglio in `wp-config.php`:
-   `define( 'INFLUENCEE_ANNUNCI_SECRET', '…' );`
+**Il segreto:** stesso valore nei due posti.
+- App: variabile d'ambiente `ANNUNCI_SITO_SECRET` sul server.
+- WordPress: in `wp-config.php` `define( 'INFLUENCEE_ANNUNCI_SECRET', '…' );`.
 
-**Poi, sempre nell'app:**
+**Per accendere tutto, in ordine:**
+1. pubblicare i due branch dell'app (con `deploy/migrate.sh`);
+2. mettere il segreto nell'app e in `wp-config.php`;
+3. Admin dell'app → Waffle → Switches: accendere `annunci.elenco_sito` e `annunci.bozze_sito`;
+4. WordPress → **Influencee** → Annunci: «Elenco annunci dell'app» = `https://app.influencee.it/annunci/elenco.json`,
+   «Ricezione bozze nell'app» = `https://app.influencee.it/annunci/bozze/`;
+5. prova: pubblica un'offerta di test dal sito, apri il link, scegli la password, controlla che l'annuncio sia in
+   `/offerte-lavoro-influencer/` (entro 10 minuti), poi chiudilo dall'app.
+
+**Ancora da fare nell'app** (stesso piano):
 - riepilogo settimanale dei nuovi annunci ai creator iscritti che lo vogliono, con disiscrizione;
 - "aggiorna i tuoi dati" al login se i dati hanno più di 6 mesi;
 - accesso con Google per i brand.

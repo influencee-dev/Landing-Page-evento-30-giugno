@@ -252,7 +252,7 @@ function infn_render_pubblica() {
 	$h .= '<fieldset class="infn-step" data-step="4"><legend><span class="infn-step-n">4 di 5</span> Dati per fatture e contratti</legend>';
 	$h .= '<p class="inf-hint">Servono per i contratti con i creator, come nell’iscrizione all’app.</p>';
 	$h .= '<div class="inf-f"><span class="inf-f-l">Dati fiscali *</span><div class="infn-choices">' . infn_choices( 'tipo_fiscale', array( 'piva' => 'Ho la partita IVA', 'cf' => 'Senza partita IVA (codice fiscale)' ), 'radio', array( 'piva' ) ) . '</div></div>';
-	$h .= '<div class="infn-row" data-fiscale="piva"><p class="inf-f"><label for="infn-paese">Paese della sede</label>' . infn_select( 'paese', array( 'IT' => 'Italia', 'ALTRO' => 'Altro paese UE o extra UE' ), 'IT' ) . '</p>';
+	$h .= '<div class="infn-row" data-fiscale="piva"><p class="inf-f"><label for="infn-paese">Paese della sede</label>' . infn_select( 'paese', infn_paesi(), 'IT' ) . '</p>';
 	$h .= '<p class="inf-f"><label for="infn-piva">Partita IVA *</label><input id="infn-piva" name="piva" maxlength="16" required inputmode="numeric" placeholder="11 cifre"></p></div>';
 	$h .= '<p class="inf-f" data-fiscale="cf" hidden><label for="infn-codice_fiscale">Codice fiscale *</label><input id="infn-codice_fiscale" name="codice_fiscale" maxlength="16" autocapitalize="characters" placeholder="16 caratteri (o 11 cifre per associazioni)"></p>';
 	$h .= '<p class="inf-f"><label for="infn-ragione_sociale" data-rs-label>Ragione sociale *</label><input id="infn-ragione_sociale" name="ragione_sociale" maxlength="255" required></p>';

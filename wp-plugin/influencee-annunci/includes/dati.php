@@ -63,6 +63,19 @@ function infn_tipi_attivita() {
 	return array( 'azienda' => 'Azienda o negozio', 'ecommerce' => 'E-commerce', 'agenzia' => 'Agenzia (per un cliente)' );
 }
 
+/** Paese della sede: stessi codici dell'app (abbonamenti/iva.py SCELTE_PAESE), il regime IVA dipende da qui. */
+function infn_paesi() {
+	return array(
+		'IT' => 'Italia', 'AT' => 'Austria', 'BE' => 'Belgio', 'BG' => 'Bulgaria', 'CY' => 'Cipro', 'HR' => 'Croazia',
+		'DK' => 'Danimarca', 'EE' => 'Estonia', 'FI' => 'Finlandia', 'FR' => 'Francia', 'DE' => 'Germania',
+		'GR' => 'Grecia', 'IE' => 'Irlanda', 'LV' => 'Lettonia', 'LT' => 'Lituania', 'LU' => 'Lussemburgo',
+		'MT' => 'Malta', 'NL' => 'Paesi Bassi', 'PL' => 'Polonia', 'PT' => 'Portogallo', 'CZ' => 'Cechia',
+		'RO' => 'Romania', 'SK' => 'Slovacchia', 'SI' => 'Slovenia', 'ES' => 'Spagna', 'SE' => 'Svezia',
+		'HU' => 'Ungheria', 'CH' => 'Svizzera', 'GB' => 'Regno Unito', 'NO' => 'Norvegia', 'SM' => 'San Marino',
+		'US' => 'Stati Uniti', 'CA' => 'Canada', 'AU' => 'Australia', 'AE' => 'Emirati Arabi Uniti',
+	);
+}
+
 /** Partita IVA italiana: 11 cifre con cifra di controllo (stesso controllo dell'app, senza VIES). */
 function infn_piva_valida( $piva ) {
 	$p = preg_replace( '/^IT/i', '', preg_replace( '/\s+/', '', (string) $piva ) );

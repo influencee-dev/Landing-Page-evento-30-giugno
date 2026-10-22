@@ -14,7 +14,7 @@
   f.classList.add('is-js');
   f.addEventListener('input', function () { errBox.hidden = true; });
 
-  function show(i) {
+  function show(i, noFocus) {
     cur = i;
     steps.forEach(function (s, k) { s.hidden = k !== i; });
     dots.forEach(function (d, k) { if (k === i) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current'); d.classList.toggle('is-done', k < i); });
@@ -26,7 +26,7 @@
     if (i === steps.length - 1) summary();
     var first = steps[i].querySelector('input:not([type=hidden]),textarea,select');
     if (window.scrollY > f.getBoundingClientRect().top + window.scrollY - 20) f.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    if (first && i > 0) setTimeout(function () { first.focus({ preventScroll: true }); }, 50);
+    if (first && i > 0 && !noFocus) setTimeout(function () { first.focus({ preventScroll: true }); }, 50);
   }
 
   // campo obbligatorio che cambia col tipo di offerta (come nell'app)
@@ -151,7 +151,7 @@
           var campi = (res.j && res.j.campi) || {};
           var nome = Object.keys(campi)[0];
           var el = nome && f.querySelector('[name="' + nome + '"],[name="' + nome + '[]"]');
-          if (el) show(steps.indexOf(el.closest('.infn-step')));
+          if (el) show(steps.indexOf(el.closest('.infn-step')), true);
           fail(el, (res.j && res.j.errore) || 'Invio non riuscito: riprova tra poco.');
           return;
         }

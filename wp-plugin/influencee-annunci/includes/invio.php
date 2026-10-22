@@ -84,7 +84,7 @@ function infn_valida( $in ) {
 		'destination_url'       => esc_url_raw( $txt( 'destination_url', 1000 ) ),
 		'tipo_fiscale'          => 'cf' === $txt( 'tipo_fiscale', 4 ) ? 'cf' : 'piva',
 		'codice_fiscale'        => strtoupper( preg_replace( '/\s+/', '', $txt( 'codice_fiscale', 16 ) ) ),
-		'paese'                 => 'ALTRO' === $txt( 'paese', 5 ) ? 'ALTRO' : 'IT',
+		'paese'                 => isset( infn_paesi()[ $txt( 'paese', 2 ) ] ) ? $txt( 'paese', 2 ) : 'IT',
 		'piva'                  => strtoupper( preg_replace( '/\s+/', '', $txt( 'piva', 16 ) ) ),
 		'ragione_sociale'       => $txt( 'ragione_sociale', 255 ),
 		'nome'                  => $txt( 'nome', 150 ),
@@ -197,7 +197,12 @@ function infn_ricevi_bozza( WP_REST_Request $req ) {
 	$claim = '';
 	$stato = 'salvata';
 	if ( infn_app_connected() ) {
-		list( $claim, $stato ) = infn_manda_app( $uuid, $d );
+		list( $claim, $stato, $campi ) = infn_manda_app( $uuid, $d );
+		if ( $campi ) {
+			// l'app ha rifiutato un dato (es. partita IVA già di un altro account): lo correggi e reinvii
+			update_post_meta( $id, '_infn_stato', 'rifiutata_app' );
+			return new WP_REST_Response( array( 'ok' => false, 'campi' => $campi, 'errore' => reset( $campi ) ), 422 );
+		}
 	}
 	update_post_meta( $id, '_infn_stato', $stato );
 	if ( ! $claim ) {
@@ -212,7 +217,7 @@ function infn_ricevi_bozza( WP_REST_Request $req ) {
 	return new WP_REST_Response( array( 'ok' => true, 'claim_url' => $claim, 'collegata' => 'inviata' === $stato ), 200 );
 }
 
-/** Manda la bozza all'app con firma HMAC. Restituisce array( link per la password, stato ). */
+/** Manda la bozza all'app con firma HMAC. Restituisce array( link per la password, stato, errori dei campi dall'app ). */
 function infn_manda_app( $uuid, $d ) {
 	$s    = infn_settings();
 	$body = wp_json_encode(
@@ -235,16 +240,24 @@ function infn_manda_app( $uuid, $d ) {
 			'body'    => $body,
 		)
 	);
-	if ( is_wp_error( $res ) || 200 !== (int) wp_remote_retrieve_response_code( $res ) ) {
-		return array( '', 'errore_app' );
+	$code = is_wp_error( $res ) ? 0 : (int) wp_remote_retrieve_response_code( $res );
+	$j    = $code ? json_decode( (string) wp_remote_retrieve_body( $res ), true ) : null;
+	if ( 422 === $code && ! empty( $j['campi'] ) && is_array( $j['campi'] ) ) {
+		$campi = array();
+		foreach ( $j['campi'] as $k => $m ) {
+			$campi[ sanitize_key( $k ) ] = wp_strip_all_tags( (string) $m );
+		}
+		return array( '', 'rifiutata_app', $campi );
 	}
-	$j    = json_decode( (string) wp_remote_retrieve_body( $res ), true );
+	if ( 200 !== $code ) {
+		return array( '', 'errore_app', array() );
+	}
 	$url  = isset( $j['claim_url'] ) ? (string) $j['claim_url'] : '';
 	$host = (string) wp_parse_url( $s['annunci_app'], PHP_URL_HOST );
 	if ( ! $url || (string) wp_parse_url( $url, PHP_URL_HOST ) !== $host ) {
-		return array( '', 'errore_app' );
+		return array( '', 'errore_app', array() );
 	}
-	return array( $url, 'inviata' );
+	return array( $url, 'inviata', array() );
 }
 
 function infn_email_riepilogo( $d, $claim ) {
