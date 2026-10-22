@@ -4,6 +4,7 @@
 //   influencee-pagine   pagine nuove e sostituzioni, profili creator, elenco
 //   influencee-articoli articoli del blog (PHP + CSS/JS propri)
 //   influencee-annunci  offerte di lavoro collegate all'app (PHP + CSS/JS propri)
+//   influencee-pulizia  controllo e pulizia di WordPress (a sé, non usa il Core: si accende quando serve)
 // Uso: node scripts/build-wp-plugin.mjs
 import { build, createServer } from 'vite';
 import postcss from 'postcss';
@@ -12,7 +13,7 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
-const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci'];
+const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci', 'influencee-pulizia'];
 const D = (slug) => join(ROOT, 'dist-wp', slug);
 for (const slug of [...PLUGINS, 'influencee-tools-legacy']) rmSync(D(slug), { recursive: true, force: true });
 rmSync(join(ROOT, 'dist-wp/influencee-tools'), { recursive: true, force: true });
