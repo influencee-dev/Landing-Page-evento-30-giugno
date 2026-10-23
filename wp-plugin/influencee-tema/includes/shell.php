@@ -29,6 +29,9 @@ function infe_contenuto_elementor() {
 	if ( ! is_singular() ) {
 		return false;
 	}
+	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+		return false; // Elementor spento: il contenuto è il testo di riserva salvato da Elementor, lo impagina il Tema
+	}
 	return 'builder' === get_post_meta( get_queried_object_id(), '_elementor_edit_mode', true );
 }
 
@@ -231,6 +234,17 @@ function infe_footer_html() {
 	return $f . '</span></div></footer>';
 }
 
+/**
+ * Testo di una pagina WordPress (anche il testo di riserva di Elementor): gli H1 del testo diventano H2 (l'H1 è il titolo),
+ * via paragrafi e contenitori vuoti, via i resti delle icone di Elementor.
+ */
+function infe_testo_pulito( $html ) {
+	$html = preg_replace( '#<h1(\s[^>]*)?>(.*?)</h1>#is', '<h2$1>$2</h2>', $html );
+	$html = preg_replace( '#<(p|div|span|h[2-6])[^>]*>(\s|&nbsp;|\x{200B})*</\1>#iu', '', $html );
+	$html = preg_replace( '#<li[^>]*>\s*(Facebook-f|Instagram|Linkedin|Youtube|Tiktok|Twitter)\s*</li>#i', '', $html );
+	return (string) $html;
+}
+
 /** Pagine elenco degli articoli: blog, categorie, tag, autore, ricerca. */
 function infe_elenco() {
 	return is_home() || is_category() || is_tag() || is_author() || is_search() || is_date();
@@ -296,7 +310,38 @@ add_action(
 );
 
 /** Toglie dall'HTML finale gli header e footer di Elementor e del vecchio plugin, se qualcuno li stampa lo stesso. */
+/**
+ * Description per Google quando la pagina non ne ha (pagine del listing geo, pagine ex Elementor):
+ * dal primo paragrafo vero del contenuto, al massimo 155 caratteri.
+ */
+function infe_description_mancante( $html ) {
+	$head_end = stripos( $html, '</head>' );
+	if ( false === $head_end || preg_match( '#<meta[^>]+name=["\']description["\']#i', substr( $html, 0, $head_end ) ) ) {
+		return $html;
+	}
+	$start = stripos( $html, 'id="contenuto"' );
+	$body  = false !== $start ? substr( $html, $start ) : substr( $html, $head_end );
+	$body  = preg_replace( '#<(script|style|nav|header|footer|form)\b.*?</\1>#is', '', $body );
+	if ( ! preg_match_all( '#<p\b[^>]*>(.*?)</p>#is', (string) $body, $m ) ) {
+		return $html;
+	}
+	foreach ( $m[1] as $p ) {
+		$t = trim( preg_replace( '/\s+/u', ' ', html_entity_decode( wp_strip_all_tags( $p ), ENT_QUOTES, 'UTF-8' ) ) );
+		if ( mb_strlen( $t ) < 70 || false !== stripos( $t, 'cookie' ) ) {
+			continue;
+		}
+		if ( mb_strlen( $t ) > 155 ) {
+			$t = mb_substr( $t, 0, 152 );
+			$t = mb_substr( $t, 0, (int) mb_strrpos( $t, ' ' ) ) . '…';
+		}
+		$meta = '<meta name="description" content="' . esc_attr( $t ) . '" data-infe>' . "\n";
+		return substr( $html, 0, $head_end ) . $meta . substr( $html, $head_end );
+	}
+	return $html;
+}
+
 function infe_pulisci_html( $html ) {
+	$html = infe_description_mancante( $html );
 	$html = infe_togli_elemento( $html, '#<header\b[^>]*data-elementor-type=["\']header["\'][^>]*>#i', 'header' );
 	$html = infe_togli_elemento( $html, '#<footer\b[^>]*data-elementor-type=["\']footer["\'][^>]*>#i', 'footer' );
 	$html = infe_togli_elemento( $html, '#<header\b[^>]*class=["\'][^"\']*\bifn-header\b[^>]*>#i', 'header' );

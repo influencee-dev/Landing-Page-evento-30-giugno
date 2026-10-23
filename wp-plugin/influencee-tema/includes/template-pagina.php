@@ -1,7 +1,9 @@
 <?php
 /**
- * Pagina o articolo di WordPress con il guscio del Tema (modo "tutto"). Il contenuto resta quello di WordPress:
- * se è fatto con Elementor lo disegna ancora Elementor, ma senza il suo header e footer.
+ * Pagina o articolo di WordPress con il guscio del Tema (modo "tutto").
+ * - Contenuto fatto con Elementor e Elementor acceso: lo disegna ancora Elementor, senza il suo header e footer.
+ * - Altrimenti (anche pagine Elementor con Elementor spento, che mostrano il testo di riserva): il Tema lo impagina
+ *   nello stile del sito, con un solo H1.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -12,9 +14,13 @@ while ( have_posts() ) {
 	if ( infe_contenuto_elementor() ) {
 		the_content();
 	} else {
-		echo '<div class="inf-scope"><div class="inf-wrap it-testo"><h1>' . esc_html( get_the_title() ) . '</h1>';
+		ob_start();
 		the_content();
-		echo '</div></div>';
+		$html = infe_testo_pulito( (string) ob_get_clean() );
+		echo '<div class="inf-scope"><article class="inf-wrap it-testo">';
+		echo '<h1>' . esc_html( get_the_title() ) . '</h1>'; // H1 = titolo della pagina; quelli del testo diventano H2
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput -- contenuto della pagina già filtrato da WordPress
+		echo '</article></div>';
 	}
 	echo '</main>';
 }
