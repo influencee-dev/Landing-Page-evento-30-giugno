@@ -63,16 +63,19 @@ Partono da soli quando la pagina nuova è online. Poi la pagina vecchia si può 
 | `/creator-manager/`, `/amministrazione-pagamenti-influencer/`, `/tutorial-piattaforma-influencee/`, `/guide-e-risorse/` | 13 | |
 | `/privacy-policy/`, `/cookie-policy/`, `/termini-legali/`, `/influencee-extension-privacy/` | 6 | pagine legali: obbligatorie |
 
-## D. Da confermare (servono ancora?)
+## D. In pausa (decisione del 23/10/2026)
 
-| Pagine | Clic | Se non servono |
+Messe in bozza, non cancellate, dal pulsante **Influencee → Impostazioni → Pagine in pausa → «Metti in pausa»**
+(Core 2.2.5). Il pulsante mette in bozza solo le pagine il cui redirect è già attivo, quindi niente 404.
+«Ripubblica» le rimette online.
+
+| Pagine | Clic | Vanno a (la prima online) |
 | :-- | --: | :-- |
-| Corsi: `/academy-influencer-marketing/corso-…/` (5), `/corsi-content-creator/`, `/corso-content-creator/`, `/programma-corso-content-creator/`, `/corso-gratuito-social-ads-2025/` | 9 | 301 → `/academy-influencer-marketing/` |
-| `/selezione-ambassador-influencee-2026/` | 0 | 301 → `/diventa-creator/` |
-| `/consulenza-creator/`, `/modulo-consulenza-creator/` | 0 | 301 → `/diventa-creator/` |
-| `/promo-social-media/`, `/promo-bundle/`, `/gestione-social-influencee/` | 0 | 301 → `/agenzia-influencer/` |
-| `/guida-ristoranti/` | 0 | 301 → `/influencer-marketing-locale/` |
-| `/thank-you/` | 0 | da tenere se un modulo ci rimanda dopo l'invio |
+| 5 corsi dell'academy, `/corsi-content-creator/`, `/corso-content-creator/`, `/programma-corso-content-creator/`, `/corso-gratuito-social-ads-2025/` | 9 | `/academy-influencer-marketing/` |
+| `/selezione-ambassador-influencee-2026/`, `/consulenza-creator/`, `/modulo-consulenza-creator/` | 0 | `/diventa-creator/`, altrimenti `/influencer/` |
+| `/promo-social-media/`, `/promo-bundle/`, `/gestione-social-influencee/` | 0 | `/agenzia-influencer/`, altrimenti `/piattaforma-influencer/` |
+| `/guida-ristoranti/` | 0 | `/influencer-marketing-locale/`, altrimenti `/agenzia-influencer/` |
+| `/thank-you/` | 0 | home |
 
 ## Ordine dei passi
 

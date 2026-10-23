@@ -4,8 +4,8 @@ Nota per riprendere il lavoro in una sessione nuova di Claude Code.
 
 ## Accesso al sito da Claude
 
-- Variabile d'ambiente `INFLUENCEE_WP_AUTH` = `utente:password-applicazione`, creata in WordPress da
-  **Influencee → Crea accesso per Claude**. Va salvata nelle impostazioni dell'ambiente, mai in chat né nel codice.
+- Variabile d'ambiente `INFLUENCEE_WP_AUTH` = il valore mostrato da **Influencee → Crea accesso per Claude**
+  (è già `utente:password` in base64: si usa così com'è dopo `Authorization: Basic`). Va salvata nelle impostazioni dell'ambiente, mai in chat né nel codice.
 - Server MCP del sito: `https://influencee.it/wp-json/mcp/mcp-adapter-default-server` (Basic auth con la variabile).
 - Abilità del Core (`wp-plugin/influencee-core/includes/mcp-abilities.php`): `influencee/stato`, `influencee/pagine`,
   `influencee/articoli`, `influencee/redirect`, `influencee/svuota-cache`, `influencee/controlla-pagina`,

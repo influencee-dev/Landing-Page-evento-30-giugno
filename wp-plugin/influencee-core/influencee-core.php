@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Core
  * Description:       Base comune dei plugin Influencee: SEO/GEO/AEO (title, description, dati strutturati, llms.txt), tracciamento GA4, CSS e JavaScript condivisi, redirect 301, impostazioni e accesso MCP per Claude. Necessario per Influencee Tools, Pagine, Articoli e Annunci.
- * Version:           2.2.4
+ * Version:           2.2.5
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFC_VERSION', '2.2.4' );
+define( 'INFC_VERSION', '2.2.5' );
 define( 'INFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFT_COMPANY', 'Partidea SRL' );
@@ -213,14 +213,57 @@ function inft_redirect_vecchie() {
 		'/benvenuto-su-influencee/'                             => '/diventa-creator/',
 		'/cost/'                                                => '/prezzi/',
 	);
+	// pagine messe in pausa dal titolare il 23/10/2026: 301 verso la pagina più vicina (la prima online)
+	foreach ( inft_pagine_in_pausa() as $from => $to ) {
+		$map[ $from ] = $to;
+	}
 	foreach ( array( 'anteprima-dei-tuoi-post-sui-social', 'generatore-prompt-per-social-media-manager', 'calcola-preventivo-gestione-social', 'comprimi-immagini-online', 'report-social-organico', 'social-media-strategy-tool', 'calendario-editoriale', 'social-campaign-planner', 'piano-editoriale-online' ) as $t ) {
 		$map[ $tool . $t . '/' ] = $tool;
 	}
 	return apply_filters( 'inft_redirect_vecchie', $map );
 }
 
+/** Pagine messe in pausa (corsi, promo, consulenza…): destinazioni in ordine di preferenza. */
+function inft_pagine_in_pausa() {
+	$academy = '/academy-influencer-marketing/';
+	$creator = array( '/diventa-creator/', '/influencer/' );
+	$servizi = array( '/agenzia-influencer/', '/piattaforma-influencer/' );
+	return array(
+		$academy . 'corso-come-diventare-influencer/'   => $academy,
+		$academy . 'corso-linkedin/'                    => $academy,
+		$academy . 'corso-instagram-per-influencer/'    => $academy,
+		$academy . 'corso-tiktok-per-influencer/'       => $academy,
+		$academy . 'corso-facebook/'                    => $academy,
+		'/corsi-content-creator/'                       => $academy,
+		'/corso-content-creator/'                       => $academy,
+		'/programma-corso-content-creator/'             => $academy,
+		'/corso-gratuito-social-ads-2025/'              => $academy,
+		'/selezione-ambassador-influencee-2026/'        => $creator,
+		'/consulenza-creator/'                          => $creator,
+		'/modulo-consulenza-creator/'                   => $creator,
+		'/promo-social-media/'                          => $servizi,
+		'/promo-bundle/'                                => $servizi,
+		'/gestione-social-influencee/'                  => $servizi,
+		'/guida-ristoranti/'                            => array( '/influencer-marketing-locale/', '/agenzia-influencer/' ),
+		'/thank-you/'                                   => '/',
+	);
+}
+
+/** Prima destinazione online tra quelle indicate (stringa o elenco), oppure null. */
+function inft_destinazione_vecchia( $to ) {
+	foreach ( (array) $to as $t ) {
+		if ( inft_destinazione_online( $t ) ) {
+			return $t;
+		}
+	}
+	return null;
+}
+
 /** La pagina di arrivo esiste davvero? (pagina dei plugin accesa o pagina WordPress pubblicata) */
 function inft_destinazione_online( $path ) {
+	if ( '/' === $path ) {
+		return true; // la home c'è sempre
+	}
 	$pages = inft_pages();
 	if ( isset( $pages[ $path ] ) ) {
 		return inft_is_active( $path, $pages[ $path ] );
@@ -238,8 +281,9 @@ add_action(
 		}
 		$path = inft_request_path();
 		$map  = inft_redirect_vecchie();
-		if ( isset( $map[ $path ] ) && inft_destinazione_online( $map[ $path ] ) && ! inft_current() ) {
-			wp_safe_redirect( home_url( $map[ $path ] ), 301, 'Influencee' );
+		$to = isset( $map[ $path ] ) && ! inft_current() ? inft_destinazione_vecchia( $map[ $path ] ) : null;
+		if ( $to ) {
+			wp_safe_redirect( home_url( $to ), 301, 'Influencee' );
 			exit;
 		}
 	},
@@ -483,6 +527,34 @@ add_action(
 	}
 );
 
+/** Mette in bozza (o ripubblica) le pagine in pausa. Mai cancellate: tornano con «Ripubblica». */
+add_action(
+	'admin_post_inft_pausa',
+	function () {
+		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'inft_pausa' ) ) {
+			wp_die( 'Non consentito.' );
+		}
+		$riprendi = 'riprendi' === ( isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '' );
+		$attivo   = ! empty( inft_settings()['redirect_vecchie'] );
+		$n        = 0;
+		foreach ( inft_pagine_in_pausa() as $from => $to ) {
+			$pg = get_page_by_path( trim( $from, '/' ), OBJECT, 'page' );
+			if ( ! $pg || ( $riprendi ? 'draft' : 'publish' ) !== $pg->post_status ) {
+				continue;
+			}
+			// in pausa solo se il suo indirizzo porta già a una pagina online: mai un 404
+			if ( ! $riprendi && ( ! $attivo || ! inft_destinazione_vecchia( $to ) ) ) {
+				continue;
+			}
+			wp_update_post( array( 'ID' => $pg->ID, 'post_status' => $riprendi ? 'publish' : 'draft' ) );
+			++$n;
+		}
+		do_action( 'litespeed_purge_all' );
+		wp_safe_redirect( add_query_arg( 'inft_pausa', $n, inft_settings_url() ) );
+		exit;
+	}
+);
+
 /** Crea o revoca l'accesso MCP per Claude: password per le applicazioni dell'utente corrente. */
 add_action(
 	'admin_post_inft_mcp_access',
@@ -576,9 +648,21 @@ function inft_settings_page() {
 			<p><label><input type="checkbox" name="inft_settings[redirect_vecchie]" value="1" <?php checked( ! empty( $s['redirect_vecchie'] ) ); ?>> Attiva: ogni pagina vecchia va con un 301 alla nuova <b>solo quando la nuova è online</b> (mai 404)</label></p>
 			<table class="widefat striped" style="max-width:900px"><thead><tr><th>Pagina vecchia</th><th>Pagina nuova</th><th>Nuova online?</th></tr></thead><tbody>
 			<?php foreach ( inft_redirect_vecchie() as $from => $to ) : ?>
-				<tr><td><code><?php echo esc_html( $from ); ?></code></td><td><code><?php echo esc_html( $to ); ?></code></td><td><?php echo inft_destinazione_online( $to ) ? '✅ sì: il redirect è attivo' : '⏳ non ancora: resta la pagina vecchia'; ?></td></tr>
+				<?php $dest = inft_destinazione_vecchia( $to ); ?>
+				<tr><td><code><?php echo esc_html( $from ); ?></code></td><td><code><?php echo esc_html( $dest ? $dest : implode( ' oppure ', (array) $to ) ); ?></code></td><td><?php echo $dest ? '✅ sì: il redirect è attivo' : '⏳ non ancora: resta la pagina vecchia'; ?></td></tr>
 			<?php endforeach; ?>
 			</tbody></table>
+			<?php
+			$in_pausa = 0;
+			foreach ( array_keys( inft_pagine_in_pausa() ) as $from ) {
+				$pg       = get_page_by_path( trim( $from, '/' ), OBJECT, 'page' );
+				$in_pausa += ( $pg && 'draft' === $pg->post_status ) ? 1 : 0;
+			}
+			?>
+			<h3>Pagine in pausa (corsi, promo, consulenza, ambassador, guida ristoranti, thank you)</h3>
+			<p><?php echo (int) $in_pausa; ?> su <?php echo count( inft_pagine_in_pausa() ); ?> sono in bozza. Mettendole in bozza escono dal sito senza essere cancellate e i loro indirizzi portano con un 301 alla pagina indicata qui sopra. Il pulsante mette in bozza solo quelle con il redirect già attivo (casella «Pagine vecchie» accesa e pagina di arrivo online), quindi niente 404: le altre restano pubblicate finché la loro pagina di arrivo non è online. Si ripubblicano quando vuoi.</p>
+			<p><button type="submit" form="inft-pausa" class="button" name="do" value="pausa">Metti in pausa (bozza)</button>
+			<button type="submit" form="inft-pausa" class="button" name="do" value="riprendi">Ripubblica</button></p>
 			<h3>Altri redirect del piano SEO</h3>
 			<p><label><input type="checkbox" name="inft_settings[redirects]" value="1" <?php checked( ! empty( $s['redirects'] ) ); ?>> Attiva i redirect qui sotto (dal piano SEO)</label></p>
 			<ul style="list-style:disc;margin-left:20px">
@@ -605,12 +689,19 @@ function inft_settings_page() {
 			delete_transient( 'inft_mcp_key_' . get_current_user_id() );
 		}
 		?>
+		<?php if ( isset( $_GET['inft_pausa'] ) ) : ?>
+			<div class="notice notice-success"><p>Pagine aggiornate: <?php echo (int) $_GET['inft_pausa']; ?>. Controlla la tabella «Pagine in pausa».</p></div>
+		<?php endif; ?>
 		<?php if ( $key ) : ?>
 			<div class="notice notice-warning" style="padding:12px"><p><b>Valore da copiare adesso: non verrà più mostrato.</b> Inseriscilo come variabile d'ambiente <code>INFLUENCEE_WP_AUTH</code> nelle impostazioni dell'ambiente di Claude Code. Non incollarlo in chat.</p>
 			<p><input type="text" readonly value="<?php echo esc_attr( $key ); ?>" style="width:100%;font-family:monospace" onclick="this.select()"></p></div>
 		<?php elseif ( isset( $_GET['inft_mcp'] ) && 'revocato' === $_GET['inft_mcp'] ) : ?>
 			<div class="notice notice-success"><p>Accesso di Claude revocato.</p></div>
 		<?php endif; ?>
+		<form id="inft-pausa" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<?php wp_nonce_field( 'inft_pausa' ); ?>
+			<input type="hidden" name="action" value="inft_pausa">
+		</form>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin:8px 0 16px">
 			<?php wp_nonce_field( 'inft_mcp_access' ); ?>
 			<input type="hidden" name="action" value="inft_mcp_access">

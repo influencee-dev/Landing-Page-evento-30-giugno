@@ -1,6 +1,6 @@
 """Ricategorizzazione dei creator su influencee.it via REST di WordPress.
 Uso: python3 applica.py [--scrivi]   (senza --scrivi fa solo la prova e stampa le modifiche)
-Credenziale: variabile d'ambiente INFLUENCEE_WP_AUTH = "utente:password-applicazione" (mai nel codice).
+Credenziale: variabile d'ambiente INFLUENCEE_WP_AUTH = il valore di «Crea accesso per Claude» (mai nel codice).
 Regole sicure: le etichette doppie diventano quella principale, si aggiunge la famiglia quando manca;
 nessun creator resta senza categoria. Una richiesta alla volta, con pausa, per non appesantire il sito."""
 import json, os, sys, time, base64, urllib.request
@@ -13,7 +13,9 @@ AGGIUNGI = {'stylist': 'fashion', 'writer': 'cultura', 'youtuber': 'content-crea
 def req(method, url, body=None):
     h = {'Content-Type': 'application/json', 'User-Agent': 'influencee-ricategorizza'}
     if SCRIVI:
-        h['Authorization'] = 'Basic ' + base64.b64encode(os.environ['INFLUENCEE_WP_AUTH'].encode()).decode()
+        auth = os.environ['INFLUENCEE_WP_AUTH'].strip()
+        # il valore di «Crea accesso per Claude» è già codificato; «utente:password» si codifica qui
+        h['Authorization'] = 'Basic ' + (base64.b64encode(auth.encode()).decode() if ':' in auth else auth)
     r = urllib.request.Request(url, data=json.dumps(body).encode() if body is not None else None, headers=h, method=method)
     with urllib.request.urlopen(r, timeout=120) as res:
         return json.load(res)
