@@ -390,12 +390,23 @@ export function Navbar() {
 
 /* ─── Motion ─────────────────────────────────────────────────────── */
 export const EASE = [0.22, 1, 0.36, 1] as const;
-export const reveal = (i = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-60px' },
-  transition: { duration: 0.6, ease: EASE, delay: i * 0.06 },
-});
+/**
+ * Animazioni nelle pagine pre-renderizzate (plugin WordPress): il JavaScript ricostruisce la pagina sopra l'HTML del
+ * server, quindi le dissolvenze di motion farebbero sparire e riapparire anche ciò che è già sullo schermo.
+ * Con `MOTION.embed` sono spente: le sezioni più in basso le anima il client con il CSS (classe in-anim, v2.css).
+ */
+export const MOTION = { embed: false };
+export const reveal = (i = 0) =>
+  MOTION.embed
+    ? {}
+    : {
+        initial: { opacity: 0, y: 24 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '-60px' },
+        transition: { duration: 0.6, ease: EASE, delay: i * 0.06 },
+      };
+/** Stato di partenza di un'animazione d'ingresso: nessuno nelle pagine pre-renderizzate (si vedono subito). */
+export const entrance = <T,>(initial: T): T | false => (MOTION.embed ? false : initial);
 
 export function useCountUp(to: number, duration = 1300) {
   const ref = useRef<HTMLSpanElement>(null);

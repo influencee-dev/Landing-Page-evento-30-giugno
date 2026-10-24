@@ -8,3 +8,7 @@
 .in-eyebrow{border-radius:7px;padding:6px 11px;background:#0a0a0a;color:#fff;font-size:13px;font-weight:700;letter-spacing:0;text-transform:none;line-height:1.2;transform:rotate(-2deg);box-shadow:0 6px 14px -8px rgba(10,10,10,.45)}
 .in-eyebrow[data-dark]{background:#c8ff1a;color:#0a0a0a}
 .in-eyebrow .in-eyebrow-dot{display:none}
+
+/* Dissolvenza delle sezioni sotto la prima schermata (client WordPress): solo il contenuto, non lo sfondo */
+.in-section.in-anim > :not(.absolute){opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
+.in-section.in-anim.in-anim-on > :not(.absolute){opacity:1;transform:none}

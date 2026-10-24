@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { BadgeCheck, Heart, MessageCircle, Music2, Play, Send } from 'lucide-react';
-import { Button, Container, Eyebrow, GAP, Heading, Lead, Marquee, Section, SectionHeader, SocialProof, TYPE, reveal, type Tone } from '../ds';
+import { Button, Container, Eyebrow, GAP, Heading, Lead, Marquee, Section, SectionHeader, SocialProof, TYPE, entrance, reveal, type Tone } from '../ds';
 import { CREATORS_DB, NICHE_INFO, REELS, fmtFollowers, type Creator, type WorkReel } from '../site/data';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -295,15 +295,15 @@ export function HeroHome() {
             { c: c, cls: 'right-0 top-10 w-[46%] rotate-6', d: 1.2 },
             { c: a, cls: 'left-1/2 top-0 z-10 w-[54%] -translate-x-1/2', d: 0.6 },
           ].map(({ c: cr, cls, d }, i) => (
-            <motion.a key={cr.id} href="#casi-studio" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className={`absolute block ${cls}`}>
+            <motion.a key={cr.id} href="#casi-studio" initial={entrance({ opacity: 0, y: 40 })} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className={`absolute block ${cls}`}>
               <WorkReelCard r={cr} delay={d} />
             </motion.a>
           ))}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8 }} className="absolute -left-2 bottom-16 z-20 rounded-2xl bg-white px-4 py-3 shadow-float sm:-left-8">
+          <motion.div initial={entrance({ opacity: 0, x: -20 })} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8 }} className="absolute -left-2 bottom-16 z-20 rounded-2xl bg-white px-4 py-3 shadow-float sm:-left-8">
             <p className="text-xs text-mute">Reach campagna</p>
             <p className="font-heading text-2xl font-semibold tracking-tight">2,4M</p>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 }} className="absolute -right-2 bottom-4 z-20 rounded-2xl bg-ink px-4 py-3 text-white shadow-float sm:-right-6">
+          <motion.div initial={entrance({ opacity: 0, x: 20 })} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 }} className="absolute -right-2 bottom-4 z-20 rounded-2xl bg-ink px-4 py-3 text-white shadow-float sm:-right-6">
             <p className="text-xs text-white/60">Match medio</p>
             <p className="font-heading text-2xl font-semibold tracking-tight text-acid">94%</p>
           </motion.div>

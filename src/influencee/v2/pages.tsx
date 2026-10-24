@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Button } from '../ds';
+import { Button, entrance } from '../ds';
 import { HeroReels, ReelWall, WorkReelCard } from '../rows/reels';
 import { REELS } from '../site/data';
 import { APP, CATEGORIES, SUBCATEGORIES, subcategoriesOf, cityPath, regionPath, CREATOR_TYPES, FACTS, FAQ, GESTITO, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
@@ -155,12 +155,12 @@ function Home() {
         visual={<DiscoveryMock />}
         floats={
           <>
-            <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 }} className="absolute -left-10 top-[58%] hidden w-56 rounded-2xl bg-white p-4 text-left text-ink shadow-float lg:block xl:-left-16">
+            <motion.div initial={entrance({ opacity: 0, x: -24 })} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 }} className="absolute -left-10 top-[58%] hidden w-56 rounded-2xl bg-white p-4 text-left text-ink shadow-float lg:block xl:-left-16">
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mute">Lista salvata</p>
               <p className="mt-1 font-heading font-semibold">Food creator Bologna</p>
               <p className="mt-1 text-xs text-mute">Si aggiorna da sola quando entrano nuovi profili</p>
             </motion.div>
-            <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.2 }} className="absolute -right-6 bottom-36 hidden w-52 rounded-2xl bg-ink p-4 text-left text-white shadow-float ring-1 ring-white/10 lg:block xl:-right-16">
+            <motion.div initial={entrance({ opacity: 0, x: 24 })} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.2 }} className="absolute -right-6 bottom-36 hidden w-52 rounded-2xl bg-ink p-4 text-left text-white shadow-float ring-1 ring-white/10 lg:block xl:-right-16">
               <p className="text-[10px] text-white/60">Collaborazione</p>
               <p className="mt-1 font-heading font-semibold">Termini v3 accettati</p>
               <p className="mt-1 text-xs text-acid">Contratto generato ✓</p>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown, ChevronRight, Coffee, Dumbbell, FileText, Gamepad2, HeartPulse, Laugh, MousePointerClick, Music2, Megaphone, Users, LayoutGrid, BarChart3, PawPrint, PiggyBank, Plane, Search, Shirt, Smartphone, Sofa, Sparkles, UtensilsCrossed } from 'lucide-react';
-import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, reveal, useInk, type Tone } from '../ds';
+import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, entrance, reveal, useInk, type Tone } from '../ds';
 import { faqOpen, track } from './analytics';
 import { ENV } from './env';
 import { setToolContext } from './tools';
@@ -60,7 +60,7 @@ export function HeroPlatform({ crumbs, eyebrow, title, lead, actions, visual, no
             <div className="mt-8 flex flex-wrap gap-3">{actions}</div>
             {note && <p className="mt-4 text-sm text-white/55">{note}</p>}
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="relative">
+          <motion.div initial={entrance({ opacity: 0, y: 30 })} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="relative">
             {visual}
           </motion.div>
         </div>
@@ -84,7 +84,7 @@ export function HeroCenter({ eyebrow, title, lead, actions, note, visual, floats
           {note && <p className="mt-4 text-sm text-white/55">{note}</p>}
           <ClientsProof />
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="relative mx-auto mt-14 max-w-[1080px] pb-16 sm:mt-16 sm:pb-24">
+        <motion.div initial={entrance({ opacity: 0, y: 60 })} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="relative mx-auto mt-14 max-w-[1080px] pb-16 sm:mt-16 sm:pb-24">
           {visual}
           {floats}
         </motion.div>

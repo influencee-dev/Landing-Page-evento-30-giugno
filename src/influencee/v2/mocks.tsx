@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { entrance } from '../ds';
 import { BadgeCheck, CheckCircle2, Copy, FileText, Link2, MapPin, MousePointerClick, QrCode, Search, SlidersHorizontal, Star } from 'lucide-react';
 
 /* Schermate della piattaforma ricostruite in HTML, fedeli alle funzioni
@@ -377,7 +378,7 @@ export function DiscoveryMock({ photos = [], className = '' }: { photos?: string
           </div>
           <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {GRID.map((c, i) => (
-              <motion.div key={c.n} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 + i * 0.06 }} className={`overflow-hidden rounded-2xl bg-paper/70 ring-1 ring-line/60 ${i > 3 ? 'hidden sm:block' : ''} ${i > 5 ? 'sm:hidden lg:block' : ''}`}>
+              <motion.div key={c.n} initial={entrance({ opacity: 0, y: 14 })} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 + i * 0.06 }} className={`overflow-hidden rounded-2xl bg-paper/70 ring-1 ring-line/60 ${i > 3 ? 'hidden sm:block' : ''} ${i > 5 ? 'sm:hidden lg:block' : ''}`}>
                 <div className={`relative aspect-[4/3] bg-gradient-to-br ${TILE[i % TILE.length]}`}>
                   {photos[i] ? (
                     <img src={photos[i]} alt="" className="absolute inset-0 h-full w-full object-cover" />
