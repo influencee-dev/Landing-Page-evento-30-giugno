@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Core
  * Description:       Base comune dei plugin Influencee: SEO/GEO/AEO (title, description, dati strutturati, llms.txt), tracciamento GA4, CSS e JavaScript condivisi, redirect 301, impostazioni e accesso MCP per Claude. Necessario per Influencee Tools, Pagine, Articoli e Annunci.
- * Version:           2.2.9
+ * Version:           2.2.10
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFC_VERSION', '2.2.9' );
+define( 'INFC_VERSION', '2.2.10' );
 define( 'INFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFT_COMPANY', 'Partidea SRL' );
@@ -61,8 +61,11 @@ function inft_pages() {
 }
 
 /** Percorso richiesto, normalizzato con lo slash finale (tiene conto di WordPress in sottocartella). */
+// indirizzo chiesto dal visitatore, letto appena il Core si carica: altri plugin (es. il listing geo) possono cambiarlo dopo
+$GLOBALS['inft_uri_originale'] = isset( $_SERVER['REQUEST_URI'] ) ? (string) $_SERVER['REQUEST_URI'] : '/';
+
 function inft_request_path() {
-	$uri  = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
+	$uri  = isset( $GLOBALS['inft_uri_originale'] ) ? wp_unslash( $GLOBALS['inft_uri_originale'] ) : ( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/' );
 	$path = (string) wp_parse_url( $uri, PHP_URL_PATH );
 	$base = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
 	if ( $base && '/' !== $base && 0 === strpos( $path, rtrim( $base, '/' ) ) ) {
@@ -288,7 +291,7 @@ add_action(
 			exit;
 		}
 	},
-	0
+	-10002 // prima degli altri plugin (il listing geo serviva le sue pagine al posto delle nostre)
 );
 
 add_action(
@@ -305,7 +308,7 @@ add_action(
 			exit;
 		}
 	},
-	0
+	-10001 // prima degli altri plugin (il listing geo serviva le sue pagine al posto delle nostre)
 );
 
 /* llms.txt alla radice del sito (GEO: descrizione per i motori AI), se WordPress non ne ha già uno */
@@ -320,7 +323,7 @@ add_action(
 		readfile( INFC_DIR . 'llms.txt' );
 		exit;
 	},
-	1
+	-10000 // prima degli altri plugin (il listing geo serviva le sue pagine al posto delle nostre)
 );
 
 /* ════════════════════════════════════════════════════════════════════
@@ -368,10 +371,18 @@ add_action(
 		if ( ! headers_sent() ) {
 			status_header( 200 );
 		}
+		// ...anche alla chiusura della richiesta: il listing geo metteva 500 dopo la nostra pagina
+		register_shutdown_function(
+			function () {
+				if ( ! headers_sent() ) {
+					http_response_code( 200 );
+				}
+			}
+		);
 		ob_end_flush();
 		exit;
 	},
-	5
+	-9999 // prima degli altri plugin (il listing geo serviva le sue pagine al posto delle nostre)
 );
 
 /** Un solo <title>; description, Open Graph e dati strutturati solo del plugin (gli altri plugin SEO li duplicherebbero). */
