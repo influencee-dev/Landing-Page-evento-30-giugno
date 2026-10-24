@@ -9,8 +9,31 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/** Un solo foglio Google Fonts per tutto il sito (prima erano tre richieste: Inter, Inter Tight, Montserrat). */
+function inft_fonts_url() {
+	return (string) apply_filters( 'inft_fonts_url', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap' );
+}
+
+function inft_enqueue_fonts() {
+	wp_enqueue_style( 'inft-fonts', inft_fonts_url(), array(), null );
+}
+
+// collegamento anticipato ai server dei caratteri: il browser apre la connessione mentre legge l'HTML
+add_filter(
+	'wp_resource_hints',
+	function ( $urls, $type ) {
+		if ( 'preconnect' === $type && wp_style_is( 'inft-fonts', 'enqueued' ) ) {
+			$urls[] = 'https://fonts.googleapis.com';
+			$urls[] = array( 'href' => 'https://fonts.gstatic.com', 'crossorigin' => 'anonymous' );
+		}
+		return $urls;
+	},
+	10,
+	2
+);
+
 function inft_enqueue_base() {
-	wp_enqueue_style( 'inft-fonts-lite', 'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700&family=Inter:wght@400;600&display=swap', array(), null );
+	inft_enqueue_fonts();
 	wp_enqueue_style( 'inft-base', INFC_URL . 'assets/inft-base.css', array(), INFC_VERSION );
 	wp_enqueue_script( 'inft-track', INFC_URL . 'assets/inft-track.js', array(), INFC_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 }

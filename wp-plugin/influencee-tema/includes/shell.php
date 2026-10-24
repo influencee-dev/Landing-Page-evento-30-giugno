@@ -268,8 +268,21 @@ add_filter(
 
 /* ─── CSS e JS: solo i nostri dove il contenuto è HTML5; dove resta Elementor, via solo tema e vecchio header ─── */
 
+/** Pagine che usano davvero WP Job Manager (singola offerta, archivio, shortcode delle offerte). */
+function infe_pagina_offerte() {
+	if ( is_singular( 'job_listing' ) || is_post_type_archive( 'job_listing' ) || is_tax( array( 'job_listing_type', 'job_listing_category' ) ) ) {
+		return true;
+	}
+	$post = get_queried_object();
+	return $post instanceof WP_Post && preg_match( '/\[(jobs|submit_job_form|job_dashboard|job)\b/', (string) $post->post_content );
+}
+
 function infe_da_togliere( $src ) {
 	$sempre = '#/themes/hello-elementor/|/plugins/influencee-header-footer/#';
+	// CSS di WP Job Manager solo dove servono le sue offerte (prima su ogni pagina)
+	if ( preg_match( '#/plugins/wp-job-manager/assets/[^?]*\.css#', $src ) && ! infe_pagina_offerte() ) {
+		return true;
+	}
 	$elem   = '#/plugins/elementor/|/plugins/elementor-pro/|/uploads/elementor/#';
 	if ( preg_match( $sempre, $src ) ) {
 		return true;
@@ -302,11 +315,30 @@ add_action(
 			return;
 		}
 		inft_enqueue_base(); // Core: CSS base e tracciamento GA4
-		wp_enqueue_style( 'infe-font', 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap', array(), null );
-		wp_enqueue_style( 'infe-tema', INFE_URL . 'assets/tema.css', array( 'inft-base', 'infe-font' ), INFE_VERSION );
+		if ( function_exists( 'inft_enqueue_fonts' ) ) {
+			inft_enqueue_fonts(); // Core 2.2.8+: un solo foglio con tutti i caratteri del sito (Montserrat compreso)
+			$font = 'inft-fonts';
+		} else {
+			wp_enqueue_style( 'infe-font', 'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap', array(), null );
+			$font = 'infe-font';
+		}
+		wp_enqueue_style( 'infe-tema', INFE_URL . 'assets/tema.css', array( 'inft-base', $font ), INFE_VERSION );
 		wp_enqueue_script( 'infe-tema', INFE_URL . 'assets/tema.js', array(), INFE_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	},
 	50
+);
+
+// script di Brevo (mailin) senza bloccare il disegno della pagina: parte dopo, come gli altri
+add_filter(
+	'script_loader_tag',
+	function ( $tag, $handle ) {
+		if ( 'sib-front-js' === $handle && infe_attivo() && false === strpos( $tag, ' defer' ) ) {
+			$tag = str_replace( ' src=', ' defer src=', $tag );
+		}
+		return $tag;
+	},
+	10,
+	2
 );
 
 /** Toglie dall'HTML finale gli header e footer di Elementor e del vecchio plugin, se qualcuno li stampa lo stesso. */
