@@ -21,7 +21,7 @@ function inft_profile_data() {
 	return $d;
 }
 
-/** Dati del plugin dei profili (igm) per slug, se disponibili. Cache di un'ora. */
+/** Dati del plugin dei profili (igm) per slug, se disponibili. Cache di un giorno, svuotata quando cambia un creator. */
 function inft_igm_by_slug( $slug ) {
 	$all = get_transient( 'inft_igm_creators' );
 	if ( false === $all ) {
@@ -38,7 +38,7 @@ function inft_igm_by_slug( $slug ) {
 				}
 			}
 		}
-		set_transient( 'inft_igm_creators', $all, HOUR_IN_SECONDS );
+		set_transient( 'inft_igm_creators', $all, DAY_IN_SECONDS ); // si svuota quando cambia un creator
 	}
 	return isset( $all[ $slug ] ) ? $all[ $slug ] : array();
 }
@@ -341,14 +341,19 @@ function inft_creators_directory() {
 			'c' => is_array( $city ) && $city && isset( $d['cities'][ $city[0] ]['name'] ) ? $d['cities'][ $city[0] ]['name'] : $c['city'],
 		);
 	}
-	set_transient( 'inft_creators_dir', $list, HOUR_IN_SECONDS );
+	set_transient( 'inft_creators_dir', $list, DAY_IN_SECONDS ); // si svuota quando cambia un creator
 	return $list;
 }
 
 /** Profilo modificato: elenco e dati del plugin dei profili si ricaricano. */
-function inft_forget_creators() {
+function inft_forget_creators( $post_id = 0 ) {
+	if ( $post_id && 'creator' !== get_post_type( $post_id ) && ! doing_action( 'save_post_creator' ) ) {
+		return;
+	}
 	delete_transient( 'inft_creators_dir' );
 	delete_transient( 'inft_igm_creators' );
+	update_option( 'inft_creators_ver', (string) time(), false ); // nuove chiavi per le schede salvate delle liste
 }
 add_action( 'save_post_creator', 'inft_forget_creators' );
 add_action( 'trashed_post', 'inft_forget_creators' );
+add_action( 'deleted_post', 'inft_forget_creators' );

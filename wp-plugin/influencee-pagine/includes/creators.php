@@ -66,6 +66,13 @@ function inft_creators_query( $key ) {
 	if ( empty( $s['creators'] ) || ! post_type_exists( 'creator' ) ) {
 		return $cache[ $key ];
 	}
+	// risultato salvato per un giorno (si rinnova quando cambia un creator: inft_forget_creators)
+	$tkey  = 'inft_cq_' . md5( $key . '|' . get_option( 'inft_creators_ver', '0' ) );
+	$saved = get_transient( $tkey );
+	if ( is_array( $saved ) ) {
+		$cache[ $key ] = $saved;
+		return $saved;
+	}
 	parse_str( html_entity_decode( $key ), $f );
 	$limit = isset( $f['limit'] ) ? max( 1, min( 48, (int) $f['limit'] ) ) : 12;
 	$base  = array( 'post_type' => 'creator', 'post_status' => 'publish', 'numberposts' => $limit, 'orderby' => 'date', 'order' => 'DESC', 'suppress_filters' => false );
@@ -90,12 +97,21 @@ function inft_creators_query( $key ) {
 		$posts = get_posts( $base + ( $tax ? array( 'tax_query' => $tax ) : array() ) );
 	}
 	$cache[ $key ] = array_map( 'inft_creator_data', $posts );
+	set_transient( $tkey, $cache[ $key ], DAY_IN_SECONDS );
 	return $cache[ $key ];
 }
 
 /** HTML delle card (stesse classi della versione interattiva). */
 function inft_creators_html_for( $key ) {
 	static $done = array();
+	// schede della lista salvate per un giorno (prima: ricerca nel database a ogni costruzione della pagina)
+	$tkey   = 'inft_cards_' . md5( $key . '|' . get_option( 'inft_creators_ver', '0' ) . '|' . INFP_VERSION );
+	$cached = get_transient( $tkey );
+	if ( is_string( $cached ) && '' !== $cached ) {
+		$done[ $key ] = $cached;
+		$GLOBALS['inft_creators_rendered'] = $done;
+		return $cached;
+	}
 	$list = inft_creators_query( $key );
 	if ( ! $list ) {
 		$html = '<div class="rounded-2xl bg-white p-8 text-center ring-1 ring-line"><p class="font-heading text-lg font-semibold">Nuovi profili in arrivo</p><p class="mt-2 text-sm text-mute">Nella piattaforma trovi tutti i creator con i filtri per categoria, città e fascia di follower.</p></div>';
@@ -105,6 +121,9 @@ function inft_creators_html_for( $key ) {
 			$cards .= inft_creator_card( $c );
 		}
 		$html = '<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">' . $cards . '</div>';
+	}
+	if ( $list ) {
+		set_transient( $tkey, $html, DAY_IN_SECONDS );
 	}
 	$done[ $key ] = $html;
 	$GLOBALS['inft_creators_rendered'] = $done;
