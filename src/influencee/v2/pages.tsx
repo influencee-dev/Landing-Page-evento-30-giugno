@@ -722,6 +722,61 @@ function GestitoPage() {
   );
 }
 
+/* ─── Agenzia influencer (ex Elementor, stesso URL) ─────────────────
+   Testi ripresi dalla vecchia pagina (copia del 22/10/2026), senza numeri non verificabili. */
+const AGENZIA_FAQ: QA[] = [
+  { q: 'Perché affidarsi a un’agenzia invece di fare da soli?', a: 'Perché l’influencer marketing richiede tempo, esperienza e una rete di creator. Il team sceglie i profili, gestisce trattativa, brief e contratto e segue le consegne: tu approvi creator e contenuti ed eviti gli errori più costosi.' },
+  { q: 'Come scegliete gli influencer giusti per il mio brand?', a: 'Non guardiamo solo i follower: confrontiamo l’engagement con la media della fascia, la qualità e la coerenza dei contenuti, la città e la categoria e i brand con cui il creator ha già collaborato. Ti proponiamo solo profili coerenti con obiettivo e tono di voce, e l’ultima parola è tua.' },
+  { q: 'Qual è il budget minimo per iniziare?', a: `Non c’è un budget fisso: ogni campagna è su misura. Come riferimento, con il listino del servizio gestito un influencer fino a ${GESTITO.maxFollower.toLocaleString('it-IT')} follower costa ${GESTITO.creator} € al mese più ${GESTITO.creatorFee} € di gestione, e un video UGC ${GESTITO.ugc} € più ${GESTITO.ugcFee} € di gestione. Il primo passo è una call gratuita per capire obiettivi e budget.` },
+  GESTITO_FAQ[1],
+  GESTITO_FAQ[5],
+  { q: 'Lavorate anche con creator con più di 70.000 follower o VIP?', a: GESTITO_FAQ[2].a },
+];
+function AgencyServicePage() {
+  const wa = (
+    <>
+      <Button href={WHATSAPP.href}>Richiedi un preventivo</Button>
+      <Button href="#/preventivo-campagne/" variant="secondary">
+        Calcola il costo
+      </Button>
+    </>
+  );
+  return (
+    <>
+      <HeroPlatform crumbs={[{ label: 'Soluzioni' }, { label: 'Agenzia influencer' }]} eyebrow="Agenzia influencer marketing" title={'Agenzia influencer:\n*gestiamo noi* la tua campagna'} lead="Vuoi attivare influencer ma non sai da dove iniziare? Il team di Influencee sceglie i creator con te, prepara brief e accordi, segue i contenuti e misura i risultati. Tu approvi, noi facciamo il resto." actions={wa} visual={<CollabMock className="mx-auto max-w-[500px]" />} note={`${FACTS.clients} clienti tra brand, agenzie e creator`} />
+      <AnswerBox q="Cosa fa un’agenzia di influencer marketing?" a="Trova gli influencer adatti al brand, concorda con loro compenso e contenuti, scrive il brief, segue consegne e approvazioni e misura i risultati. Influencee lo fa con la propria piattaforma: creator italiani con dati dichiarati con la loro fonte, contratto generato dai termini accettati e link tracciati per ogni contenuto." points={['Selezione dei creator con te', 'Brief, accordi e contratto', 'Consegne e approvazioni', 'Report con i click reali']} />
+      <Steps title={'Un approccio\n*su misura*'} lead="Ogni brand è diverso, e così le sue campagne: partiamo dal tuo mercato e costruiamo la strategia sul tuo budget." steps={[
+        { t: 'Analisi di target e mercato', x: 'Studiamo prodotto, pubblico e concorrenti per capire quali creator servono.' },
+        { t: 'Obiettivi chiari e realistici', x: 'Strategia sul tuo budget, con fasi e obiettivi misurabili.' },
+        { t: 'Creator affini al tuo brand', x: 'Profili coerenti con il tuo tono di voce: li approvi tu.' },
+        { t: 'Report che servono', x: 'Click e visitatori di ogni contenuto, per migliorare mese dopo mese.' },
+      ]} />
+      <FeatureSplit tone="paper" items={[
+        { eyebrow: 'Ci distinguiamo per la trasparenza', title: 'Solo creator iscritti, con numeri verificabili', text: 'Lavoriamo con influencer, UGC creator e professionisti iscritti alla piattaforma. Per ognuno vedi da dove arriva ogni dato e quando è stato aggiornato, con il badge Verificato quando l’account è collegato.', bullets: ['Creator per settore, budget e città', 'Engagement confrontato con la fascia di follower', 'Contenuti UGC per i tuoi canali e le inserzioni'], visual: <TrustMock />, href: '#/creator-verificati/', cta: 'Come verifichiamo i creator' },
+        { eyebrow: 'Gestiamo tutte le fasi', title: 'Ogni dettaglio della campagna è seguito', text: 'Dalla ricerca alla messa online dei contenuti: pianificazione, brief, termini, consegne e revisioni stanno nella collaborazione, con un contratto generato dai termini accettati da entrambi.', bullets: ['Pianificazione strategica e creativa', 'Brief chiari inviati ai creator', 'Scadenze e approvazioni in un calendario'], visual: <ContractMock />, href: '#/funzionalita/gestione-campagne/', cta: 'Come gestiamo le campagne' },
+        { eyebrow: 'Il brief creativo', title: 'Il brief lo scriviamo insieme a te', text: 'Il punto di partenza di un buon contenuto è un brief chiaro: messaggio, tono, cosa mostrare e cosa evitare, date e formati. Lo prepariamo con te e lo condividiamo con i creator, così i contenuti sono autentici e allineati ai tuoi obiettivi.', bullets: ['Messaggio, tono e formati', 'Date di consegna e di pubblicazione', 'Revisioni prima della messa online'], visual: <CalendarMock /> },
+        F.link,
+      ]} />
+      <CardGrid tone="white" eyebrow="Il listino" title={'Quanto costa\n*il servizio gestito*'} lead={`Prezzi per creator fino a ${GESTITO.maxFollower.toLocaleString('it-IT')} follower. Per profili più grandi o VIP facciamo un preventivo su misura.`} cols={4} items={[
+        { tag: 'Influencer', t: `${GESTITO.creator} € al mese`, x: `Primo contenuto del mese; ${GESTITO.extraContent} € per ogni contenuto in più.` },
+        { tag: 'Gestione', t: `${GESTITO.creatorFee} € a influencer`, x: 'Selezione, brief, accordi, consegne e report del team.' },
+        { tag: 'UGC', t: `${GESTITO.ugc} € a video`, x: `Più ${GESTITO.ugcFee} € di gestione per ogni video UGC.` },
+        { tag: 'Durata', t: 'fino all’8% di sconto', x: `5% a 3 mesi, 6% a 6 mesi, 8% a 12 mesi; +${GESTITO.oneMonthSurcharge * 100}% per un solo mese.` },
+      ]} />
+      <FeatureSplit tone="white" eyebrow="Vuoi gestire tutto da solo?" title={'Prova gratis la bacheca\n*delle offerte per influencer*'} lead="Pubblicando un’offerta entri in contatto con micro, macro e UGC creator senza intermediari: zero costi di pubblicazione e controllo completo sulla selezione." items={[F.annunci, F.ricerca]} />
+      <ManagedRow />
+      <ToolLead tool="agenzia" context="Pagina: Agenzia influencer" eyebrow="Consulenza gratuita" title={'Ti richiamiamo\n*e partiamo dal tuo obiettivo*'} lead="Lascia i contatti: una persona del team ti richiama, capisce obiettivo e budget e ti propone i primi creator, senza impegno." bullets={['Call gratuita con il team', 'Prima selezione di creator', 'Preventivo scritto, nessun impegno']} cta="Richiamatemi" phone="obbligatorio" />
+      <FaqSeo items={AGENZIA_FAQ} />
+      <Related links={[
+        { label: 'Preventivo campagna', text: 'Calcola il costo con il listino', href: '#/preventivo-campagne/' },
+        { label: 'Piattaforma influencer', text: 'Gestisci le campagne in autonomia', href: '#/piattaforma-influencer/' },
+        { label: 'Pubblica un’offerta', text: 'Gratis, i creator si candidano', href: '#/pubblica-offerta-lavoro/' },
+      ]} />
+      <CtaBandV2 title={'Pronto a far crescere\n*il tuo brand?*'} lead="Parla con il team: definiamo una strategia su misura e ti mandiamo un preventivo senza impegno." primary={{ label: 'Scrivici su WhatsApp', href: WHATSAPP.href }} secondary={{ label: 'Calcola il preventivo', href: '#/preventivo-campagne/' }} />
+    </>
+  );
+}
+
 /* ════════════════════════════════════════════════════════════════════
    PAGINE MODULO (seconda ondata): una pagina per ogni funzione del tool
    ════════════════════════════════════════════════════════════════════ */
@@ -951,6 +1006,7 @@ export function resolve(path: string): Resolved | null {
     '/creator-verificati/': () => ({ meta: { path: p, label: 'Creator verificati', type: 'software', kw: 'influencer verificati', title: T('Creator verificati e dati con la loro fonte'), description: 'Come verifichiamo i creator: badge da account collegato, livello di ogni dato e data di aggiornamento. Come riconoscere follower falsi.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Creator verificati' }], faq: TRUST_FAQ }, el: <TrustPage /> }),
     '/funzionalita/contratto-influencer/': () => ({ meta: { path: p, label: 'Contratto influencer', type: 'software', kw: 'contratto influencer', title: T('Contratto influencer generato dai termini'), description: 'Il contratto con il creator nasce dai termini accettati da entrambi: contenuti, scadenze, compenso e diritti d’uso. DOCX o PDF con impronta.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Contratto' }], faq: CONTRACT_FAQ }, el: <FeaturePage crumb="Contratto" eyebrow="Contratto" title={'Il contratto con l’influencer,\n*generato in automatico*'} lead="Termini in versioni, doppia accettazione e un contratto generato dalle condizioni concordate. Con valutazione reciproca a fine collaborazione." visual={<ContractMock className="mx-auto max-w-[500px]" />} answer={{ q: 'Cosa deve contenere un contratto con un influencer?', a: CONTRACT_FAQ[0].a, points: ['Contenuti e scadenze', 'Compenso e formula', 'Diritti d’uso e durata', 'Versione accettata da entrambi'] }} items={[{ eyebrow: 'Contratto', title: 'Dai termini al documento', text: 'Quando brand e creator accettano la stessa versione dei termini, la piattaforma genera il contratto con parti, contenuti, scadenze, compenso e diritti d’uso, e ne registra l’impronta.', bullets: ['DOCX, PDF quando disponibile', 'Impronta del documento', 'Sempre legato alla collaborazione'], visual: <ContractMock /> }, F.campagne]} faq={CONTRACT_FAQ} related={[{ label: 'Calendario', text: 'Scadenze e consegne', href: '#/funzionalita/calendario-campagne/' }, { label: 'Contenuti UGC', text: 'Diritti d’uso per le ads', href: '#/contenuti-ugc/' }, { label: 'Quanto costa', text: 'Formule di compenso', href: '#/social-media-tool/costo-influencer/' }]} /> }),
     '/funzionalita/calendario-campagne/': () => ({ meta: { path: p, label: 'Calendario campagne', type: 'software', kw: 'calendario campagne influencer', title: T('Calendario campagne influencer e scadenze'), description: 'Tutte le scadenze delle collaborazioni in un calendario: consegne, revisioni, pubblicazioni e contenuti in ritardo, per brand e creator.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Calendario campagne' }], faq: CAL_FAQ }, el: <FeaturePage crumb="Calendario campagne" eyebrow="Calendario" title={'Il calendario delle campagne\n*con gli influencer*'} lead="Consegne, revisioni e pubblicazioni di tutti i creator in una vista a calendario o a lista, con le consegne in ritardo in evidenza." visual={<CalendarMock className="mx-auto max-w-[480px]" />} answer={{ q: 'Come si organizza una campagna con più influencer?', a: CAL_FAQ[0].a, points: ['Vista calendario o lista', 'Stato di ogni contenuto', 'Etichetta "In ritardo"', 'Chat con ogni creator'] }} items={[{ eyebrow: 'Calendario', title: 'Tutte le scadenze in una vista', text: 'Ogni collaborazione porta in calendario le sue date: brief, consegne, revisioni e pubblicazione. Passa dalla vista mensile alla lista quando gestisci molte campagne insieme.', bullets: ['Campagne e scadenze insieme', 'Vista per periodo', 'Anche per i creator'], visual: <CalendarMock /> }, { ...F.campagne, title: 'Consegne, modifiche e approvazioni' }, F.link]} faq={CAL_FAQ} related={[{ label: 'Contratto', text: 'Termini e documento', href: '#/funzionalita/contratto-influencer/' }, { label: 'Per le agenzie', text: 'Più campagne in parallelo', href: '#/piattaforma-agenzie/' }, { label: 'Link tracciati', text: 'Misura i risultati', href: '#/funzionalita/link-tracciati/' }]} /> }),
+    '/agenzia-influencer/': () => ({ meta: { path: p, label: 'Agenzia influencer', type: 'page', kw: 'agenzia influencer marketing', title: fit(['Agenzia influencer marketing: campagne gestite', 'Agenzia influencer marketing']), description: 'Agenzia di influencer marketing: il team di Influencee sceglie i creator italiani con te, prepara brief e contratto, segue i contenuti e misura i click.', crumbs: [{ label: 'Soluzioni' }, { label: 'Agenzia influencer' }], faq: AGENZIA_FAQ }, el: <AgencyServicePage /> }),
     '/contatti-influencee/': () => ({ meta: { path: p, label: 'Contatti', type: 'page', kw: 'contatti influencee', title: T('Contatti'), description: 'Scrivi al team di influencee per una demo con il tuo settore o per aiuto con la piattaforma.', crumbs: [{ label: 'Contatti' }] }, el: <Contacts /> }),
     '/blog/': () => ({ meta: { path: p, label: 'Blog', type: 'page', kw: 'blog influencer marketing', title: T('Blog di influencer marketing'), description: 'Guide pratiche di influencer marketing per brand e creator: engagement, campagne, strumenti social.', crumbs: [{ label: 'Blog' }] }, el: <Blog /> }),
   };
@@ -984,7 +1040,7 @@ export function resolve(path: string): Resolved | null {
 
 /** Elenco di tutte le route (sitemap e test). */
 export function allPaths() {
-  const out = ['/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/preventivo-campagne/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti-influencee/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
+  const out = ['/', '/agenzia-influencer/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/preventivo-campagne/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti-influencee/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
   CATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   SUBCATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   REGIONS.forEach((r) => {
