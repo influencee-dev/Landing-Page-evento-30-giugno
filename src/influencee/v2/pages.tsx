@@ -32,6 +32,7 @@ import {
 } from './rows';
 import { CreatorDirectory, CreatorList } from './creators';
 import { SUB_STORY } from './substory';
+import { EX_PAGES, exPage } from './ex';
 import { CostCalcPanel, PreventivoPanel, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -1014,6 +1015,9 @@ export function resolve(path: string): Resolved | null {
   const alias: Record<string, string> = { '/annunci-collaborazioni/': '/offerte-lavoro-influencer/', '/preventivi-influencer/': '/preventivo-campagne/', '/contatti/': '/contatti-influencee/' };
   if (alias[p]) return fixed[alias[p]]();
   if (fixed[p]) return withLead(fixed[p]());
+  // Pagine ex Elementor (src/influencee/v2/ex/): stesso URL, template nuovo
+  const ex = exPage(p);
+  if (ex) return { meta: { ...ex.meta, path: p, title: fit(ex.titles) }, el: ex.el() };
 
   // Pagine per categoria: /<slug>/
   const cat = seg.length === 1 ? (CATEGORIES.find((k) => k.slug === seg[0]) ?? SUBCATEGORIES.find((k) => k.slug === seg[0])) : undefined;
@@ -1041,6 +1045,7 @@ export function resolve(path: string): Resolved | null {
 /** Elenco di tutte le route (sitemap e test). */
 export function allPaths() {
   const out = ['/', '/agenzia-influencer/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/preventivo-campagne/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti-influencee/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
+  EX_PAGES.filter((x) => x.ready).forEach((x) => out.push(x.path));
   CATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   SUBCATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   REGIONS.forEach((r) => {
