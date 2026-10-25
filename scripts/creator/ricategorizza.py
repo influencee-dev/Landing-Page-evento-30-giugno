@@ -12,7 +12,7 @@ AGGIUNGI = {'stylist': 'fashion', 'writer': 'cultura', 'youtuber': 'content-crea
 
 def req(method, url, body=None):
     h = {'Content-Type': 'application/json', 'User-Agent': 'influencee-ricategorizza'}
-    if SCRIVI:
+    if SCRIVI and os.environ.get('INFLUENCEE_WP_AUTH'):  # senza variabile: l'accesso lo aggiunge il proxy (segreto di rete)
         auth = os.environ['INFLUENCEE_WP_AUTH'].strip()
         # il valore di «Crea accesso per Claude» è già codificato; «utente:password» si codifica qui
         h['Authorization'] = 'Basic ' + (base64.b64encode(auth.encode()).decode() if ':' in auth else auth)
