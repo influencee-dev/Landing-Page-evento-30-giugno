@@ -47,7 +47,7 @@ function GuideStack({ className = '' }: { className?: string }) {
   return (
     <div className={`relative ${className}`}>
       {GUIDE_2026.map((g, i) => (
-        <div key={g.t} className={`relative h-44 rounded-[26px] p-6 shadow-float ${g.c} ${i === 0 ? '' : '-mt-20'} ${i === 1 ? 'ml-6 sm:ml-12' : i === 2 ? 'ml-12 sm:ml-24' : ''}`} style={{ zIndex: i + 1 }}>
+        <div key={g.t} className={`relative h-44 rounded-[26px] p-6 shadow-float ${g.c} ${i === 0 ? '' : '-mt-16'} ${i === 1 ? 'ml-6 sm:ml-12' : i === 2 ? 'ml-12 sm:ml-24' : ''}`} style={{ zIndex: i + 1 }}>
           <div className="flex items-center justify-between">
             <span className={`${TYPE.label} opacity-70`}>{g.tag} · 2026</span>
             <g.icon className="h-5 w-5" />

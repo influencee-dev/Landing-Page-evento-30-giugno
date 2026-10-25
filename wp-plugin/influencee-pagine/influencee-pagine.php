@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Pagine
  * Description:       Pagine del sito con il design nuovo e lo stesso URL (home, influencer italiani per regione, città e categoria, piattaforma, prezzi, contatti…), profili creator /creator/… ed elenco dei creator con filtri. SEO/GEO/AEO e tracciamento da Influencee Core; profili dal plugin dei creator (igm), senza contatti nelle bio.
- * Version:           2.0.5
+ * Version:           2.0.6
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFP_VERSION', '2.0.5' );
+define( 'INFP_VERSION', '2.0.6' );
 define( 'INFP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFP_URL', plugin_dir_url( __FILE__ ) );
 

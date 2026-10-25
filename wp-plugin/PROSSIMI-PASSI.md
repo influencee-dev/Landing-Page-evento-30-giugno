@@ -41,7 +41,7 @@ Nota per riprendere il lavoro in una sessione nuova di Claude Code (ambiente **I
 
 ## Stato del sito (25/10/2026)
 
-- Plugin sul sito: Core 2.2.10, Tema 1.1.6; da installare: **Pagine 2.0.5** (cache delle liste dei creator) e,
+- Plugin sul sito: Core 2.2.10, Tema 1.1.6; da installare: **Core 2.2.11** (JavaScript delle pagine nuove), **Pagine 2.0.6** (cache delle liste dei creator + 10 pagine ex Elementor), **Tema 1.1.7** e,
   se non già fatto, Tools 2.0.2, Articoli 2.2.0, Annunci 1.1.1 (zip in `consegne/plugin-wordpress/`).
 - Elementor **disattivato** (file ancora presenti). Le 14 pagine fatte con Elementor si vedono con il testo di riserva
   impaginato dal Tema (`template-pagina.php`); copia dell'HTML originale in
@@ -51,6 +51,28 @@ Nota per riprendere il lavoro in una sessione nuova di Claude Code (ambiente **I
 - Gruppi «sostituzione» e «nuova» accesi; hub, regioni e città ora sono le pagine nuove (Core 2.2.10 passa davanti
   al plugin influencee-geo).
 - Verifica completa del 23/10 in `seo-baseline/2026-10-23/`.
+
+## Pagine ex Elementor: fatte nel codice il 25/10/2026 (seconda sessione)
+
+10 pagine rifatte in `src/influencee/v2/` (agenzia in `pages.tsx`, le altre 9 in `v2/ex/`, una per file) e incluse
+in **Pagine 2.0.6** (`dist-wp/influencee-pagine.zip`, da `node scripts/build-wp-plugin.mjs`): agenzia-influencer,
+influencer, influencer-italiane, academy-influencer-marketing, chi-siamo, guide-e-risorse, tutorial-piattaforma-influencee,
+contratto-social-media-influencer-ugc (di nuovo un editor funzionante), creator-manager, amministrazione-pagamenti-influencer.
+Gruppo «sostituzione» (già acceso): **vanno online appena si installa Pagine 2.0.6**. Le 4 legali restano testo
+WordPress impaginato dal Tema; **Tema 1.1.7** dà loro una description scritta a mano.
+
+Testi riscritti solo sulle funzioni reali: tolti pagamenti in piattaforma, fatture, firma digitale, creator esterni,
+note private, corsi in pausa, numeri non verificabili (4.000 brand, 6.000 creator), AI.
+
+Domande per il titolare:
+- `/chi-siamo/`: i 4 founders e le foto (2022/2024) sono attuali? `info@influencee.it` è ancora attiva?
+- `/influencer-italiane/`: va bene citare influencer famose (Ferragni, Benedetta Rossi…) come informazione? Il filtro
+  per genere non esiste: la pagina lo dice, e propone una selezione fatta a mano dal team.
+- L'app ha ancora Creator Manager con creator esterni, documenti/fatture o richiesta fattura? Se sì, si aggiungono a
+  creator-manager, amministrazione-pagamenti e tutorial.
+- Contratto: clausole aggiunte (dati personali, foro) e frase fiscale sui pagamenti da far vedere a un legale/commercialista.
+- `/guide-e-risorse/` linka `/benchmark-influencer-2026-i-nuovi-standard-del-mercato/` (il vecchio link
+  `/benchmark-content-creator-2026-…/` non esiste più): è lo stesso articolo?
 
 ## Da fare appena c'è l'accesso
 
