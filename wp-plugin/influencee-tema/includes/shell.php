@@ -351,6 +351,18 @@ function infe_description_mancante( $html ) {
 	if ( false === $head_end || preg_match( '#<meta[^>]+name=["\']description["\']#i', substr( $html, 0, $head_end ) ) ) {
 		return $html;
 	}
+	// pagine legali: description scritta a mano (il primo paragrafo sarebbe la ragione sociale)
+	$fisse = array(
+		'/privacy-policy/'               => 'Informativa privacy di Influencee (Partidea SRL): quali dati raccogliamo da sito e piattaforma, perché, per quanto tempo e come esercitare i tuoi diritti.',
+		'/cookie-policy/'                => 'Cookie policy di Influencee: quali cookie usa il sito, a cosa servono, quanto durano e come dare o revocare il consenso in qualsiasi momento.',
+		'/termini-legali/'               => 'Condizioni legali del sito Influencee.it di Partidea SRL: dati del titolare, condizioni d’uso, responsabilità, proprietà intellettuale e legge applicabile.',
+		'/influencee-extension-privacy/' => 'Privacy dell’estensione Chrome Influencee Profile Analyzer: legge solo dati pubblici di Instagram, lavora nel browser e non raccoglie dati personali.',
+	);
+	$path = trailingslashit( (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '', PHP_URL_PATH ) );
+	if ( isset( $fisse[ $path ] ) ) {
+		$meta = '<meta name="description" content="' . esc_attr( $fisse[ $path ] ) . '" data-infe>' . "\n";
+		return substr( $html, 0, $head_end ) . $meta . substr( $html, $head_end );
+	}
 	$start = stripos( $html, 'id="contenuto"' );
 	$body  = false !== $start ? substr( $html, $start ) : substr( $html, $head_end );
 	$body  = preg_replace( '#<(script|style|nav|header|footer|form)\b.*?</\1>#is', '', $body );
