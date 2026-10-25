@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 function infz_plugin_da_valutare() {
 	return array(
 		'elementor-mcp-composer' => 'Elementor MCP Composer: non serve, aggiunge un accesso MCP in più.',
-		'claude'                 => 'Plugin con l’endpoint claude/v1: non serve, è un accesso aperto in più.',
+		'claude'                 => 'Vecchio plugin con l’endpoint claude/v1: sostituito da Influencee Claude Bridge (chiave propria e permessi), va disattivato e cancellato.',
 	);
 }
 
@@ -63,7 +63,7 @@ function infz_plugin() {
 			$spenti[] = $p['Name'] . ' ' . $p['Version'];
 		}
 		foreach ( $elenco as $chiave => $perche ) {
-			if ( $slug === $chiave || ( 'claude' === $chiave && false !== stripos( $p['Name'], 'claude' ) ) ) {
+			if ( $slug === $chiave || ( 'claude' === $chiave && 'influencee-claude-bridge' !== $slug && false !== stripos( $p['Name'], 'claude' ) ) ) {
 				$valuta[] = array( 'plugin' => $p['Name'], 'attivo' => is_plugin_active( $file ), 'perche' => $perche );
 			}
 		}

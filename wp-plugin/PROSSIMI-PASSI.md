@@ -2,7 +2,21 @@
 
 Nota per riprendere il lavoro in una sessione nuova di Claude Code (ambiente **Influencee v2**).
 
-## ⚠ Accesso al sito: NON funziona (verificato il 25/10/2026)
+## Accesso al sito: nuovo bridge (decisione del titolare, 25/10/2026)
+
+Il titolare vuole usare il bridge. Il vecchio plugin `claude/v1` non era nel repository: rifatto come
+**Influencee Claude Bridge 2.0.0** (`wp-plugin/influencee-claude-bridge/`, zip in `consegne/plugin-wordpress/`,
+istruzioni nel suo `LEGGIMI.md`). Chiave propria nell'intestazione `X-Claude-Key` (il server non la toglie),
+all'attivazione aggiunge la riga di `.htaccess` per `Authorization`, comandi shell e scrittura nel database spenti di
+base. Provato su un WordPress locale: installa e sovrascrive Core 2.2.11, Pagine 2.0.6, Tema 1.1.7, rifiuta chiavi
+sbagliate, wp-config.php e percorsi fuori dal sito.
+
+Uso da Claude (una richiesta alla volta):
+- `GET /wp-json/claude/v1/info` → versioni, stato `.htaccess`, permessi accesi;
+- `POST /wp-json/claude/v1/plugin/install` con JSON `{"zip": <base64>, "sha256": <hex>, "activate": true}`;
+- `POST /wp-json/claude/v1/cache/flush`; registro in `GET /wp-json/claude/v1/log`.
+
+## ⚠ Accesso con password per le applicazioni: NON funziona (verificato il 25/10/2026)
 
 - `GET /wp-json/wp/v2/users/me?context=edit` → **401 `rest_not_logged_in`**, anche con credenziali finte inviate
   direttamente, anche su `www.influencee.it` e su `/?rest_route=` (dove il proxy non aggiunge niente). Con una password
@@ -36,7 +50,7 @@ Nota per riprendere il lavoro in una sessione nuova di Claude Code (ambiente **I
   `influencee/rimuovi-creator`, `influencee/aggiorna-plugin` (zip in base64 + sha256 + `conferma: true`).
 - Anche la REST di WordPress (`/wp-json/wp/v2/...`) funziona con lo stesso accesso.
 - Regole: una richiesta alla volta con pausa (il sito è lento, una scansione in parallelo lo ha già bloccato);
-  disattivare prima di eliminare; non usare il bridge `claude/v1` (esegue comandi sul server: va spento);
+  disattivare prima di eliminare; per il bridge usare solo il nuovo Influencee Claude Bridge (il vecchio va eliminato);
   prima di cancellare qualcosa chiedere al titolare. Il titolare non vuole più caricare zip a mano.
 
 ## Stato del sito (25/10/2026)
@@ -86,7 +100,7 @@ Domande per il titolare:
 4. Ricategorizzazione creator: `python3 scripts/creator/ricategorizza.py` (prova) poi `--scrivi` — solo le 20
    correzioni sicure; proposte dalla bio (`scripts/creator/proposta-ricategorizzazione.csv`) dopo l'ok del titolare.
    Da confermare: `lizasoberano` (non italiana), doppione `rubinarovini_official` / `-2`.
-5. Plugin da disattivare (concordato): Influencee Header & Footer, Modular Page, Claude v1 (bridge),
+5. Plugin da disattivare (concordato): Influencee Header & Footer, Modular Page, il vecchio bridge Claude v1 (sostituito),
    Elementor MCP Composer. Elementor/Elementor Pro: eliminarli dopo che le 14 pagine sono nel nuovo template.
 
 ## Dopo

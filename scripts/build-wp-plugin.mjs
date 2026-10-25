@@ -14,7 +14,7 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
-const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci', 'influencee-tema', 'influencee-pulizia'];
+const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci', 'influencee-tema', 'influencee-pulizia', 'influencee-claude-bridge'];
 const D = (slug) => join(ROOT, 'dist-wp', slug);
 for (const slug of [...PLUGINS, 'influencee-tools-legacy']) rmSync(D(slug), { recursive: true, force: true });
 rmSync(join(ROOT, 'dist-wp/influencee-tools'), { recursive: true, force: true });
