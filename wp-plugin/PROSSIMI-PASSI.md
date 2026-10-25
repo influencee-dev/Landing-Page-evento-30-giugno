@@ -1,8 +1,29 @@
-# Lavori in corso e prossimi passi (25/10/2026)
+# Lavori in corso e prossimi passi (aggiornato il 25/10/2026, seconda sessione)
 
 Nota per riprendere il lavoro in una sessione nuova di Claude Code (ambiente **Influencee v2**).
 
-## Accesso al sito da Claude
+## ⚠ Accesso al sito: NON funziona (verificato il 25/10/2026)
+
+- `GET /wp-json/wp/v2/users/me?context=edit` → **401 `rest_not_logged_in`**, anche con credenziali finte inviate
+  direttamente, anche su `www.influencee.it` e su `/?rest_route=` (dove il proxy non aggiunge niente). Con una password
+  sbagliata WordPress risponderebbe `invalid_username`/`incorrect_password`: quindi **l'intestazione
+  `Authorization` non arriva a PHP**, la toglie il server. Le password per le applicazioni sono attive
+  (`/wp-json/` le dichiara). Il segreto di rete potrebbe essere giusto: non si può verificare finché il server la toglie.
+- **Server MCP assente**: `/wp-json/mcp/mcp-adapter-default-server` → 404, nell'indice REST non c'è il namespace `mcp`
+  (plugin MCP Adapter non attivo). Le abilità del Core si possono comunque eseguire dalla REST
+  `/wp-json/wp-abilities/v1/...` una volta autenticati.
+- **Cosa deve fare il titolare** (2 minuti, nessuno zip):
+  1. *Impostazioni → Permalink → Salva le modifiche* senza cambiare nulla: WordPress riscrive il suo blocco del file
+     `.htaccess`, che dalla versione 5.6 contiene la riga che passa l'intestazione a PHP.
+  2. Controllo: *Strumenti → Salute del sito*: non deve più comparire l'avviso sull'intestazione «Authorization».
+  3. Se l'avviso resta: dal file manager dell'hosting, in cima a `.htaccess` (fuori dai blocchi `# BEGIN …`):
+     ```
+     RewriteEngine On
+     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+     ```
+  4. Poi aprire una sessione nuova e riprovare la richiesta di prova qui sotto.
+
+## Accesso al sito da Claude (come dovrebbe funzionare)
 
 - Il titolare ha salvato il codice di **Influencee → Crea accesso per Claude** come **segreto di rete** dell'ambiente
   Influencee v2: sito `influencee.it`, percorso `/wp-json/`, intestazione `Authorization: Basic <codice>`.
