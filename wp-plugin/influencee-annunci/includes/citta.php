@@ -116,6 +116,26 @@ function infn_faq_citta( $name ) {
 	);
 }
 
+/** Risposta diretta in apertura (AEO), la stessa nel testo e nei dati strutturati. */
+function infn_in_breve( $name ) {
+	return 'Per lavorare come content creator a ' . $name . ' crea un profilo gratuito su Influencee con social, categoria e città: i brand della zona pubblicano annunci con compenso, contenuti richiesti e scadenza, e tu ti candidi dall’app. Molte offerte locali cercano nano e micro creator o video UGC: non servono grandi numeri di follower.';
+}
+
+/** Data dell'offerta più recente (ISO 8601), per dateModified e «Aggiornato il». */
+function infn_ultima_offerta( $list ) {
+	$max = 0;
+	foreach ( $list as $a ) {
+		$t = $a['pubblicato'] ? strtotime( $a['pubblicato'] ) : 0;
+		$max = max( $max, (int) $t );
+	}
+	return $max ? gmdate( 'c', $max ) : '';
+}
+
+function infn_aggiornato( $list ) {
+	$d = infn_ultima_offerta( $list );
+	return $d ? '<span class="infn-upd">Ultima offerta: ' . esc_html( date_i18n( 'j F Y', strtotime( $d ) ) ) . '</span>' : '';
+}
+
 /* ─── Blocchi riusati dalla bacheca e dalle pagine città (design 27/10/2026, file Figma «Influencee · Offerte lavoro content creator») ─── */
 
 /** Scheda di un annuncio. Anteprima: azienda e dettagli solo nell'app. */
@@ -239,7 +259,7 @@ function infn_page_citta( $slug ) {
 	}
 	$graph = array(
 		inft_org_ld(),
-		array( '@type' => 'CollectionPage', '@id' => $url . '#pagina', 'url' => $url, 'name' => 'Lavoro content creator a ' . $c[0], 'inLanguage' => 'it-IT', 'isPartOf' => array( '@id' => home_url( '/#org' ) ), 'about' => array( '@type' => 'City', 'name' => $c[0] ) ),
+		array_filter( array( '@type' => 'CollectionPage', '@id' => $url . '#pagina', 'url' => $url, 'name' => 'Lavoro content creator a ' . $c[0], 'description' => infn_in_breve( $c[0] ), 'inLanguage' => 'it-IT', 'isPartOf' => array( '@id' => home_url( '/#org' ) ), 'about' => array( '@type' => 'City', 'name' => $c[0] ), 'dateModified' => infn_ultima_offerta( array_merge( $in, $it ) ) ) ),
 		array( '@type' => 'BreadcrumbList', 'itemListElement' => array(
 			array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url( '/' ) ),
 			array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Offerte di lavoro', 'item' => home_url( INFN_BACHECA ) ),
@@ -282,9 +302,13 @@ function infn_render_citta( $slug ) {
 	$first   = $in ? $in[0] : ( $it ? $it[0] : null );
 	$h  = '<main id="infn" class="infn inf-scope" data-inft-track data-page-type="offerte_lavoro_citta" data-audience="creator">';
 	$h .= infn_hero( $crumbs, $live, 'Lavoro content creator', 'a ' . $name, 'Ristoranti, negozi e brand di ' . $name . ' cercano creator per reel, video UGC e foto. Guarda le offerte, poi candidati gratis dall’app di Influencee.', $actions, infn_hero_preview( $first, $ant, 'a ' . $name ) );
+	// in breve (AEO): risposta diretta subito dopo l'intestazione
+	$h .= '<section class="infn-sec infn-inbreve" data-section="in_breve"><div class="inf-wrap infn-inbreve-in"><div><p class="infn-tag">In breve</p><h2>Come si trova lavoro come content creator a ' . $e( $name ) . '?</h2></div><div>';
+	$h .= '<p class="infn-inbreve-text">' . $e( infn_in_breve( $name ) ) . '</p>';
+	$h .= '<ul class="infn-facts"><li><b>Compenso chiaro</b><span>Denaro, cambio merce o percentuale sulle vendite, scritto nell’annuncio.</span></li><li><b>Contenuti definiti</b><span>Reel, storie, video UGC o foto, con quantità e tempi.</span></li><li><b>Brand locali</b><span>Ristoranti, negozi, palestre ed eventi di ' . $e( $name ) . '.</span></li></ul></div></div></section>';
 	// offerte
 	$h .= '<section class="infn-sec infn-board" data-section="offerte" data-inft-read><div class="inf-wrap">';
-	$h .= '<div class="infn-board-head"><div class="infn-head"><p class="infn-tag">Offerte aperte</p><h2>Brand di ' . $e( $name ) . ' che cercano creator</h2></div>';
+	$h .= '<div class="infn-board-head"><div class="infn-head"><p class="infn-tag">Offerte aperte</p><h2>Quali brand cercano content creator a ' . $e( $name ) . '?</h2>' . infn_aggiornato( array_merge( $in, $it ) ) . '</div>';
 	if ( $in || $it ) {
 		$h .= '<span class="infn-count"><b>' . $n . '</b> a ' . $e( $name ) . ' · <b>' . count( $it ) . '</b> in tutta Italia</span>';
 	}
@@ -309,19 +333,15 @@ function infn_render_citta( $slug ) {
 		$h .= '<p class="infn-note">🔒 Nome dell’azienda, brief completo e candidatura sono nell’app: per i creator l’iscrizione è gratuita.</p>';
 	}
 	$h .= '</div></section>';
-	// in breve (AEO)
-	$h .= '<section class="infn-sec infn-inbreve" data-section="in_breve"><div class="inf-wrap infn-inbreve-in"><div><p class="infn-tag">In breve</p><h2>Come si trova lavoro come content creator a ' . $e( $name ) . '</h2></div><div>';
-	$h .= '<p class="infn-inbreve-text">Crea un profilo gratuito su Influencee con social, categoria e città: i brand della zona pubblicano annunci con compenso, contenuti richiesti e scadenza, e tu ti candidi dall’app. Molte offerte locali cercano nano e micro creator o video UGC: non servono grandi numeri di follower.</p>';
-	$h .= '<ul class="infn-facts"><li><b>Compenso chiaro</b><span>Denaro, cambio merce o percentuale sulle vendite, scritto nell’annuncio.</span></li><li><b>Contenuti definiti</b><span>Reel, storie, video UGC o foto, con quantità e tempi.</span></li><li><b>Brand locali</b><span>Ristoranti, negozi, palestre ed eventi di ' . $e( $name ) . '.</span></li></ul></div></div></section>';
 	// come funziona
-	$h .= '<section class="infn-sec" data-section="come_funziona"><div class="inf-wrap"><div class="infn-head"><p class="infn-tag">Come funziona</p><h2>Dalla candidatura alla collaborazione, in tre passi</h2></div><ol class="infn-steps">';
+	$h .= '<section class="infn-sec" data-section="come_funziona"><div class="inf-wrap"><div class="infn-head"><p class="infn-tag">Come funziona</p><h2>Come funziona la candidatura?</h2></div><ol class="infn-steps">';
 	$h .= '<li><b>Crei il profilo</b><span>Colleghi i social e scegli categoria e città: i brand di ' . $e( $name ) . ' ti trovano anche nella ricerca.</span></li>';
 	$h .= '<li><b>Ti candidi</b><span>Vedi compenso, contenuti e scadenza, e rispondi all’annuncio in un clic.</span></li>';
 	$h .= '<li><b>Lavori con il brand</b><span>Concordate i dettagli nella collaborazione e consegni nei tempi dell’annuncio.</span></li></ol>';
 	$h .= '<div class="infn-steps-cta"><a class="inf-btn" href="' . esc_url( $crea ) . '">Crea il profilo gratis</a><a class="inf-btn inf-btn-line" href="' . esc_url( home_url( '/social-media-tool/costo-influencer/' ) ) . '">Calcola quanto puoi chiedere</a></div></div></section>';
 	$h .= infn_form_avvisi( $slug );
 	$h .= infn_blocco_aziende( $name, home_url( $c[3] ) );
-	$h .= infn_blocco_faq( 'Lavorare come content creator a ' . $name, infn_faq_citta( $name ) );
+	$h .= infn_blocco_faq( 'Lavorare come content creator a ' . $name . ': le domande', infn_faq_citta( $name ) );
 	$h .= infn_blocco_citta( $slug, 'Offerte per content creator in Italia' );
 	return $h . '</main>';
 }

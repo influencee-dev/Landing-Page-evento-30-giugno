@@ -86,7 +86,7 @@ function infn_page_bacheca() {
 	}
 	$graph = array(
 		inft_org_ld(),
-		array( '@type' => 'CollectionPage', '@id' => $url . '#pagina', 'url' => $url, 'name' => 'Offerte di lavoro per influencer', 'inLanguage' => 'it-IT', 'isPartOf' => array( '@id' => home_url( '/#org' ) ) ),
+		array_filter( array( '@type' => 'CollectionPage', '@id' => $url . '#pagina', 'url' => $url, 'name' => 'Offerte di lavoro per influencer', 'description' => infn_in_breve_bacheca(), 'inLanguage' => 'it-IT', 'isPartOf' => array( '@id' => home_url( '/#org' ) ), 'dateModified' => infn_ultima_offerta( infn_annunci() ) ) ),
 		array( '@type' => 'BreadcrumbList', 'itemListElement' => array( array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url( '/' ) ), array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Offerte di lavoro per influencer', 'item' => $url ) ) ),
 		array( '@type' => 'FAQPage', 'mainEntity' => array_map( function ( $q ) {
 			return array( '@type' => 'Question', 'name' => $q[0], 'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $q[1] ) );
@@ -102,10 +102,15 @@ function infn_page_bacheca() {
 		'path'        => INFN_BACHECA,
 		'label'       => 'Offerte di lavoro per influencer',
 		'title'       => 'Offerte di lavoro per influencer: annunci dei brand',
-		'description' => 'Annunci di brand italiani che cercano creator: compenso, contenuti richiesti e scadenza. Candidati gratis dall’app di Influencee o pubblica la tua offerta.',
+		'description' => 'Offerte di lavoro per influencer e content creator: brand italiani con compenso, contenuti e scadenza. Candidati gratis dall’app o ricevi gli avvisi.',
 		'ld'          => array( '@context' => 'https://schema.org', '@graph' => $graph ),
 		'render'      => 'infn_render_bacheca',
 	);
+}
+
+/** Risposta diretta della bacheca (AEO). */
+function infn_in_breve_bacheca() {
+	return 'Su Influencee i brand italiani pubblicano offerte per influencer e content creator con compenso (denaro, cambio merce o percentuale sulle vendite), contenuti richiesti e scadenza. Ti iscrivi gratis come creator, ti candidi dall’app e puoi ricevere per email le nuove offerte della tua città; le aziende pubblicano gratis.';
 }
 
 function infn_render_bacheca() {
@@ -119,8 +124,9 @@ function infn_render_bacheca() {
 	$actions = '<a class="inf-btn inf-btn-acid" href="' . esc_url( $crea ) . '">Iscriviti gratis come creator</a><a class="inf-btn infn-btn-ghost" href="#avvisi">Avvisami delle offerte</a>';
 	$h  = '<main id="infn" class="infn inf-scope" data-inft-track data-page-type="offerte_lavoro" data-audience="creator">';
 	$h .= infn_hero( $crumbs, $n ? $n . ( 1 === $n ? ' offerta aperta' : ' offerte aperte' ) . ' in Italia' : 'Avvisi gratuiti sulle nuove offerte', 'Offerte di lavoro', 'per influencer e creator', 'Brand italiani che cercano influencer e content creator adesso: compenso, contenuti richiesti e scadenza. Ti candidi gratis dall’app di Influencee e ricevi per email le nuove offerte.', $actions, infn_hero_preview( $list ? $list[0] : null, $ant, 'in Italia' ) );
+	$h .= '<section class="infn-sec infn-inbreve" data-section="in_breve"><div class="inf-wrap infn-inbreve-in"><div><p class="infn-tag">In breve</p><h2>Come si trova lavoro come influencer o content creator?</h2></div><div><p class="infn-inbreve-text">' . $e( infn_in_breve_bacheca() ) . '</p></div></div></section>';
 	$h .= '<section class="infn-sec infn-board" data-section="bacheca" data-inft-read><div class="inf-wrap">';
-	$h .= '<div class="infn-board-head"><div class="infn-head"><p class="infn-tag">Offerte aperte</p><h2>Brand che cercano creator, adesso</h2></div>' . ( $n ? '<span class="infn-count"><b>' . $n . '</b> ' . ( 1 === $n ? 'annuncio aperto' : 'annunci aperti' ) . '</span>' : '' ) . '</div>';
+	$h .= '<div class="infn-board-head"><div class="infn-head"><p class="infn-tag">Offerte aperte</p><h2>Quali brand cercano creator adesso?</h2>' . infn_aggiornato( $list ) . '</div>' . ( $n ? '<span class="infn-count"><b>' . $n . '</b> ' . ( 1 === $n ? 'annuncio aperto' : 'annunci aperti' ) . '</span>' : '' ) . '</div>';
 	if ( $list ) {
 		$h .= '<div class="infn-jobs">';
 		foreach ( $list as $a ) {
@@ -135,7 +141,7 @@ function infn_render_bacheca() {
 	$h .= infn_form_avvisi();
 	$h .= infn_blocco_aziende( '', home_url( '/influencer-italiani/' ) );
 	$faq = array_map( function ( $q ) { return array( $q[0], $q[1] ); }, infn_faq_bacheca() );
-	$h .= infn_blocco_faq( 'Offerte di lavoro per influencer', $faq );
+	$h .= infn_blocco_faq( 'Offerte di lavoro per influencer: le domande', $faq );
 	return $h . '</main>';
 }
 

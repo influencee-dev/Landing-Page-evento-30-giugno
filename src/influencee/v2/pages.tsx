@@ -626,6 +626,9 @@ function CategoryPage({ slug }: { slug: string }) {
   );
 }
 
+/** Città con la pagina «Lavoro content creator» del plugin Annunci (wp-plugin/influencee-annunci/includes/citta.php). */
+const JOB_CITIES = ['milano', 'roma', 'torino', 'napoli', 'bologna', 'firenze'];
+
 function RegionPage({ region, city }: { region: string; city?: string }) {
   const r = REGIONS.find((x) => x.slug === region)!;
   const ct = city ? r.cities.find((x) => x.slug === city)! : undefined;
@@ -641,7 +644,7 @@ function RegionPage({ region, city }: { region: string; city?: string }) {
       <CategoryGrid title={`Influencer a ${place}\n*per categoria*`} lead="Scegli il settore della tua campagna." />
       {!ct && r.cities.length > 0 && <RegionGrid tone="paper" only={r.slug} title={`Città della\n*regione ${r.name}*`} lead="Apri la pagina della città." />}
       <FaqSeo items={placeFaq(place)} />
-      <Related links={[{ label: 'Micro influencer', text: 'Perfetti per le campagne locali', href: '#/micro-influencer/' }, { label: 'Annunci', text: 'Pubblica un annuncio per la tua città', href: '#/offerte-lavoro-influencer/' }, { label: 'Tutte le regioni', text: 'Influencer in tutta Italia', href: '#/influencer-italiani/' }]} />
+      <Related links={[{ label: 'Micro influencer', text: 'Perfetti per le campagne locali', href: '#/micro-influencer/' }, ct && JOB_CITIES.includes(ct.slug) ? { label: `Lavoro content creator ${ct.name}`, text: `Offerte dei brand per creator di ${ct.name}`, href: `#/offerte-lavoro-influencer/content-creator-${ct.slug}/` } : { label: 'Annunci', text: 'Pubblica un annuncio per la tua città', href: '#/offerte-lavoro-influencer/' }, { label: 'Tutte le regioni', text: 'Influencer in tutta Italia', href: '#/influencer-italiani/' }]} />
       <CtaDual />
     </>
   );
