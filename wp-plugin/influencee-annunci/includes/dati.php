@@ -22,6 +22,7 @@ function infn_settings() {
 			'annunci_wpjm'     => 1,  // in attesa dell'elenco dell'app: mostra le offerte recenti di WP Job Manager
 			'annunci_email'    => 1,  // email di riepilogo al brand dopo l'invio
 			'annunci_vecchie'  => 0,  // redirect 301 delle offerte WP Job Manager scadute verso la bacheca
+			'annunci_anteprima' => 1, // offerte dell'app in anteprima: azienda e dettagli solo nell'app
 		)
 	);
 }

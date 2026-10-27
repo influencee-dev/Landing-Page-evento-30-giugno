@@ -20,6 +20,7 @@ add_filter(
 		$out['annunci_wpjm']     = empty( $in['annunci_wpjm'] ) ? 0 : 1;
 		$out['annunci_email']    = empty( $in['annunci_email'] ) ? 0 : 1;
 		$out['annunci_vecchie']  = empty( $in['annunci_vecchie'] ) ? 0 : 1;
+		$out['annunci_anteprima'] = empty( $in['annunci_anteprima'] ) ? 0 : 1;
 		// il segreto si salva a parte e si sostituisce solo se ne scrivi uno nuovo
 		if ( ! empty( $in['annunci_secret'] ) ) {
 			update_option( 'infn_secret', sanitize_text_field( (string) $in['annunci_secret'] ), false );
@@ -52,7 +53,8 @@ add_action(
 			<tr><th scope="row">Altre opzioni</th><td>
 				<label><input type="checkbox" name="inft_settings[annunci_wpjm]" value="1" <?php checked( ! empty( $s['annunci_wpjm'] ) ); ?>> Finché l’app non espone l’elenco, mostra in bacheca le offerte di WP Job Manager degli ultimi 180 giorni</label><br>
 				<label><input type="checkbox" name="inft_settings[annunci_email]" value="1" <?php checked( ! empty( $s['annunci_email'] ) ); ?>> Manda al brand un’email di riepilogo con il link per creare l’account</label><br>
-				<label><input type="checkbox" name="inft_settings[annunci_vecchie]" value="1" <?php checked( ! empty( $s['annunci_vecchie'] ) ); ?>> Redirect 301 delle offerte WP Job Manager scadute, chiuse o più vecchie di 180 giorni verso la bacheca</label>
+				<label><input type="checkbox" name="inft_settings[annunci_vecchie]" value="1" <?php checked( ! empty( $s['annunci_vecchie'] ) ); ?>> Redirect 301 delle offerte WP Job Manager scadute, chiuse o più vecchie di 180 giorni verso la bacheca</label><br>
+				<label><input type="checkbox" name="inft_settings[annunci_anteprima]" value="1" <?php checked( ! empty( $s['annunci_anteprima'] ) ); ?>> Offerte dell’app in anteprima: sul sito titolo, città, compenso e scadenza; azienda, brief e candidatura solo nell’app</label>
 			</td></tr>
 		</tbody></table>
 		<?php

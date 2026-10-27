@@ -75,6 +75,7 @@ function inft_mcp_impostazioni_ammesse() {
 		'annunci_wpjm'     => 'bool',
 		'annunci_email'    => 'bool',
 		'annunci_vecchie'  => 'bool',
+		'annunci_anteprima' => 'bool',
 		'annunci_feed'     => 'https',
 		'annunci_endpoint' => 'https',
 		'ga4_on'           => 'bool',

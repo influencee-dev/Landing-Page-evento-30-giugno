@@ -118,36 +118,29 @@ function infn_render_bacheca() {
 	$h    .= '<header class="infn-hero" data-section="testata"><div class="inf-wrap">';
 	$h    .= '<nav class="infn-crumbs" aria-label="Percorso"><ol><li><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li><li aria-current="page">Offerte di lavoro</li></ol></nav>';
 	$h    .= '<p class="infn-kicker">Offerte di lavoro</p><h1>Offerte di lavoro <span class="infn-mark">per influencer</span></h1>';
-	$h    .= '<p class="infn-lead">Brand italiani che cercano creator adesso: cosa offrono, che contenuti chiedono e entro quando candidarsi. Ti candidi gratis dall’app di Influencee.</p>';
+	$h    .= '<p class="infn-lead">Brand italiani che cercano influencer e content creator adesso: cosa offrono, che contenuti chiedono e entro quando candidarsi. Ti candidi gratis dall’app di Influencee e ricevi per email le nuove offerte.</p>';
 	$h    .= '<p class="infn-actions"><a class="inf-btn inf-btn-acid" href="' . esc_url( $pub ) . '" data-track="post_job_click">Pubblica un’offerta gratis</a> <a class="inf-btn infn-btn-ghost" href="' . esc_url( $crea ) . '">Sono un creator</a></p>';
 	$h    .= '</div></header>';
 	$h    .= '<section class="infn-board" data-section="bacheca" data-inft-read><div class="inf-wrap">';
 	if ( $list ) {
 		$h .= '<p class="infn-count"><b>' . count( $list ) . '</b> ' . ( 1 === count( $list ) ? 'annuncio aperto' : 'annunci aperti' ) . '</p><div class="infn-jobs">';
+		$s   = infn_settings();
+		$ant = ! empty( $s['annunci_anteprima'] );
 		foreach ( $list as $a ) {
-			$pills = array();
-			if ( $a['compenso'] ) {
-				$pills[] = '<span class="infn-pill infn-pill-pk">' . $e( $a['compenso'] ) . '</span>';
-			}
-			$what = trim( implode( ', ', $a['piattaforme'] ) . ( $a['contenuto'] ? ' · ' . $a['contenuto'] : '' ), ' ·' );
-			if ( $what ) {
-				$pills[] = '<span class="infn-pill">' . $e( $what ) . '</span>';
-			}
-			$pills[] = '<span class="infn-pill">' . $e( $a['citta'] ? $a['citta'] : 'Tutta Italia' ) . '</span>';
-			if ( $a['scadenza'] ) {
-				$pills[] = '<span class="infn-pill infn-pill-ac">Entro ' . $e( date_i18n( 'j M', strtotime( $a['scadenza'] ) ) ) . '</span>';
-			}
-			$link = 'app' === $a['fonte'] ? add_query_arg( array( 'utm_source' => 'influencee.it', 'utm_medium' => 'referral', 'utm_campaign' => 'offerte_lavoro' ), $a['url'] ) : $a['url'];
-			$h   .= '<article class="infn-job"><h2><a href="' . esc_url( $link ) . '" data-track="job_click">' . $e( $a['titolo'] ) . '</a></h2>'
-				. ( $a['azienda'] ? '<p class="infn-org">' . $e( $a['azienda'] ) . '</p>' : '' )
-				. ( $a['brief'] ? '<p class="infn-brief">' . $e( wp_trim_words( $a['brief'], 30, '…' ) ) . '</p>' : '' )
-				. '<p class="infn-pills">' . implode( '', $pills ) . '</p></article>';
+			$h .= infn_card( $a, $ant );
 		}
 		$h .= '</div>';
 	} else {
 		$h .= '<div class="infn-empty"><h2>Nessun annuncio aperto in questo momento</h2><p>I brand pubblicano annunci nuovi ogni settimana. Iscriviti gratis come creator: quando esce un’offerta adatta a te la trovi nell’app.</p><p class="infn-actions"><a class="inf-btn" href="' . esc_url( $crea ) . '">Iscriviti come creator</a> <a class="inf-btn inf-btn-line" href="' . esc_url( $app ) . '">Vedi la bacheca nell’app</a></p></div>';
 	}
 	$h .= '</div></section>';
+	// città
+	$h .= '<section class="infn-cities" data-section="citta"><div class="inf-wrap"><h2>Offerte per content creator <em>per città</em></h2><ul>';
+	foreach ( infn_citta() as $k => $o ) {
+		$h .= '<li><a href="' . esc_url( home_url( infn_citta_path( $k ) ) ) . '">Content creator ' . esc_html( $o[0] ) . '</a></li>';
+	}
+	$h .= '</ul></div></section>';
+	$h .= infn_form_avvisi();
 	// brand
 	$h .= '<section class="infn-brand" data-section="brand"><div class="inf-wrap infn-brand-in"><div><p class="inf-eyebrow">Per i brand</p><h2>Cerchi creator? <em>Pubblica la tua offerta</em></h2><p>Descrivi cosa ti serve e cosa offri: in pochi minuti l’annuncio è online e i creator si candidano. Nell’app scegli tu i profili giusti.</p></div><p><a class="inf-btn" href="' . esc_url( $pub ) . '" data-track="post_job_click">Pubblica un’offerta gratis</a></p></div></section>';
 	// FAQ

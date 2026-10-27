@@ -74,6 +74,15 @@ Uso da Claude (una richiesta alla volta):
   disattivare prima di eliminare; per il bridge usare solo il nuovo Influencee Claude Bridge (il vecchio va eliminato);
   prima di cancellare qualcosa chiedere al titolare. Il titolare non vuole più caricare zip a mano.
 
+## Da installare con il server MCP (27/10/2026)
+
+Core **2.2.15** (server MCP, GA4, percorso nei lead di Tandem, redirect /creator-city|region|cat/, noindex tag e
+autori, sitemap pulita), Annunci **1.2.0** (pagine «Lavoro content creator» per 6 città, anteprime, avvisi),
+Pagine 2.0.6, Tema 1.1.7. Poi impostazioni: `redirect_vecchie` = 1, `annunci` = 1, `annunci_anteprima` = 1;
+svuota cache; controlla /creator-city/milano/ → 301, /offerte-lavoro-influencer/content-creator-milano/ 200,
+/wp-sitemap.xml senza tag/utenti/offerte vecchie. Verifica completa del 27/10: 888 URL, nessun 404
+(`scratchpad`, non salvata nel repo).
+
 ## Google Analytics 4 (27/10/2026)
 
 - Il tag G-5BD025G8VP non era più sul sito (lo caricava Elementor o Header & Footer, spenti): da qualche giorno GA4

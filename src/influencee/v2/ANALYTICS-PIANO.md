@@ -184,3 +184,14 @@ assistenti AI, link, diretto), prima pagina e data, numero di visite, ultime 25 
 (localStorage, `inft_percorso`) solo con il consenso alle statistiche; senza consenso il campo riporta solo la fonte
 della visita in corso. Codice: `wp-plugin/influencee-core/includes/percorso.php`. Il cookie del consenso
 `inft_consenso` vale per tutto `.influencee.it`, così l'app legge la stessa scelta.
+
+## Offerte di lavoro per città e avvisi (Annunci 1.2.0)
+
+| Evento | Quando | Perché conta | Decisione |
+|---|---|---|---|
+| `job_teaser_click` | clic sul titolo di un'offerta in anteprima | quali offerte attirano i creator | quali annunci spingere e in quali città |
+| `begin_job_apply` | «Accedi e candidati» su un'offerta | creator che entrano nell'app da un'offerta | valore delle pagine offerte come canale di iscrizione |
+| `generate_lead` con `lead_source=avvisi_offerte` (+ `form_submit`) | invio del modulo «Avvisami» | creator in nurturing per città (lead anche in tandem, con il percorso sul sito) | a chi mandare le nuove offerte, dove servono più annunci |
+| `post_job_click` | «Pubblica un'offerta gratis» dalle pagine città | aziende che arrivano dalle pagine per creator | quanto le pagine creator portano anche brand |
+
+`page_type` delle pagine città: `offerte_lavoro_citta`.

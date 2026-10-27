@@ -36,6 +36,7 @@ add_action(
 					}
 					$out[] = $path;
 				}
+				$out = array_values( array_unique( (array) apply_filters( 'inft_sitemap_percorsi', $out ) ) ); // pagine di altri plugin (es. città del plugin Annunci)
 				sort( $out );
 				return $out;
 			}

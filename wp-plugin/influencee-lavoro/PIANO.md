@@ -1,4 +1,10 @@
-# Influencee Lavoro — piano (27/10/2026, da approvare)
+# Influencee Lavoro — piano (27/10/2026)
+
+> **Stato 27/10/2026:** la fase 1 è dentro **Influencee Annunci 1.2.0** (stessa bacheca, niente secondo plugin sulla
+> stessa URL): 6 pagine città, anteprime con azienda solo nell'app, modulo «Avvisami» (tandem). Redirect delle
+> vecchie pagine automatiche, noindex di tag/autori e sitemap pulita in **Core 2.2.15** (`includes/tassonomie.php`),
+> attivi con l'impostazione «Pagine vecchie» (`redirect_vecchie`). Email alle aziende: preparate dal sistema e
+> inviate con un clic da una persona (art. 130 Codice Privacy), da far vedere a un legale prima di accenderle.
 
 Plugin WordPress nuovo, basato su Influencee Core, per le pagine delle offerte di lavoro per content creator e
 influencer. Scopo: **esca e nurturing per i creator** (vedono le offerte, per candidarsi entrano nell'app) e
