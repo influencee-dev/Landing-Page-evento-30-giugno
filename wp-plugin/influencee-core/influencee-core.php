@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Core
  * Description:       Base comune dei plugin Influencee: SEO/GEO/AEO (title, description, dati strutturati, llms.txt), tracciamento GA4, CSS e JavaScript condivisi, redirect 301, impostazioni e accesso MCP per Claude. Necessario per Influencee Tools, Pagine, Articoli e Annunci.
- * Version:           2.2.11
+ * Version:           2.2.12
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFC_VERSION', '2.2.11' );
+define( 'INFC_VERSION', '2.2.12' );
 define( 'INFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFT_COMPANY', 'Partidea SRL' );
@@ -19,6 +19,7 @@ define( 'INFT_COMPANY', 'Partidea SRL' );
 require_once INFC_DIR . 'includes/mcp-abilities.php';
 require_once INFC_DIR . 'includes/assets.php';
 require_once INFC_DIR . 'includes/sitemap.php';
+require_once INFC_DIR . 'includes/ga4.php';
 
 /** I plugin Influencee installati (per lo stato nelle impostazioni). */
 function inft_family() {
@@ -94,6 +95,9 @@ function inft_settings() {
 			'redirects' => 0,       // redirect 301 dei vecchi URL (spenti finché non li attivi)
 			'privacy'   => 1,       // toglie email e telefoni dalle bio dei creator nelle API e nelle pagine pubbliche
 			'mcp_admin_only' => 1,  // la porta MCP del sito solo per amministratori (di default basta essere iscritti)
+			'ga4_on'     => 1,              // carica Google Analytics 4 su tutto il sito (includes/ga4.php)
+			'ga4_id'     => 'G-5BD025G8VP', // ID di misurazione GA4
+			'ga4_banner' => 1,              // banner cookie con Accetta/Rifiuta (spegnerlo solo se c'è già un altro banner)
 		)
 	);
 }
@@ -537,6 +541,10 @@ add_action(
 					$out['redirect_vecchie'] = empty( $in['redirect_vecchie'] ) ? 0 : 1;
 					$out['redirects_extra'] = inft_clean_redirects( isset( $in['redirects_extra'] ) ? $in['redirects_extra'] : '' );
 					$out['mcp_admin_only']  = empty( $in['mcp_admin_only'] ) ? 0 : 1;
+					$out['ga4_on']          = empty( $in['ga4_on'] ) ? 0 : 1;
+					$ga4                    = isset( $in['ga4_id'] ) ? strtoupper( sanitize_text_field( (string) $in['ga4_id'] ) ) : '';
+					$out['ga4_id']          = preg_match( '/^G-[A-Z0-9]{4,15}$/', $ga4 ) ? $ga4 : 'G-5BD025G8VP';
+					$out['ga4_banner']      = empty( $in['ga4_banner'] ) ? 0 : 1;
 					return (array) apply_filters( 'inft_settings_sanitize', $out, $in );
 				},
 			)
@@ -624,7 +632,7 @@ function inft_settings_page() {
 			<tr><td><?php echo $on ? '✅' : '⚪'; ?> <b><?php echo esc_html( $info[0] ); ?></b> <?php echo $on && defined( $info[1] ) ? esc_html( constant( $info[1] ) ) : ( file_exists( WP_PLUGIN_DIR . '/' . $file ) ? '(installato, spento)' : '(non installato)' ); ?></td><td><?php echo esc_html( $info[2] ); ?></td></tr>
 			<?php endforeach; ?>
 			<tr><td><?php echo $tandem ? '✅' : '⚠️'; ?> tandem-forms</td><td><?php echo $tandem ? 'attivo: i lead dei moduli arrivano a /wp-json/tandem-forms/v1/capture' : 'non trovato: i moduli non verranno registrati'; ?></td></tr>
-			<tr><td>📊 Google Analytics</td><td>gli eventi usano il tag GA4 già presente nel sito (G-5BD025G8VP)</td></tr>
+			<tr><td><?php echo inft_ga4_id() && ! empty( $s['ga4_on'] ) ? '✅' : '⚠️'; ?> Google Analytics 4</td><td><?php echo inft_ga4_id() && ! empty( $s['ga4_on'] ) ? 'caricato dal Core su tutte le pagine (' . esc_html( inft_ga4_id() ) . '), con Consent Mode v2' . ( empty( $s['ga4_banner'] ) ? '; consenso da un altro banner' : ' e banner cookie' ) : 'spento: impostalo qui sotto in «Google Analytics 4»'; ?></td></tr>
 		</tbody></table>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'inft' ); ?>
@@ -688,6 +696,11 @@ function inft_settings_page() {
 			<?php endforeach; ?>
 			</ul>
 			<p><label>Redirect aggiuntivi, uno per riga nel formato <code>/vecchio/ -> /nuovo/</code> (es. articoli doppi)<br><textarea name="inft_settings[redirects_extra]" rows="4" cols="70"><?php foreach ( (array) $s['redirects_extra'] as $from => $to ) { echo esc_textarea( $from . ' -> ' . $to . "\n" ); } ?></textarea></label></p>
+			<h2>Google Analytics 4</h2>
+			<p><label><input type="checkbox" name="inft_settings[ga4_on]" value="1" <?php checked( ! empty( $s['ga4_on'] ) ); ?>> Carica Google Analytics su tutte le pagine (non per chi è collegato come redattore o amministratore)</label></p>
+			<p><label>ID di misurazione <input type="text" name="inft_settings[ga4_id]" value="<?php echo esc_attr( $s['ga4_id'] ); ?>" class="regular-text code" placeholder="G-XXXXXXXXXX"></label></p>
+			<p><label><input type="checkbox" name="inft_settings[ga4_banner]" value="1" <?php checked( ! empty( $s['ga4_banner'] ) ); ?>> Mostra il banner cookie (Accetta / Rifiuta, Consent Mode v2). Toglilo solo se usi già un altro banner che invia il consenso a Google</label></p>
+			<p class="description">Senza consenso Google Analytics non scrive cookie e riceve solo segnali anonimi (Consent Mode v2): è il comportamento richiesto dal Garante. Spegni eventuali altri plugin che caricano lo stesso tag, per non contare le visite due volte.</p>
 			<h2>MCP (accesso per Claude)</h2>
 			<p><label><input type="checkbox" name="inft_settings[mcp_admin_only]" value="1" <?php checked( ! empty( $s['mcp_admin_only'] ) ); ?>> Server MCP del sito solo per amministratori (di default WordPress lo apre a ogni utente con accesso)</label></p>
 			<p>Indirizzo: <code><?php echo esc_html( rest_url( 'mcp/mcp-adapter-default-server' ) ); ?></code></p>

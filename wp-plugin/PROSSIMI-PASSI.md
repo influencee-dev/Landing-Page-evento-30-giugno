@@ -53,6 +53,14 @@ Uso da Claude (una richiesta alla volta):
   disattivare prima di eliminare; per il bridge usare solo il nuovo Influencee Claude Bridge (il vecchio va eliminato);
   prima di cancellare qualcosa chiedere al titolare. Il titolare non vuole più caricare zip a mano.
 
+## Google Analytics 4 (27/10/2026)
+
+- Il tag G-5BD025G8VP non era più sul sito (lo caricava Elementor o Header & Footer, spenti): da qualche giorno GA4
+  non riceveva dati. **Core 2.2.12** lo carica da solo (`includes/ga4.php`) con Consent Mode v2 (tutto negato
+  all'apertura), banner cookie Accetta/Rifiuta, linker verso app.influencee.it, niente tag per lo staff collegato.
+  Impostazioni: Influencee → Impostazioni → «Google Analytics 4». Da controllare dopo l'installazione: un solo tag
+  nella pagina (nessun altro plugin che lo carica) e in GA4 → Tempo reale le visite.
+
 ## Stato del sito (25/10/2026)
 
 - Plugin sul sito: Core 2.2.10, Tema 1.1.6; da installare: **Core 2.2.11** (JavaScript delle pagine nuove), **Pagine 2.0.6** (cache delle liste dei creator + 10 pagine ex Elementor), **Tema 1.1.7** e,
