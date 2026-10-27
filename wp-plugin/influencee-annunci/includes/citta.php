@@ -116,58 +116,114 @@ function infn_faq_citta( $name ) {
 	);
 }
 
-/* ─── Blocchi riusati dalla bacheca e dalle pagine città ─── */
+/* ─── Blocchi riusati dalla bacheca e dalle pagine città (design 27/10/2026, file Figma «Influencee · Offerte lavoro content creator») ─── */
 
 /** Scheda di un annuncio. Anteprima: azienda e dettagli solo nell'app. */
 function infn_card( $a, $anteprima ) {
-	$e     = 'esc_html';
-	$pills = array();
-	if ( $a['compenso'] ) {
-		$pills[] = '<span class="infn-pill infn-pill-pk">' . $e( $a['compenso'] ) . '</span>';
-	}
-	$what = trim( implode( ', ', $a['piattaforme'] ) . ( $a['contenuto'] ? ' · ' . $a['contenuto'] : '' ), ' ·' );
-	if ( $what ) {
-		$pills[] = '<span class="infn-pill">' . $e( $what ) . '</span>';
-	}
-	$pills[] = '<span class="infn-pill">' . $e( $a['citta'] ? $a['citta'] : 'Tutta Italia' ) . '</span>';
-	if ( $a['scadenza'] ) {
-		$pills[] = '<span class="infn-pill infn-pill-ac">Entro ' . $e( date_i18n( 'j M', strtotime( $a['scadenza'] ) ) ) . '</span>';
-	}
+	$e    = 'esc_html';
 	$app  = 'app' === $a['fonte'];
 	$link = $app ? add_query_arg( array( 'utm_source' => 'influencee.it', 'utm_medium' => 'referral', 'utm_campaign' => 'offerte_lavoro' ), $a['url'] ) : $a['url'];
 	$lock = $app && $anteprima;
-	$h    = '<article class="infn-job' . ( $lock ? ' infn-job-lock' : '' ) . '"><h2><a href="' . esc_url( $link ) . '" data-track="job_teaser_click">' . $e( $a['titolo'] ) . '</a></h2>';
+	$new  = $a['pubblicato'] && strtotime( $a['pubblicato'] ) > time() - 7 * DAY_IN_SECONDS;
+	$h    = '<article class="infn-job"><div class="infn-job-top"><div class="infn-plat">';
+	foreach ( array_slice( $a['piattaforme'], 0, 3 ) as $pl ) {
+		$h .= '<span>' . $e( $pl ) . '</span>';
+	}
+	$h .= '</div>' . ( $new ? '<span class="infn-new">Nuova</span>' : '' ) . '</div>';
+	$h .= '<h3><a href="' . esc_url( $link ) . '" data-track="job_teaser_click">' . $e( $a['titolo'] ) . '</a></h3>';
 	if ( $lock ) {
-		$h .= '<p class="infn-org infn-org-lock"><span aria-hidden="true">🔒</span> Azienda e dettagli visibili nell’app</p>';
+		$h .= '<p class="infn-org"><i aria-hidden="true"></i><span><b aria-hidden="true"></b><br><em>🔒 Azienda visibile nell’app</em></span></p>';
 	} else {
-		$h .= ( $a['azienda'] ? '<p class="infn-org">' . $e( $a['azienda'] ) . '</p>' : '' ) . ( $a['brief'] ? '<p class="infn-brief">' . $e( wp_trim_words( $a['brief'], 30, '…' ) ) . '</p>' : '' );
+		$h .= ( $a['azienda'] ? '<p class="infn-org"><i aria-hidden="true"></i><span class="infn-org-name">' . $e( $a['azienda'] ) . '</span></p>' : '' ) . ( $a['brief'] ? '<p class="infn-brief">' . $e( wp_trim_words( $a['brief'], 26, '…' ) ) . '</p>' : '' );
 	}
-	$h .= '<p class="infn-pills">' . implode( '', $pills ) . '</p>';
-	if ( $lock ) {
-		$h .= '<p class="infn-job-cta"><a class="inf-btn" href="' . esc_url( $link ) . '" data-track="begin_job_apply">Accedi e candidati</a></p>';
+	$meta = array();
+	if ( $a['compenso'] ) {
+		$meta[] = '<div class="is-money"><dt>Compenso</dt><dd>' . $e( $a['compenso'] ) . '</dd></div>';
 	}
+	if ( $a['contenuto'] ) {
+		$meta[] = '<div><dt>Contenuti</dt><dd>' . $e( $a['contenuto'] ) . '</dd></div>';
+	}
+	$meta[] = '<div><dt>Entro</dt><dd>' . ( $a['scadenza'] ? $e( date_i18n( 'j M', strtotime( $a['scadenza'] ) ) ) : 'Aperta' ) . '</dd></div>';
+	$h .= '<dl class="infn-meta" style="grid-template-columns:repeat(' . count( $meta ) . ',1fr)">' . implode( '', $meta ) . '</dl>';
+	$h .= '<div class="infn-job-foot"><small>' . $e( $a['citta'] ? $a['citta'] : 'Tutta Italia' ) . '</small><a class="inf-btn" href="' . esc_url( $link ) . '" data-track="begin_job_apply">' . ( $lock ? 'Accedi e candidati' : 'Vedi l’offerta' ) . '</a></div>';
 	return $h . '</article>';
+}
+
+/** Intestazione nera delle pagine offerte. */
+function infn_hero( $crumbs, $live, $h1, $mark, $lead, $actions, $preview ) {
+	$h  = '<header class="infn-hero" data-section="testata"><div class="inf-wrap">';
+	$h .= '<nav class="infn-crumbs" aria-label="Percorso"><ol>' . $crumbs . '</ol></nav>';
+	$h .= '<div class="infn-hero-grid"><div>';
+	$h .= '<p class="infn-live"><i aria-hidden="true"></i>' . esc_html( $live ) . '</p>';
+	$h .= '<h1>' . esc_html( $h1 ) . ' <span>' . esc_html( $mark ) . '</span></h1>';
+	$h .= '<p class="infn-lead">' . esc_html( $lead ) . '</p><div class="infn-actions">' . $actions . '</div>';
+	$h .= '<ul class="infn-proof"><li><b>Gratis</b><span>per i creator</span></li><li><b>1 clic</b><span>per candidarti</span></li><li><b>1 email</b><span>a settimana, al massimo</span></li></ul>';
+	$h .= '</div><div class="infn-stack" aria-hidden="true"><span class="infn-stack-back"></span><span class="infn-stack-back"></span>' . $preview . '</div></div>';
+	return $h . '</div></header>';
+}
+
+/** Anteprima nell'intestazione: la prima offerta, oppure l'esempio di avviso email (nessuna offerta inventata). */
+function infn_hero_preview( $a, $ant, $place ) {
+	if ( $a ) {
+		return '<div class="infn-ping"><i>✦</i>Offerta aperta ' . esc_html( $place ) . '</div>' . infn_card( $a, $ant );
+	}
+	return '<div class="infn-job"><div class="infn-job-top"><div class="infn-plat"><span>Avviso email</span></div></div><h3>Le nuove offerte ' . esc_html( $place ) . ', appena escono</h3><p class="infn-brief">Lascia la tua email: quando un brand pubblica un annuncio adatto a te ti scriviamo, al massimo una volta a settimana.</p><div class="infn-job-foot"><small>Gratis</small><a class="inf-btn" href="#avvisi">Avvisami</a></div></div>';
 }
 
 /** Modulo «Avvisami delle nuove offerte» (tandem + GA4 generate_lead lead_source=avvisi_offerte). */
 function infn_form_avvisi( $citta = '' ) {
+	$name = $citta ? infn_citta()[ $citta ][0] : '';
 	$opts = '';
 	foreach ( infn_citta() as $slug => $c ) {
 		$opts .= '<option' . selected( $citta, $slug, false ) . '>' . esc_html( $c[0] ) . '</option>';
 	}
 	$opts .= '<option>Un’altra città</option><option>Tutta Italia, anche da remoto</option>';
 	$id    = 'infn-avvisi' . ( $citta ? '-' . $citta : '' );
-	$h     = '<section class="infn-alert" data-section="avvisi"><div class="inf-wrap infn-alert-in"><div>';
-	$h    .= '<p class="inf-eyebrow">Avvisi gratuiti</p><h2>Ricevi le nuove offerte <em>' . ( $citta ? 'di ' . esc_html( infn_citta()[ $citta ][0] ) : 'della tua città' ) . '</em></h2>';
-	$h    .= '<p>Quando un brand pubblica un annuncio adatto a te ti scriviamo, al massimo una volta a settimana. Per candidarti entri nell’app, gratis.</p></div>';
+	$h     = '<section id="avvisi" class="infn-sec infn-alert" data-section="avvisi"><div class="inf-wrap"><div class="infn-alert-card"><div>';
+	$h    .= '<p class="infn-tag">Avvisi gratuiti</p><h2>Le nuove offerte' . ( $name ? ' di ' . esc_html( $name ) : '' ) . ', <em>nella tua email</em></h2>';
+	$h    .= '<p>Quando un brand pubblica un annuncio adatto a te ti scriviamo, al massimo una volta a settimana. Ti cancelli quando vuoi; per candidarti entri nell’app, gratis.</p>';
+	$h    .= '<div class="infn-mail" aria-hidden="true"><div class="infn-mail-row"><i>i</i><div><b>Nuova offerta' . ( $name ? ' a ' . esc_html( $name ) : ' per te' ) . '</b><span>Titolo, compenso e scadenza, con il link per candidarti</span></div></div></div></div>';
 	$h    .= '<form id="' . esc_attr( $id ) . '" class="inf-form" name="Avvisi offerte di lavoro" data-tandem data-inft-lead data-form="avvisi_offerte" novalidate>';
-	$h    .= '<p class="inf-f"><label for="' . $id . '-email">Email *</label><input id="' . $id . '-email" name="email" type="email" required autocomplete="email" maxlength="200"></p>';
+	$h    .= '<p class="inf-f"><label for="' . $id . '-email">Email *</label><input id="' . $id . '-email" name="email" type="email" required autocomplete="email" maxlength="200" placeholder="nome@email.it"></p>';
 	$h    .= '<div class="infn-row"><p class="inf-f"><label for="' . $id . '-citta">Città</label><select id="' . $id . '-citta" name="citta">' . $opts . '</select></p>';
 	$h    .= '<p class="inf-f"><label for="' . $id . '-tipo">Sei</label><select id="' . $id . '-tipo" name="tipo_creator"><option>Content creator</option><option>UGC creator</option><option>Influencer</option><option>Fotografo o videomaker</option></select></p></div>';
 	$h    .= '<label class="inf-check"><input type="checkbox" name="consenso_email" value="si" required> <span>Voglio ricevere per email le nuove offerte di lavoro di Influencee. Posso cancellarmi quando voglio. <a href="' . esc_url( home_url( '/privacy-policy/' ) ) . '">Privacy</a></span></label>';
 	$h    .= '<button class="inf-btn" type="submit">Avvisami</button>';
 	$h    .= '<p class="inf-ok" hidden>Fatto: ti scriviamo quando esce una nuova offerta. Intanto <a href="' . esc_url( inft_app_link( '/iscriviti/creator/', 'avvisi_offerte' ) ) . '">crea il tuo profilo creator</a> per candidarti subito.</p>';
-	return $h . '</form></div></section>';
+	return $h . '</form></div></div></section>';
+}
+
+/** Blocco per le aziende. */
+function infn_blocco_aziende( $name, $creator_url ) {
+	$pub = home_url( INFN_PUBBLICA );
+	$h   = '<section class="infn-sec infn-biz" data-section="brand"><div class="inf-wrap infn-biz-in"><div>';
+	$h  .= '<p class="infn-tag">Per le aziende' . ( $name ? ' di ' . esc_html( $name ) : '' ) . '</p><h2>Cerchi un content creator? Pubblica l’offerta gratis</h2>';
+	$h  .= '<p>Descrivi contenuti, compenso e scadenza: i creator si candidano e nell’app scegli i profili giusti.</p>';
+	$h  .= '<ul><li>Annuncio online in pochi minuti</li><li>Candidature di creator italiani</li><li>Cerchi e inviti direttamente i creator' . ( $name ? ' di ' . esc_html( $name ) : '' ) . '</li></ul></div>';
+	$h  .= '<div class="infn-biz-card"><p>Pubblicare un annuncio costa</p><b>0 €</b><a class="inf-btn" href="' . esc_url( $pub ) . '" data-track="post_job_click">Pubblica un’offerta gratis</a>';
+	$h  .= '<a class="inf-btn inf-btn-line" style="margin-top:10px;width:100%" href="' . esc_url( $creator_url ) . '">' . ( $name ? 'Vedi i creator di ' . esc_html( $name ) : 'Vedi gli influencer italiani' ) . '</a></div>';
+	return $h . '</div></section>';
+}
+
+function infn_blocco_faq( $title, $faq ) {
+	$h = '<section class="infn-sec infn-faq" data-section="faq"><div class="inf-wrap infn-faq-in"><div><p class="infn-tag">Domande frequenti</p><h2>' . esc_html( $title ) . '</h2></div><div>';
+	foreach ( $faq as $i => $q ) {
+		$h .= '<details' . ( 0 === $i ? ' open' : '' ) . '><summary>' . esc_html( $q[0] ) . '</summary><p>' . esc_html( $q[1] ) . '</p></details>';
+	}
+	return $h . '</div></div></section>';
+}
+
+function infn_blocco_citta( $current, $title ) {
+	$h = '<section class="infn-sec infn-cities" data-section="altre_citta"><div class="inf-wrap"><div class="infn-head"><p class="infn-tag">' . ( $current ? 'Altre città' : 'Per città' ) . '</p><h2>' . esc_html( $title ) . '</h2></div><ul class="infn-city-grid">';
+	foreach ( infn_citta() as $k => $o ) {
+		if ( $k !== $current ) {
+			$h .= '<li><a href="' . esc_url( home_url( infn_citta_path( $k ) ) ) . '">' . esc_html( $o[0] ) . '</a></li>';
+		}
+	}
+	if ( $current ) {
+		$h .= '<li><a href="' . esc_url( home_url( INFN_BACHECA ) ) . '">Tutta Italia</a></li>';
+	}
+	return $h . '</ul></div></section>';
 }
 
 /* ─── Pagina città ─── */
@@ -216,65 +272,56 @@ function infn_render_citta( $slug ) {
 	$c    = infn_citta()[ $slug ];
 	$name = $c[0];
 	$s    = infn_settings();
-	$ant  = ! isset( $s['annunci_anteprima'] ) || ! empty( $s['annunci_anteprima'] );
+	$ant  = ! empty( $s['annunci_anteprima'] );
 	list( $in, $it ) = infn_annunci_citta( $slug );
 	$crea = inft_app_link( '/iscriviti/creator/', 'offerte_' . $slug );
-	$pub  = home_url( INFN_PUBBLICA );
-	$h    = '<main id="infn" class="infn inf-scope" data-inft-track data-page-type="offerte_lavoro_citta" data-audience="creator">';
-	$h   .= '<header class="infn-hero" data-section="testata"><div class="inf-wrap">';
-	$h   .= '<nav class="infn-crumbs" aria-label="Percorso"><ol><li><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li><li><a href="' . esc_url( home_url( INFN_BACHECA ) ) . '">Offerte di lavoro</a></li><li aria-current="page">Content creator ' . $e( $name ) . '</li></ol></nav>';
-	$h   .= '<p class="infn-kicker">' . $e( $c[2] ) . '</p><h1>Lavoro content creator <span class="infn-mark">a ' . $e( $name ) . '</span></h1>';
-	$h   .= '<p class="infn-lead">Brand e attività di ' . $e( $name ) . ' che cercano creator per video, reel, foto e contenuti UGC. Vedi le offerte aperte e candidati gratis dall’app di Influencee.</p>';
-	$h   .= '<p class="infn-actions"><a class="inf-btn inf-btn-acid" href="' . esc_url( $crea ) . '">Iscriviti gratis come creator</a> <a class="inf-btn infn-btn-ghost" href="#infn-avvisi-' . esc_attr( $slug ) . '">Avvisami delle offerte</a></p>';
-	$h   .= '</div></header>';
-	// risposta breve (AEO)
-	$h .= '<section class="infn-answer" data-section="in_breve"><div class="inf-wrap"><p class="inf-eyebrow">In breve</p><p>Per lavorare come content creator a ' . $e( $name ) . ' crea un profilo gratuito su Influencee con social, categoria e città: i brand della zona pubblicano annunci con compenso, contenuti richiesti e scadenza, e tu ti candidi dall’app. Molte offerte locali cercano nano e micro creator o contenuti UGC, quindi non servono grandi numeri di follower.</p></div></section>';
+	$n    = count( $in );
+	$live = $n ? $n . ( 1 === $n ? ' offerta aperta a ' : ' offerte aperte a ' ) . $name : ( $it ? count( $it ) . ' offerte valide anche da ' . $name : 'Avvisi gratuiti per ' . $name );
+	$crumbs  = '<li><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li><li><a href="' . esc_url( home_url( INFN_BACHECA ) ) . '">Offerte di lavoro</a></li><li aria-current="page">Content creator ' . $e( $name ) . '</li>';
+	$actions = '<a class="inf-btn inf-btn-acid" href="' . esc_url( $crea ) . '">Iscriviti gratis come creator</a><a class="inf-btn infn-btn-ghost" href="#avvisi">Avvisami delle offerte</a>';
+	$first   = $in ? $in[0] : ( $it ? $it[0] : null );
+	$h  = '<main id="infn" class="infn inf-scope" data-inft-track data-page-type="offerte_lavoro_citta" data-audience="creator">';
+	$h .= infn_hero( $crumbs, $live, 'Lavoro content creator', 'a ' . $name, 'Ristoranti, negozi e brand di ' . $name . ' cercano creator per reel, video UGC e foto. Guarda le offerte, poi candidati gratis dall’app di Influencee.', $actions, infn_hero_preview( $first, $ant, 'a ' . $name ) );
 	// offerte
-	$h .= '<section class="infn-board" data-section="offerte" data-inft-read><div class="inf-wrap">';
+	$h .= '<section class="infn-sec infn-board" data-section="offerte" data-inft-read><div class="inf-wrap">';
+	$h .= '<div class="infn-board-head"><div class="infn-head"><p class="infn-tag">Offerte aperte</p><h2>Brand di ' . $e( $name ) . ' che cercano creator</h2></div>';
+	if ( $in || $it ) {
+		$h .= '<span class="infn-count"><b>' . $n . '</b> a ' . $e( $name ) . ' · <b>' . count( $it ) . '</b> in tutta Italia</span>';
+	}
+	$h .= '</div>';
 	if ( $in ) {
-		$h .= '<h2 class="infn-h2">Offerte aperte a ' . $e( $name ) . '</h2><p class="infn-count"><b>' . count( $in ) . '</b> ' . ( 1 === count( $in ) ? 'annuncio' : 'annunci' ) . '</p><div class="infn-jobs">';
+		$h .= '<div class="infn-jobs">';
 		foreach ( $in as $a ) {
 			$h .= infn_card( $a, $ant );
 		}
 		$h .= '</div>';
 	}
 	if ( $it ) {
-		$h .= '<h2 class="infn-h2">' . ( $in ? 'Valide anche da ' . $e( $name ) : 'Offerte valide anche da ' . $e( $name ) ) . '</h2><p class="infn-count">Annunci per creator di tutta Italia o da remoto</p><div class="infn-jobs">';
+		$h .= '<p class="infn-sub">Valide anche da ' . $e( $name ) . '<small>Annunci per creator di tutta Italia o da remoto</small></p><div class="infn-jobs">';
 		foreach ( array_slice( $it, 0, 6 ) as $a ) {
 			$h .= infn_card( $a, $ant );
 		}
 		$h .= '</div>';
 	}
 	if ( ! $in && ! $it ) {
-		$h .= '<div class="infn-empty"><h2>In questo momento non ci sono offerte aperte a ' . $e( $name ) . '</h2><p>I brand pubblicano annunci nuovi ogni settimana. Lascia la tua email qui sotto: ti avvisiamo appena ne esce uno per ' . $e( $name ) . '.</p><p class="infn-actions"><a class="inf-btn" href="#infn-avvisi-' . esc_attr( $slug ) . '">Avvisami</a> <a class="inf-btn inf-btn-line" href="' . esc_url( $crea ) . '">Iscriviti come creator</a></p></div>';
-	}
-	if ( $in || $it ) {
-		$h .= '<p class="infn-note">Il nome dell’azienda, il brief completo e la candidatura sono nell’app: l’iscrizione per i creator è gratuita.</p>';
+		$h .= '<div class="infn-empty"><div><h3>In questo momento non ci sono offerte aperte a ' . $e( $name ) . '</h3><p>I brand pubblicano annunci durante tutto l’anno. Lascia la tua email: ti avvisiamo appena ne esce uno per ' . $e( $name ) . '. Intanto crea il profilo, così i brand ti trovano anche nella ricerca.</p><div class="infn-actions"><a class="inf-btn" href="#avvisi">Avvisami</a><a class="inf-btn inf-btn-line" href="' . esc_url( $crea ) . '">Crea il profilo gratis</a></div></div><div class="infn-ghosts" aria-hidden="true"><i></i><i></i><i></i></div></div>';
+	} elseif ( $ant ) {
+		$h .= '<p class="infn-note">🔒 Nome dell’azienda, brief completo e candidatura sono nell’app: per i creator l’iscrizione è gratuita.</p>';
 	}
 	$h .= '</div></section>';
+	// in breve (AEO)
+	$h .= '<section class="infn-sec infn-inbreve" data-section="in_breve"><div class="inf-wrap infn-inbreve-in"><div><p class="infn-tag">In breve</p><h2>Come si trova lavoro come content creator a ' . $e( $name ) . '</h2></div><div>';
+	$h .= '<p class="infn-inbreve-text">Crea un profilo gratuito su Influencee con social, categoria e città: i brand della zona pubblicano annunci con compenso, contenuti richiesti e scadenza, e tu ti candidi dall’app. Molte offerte locali cercano nano e micro creator o video UGC: non servono grandi numeri di follower.</p>';
+	$h .= '<ul class="infn-facts"><li><b>Compenso chiaro</b><span>Denaro, cambio merce o percentuale sulle vendite, scritto nell’annuncio.</span></li><li><b>Contenuti definiti</b><span>Reel, storie, video UGC o foto, con quantità e tempi.</span></li><li><b>Brand locali</b><span>Ristoranti, negozi, palestre ed eventi di ' . $e( $name ) . '.</span></li></ul></div></div></section>';
 	// come funziona
-	$h .= '<section class="infn-steps3" data-section="come_funziona"><div class="inf-wrap"><p class="inf-eyebrow">Come funziona</p><h2>Dalla candidatura <em>alla collaborazione</em></h2><ol>';
-	$h .= '<li><b>Crei il profilo</b><span>Colleghi i social, scegli categoria e città: i brand di ' . $e( $name ) . ' ti trovano anche nella ricerca.</span></li>';
-	$h .= '<li><b>Ti candidi agli annunci</b><span>Vedi compenso, contenuti richiesti e scadenza, e rispondi in un clic.</span></li>';
-	$h .= '<li><b>Lavori con il brand</b><span>Concordate i contenuti nella collaborazione e consegni nei tempi dell’annuncio.</span></li>';
-	$h .= '</ol><p class="infn-actions"><a class="inf-btn" href="' . esc_url( $crea ) . '">Crea il profilo gratis</a> <a class="inf-btn inf-btn-line" href="' . esc_url( home_url( '/social-media-tool/costo-influencer/' ) ) . '">Calcola quanto puoi chiedere</a></p></div></section>';
-	// avvisi
+	$h .= '<section class="infn-sec" data-section="come_funziona"><div class="inf-wrap"><div class="infn-head"><p class="infn-tag">Come funziona</p><h2>Dalla candidatura alla collaborazione, in tre passi</h2></div><ol class="infn-steps">';
+	$h .= '<li><b>Crei il profilo</b><span>Colleghi i social e scegli categoria e città: i brand di ' . $e( $name ) . ' ti trovano anche nella ricerca.</span></li>';
+	$h .= '<li><b>Ti candidi</b><span>Vedi compenso, contenuti e scadenza, e rispondi all’annuncio in un clic.</span></li>';
+	$h .= '<li><b>Lavori con il brand</b><span>Concordate i dettagli nella collaborazione e consegni nei tempi dell’annuncio.</span></li></ol>';
+	$h .= '<div class="infn-steps-cta"><a class="inf-btn" href="' . esc_url( $crea ) . '">Crea il profilo gratis</a><a class="inf-btn inf-btn-line" href="' . esc_url( home_url( '/social-media-tool/costo-influencer/' ) ) . '">Calcola quanto puoi chiedere</a></div></div></section>';
 	$h .= infn_form_avvisi( $slug );
-	// aziende
-	$h .= '<section class="infn-brand" data-section="brand"><div class="inf-wrap infn-brand-in"><div><p class="inf-eyebrow">Per le aziende di ' . $e( $name ) . '</p><h2>Cerchi un content creator? <em>Pubblica l’offerta gratis</em></h2><p>Descrivi contenuti, compenso e scadenza: i creator della zona si candidano e nell’app scegli i profili giusti. Puoi anche vedere i <a href="' . esc_url( home_url( $c[3] ) ) . '">creator di ' . $e( $name ) . '</a>.</p></div><p><a class="inf-btn" href="' . esc_url( $pub ) . '" data-track="post_job_click">Pubblica un’offerta gratis</a></p></div></section>';
-	// FAQ
-	$h .= '<section class="infn-faq" data-section="faq"><div class="inf-wrap"><h2>Domande frequenti</h2>';
-	foreach ( infn_faq_citta( $name ) as $q ) {
-		$h .= '<details><summary>' . $e( $q[0] ) . '</summary><p>' . $e( $q[1] ) . '</p></details>';
-	}
-	$h .= '</div></section>';
-	// altre città
-	$h .= '<section class="infn-cities" data-section="altre_citta"><div class="inf-wrap"><h2>Offerte per content creator <em>in altre città</em></h2><ul>';
-	foreach ( infn_citta() as $k => $o ) {
-		if ( $k !== $slug ) {
-			$h .= '<li><a href="' . esc_url( home_url( infn_citta_path( $k ) ) ) . '">Content creator ' . $e( $o[0] ) . '</a></li>';
-		}
-	}
-	$h .= '<li><a href="' . esc_url( home_url( INFN_BACHECA ) ) . '">Tutte le offerte</a></li></ul></div></section>';
+	$h .= infn_blocco_aziende( $name, home_url( $c[3] ) );
+	$h .= infn_blocco_faq( 'Lavorare come content creator a ' . $name, infn_faq_citta( $name ) );
+	$h .= infn_blocco_citta( $slug, 'Offerte per content creator in Italia' );
 	return $h . '</main>';
 }
