@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Core
  * Description:       Base comune dei plugin Influencee: SEO/GEO/AEO (title, description, dati strutturati, llms.txt), tracciamento GA4, CSS e JavaScript condivisi, redirect 301, impostazioni e accesso MCP per Claude. Necessario per Influencee Tools, Pagine, Articoli e Annunci.
- * Version:           2.2.12
+ * Version:           2.2.13
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFC_VERSION', '2.2.12' );
+define( 'INFC_VERSION', '2.2.13' );
 define( 'INFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFT_COMPANY', 'Partidea SRL' );
@@ -20,6 +20,7 @@ require_once INFC_DIR . 'includes/mcp-abilities.php';
 require_once INFC_DIR . 'includes/assets.php';
 require_once INFC_DIR . 'includes/sitemap.php';
 require_once INFC_DIR . 'includes/ga4.php';
+require_once INFC_DIR . 'includes/mcp-server.php';
 
 /** I plugin Influencee installati (per lo stato nelle impostazioni). */
 function inft_family() {
@@ -552,28 +553,32 @@ add_action(
 	}
 );
 
-/** Mette in bozza (o ripubblica) le pagine in pausa. Mai cancellate: tornano con «Ripubblica». */
+/** Mette in bozza (o ripubblica) le pagine in pausa. Mai cancellate: tornano con «Ripubblica». Restituisce quante. */
+function inft_pausa_esegui( $riprendi ) {
+	$attivo = ! empty( inft_settings()['redirect_vecchie'] );
+	$n      = 0;
+	foreach ( inft_pagine_in_pausa() as $from => $to ) {
+		$pg = get_page_by_path( trim( $from, '/' ), OBJECT, 'page' );
+		if ( ! $pg || ( $riprendi ? 'draft' : 'publish' ) !== $pg->post_status ) {
+			continue;
+		}
+		// in pausa solo se il suo indirizzo porta già a una pagina online: mai un 404
+		if ( ! $riprendi && ( ! $attivo || ! inft_destinazione_vecchia( $to ) ) ) {
+			continue;
+		}
+		wp_update_post( array( 'ID' => $pg->ID, 'post_status' => $riprendi ? 'publish' : 'draft' ) );
+		++$n;
+	}
+	return $n;
+}
+
 add_action(
 	'admin_post_inft_pausa',
 	function () {
 		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'inft_pausa' ) ) {
 			wp_die( 'Non consentito.' );
 		}
-		$riprendi = 'riprendi' === ( isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '' );
-		$attivo   = ! empty( inft_settings()['redirect_vecchie'] );
-		$n        = 0;
-		foreach ( inft_pagine_in_pausa() as $from => $to ) {
-			$pg = get_page_by_path( trim( $from, '/' ), OBJECT, 'page' );
-			if ( ! $pg || ( $riprendi ? 'draft' : 'publish' ) !== $pg->post_status ) {
-				continue;
-			}
-			// in pausa solo se il suo indirizzo porta già a una pagina online: mai un 404
-			if ( ! $riprendi && ( ! $attivo || ! inft_destinazione_vecchia( $to ) ) ) {
-				continue;
-			}
-			wp_update_post( array( 'ID' => $pg->ID, 'post_status' => $riprendi ? 'publish' : 'draft' ) );
-			++$n;
-		}
+		$n = inft_pausa_esegui( 'riprendi' === ( isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '' ) );
 		do_action( 'litespeed_purge_all' );
 		wp_safe_redirect( add_query_arg( 'inft_pausa', $n, inft_settings_url() ) );
 		exit;
@@ -701,7 +706,7 @@ function inft_settings_page() {
 			<p><label>ID di misurazione <input type="text" name="inft_settings[ga4_id]" value="<?php echo esc_attr( $s['ga4_id'] ); ?>" class="regular-text code" placeholder="G-XXXXXXXXXX"></label></p>
 			<p><label><input type="checkbox" name="inft_settings[ga4_banner]" value="1" <?php checked( ! empty( $s['ga4_banner'] ) ); ?>> Mostra il banner cookie (Accetta / Rifiuta, Consent Mode v2). Toglilo solo se usi già un altro banner che invia il consenso a Google</label></p>
 			<p class="description">Senza consenso Google Analytics non scrive cookie e riceve solo segnali anonimi (Consent Mode v2): è il comportamento richiesto dal Garante. Spegni eventuali altri plugin che caricano lo stesso tag, per non contare le visite due volte.</p>
-			<h2>MCP (accesso per Claude)</h2>
+			<h2>MCP Adapter (facoltativo)</h2>
 			<p><label><input type="checkbox" name="inft_settings[mcp_admin_only]" value="1" <?php checked( ! empty( $s['mcp_admin_only'] ) ); ?>> Server MCP del sito solo per amministratori (di default WordPress lo apre a ogni utente con accesso)</label></p>
 			<p>Indirizzo: <code><?php echo esc_html( rest_url( 'mcp/mcp-adapter-default-server' ) ); ?></code></p>
 			<?php $log = array_reverse( (array) get_option( 'inft_mcp_log', array() ) ); if ( $log ) : ?>
@@ -714,31 +719,15 @@ function inft_settings_page() {
 			<?php submit_button( 'Salva' ); ?>
 		</form>
 		<?php
-		$key = get_transient( 'inft_mcp_key_' . get_current_user_id() );
-		if ( $key ) {
-			delete_transient( 'inft_mcp_key_' . get_current_user_id() );
-		}
 		?>
 		<?php if ( isset( $_GET['inft_pausa'] ) ) : ?>
 			<div class="notice notice-success"><p>Pagine aggiornate: <?php echo (int) $_GET['inft_pausa']; ?>. Controlla la tabella «Pagine in pausa».</p></div>
-		<?php endif; ?>
-		<?php if ( $key ) : ?>
-			<div class="notice notice-warning" style="padding:12px"><p><b>Valore da copiare adesso: non verrà più mostrato.</b> Inseriscilo come variabile d'ambiente <code>INFLUENCEE_WP_AUTH</code> nelle impostazioni dell'ambiente di Claude Code. Non incollarlo in chat.</p>
-			<p><input type="text" readonly value="<?php echo esc_attr( $key ); ?>" style="width:100%;font-family:monospace" onclick="this.select()"></p></div>
-		<?php elseif ( isset( $_GET['inft_mcp'] ) && 'revocato' === $_GET['inft_mcp'] ) : ?>
-			<div class="notice notice-success"><p>Accesso di Claude revocato.</p></div>
 		<?php endif; ?>
 		<form id="inft-pausa" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<?php wp_nonce_field( 'inft_pausa' ); ?>
 			<input type="hidden" name="action" value="inft_pausa">
 		</form>
-		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin:8px 0 16px">
-			<?php wp_nonce_field( 'inft_mcp_access' ); ?>
-			<input type="hidden" name="action" value="inft_mcp_access">
-			<button class="button button-primary" name="do" value="crea">Crea accesso per Claude</button>
-			<button class="button" name="do" value="revoca">Revoca accesso</button>
-			<span class="description">Crea una password per le applicazioni del tuo utente (nome "Claude MCP (Influencee)"). Rifarlo sostituisce la precedente.</span>
-		</form>
+		<?php inft_mcp_chiave_box(); ?>
 	</div>
 	<?php
 }

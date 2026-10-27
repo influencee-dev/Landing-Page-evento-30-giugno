@@ -1,8 +1,29 @@
-# Lavori in corso e prossimi passi (aggiornato il 25/10/2026, seconda sessione)
+# Lavori in corso e prossimi passi (aggiornato il 27/10/2026)
 
 Nota per riprendere il lavoro in una sessione nuova di Claude Code (ambiente **Influencee v2**).
 
-## Accesso al sito: nuovo bridge (decisione del titolare, 25/10/2026)
+## ✅ Accesso al sito: server MCP dentro il Core (Core 2.2.13, 27/10/2026) — usare questo
+
+Niente plugin esterni, niente password per le applicazioni (Netsons toglie `Authorization`), niente bridge.
+- **MCP** (JSON-RPC 2.0 su HTTP): `POST https://influencee.it/wp-json/influencee/v1/mcp`
+  (`initialize`, `tools/list`, `tools/call`, `ping`; `GET` sulla stessa URL = elenco strumenti). Nomi con `__` al posto
+  della barra: `influencee__stato`, `influencee__pagine`, `influencee__articoli`, `influencee__redirect`,
+  `influencee__svuota-cache`, `influencee__controlla-pagina`, `influencee__rimuovi-creator`, `influencee__impostazioni`,
+  `influencee__imposta` (valori + conferma), `influencee__plugin-elenco`, `influencee__plugin-attiva` (file, attiva,
+  conferma; il Core non si spegne), `influencee__pagine-pausa` (riprendi, conferma).
+- **Zip dei plugin della famiglia**: `POST https://influencee.it/wp-json/influencee/v1/plugin?attiva=1`, corpo = zip
+  (`--data-binary @file.zip`), intestazione `X-Sha256: <sha256>`. Accetta solo i plugin Influencee, riattiva se era attivo.
+- **Chiave**: intestazione `X-Influencee-Key`, creata da *Influencee → Impostazioni → Crea la chiave per Claude*
+  (mostrata una volta) e salvata dal titolare come **segreto di rete** dell'ambiente Influencee v2 (sito `influencee.it`,
+  percorso `/wp-json/influencee/`, intestazione `X-Influencee-Key`, senza prefisso). Il proxy la aggiunge da solo:
+  basta `curl https://influencee.it/wp-json/influencee/v1/mcp ...` senza intestazione. 20 chiavi sbagliate = 10 minuti
+  di blocco per indirizzo. Ogni azione finisce nel registro del Core.
+- Prova: `curl -s -X POST https://influencee.it/wp-json/influencee/v1/mcp -d '{"jsonrpc":"2.0","id":1,"method":"ping"}'`
+  → `{"jsonrpc":"2.0","id":1,"result":{}}`. Se dà 401: chiave mancante (segreto non salvato o sessione aperta prima).
+- Provato su WordPress locale: initialize/list/call, impostazioni, rifiuto senza conferma, Core non spegnibile, 401 con
+  chiave sbagliata, blocco, caricamento di Tema, Pagine e del Core stesso, zip estraneo e sha sbagliato rifiutati.
+
+## (superato) Accesso al sito: nuovo bridge (decisione del titolare, 25/10/2026)
 
 Il titolare vuole usare il bridge. Il vecchio plugin `claude/v1` non era nel repository: rifatto come
 **Influencee Claude Bridge 2.0.0** (`wp-plugin/influencee-claude-bridge/`, zip in `consegne/plugin-wordpress/`,
