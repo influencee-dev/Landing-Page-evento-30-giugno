@@ -175,3 +175,12 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | Apertura dei sottomenu (Piattaforma, Aziende, Creator, Trova influencer) | `ui_click` | `link_text` = nome del gruppo | Cosa cercano i visitatori nel menu | Ordine dei gruppi |
 
 `page_type` viene dal contenuto (tool, articolo, offerte, pagina, home): l'intestazione lo dichiara solo se il contenuto non lo fa.
+
+## Percorso dell'utente nei lead di Tandem (Core 2.2.14)
+
+Ogni modulo raccolto da Tandem (`form[data-tandem]`, `form.brief-form`) riceve il campo **«Percorso sul sito»**
+(`percorso_sul_sito`): fonte della prima visita (Google organico, Google Ads con gclid, campagna utm, social,
+assistenti AI, link, diretto), prima pagina e data, numero di visite, ultime 25 pagine viste. Le pagine si ricordano
+(localStorage, `inft_percorso`) solo con il consenso alle statistiche; senza consenso il campo riporta solo la fonte
+della visita in corso. Codice: `wp-plugin/influencee-core/includes/percorso.php`. Il cookie del consenso
+`inft_consenso` vale per tutto `.influencee.it`, così l'app legge la stessa scelta.

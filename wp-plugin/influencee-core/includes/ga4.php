@@ -94,7 +94,10 @@ add_action(
   b.addEventListener('click', function(e){
     var t = e.target.closest('button[data-scelta]'); if (!t) return;
     var si = t.getAttribute('data-scelta') === 'si';
-    document.cookie = 'inft_consenso=' + (si ? 'si' : 'no') + ';path=/;max-age=15552000;SameSite=Lax' + (location.protocol === 'https:' ? ';Secure' : '');
+    // su tutto *.influencee.it: anche l'app legge la stessa scelta
+    var dom = /(^|\.)influencee\.it$/.test(location.hostname) ? ';domain=.influencee.it' : '';
+    if (dom) document.cookie = 'inft_consenso=;path=/;max-age=0'; // toglie la vecchia copia solo di influencee.it
+    document.cookie = 'inft_consenso=' + (si ? 'si' : 'no') + ';path=/;max-age=15552000;SameSite=Lax' + dom + (location.protocol === 'https:' ? ';Secure' : '');
     if (typeof gtag === 'function') gtag('consent', 'update', { analytics_storage: si ? 'granted' : 'denied' });
     b.hidden = true;
   });
