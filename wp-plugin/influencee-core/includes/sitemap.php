@@ -80,3 +80,27 @@ add_filter(
 	10,
 	2
 );
+
+/**
+ * robots.txt: il plugin «Simple Robots.txt» scriveva solo le regole per MSNBot e bingbot, senza la riga Sitemap e
+ * senza una regola per tutti gli altri (verifica del 29/10/2026). Aggiunge, se mancano: regola generale, area
+ * amministrativa esclusa (tranne admin-ajax), indirizzo della sitemap. I crawler dei motori AI restano ammessi (GEO).
+ */
+add_filter(
+	'robots_txt',
+	function ( $txt, $public ) {
+		if ( ! $public ) {
+			return $txt;
+		}
+		$txt = rtrim( (string) $txt );
+		if ( ! preg_match( '/^User-agent:\s*\*\s*$/mi', $txt ) ) {
+			$txt .= "\n\nUser-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\nDisallow: /?s=\nDisallow: /search/";
+		}
+		if ( ! preg_match( '/^Sitemap:/mi', $txt ) ) {
+			$txt .= "\n\nSitemap: " . home_url( '/wp-sitemap.xml' );
+		}
+		return ltrim( $txt ) . "\n";
+	},
+	999,
+	2
+);
