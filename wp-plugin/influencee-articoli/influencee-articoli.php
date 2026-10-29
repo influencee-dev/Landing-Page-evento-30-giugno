@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Articoli
  * Description:       Articoli del blog con il design del sito in HTML5 leggero: indice, autore e data di aggiornamento, FAQ, modulo lead verso tandem, articoli correlati, dati strutturati BlogPosting/FAQ. Elementor spento solo sugli articoli accesi. I testi restano quelli scritti in WordPress.
- * Version:           2.2.0
+ * Version:           2.2.1
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFA_VERSION', '2.2.0' );
+define( 'INFA_VERSION', '2.2.1' );
 define( 'INFA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFA_URL', plugin_dir_url( __FILE__ ) );
 

@@ -385,6 +385,14 @@ function infe_description_mancante( $html ) {
 }
 
 function infe_pulisci_html( $html ) {
+	// <title> e description incollati dentro il testo della pagina (pagine HTML intere nell'editor): via dal corpo
+	$end = stripos( $html, '</head>' );
+	if ( false !== $end ) {
+		$body = substr( $html, $end );
+		$body = preg_replace( '#<title\b[^>]*>.*?</title>#is', '', $body );
+		$body = preg_replace( '#<meta\b[^>]*name=["\']description["\'][^>]*>#i', '', $body );
+		$html = substr( $html, 0, $end ) . $body;
+	}
 	$html = infe_description_mancante( $html );
 	$html = infe_togli_elemento( $html, '#<header\b[^>]*data-elementor-type=["\']header["\'][^>]*>#i', 'header' );
 	$html = infe_togli_elemento( $html, '#<footer\b[^>]*data-elementor-type=["\']footer["\'][^>]*>#i', 'footer' );

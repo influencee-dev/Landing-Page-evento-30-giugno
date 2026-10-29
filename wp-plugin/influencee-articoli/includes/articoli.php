@@ -528,7 +528,11 @@ function inft_article_clean_page( $html ) {
 	$html = preg_replace( '#<script\s+type=["\']application/ld\+json["\'](?![^>]*data-inft)[^>]*>.*?</script>\s*#is', '', $html );
 	$post = inft_article_current();
 	if ( $post ) {
-		$a   = inft_article_data( $post );
+		$a    = inft_article_data( $post );
+		$html = inft_article_seo_head( $html, $a );
+		if ( function_exists( 'inft_fix_links' ) ) {
+			$html = inft_fix_links( $html ); // Core: niente link a 404 o a redirect
+		}
 		$add = '';
 		if ( ! preg_match( '#<link[^>]+rel=["\']canonical["\']#i', $html ) ) {
 			$add .= '<link rel="canonical" href="' . esc_url( $a['url'] ) . '">' . "\n";
@@ -541,6 +545,120 @@ function inft_article_clean_page( $html ) {
 		}
 	}
 	return $html;
+}
+
+/** Title SEO (massimo 60 caratteri) per gli articoli con il titolo troppo lungo (verifica del 29/10/2026). */
+function inft_article_titoli_seo() {
+	return array(
+		'/10-idee-per-gestire-il-tuo-profilo-instagram-in-modo-creativo/' => '10 idee per gestire il profilo Instagram in modo creativo',
+		'/3-motivi-per-cui-i-marchi-di-viaggio-hanno-bisogno-di-influencer-nei-social-media/' => 'Travel influencer: 3 motivi per cui servono ai brand',
+		'/5-consigli-per-scegliere-linfluencer-giusto-per-la-tua-azienda/' => '5 consigli per scegliere l’influencer giusto per l’azienda',
+		'/6-consigli-per-avere-successo-nelle-collaborazioni-con-i-brand-su-youtube/' => 'Collaborazioni con i brand su YouTube: 6 consigli',
+		'/ai-e-influencer-marketing-nel-2026-come-raddoppiare-il-roi-dei-creator/' => 'AI e influencer marketing 2026: come aumentare il ROI',
+		'/benchmark-influencer-2026-i-nuovi-standard-del-mercato/' => 'Benchmark influencer 2026: i nuovi standard del mercato',
+		'/buzzsumo-guida-completa-2025-per-trovare-contenuti-virali-e-analizzare-la-concorrenza/' => 'BuzzSumo: guida per trovare contenuti virali',
+		'/come-creare-contenuti-virali-sui-social-media-strategie-strumenti-e-trend-2025/' => 'Contenuti virali sui social: strategie e strumenti',
+		'/come-creare-strategia-content-marketing-efficace/' => 'Strategia di content marketing efficace: come crearla',
+		'/come-creare-una-influencer-marketing-strategy-nel-2026/' => 'Influencer marketing strategy 2026: come crearla',
+		'/come-fare-un-piano-editoriale-efficace-guida-pratica-2025/' => 'Come fare un piano editoriale efficace: guida pratica',
+		'/come-il-marketing-dei-micro-influencer-condiziona-il-comportamento-dacquisto-dei-consumatori/' => 'Micro influencer e comportamento d’acquisto',
+		'/come-ottenere-il-massimo-dalla-collaborazione-con-un-influencer/' => 'Collaborazione con un influencer: come ottenere il massimo',
+		'/come-ottenere-la-spunta-blu-su-facebook-guida-completa/' => 'Spunta blu su Facebook: come ottenerla',
+		'/come-perche-dovresti-attirare-i-proprietari-di-animali-domestici-per-il-tuo-marchio/' => 'Proprietari di animali: perché attirarli con gli influencer',
+		'/come-trasformare-clienti-brand-ambassador/' => 'Come trasformare i clienti in brand ambassador',
+		'/come-trovare-un-influencer-del-brand-per-promuovere-la-propria-attivita/' => 'Come trovare influencer per il brand: criteri e checklist',
+		'/content-creator-vs-influencer-differenze-vantaggi-e-strategie/' => 'Content creator vs influencer: differenze e strategie',
+		'/creare-un-media-kit-perfetto-per-influencer-guida-in-5-step/' => 'Media kit influencer perfetto: guida in 5 step',
+		'/ecommerce-i-vantaggi-della-user-generated-content/' => 'UGC per ecommerce: vantaggi, esempi e strategia',
+		'/guida-alla-pianificazione-content-creator-geolocalizzati-per-retail-nel-2026/' => 'Content creator geolocalizzati per il retail: guida 2026',
+		'/guida-alla-verifica-su-tiktok-diventa-un-influencer-autentico-e-autorevole/' => 'Verifica su TikTok: come ottenerla in 6 consigli',
+		'/hashtag-piu-cercati-su-instagram/' => 'Hashtag più cercati su Instagram dalle aziende',
+		'/i-10-food-influencer-piu-popolari-su-tiktok/' => '10 food influencer italiani più popolari su TikTok',
+		'/in-che-modo-pianificare-il-budget-influencer/' => 'Come pianificare il budget per gli influencer',
+		'/influencer-affidabili-caratteristiche-successo/' => 'Influencer affidabili: le caratteristiche del successo',
+		'/influencer-marketing-cose-come-funziona/' => 'Influencer marketing: cos’è e come funziona',
+		'/instagram-follower-gratis-perche-evitarli-e-come-crescere-davvero/' => 'Follower Instagram gratis: perché evitarli nel 2026',
+		'/la-rivoluzione-ugc-nel-2024impatto-e-strategie-dei-creator-sui-brand/' => 'Rivoluzione UGC: l’impatto dei creator sui brand',
+		'/le-8-regole-del-personal-branding-una-guida-essenziale/' => 'Le 8 regole del personal branding: guida essenziale',
+		'/local-influencer-marketing-per-promuovere-le-imprese-locali/' => 'Local influencer marketing per le imprese locali',
+		'/micro-influencer-b2b-per-startup-come-generare-lead-qualificati-nel-2026/' => 'Micro influencer B2B per startup: lead qualificati',
+		'/migliori-app-gestione-follower/' => 'Migliori app per gestire i follower Instagram (2026)',
+		'/social-content-creator/' => 'Social content creator: chi è e cosa fa per i brand',
+		'/travel-influencer-perche-usarli-e-dove-trovarli/' => 'Travel influencer marketing 2026: come scegliere i creator',
+	);
+}
+
+/** Description riscritte: troppo corte o troppo lunghe (verifica del 29/10/2026). */
+function inft_article_desc_seo() {
+	return array(
+		'/come-guadagnare-con-i-social-media/' => 'Come guadagnare con i social media: le basi per monetizzare come influencer, dalle collaborazioni con i brand all’affiliazione ai contenuti UGC.',
+		'/i-10-food-influencer-piu-popolari-su-tiktok/' => 'I 10 food influencer italiani più seguiti su TikTok: chi sono, che contenuti pubblicano e come collaborare con loro per una campagna food.',
+		'/migliori-app-gestione-follower/' => 'Le migliori app per gestire i follower su Instagram nel 2026: cosa fanno e come scegliere quella giusta senza rischi per il tuo account.',
+		'/benchmark-influencer-2026-i-nuovi-standard-del-mercato/' => 'Benchmark di influencer marketing 2026: engagement rate, CPM e CPE per Instagram, TikTok e YouTube, con i KPI aggiornati per le campagne.',
+		'/come-impostare-una-collaborazione-con-gli-influencer/' => 'Come impostare una collaborazione con gli influencer: obiettivi, scelta dei creator, brief, compenso e misurazione dei risultati, passo per passo.',
+	);
+}
+
+/**
+ * Testata dell'articolo: un solo <title> (alcuni articoli ne avevano un secondo dentro il testo), title SEO entro
+ * 60 caratteri, una sola description e un solo canonical, Open Graph completo se manca.
+ */
+function inft_article_seo_head( $html, $a ) {
+	$path = (string) wp_parse_url( $a['url'], PHP_URL_PATH );
+	$end  = stripos( $html, '</head>' );
+	if ( false === $end ) {
+		return $html;
+	}
+	$head = substr( $html, 0, $end );
+	$body = substr( $html, $end );
+	// <title> e description dentro il corpo (testi incollati come pagina HTML intera): via
+	$body = preg_replace( '#<title\b[^>]*>.*?</title>#is', '', $body );
+	$body = preg_replace( '#<meta\b[^>]*name=["\']description["\'][^>]*>#i', '', $body );
+	$n    = 0;
+	$head = preg_replace_callback( '#<title\b[^>]*>.*?</title>#is', function ( $m ) use ( &$n ) {
+		return 0 === $n++ ? $m[0] : '';
+	}, $head );
+	$n    = 0;
+	$head = preg_replace_callback( '#<link\b[^>]*rel=["\']canonical["\'][^>]*>\s*#i', function ( $m ) use ( &$n ) {
+		return 0 === $n++ ? $m[0] : '';
+	}, $head );
+	// title
+	$map   = inft_article_titoli_seo();
+	$title = '';
+	if ( preg_match( '#<title\b[^>]*>(.*?)</title>#is', $head, $t ) ) {
+		$title = trim( html_entity_decode( wp_strip_all_tags( $t[1] ), ENT_QUOTES, 'UTF-8' ) );
+	}
+	if ( isset( $map[ $path ] ) ) {
+		$title = $map[ $path ];
+	} elseif ( mb_strlen( $title ) > 60 ) {
+		$title = trim( preg_replace( '/\s*[–|\-]\s*Influencee(\.it)?\s*$/u', '', $title ) ); // via il nome del sito se non ci sta
+	}
+	if ( $title ) {
+		$new  = '<title>' . esc_html( $title ) . '</title>';
+		$head = preg_match( '#<title\b#i', $head ) ? preg_replace( '#<title\b[^>]*>.*?</title>#is', $new, $head, 1 ) : $head . $new . "\n";
+	}
+	// description
+	$dmap = inft_article_desc_seo();
+	$desc = '';
+	if ( preg_match( '#<meta\b[^>]*name=["\']description["\'][^>]*content=["\']([^"\']*)["\'][^>]*>#i', $head, $d ) ) {
+		$desc = html_entity_decode( $d[1], ENT_QUOTES, 'UTF-8' );
+	}
+	if ( isset( $dmap[ $path ] ) ) {
+		$desc = $dmap[ $path ];
+		$head = preg_replace( '#<meta\b[^>]*name=["\']description["\'][^>]*>\s*#i', '', $head );
+		$head .= '<meta data-inft name="description" content="' . esc_attr( $desc ) . '">' . "\n";
+	}
+	// Open Graph, se nessun plugin SEO lo stampa
+	if ( ! preg_match( '#property=["\']og:title["\']#i', $head ) ) {
+		$og  = '<meta data-inft property="og:type" content="article">' . "\n";
+		$og .= '<meta data-inft property="og:locale" content="it_IT">' . "\n";
+		$og .= '<meta data-inft property="og:site_name" content="Influencee">' . "\n";
+		$og .= '<meta data-inft property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
+		$og .= $desc ? '<meta data-inft property="og:description" content="' . esc_attr( $desc ) . '">' . "\n" : '';
+		$og .= '<meta data-inft property="og:url" content="' . esc_url( $a['url'] ) . '">' . "\n";
+		$head .= $og;
+	}
+	return $head . $body;
 }
 
 /** Elenco degli articoli per le impostazioni: percorso, titolo e se è acceso. */

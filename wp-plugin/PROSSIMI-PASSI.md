@@ -74,6 +74,23 @@ Uso da Claude (una richiesta alla volta):
   disattivare prima di eliminare; per il bridge usare solo il nuovo Influencee Claude Bridge (il vecchio va eliminato);
   prima di cancellare qualcosa chiedere al titolare. Il titolare non vuole più caricare zip a mano.
 
+## ⚠ Verifica SEO del 29/10/2026 e versione del Core sul sito
+
+- Sul sito gira **Core 2.2.18**, che non è in nessun ramo del repository (qui c'è 2.2.19, costruita su 2.2.16).
+  Prima di installare: scaricare la cartella `influencee-core` del sito (o chiedere alla sessione che l'ha
+  installata), confrontarla con questa e unire le differenze. Non sovrascrivere alla cieca.
+- Esplorazione del sito (640 pagine seguendo i link): nessuna pagina raggiungibile manca dalla sitemap; 13 link
+  interni a 404 e 27 a redirect (negli articoli); robots.txt senza riga Sitemap (plugin Simple Robots.txt);
+  89 articoli senza Open Graph; 16 pagine con due `<title>` (testo incollato come pagina HTML intera);
+  35 title oltre 60 caratteri; 5 profili creator doppi (`-2`); archivi /category/ senza canonical.
+- Correzioni: **Core 2.2.19** (`includes/seo-fix.php`: 301 dei link rotti, link riscritti negli articoli,
+  niente «indovina 404» di WordPress, creator doppi in 301 e fuori sitemap, /category/ noindex e fuori sitemap,
+  blog con canonical/OG/dati strutturati; robots.txt con Sitemap), **Articoli 2.2.1** (un solo title, title
+  SEO ≤ 60, 5 description riscritte, Open Graph), **Tema 1.1.8** (title e description incollati nel corpo tolti).
+- Da controllare: 9 tool social (calendario editoriale, report social, piano editoriale, ecc.) oggi fanno
+  redirect a /social-media-tool/ (li sta rifacendo un'altra sessione); `/social-media-tool-form/` risponde 200
+  (redirect del Core spento? impostazione «redirects»).
+
 ## Da installare con il server MCP (27/10/2026)
 
 Core **2.2.16** (server MCP, GA4, percorso nei lead di Tandem, redirect /creator-city|region|cat/, noindex tag e
