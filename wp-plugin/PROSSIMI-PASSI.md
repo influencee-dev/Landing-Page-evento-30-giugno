@@ -74,6 +74,16 @@ Uso da Claude (una richiesta alla volta):
   disattivare prima di eliminare; per il bridge usare solo il nuovo Influencee Claude Bridge (il vecchio va eliminato);
   prima di cancellare qualcosa chiedere al titolare. Il titolare non vuole più caricare zip a mano.
 
+## Potenziamento di 10 articoli (30/10/2026) — Articoli 2.3.0
+
+`wp-plugin/influencee-articoli/includes/potenziamenti.php`: per 10 articoli (Search Console: molte impressioni,
+posizione 6–18) title e description sulle ricerche reali (Ubersuggest), «In breve» in apertura, nota di
+aggiornamento dove i dati erano superati (TikTok Creator Fund → Creator Rewards Program), domande in più, link del
+cluster, «Aggiornato il» e dateModified. Per tutti gli articoli: le FAQ scritte nel testo (details o h3) ora
+entrano nei dati FAQPage. Da misurare in Search Console tra 3–4 settimane (posizione, CTR per pagina).
+Da rivedere nei testi (non modificati): numeri non verificabili (es. «180K+ creator beauty»), funzioni di
+Influencee descritte negli articoli (es. «audience quality score» in /migliori-app-gestione-follower/).
+
 ## ⚠ Verifica SEO del 29/10/2026 e versione del Core sul sito
 
 - Sul sito gira **Core 2.2.18**, che non è in nessun ramo del repository (qui c'è 2.2.19, costruita su 2.2.16).
@@ -85,7 +95,7 @@ Uso da Claude (una richiesta alla volta):
   35 title oltre 60 caratteri; 5 profili creator doppi (`-2`); archivi /category/ senza canonical.
 - Correzioni: **Core 2.2.19** (`includes/seo-fix.php`: 301 dei link rotti, link riscritti negli articoli,
   niente «indovina 404» di WordPress, creator doppi in 301 e fuori sitemap, /category/ noindex e fuori sitemap,
-  blog con canonical/OG/dati strutturati; robots.txt con Sitemap), **Articoli 2.2.1** (un solo title, title
+  blog con canonical/OG/dati strutturati; robots.txt con Sitemap), **Articoli 2.3.0** (un solo title, title
   SEO ≤ 60, 5 description riscritte, Open Graph), **Tema 1.1.8** (title e description incollati nel corpo tolti).
 - Da controllare: 9 tool social (calendario editoriale, report social, piano editoriale, ecc.) oggi fanno
   redirect a /social-media-tool/ (li sta rifacendo un'altra sessione); `/social-media-tool-form/` risponde 200

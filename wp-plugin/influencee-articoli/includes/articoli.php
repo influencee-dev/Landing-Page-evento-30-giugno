@@ -257,8 +257,12 @@ function inft_article_data( $post ) {
 		$abio  = ! empty( $m['author_role'] ) ? $m['author_role'] : $abio;
 	}
 	$faq     = $clean['faq'];
+	if ( ! $faq ) {
+		$faq = inft_article_faq_visibili( $clean['html'] ); // sezione «Domande frequenti» scritta nel testo
+	}
 	// FAQ già visibili nel testo? Allora non si ripetono
 	$visible = $faq && false !== mb_stripos( $text, mb_substr( $faq[0]['q'], 0, 40 ) );
+	$pot     = function_exists( 'inft_article_potenziamento' ) ? inft_article_potenziamento( inft_post_path( $post ) ) : null;
 	$image   = get_the_post_thumbnail_url( $post, 'full' );
 	$image   = $image ? $image : ( ! empty( $m['image'] ) ? $m['image'] : '' );
 	$blog    = get_option( 'page_for_posts' ) ? get_permalink( (int) get_option( 'page_for_posts' ) ) : home_url( '/news-influencer-marketing/' );
@@ -286,7 +290,16 @@ function inft_article_data( $post ) {
 		'published'   => get_post_time( 'c', false, $post ),
 		'modified'    => get_post_modified_time( 'c', false, $post ),
 		'updated_txt' => get_the_modified_date( 'j F Y', $post ),
+		'pot'         => $pot,
+		'faq_extra'   => $pot && ! empty( $pot['faq'] ) ? array_map( function ( $q ) {
+			return array( 'q' => $q[0], 'a' => $q[1] );
+		}, $pot['faq'] ) : array(),
 	);
+	if ( $pot ) {
+		// contenuto aggiunto oggi: la data di modifica lo dice (visibile e nei dati strutturati)
+		$cache[ $post->ID ]['modified']    = INFT_POTENZIATO_IL . 'T09:00:00+01:00';
+		$cache[ $post->ID ]['updated_txt'] = date_i18n( 'j F Y', strtotime( INFT_POTENZIATO_IL ) );
+	}
 	wp_reset_postdata();
 	return $cache[ $post->ID ];
 }
@@ -324,14 +337,15 @@ function inft_article_ld( $a ) {
 			),
 		),
 	);
-	if ( $a['faq'] ) {
+	$all_faq = array_merge( (array) $a['faq'], isset( $a['faq_extra'] ) ? (array) $a['faq_extra'] : array() );
+	if ( $all_faq ) {
 		$graph[] = array(
 			'@type'      => 'FAQPage',
 			'mainEntity' => array_map(
 				function ( $q ) {
 					return array( '@type' => 'Question', 'name' => $q['q'], 'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $q['a'] ) );
 				},
-				$a['faq']
+				$all_faq
 			),
 		);
 	}
@@ -382,13 +396,26 @@ function inft_article_html( $post ) {
 	}
 	$h .= '<div class="ifn-post__author-meta"><span class="ifn-post__author-name" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">' . $e( $a['author'] ) . '</span></span>';
 	$h .= '<span class="ifn-post__author-title">' . $e( $a['author_role'] ? $a['author_role'] : $a['author_bio'] ) . '</span></div>';
-	$h .= '<div class="ifn-post__date-row"><time datetime="' . esc_attr( substr( $a['published'], 0, 10 ) ) . '" itemprop="datePublished">' . $e( $date ) . '</time><span class="dot"></span><span>' . (int) $a['minutes'] . ' min lettura</span></div></div>';
+	$h .= '<div class="ifn-post__date-row"><time datetime="' . esc_attr( substr( $a['published'], 0, 10 ) ) . '" itemprop="datePublished">' . $e( $date ) . '</time><span class="dot"></span><span>' . (int) $a['minutes'] . ' min lettura</span>' . ( ! empty( $a['pot'] ) ? '<span class="dot"></span><span>Aggiornato il <time datetime="' . esc_attr( substr( $a['modified'], 0, 10 ) ) . '" itemprop="dateModified">' . $e( $a['updated_txt'] ) . '</time></span>' : '' ) . '</div></div>';
 	$h .= '<figure class="ifn-post__hero"><div class="ifn-post__hero-fallback">' . $e( $a['title'] ) . '</div>';
 	if ( $a['image'] ) {
 		$h .= '<img src="' . esc_url( $a['image'] ) . '" alt="' . esc_attr( $a['title'] ) . '" loading="eager" fetchpriority="high" decoding="async">';
 	}
 	$h .= '</figure>';
+	if ( ! empty( $a['pot'] ) ) {
+		$h .= inft_article_breve_html( $a['pot'] );
+	}
 	$h .= '<div class="ia-content" data-section="testo" data-inft-read>' . $a['html'] . '</div>'; // phpcs:ignore -- testo dell'articolo già filtrato da WordPress e ripulito
+	if ( ! empty( $a['faq_extra'] ) ) {
+		$h .= '<section class="ifn-post__faq" data-section="faq_extra"><h2 id="altre-domande">Altre domande frequenti</h2>';
+		foreach ( $a['faq_extra'] as $q ) {
+			$h .= '<details><summary>' . $e( $q['q'] ) . '</summary><div class="faq-a"><p>' . $e( $q['a'] ) . '</p></div></details>';
+		}
+		$h .= '</section>';
+	}
+	if ( ! empty( $a['pot'] ) ) {
+		$h .= inft_article_links_html( $a['pot'] );
+	}
 	if ( $a['faq_show'] ) {
 		$h .= '<section class="ifn-post__faq" data-section="faq"><h2 id="faq">Domande frequenti</h2>';
 		foreach ( $a['faq'] as $q ) {
@@ -547,6 +574,35 @@ function inft_article_clean_page( $html ) {
 	return $html;
 }
 
+/**
+ * Domande frequenti scritte nel testo (sezione con titolo «Domande frequenti» o «FAQ»): coppie domanda/risposta
+ * da <details><summary> oppure da <h3> + paragrafi, fino al titolo successivo. Servono per i dati FAQPage.
+ */
+function inft_article_faq_visibili( $html ) {
+	if ( ! preg_match( '#<h2\b[^>]*>(?:(?!</h2>).)*(domande\s+frequenti|faq)(?:(?!</h2>).)*</h2>#isu', $html, $m, PREG_OFFSET_CAPTURE ) ) {
+		return array();
+	}
+	$rest = substr( $html, $m[0][1] + strlen( $m[0][0] ) );
+	$end  = preg_match( '#<h2\b#i', $rest, $n, PREG_OFFSET_CAPTURE ) ? $n[0][1] : strlen( $rest );
+	$sec  = substr( $rest, 0, $end );
+	$txt  = function ( $s ) {
+		return trim( preg_replace( '/\s+/u', ' ', html_entity_decode( wp_strip_all_tags( $s ), ENT_QUOTES, 'UTF-8' ) ) );
+	};
+	$out = array();
+	if ( preg_match_all( '#<details\b[^>]*>\s*<summary\b[^>]*>(.*?)</summary>(.*?)</details>#is', $sec, $d, PREG_SET_ORDER ) ) {
+		foreach ( $d as $x ) {
+			$out[] = array( 'q' => $txt( $x[1] ), 'a' => $txt( $x[2] ) );
+		}
+	} elseif ( preg_match_all( '#<h3\b[^>]*>(.*?)</h3>(.*?)(?=<h3\b|$)#is', $sec, $d, PREG_SET_ORDER ) ) {
+		foreach ( $d as $x ) {
+			$out[] = array( 'q' => $txt( $x[1] ), 'a' => $txt( $x[2] ) );
+		}
+	}
+	return array_values( array_filter( $out, function ( $q ) {
+		return mb_strlen( $q['q'] ) > 8 && mb_strlen( $q['a'] ) > 20;
+	} ) );
+}
+
 /** Title SEO (massimo 60 caratteri) per gli articoli con il titolo troppo lungo (verifica del 29/10/2026). */
 function inft_article_titoli_seo() {
 	return array(
@@ -628,6 +684,10 @@ function inft_article_seo_head( $html, $a ) {
 	if ( preg_match( '#<title\b[^>]*>(.*?)</title>#is', $head, $t ) ) {
 		$title = trim( html_entity_decode( wp_strip_all_tags( $t[1] ), ENT_QUOTES, 'UTF-8' ) );
 	}
+	$pot = function_exists( 'inft_article_potenziamento' ) ? inft_article_potenziamento( $path ) : null;
+	if ( $pot ) {
+		$map[ $path ] = $pot['title'];
+	}
 	if ( isset( $map[ $path ] ) ) {
 		$title = $map[ $path ];
 	} elseif ( mb_strlen( $title ) > 60 ) {
@@ -639,6 +699,9 @@ function inft_article_seo_head( $html, $a ) {
 	}
 	// description
 	$dmap = inft_article_desc_seo();
+	if ( $pot ) {
+		$dmap[ $path ] = $pot['desc'];
+	}
 	$desc = '';
 	if ( preg_match( '#<meta\b[^>]*name=["\']description["\'][^>]*content=["\']([^"\']*)["\'][^>]*>#i', $head, $d ) ) {
 		$desc = html_entity_decode( $d[1], ENT_QUOTES, 'UTF-8' );
