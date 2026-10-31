@@ -43,13 +43,29 @@ function inft_riscritto( $path ) {
 	return array( 'html' => inft_riscritto_immagini( $html ), 'data' => isset( $e['data'] ) ? (string) $e['data'] : '', 'bozza' => ! $pub );
 }
 
-/** Segnaposto immagine → figura, solo se il file esiste. */
+/** Voce (title, desc, «In breve», link) del testo riscritto, solo quando il testo riscritto si vede. */
+function inft_riscritto_voce( $path ) {
+	static $voci = null;
+	if ( null === $voci ) {
+		$f    = INFA_DIR . 'riscritti/voci.php';
+		$voci = file_exists( $f ) ? (array) require $f : array();
+	}
+	return ( isset( $voci[ $path ] ) && inft_riscritto( $path ) ) ? $voci[ $path ] : null;
+}
+
+/**
+ * Segnaposto immagine → figura, solo se il file esiste. Quarto campo facoltativo: immagine di riserva già
+ * caricata su WordPress (/wp-content/uploads/…), mostrata finché il file nuovo non c'è.
+ */
 function inft_riscritto_immagini( $html ) {
 	return preg_replace_callback(
-		'#<!--\s*IMMAGINE:\s*([a-z0-9-]+\.(?:webp|jpg|png|svg))\s*\|\s*([^|]*?)\s*(?:\|\s*(.*?))?\s*-->#i',
+		'#<!--\s*IMMAGINE:\s*([a-z0-9-]+\.(?:webp|jpg|png|svg))\s*\|\s*([^|]*?)\s*(?:\|\s*([^|]*?))?\s*(?:\|\s*(/wp-content/uploads/\S+))?\s*-->#i',
 		function ( $m ) {
 			$dir = file_exists( INFA_DIR . 'assets/immagini/' . $m[1] ) ? 'immagini' : ( file_exists( INFA_DIR . 'assets/grafici/' . $m[1] ) ? 'grafici' : '' );
 			if ( ! $dir ) {
+				if ( ! empty( $m[4] ) && preg_match( '#^/wp-content/uploads/[\w/.-]+\.(?:webp|jpe?g|png)$#i', $m[4] ) ) {
+					return '<figure class="ia-fig"><img src="' . esc_url( home_url( $m[4] ) ) . '" alt="' . esc_attr( $m[2] ) . '" loading="lazy" decoding="async">' . ( ! empty( $m[3] ) ? '<figcaption>' . esc_html( $m[3] ) . '</figcaption>' : '' ) . '</figure>';
+				}
 				return '';
 			}
 			$size = 'grafici' === $dir ? ' width="1200" height="675"' : '';

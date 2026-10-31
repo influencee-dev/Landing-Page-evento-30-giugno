@@ -211,3 +211,12 @@ Domande per il titolare:
   la PR; istruzioni in `appinfluencee/docs/guide/annunci-dal-sito.md` («Messa online passo passo»).
 - Velocità: valutare Preact + animazioni CSS per dimezzare il JavaScript delle pagine nuove.
 - WonderPush e tracciamento Brevo su tutte le pagine: chiedere al titolare se servono ancora.
+
+## Lotto 1: 23 articoli riscritti (31/10/2026) — Articoli 2.5.0
+
+Testi in `wp-plugin/influencee-articoli/riscritti/<slug>.html`, voci (title, description, «In breve», link) in
+`riscritti/voci.php`, stato in `riscritti/stato.json`: tutti in **bozza**, visibili solo con `?anteprima=1`
+(noindex, senza cache). Per pubblicare un articolo: `"stato": "pubblicato"` nella sua voce, versione su, build,
+push. La voce di `voci.php` vale solo quando si vede il testo nuovo. Segnaposti immagine con quarto campo di
+riserva (screenshot già caricati) nell'articolo Meta Business Suite. Da far controllare al commercialista:
+/come-funziona-il-pagamento-degli-influencer/ (ritenute, forfettario, ATECO 73.11.03).

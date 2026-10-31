@@ -381,6 +381,9 @@ function inft_article_potenziamenti() {
 }
 
 function inft_article_potenziamento( $path ) {
+	if ( function_exists( 'inft_riscritto_voce' ) && ( $v = inft_riscritto_voce( $path ) ) ) {
+		return $v;
+	}
 	$all = inft_article_potenziamenti();
 	return isset( $all[ $path ] ) ? $all[ $path ] : null;
 }
