@@ -1,0 +1,11 @@
+{
+ "influencee-core": false,
+ "influencee-tools": true,
+ "influencee-pagine": true,
+ "influencee-articoli": true,
+ "influencee-annunci": true,
+ "influencee-tema": true,
+ "influencee-pulizia": true,
+ "influencee-aggiornamenti": true,
+ "_nota": "auto: il sito installa da solo le versioni nuove. influencee-core spento finch\u00e9 la 2.2.18 del sito non \u00e8 unita (vedi PROSSIMI-PASSI.md)."
+}

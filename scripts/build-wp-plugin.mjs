@@ -14,7 +14,7 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
-const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci', 'influencee-tema', 'influencee-pulizia', 'influencee-claude-bridge'];
+const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci', 'influencee-tema', 'influencee-pulizia', 'influencee-claude-bridge', 'influencee-aggiornamenti'];
 const D = (slug) => join(ROOT, 'dist-wp', slug);
 for (const slug of [...PLUGINS, 'influencee-tools-legacy']) rmSync(D(slug), { recursive: true, force: true });
 rmSync(join(ROOT, 'dist-wp/influencee-tools'), { recursive: true, force: true });
@@ -84,6 +84,22 @@ const kb = (f) => Math.round(readFileSync(f).length / 1024);
 for (const slug of PLUGINS) {
   rmSync(join(ROOT, 'dist-wp', `${slug}.zip`), { force: true });
   execFileSync('zip', ['-qr', `${slug}.zip`, slug], { cwd: join(ROOT, 'dist-wp') });
+}
+// 5. consegne/plugin-wordpress: zip + versioni.json (letto da Influencee Aggiornamenti sul sito, ogni ora)
+{
+  const { createHash } = await import('node:crypto');
+  const auto = JSON.parse(readFileSync(join(ROOT, 'wp-plugin/aggiornamenti.json'), 'utf8'));
+  const CONS = join(ROOT, 'consegne/plugin-wordpress');
+  mkdirSync(CONS, { recursive: true });
+  const man = { generato: new Date().toISOString(), plugin: {} };
+  for (const slug of PLUGINS) {
+    const zip = join(ROOT, 'dist-wp', `${slug}.zip`);
+    copyFileSync(zip, join(CONS, `${slug}.zip`));
+    const main = readFileSync(join(ROOT, 'wp-plugin', slug, `${slug}.php`), 'utf8');
+    const v = (main.match(/Version:\s*([0-9.]+)/) || [])[1];
+    man.plugin[slug] = { versione: v, file: `${slug}.zip`, sha256: createHash('sha256').update(readFileSync(zip)).digest('hex'), auto: auto[slug] === true };
+  }
+  writeFileSync(join(CONS, 'versioni.json'), JSON.stringify(man, null, 1) + '\n');
 }
 console.log(`ok · pagine ${pages.length} · immagini ${imgs.size} · js ${kb(join(OUT, 'assets/influencee-tools.js'))} KB · css ${kb(join(OUT, 'assets/influencee-tools.css'))} KB`);
 for (const slug of PLUGINS) console.log(`  ${slug.padEnd(20)} ${String(kb(join(ROOT, 'dist-wp', `${slug}.zip`))).padStart(5)} KB`, slug === 'influencee-tools' || slug === 'influencee-pagine' ? `· ${Object.keys(meta[slug]).length} pagine` : '');

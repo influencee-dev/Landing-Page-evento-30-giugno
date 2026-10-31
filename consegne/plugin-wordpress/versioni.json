@@ -1,0 +1,59 @@
+{
+ "generato": "2026-10-31T09:45:10.900Z",
+ "plugin": {
+  "influencee-core": {
+   "versione": "2.2.19",
+   "file": "influencee-core.zip",
+   "sha256": "2b223a9459d4848cda626dab32ab1dcd03dba5ddd7831f1ba7bd60cea47de01d",
+   "auto": false
+  },
+  "influencee-tools": {
+   "versione": "2.0.2",
+   "file": "influencee-tools.zip",
+   "sha256": "1d464c948d31b7f57cd0f6c366e210278f8f7bb49610f0a4ba1adcff3603f884",
+   "auto": true
+  },
+  "influencee-pagine": {
+   "versione": "2.0.7",
+   "file": "influencee-pagine.zip",
+   "sha256": "8fa21f35219f0c7b9bdaa22ee3aefecd0d5a490f3cc737ad14b6b987c9d701a9",
+   "auto": true
+  },
+  "influencee-articoli": {
+   "versione": "2.3.0",
+   "file": "influencee-articoli.zip",
+   "sha256": "31f26f65ad8f53454fcee38a75af546640fcf46db7976440eaebd1015789644c",
+   "auto": true
+  },
+  "influencee-annunci": {
+   "versione": "1.3.1",
+   "file": "influencee-annunci.zip",
+   "sha256": "61c39314af5cb650f0f85ab4936e9b9c01627602180a26068cca4c7b44cc860c",
+   "auto": true
+  },
+  "influencee-tema": {
+   "versione": "1.1.8",
+   "file": "influencee-tema.zip",
+   "sha256": "dcec4a0845041e2379ab3c9fc22338d74ff83e59d0c909377e3e22db173d9174",
+   "auto": true
+  },
+  "influencee-pulizia": {
+   "versione": "1.0.1",
+   "file": "influencee-pulizia.zip",
+   "sha256": "40454b7df55e763bbb2d5c71831ef0253749d04d6a71f7fb4c71b809f57ee80e",
+   "auto": true
+  },
+  "influencee-claude-bridge": {
+   "versione": "2.0.0",
+   "file": "influencee-claude-bridge.zip",
+   "sha256": "8bca1a962bdd2cc37424282493142bbf0ac05204aee782250bc861d663906486",
+   "auto": false
+  },
+  "influencee-aggiornamenti": {
+   "versione": "1.0.0",
+   "file": "influencee-aggiornamenti.zip",
+   "sha256": "2cbc8a6905bba27633a8b616f2aedea24e86198d674b3f7de1025eb4621fff82",
+   "auto": true
+  }
+ }
+}

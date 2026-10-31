@@ -1,4 +1,21 @@
-# Lavori in corso e prossimi passi (aggiornato il 27/10/2026)
+# Lavori in corso e prossimi passi (aggiornato il 31/10/2026)
+
+## ✅ Aggiornamenti automatici dal repository (Influencee Aggiornamenti 1.0.0, 31/10/2026)
+
+La chiave MCP non arrivava al sito (401 anche da una sessione nuova). Soluzione senza chiavi: il plugin
+**Influencee Aggiornamenti** (`wp-plugin/influencee-aggiornamenti/`), caricato una volta a mano, ogni ora legge
+`consegne/plugin-wordpress/versioni.json` dal ramo `claude/dreamy-mendel-3qxvue` (repository pubblico, raw GitHub),
+scarica gli zip con `auto: true` più nuovi di quelli installati, verifica lo sha256, fa una copia in
+`uploads/influencee-backup/`, installa, svuota la cache e controlla la home; se non risponde rimette la copia.
+- Pubblicare un aggiornamento = cambiare versione del plugin, `node scripts/build-wp-plugin.mjs` (scrive zip e
+  versioni.json in consegne/), commit e push. Entro un'ora è sul sito.
+- `wp-plugin/aggiornamenti.json` decide quali plugin si aggiornano da soli (Core spento finché la 2.2.18 del sito
+  non è recuperata e unita).
+- Stato da fuori: `GET https://influencee.it/wp-json/influencee-aggiornamenti/v1/stato` (versioni, ultimo controllo,
+  ultime 5 righe del registro). Pagina admin: Strumenti → Influencee Aggiornamenti («Controlla adesso»).
+- Provato su WordPress locale: aggiornamento di Articoli e Annunci, copia di sicurezza, ritorno indietro con un
+  aggiornamento che rompeva il sito.
+
 
 Nota per riprendere il lavoro in una sessione nuova di Claude Code (ambiente **Influencee v2**).
 
