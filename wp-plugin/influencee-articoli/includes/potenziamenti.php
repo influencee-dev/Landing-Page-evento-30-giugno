@@ -126,12 +126,12 @@ function inft_article_potenziamenti() {
 		),
 		'/come-guadagnare-con-tiktok-5-modi/' => array(
 			'title' => 'Come guadagnare con TikTok nel 2026: i modi che funzionano',
-			'desc'  => 'Come guadagnare con TikTok nel 2026: Creator Rewards Program, regali nelle live, collaborazioni con i brand e vendita di prodotti. Requisiti e consigli.',
-			'breve' => 'Su TikTok si guadagna in cinque modi: con il Creator Rewards Program, che paga i video originali più lunghi di un minuto; con i regali durante le live; con le collaborazioni pagate dai brand; vendendo prodotti propri o in affiliazione; offrendo servizi come consulenze. Per la maggior parte dei creator italiani la fonte principale sono le collaborazioni con i brand.',
-			'nota'  => 'Aggiornamento 2026: il TikTok Creator Fund citato nell’articolo è stato chiuso e sostituito dal Creator Rewards Program (requisiti principali: almeno 18 anni, 10.000 follower e 100.000 visualizzazioni negli ultimi 30 giorni, video originali oltre il minuto). Il Creator Marketplace è confluito in TikTok One. Controlla in «Strumenti per creator» quali programmi sono attivi in Italia.',
+			'desc'  => 'Come guadagnare con TikTok in Italia nel 2026: regali nelle LIVE, abbonamenti, collaborazioni con i brand, TikTok Shop e affiliazione. Requisiti e consigli.',
+			'breve' => 'In Italia su TikTok si guadagna soprattutto così: con i regali durante le LIVE (dai 18 anni); con le collaborazioni pagate dai brand; vendendo prodotti propri o in affiliazione; offrendo servizi come consulenze. Per la maggior parte dei creator italiani la fonte principale sono le collaborazioni con i brand.',
+			'nota'  => 'Aggiornamento 2026: il TikTok Creator Fund citato nell’articolo è stato chiuso in Italia nel 2024. Il Creator Rewards Program che lo ha sostituito oggi non è disponibile in Italia (secondo la Creator Academy di TikTok è attivo solo in alcuni paesi, come Stati Uniti, Regno Unito, Germania e Francia). Il Creator Marketplace è confluito in TikTok One. Controlla in TikTok Studio quali programmi sono attivi per il tuo account.',
 			'faq'   => array(
-				array( 'Quanti follower servono per guadagnare su TikTok?', 'Per il Creator Rewards Program ne servono 10.000, insieme a 100.000 visualizzazioni negli ultimi 30 giorni. Per le collaborazioni con i brand non c’è un minimo: molte aziende cercano nano creator con poche migliaia di follower ma un pubblico coinvolto.' ),
-				array( 'Quanto paga TikTok per 1.000 visualizzazioni?', 'TikTok non pubblica una tariffa fissa: il compenso del Creator Rewards Program cambia con paese, durata, originalità e coinvolgimento dei video. Per molti creator le collaborazioni con i brand rendono più delle visualizzazioni.' ),
+				array( 'Quanti follower servono per guadagnare su TikTok?', 'Il Creator Rewards Program, che ne chiede 10.000, in Italia non è disponibile. Per le collaborazioni con i brand non c’è un minimo: molte aziende cercano nano creator con poche migliaia di follower ma un pubblico coinvolto.' ),
+				array( 'Quanto paga TikTok per 1.000 visualizzazioni?', 'TikTok non pubblica una tariffa fissa e in Italia oggi non paga le visualizzazioni: il Creator Rewards Program non è attivo nel nostro paese. Per i creator italiani le entrate vengono da LIVE, collaborazioni con i brand e vendite.' ),
 				array( 'Si guadagna guardando video su TikTok?', 'No: TikTok paga chi crea contenuti, non chi li guarda. Diffida di app e siti che promettono soldi per guardare video: spesso servono a raccogliere dati o a far installare altre app.' ),
 			),
 			'links' => array(
@@ -159,7 +159,7 @@ function inft_article_potenziamenti() {
 			'desc'  => 'Come creare contenuti efficaci su TikTok: idee di video, hook nei primi secondi, durata, audio, hashtag e costanza. La guida pratica per creator e brand.',
 			'breve' => 'Un contenuto efficace su TikTok aggancia nei primi due o tre secondi, fa capire subito di cosa parla, usa un formato o un audio riconoscibile e ha un solo messaggio. Pubblica con costanza, guarda in Analytics quanta parte del video viene vista e ripeti i formati che tengono l’attenzione più a lungo.',
 			'faq'   => array(
-				array( 'Quanto deve durare un video TikTok?', 'Quanto serve a dire una cosa sola senza tempi morti. Per la distribuzione conta che il video venga guardato fino alla fine; per il Creator Rewards Program i video devono superare il minuto.' ),
+				array( 'Quanto deve durare un video TikTok?', 'Quanto serve a dire una cosa sola senza tempi morti. Per la distribuzione conta che il video venga guardato fino alla fine.' ),
 				array( 'Quante volte pubblicare su TikTok?', 'Con una frequenza che riesci a mantenere: la costanza conta più del numero. Meglio tre video curati a settimana che uno al giorno fatto di fretta.' ),
 			),
 			'links' => array(
@@ -365,7 +365,7 @@ function inft_article_potenziamenti() {
 			'title' => 'Spunta blu TikTok: come ottenere la verifica nel 2026',
 			'desc'  => 'Come avere la spunta blu su TikTok: requisiti ufficiali, come fare richiesta dall’app, quanto costa (niente) e cosa fare se la domanda viene rifiutata.',
 			'breve' => 'Per avere la spunta blu su TikTok l’account deve essere autentico, attivo, notabile e unico: profilo pubblico e completo, verifica in due passaggi attiva e presenza documentata in più fonti giornalistiche. Il numero di follower non è un requisito. Dove la funzione è disponibile, la richiesta si invia dall’app in Impostazioni e privacy > Account > Verifica, ed è gratuita.',
-			'nota'  => 'Aggiornamento 2026: secondo il Centro assistenza di TikTok la verifica si può richiedere dall’app (Profilo > menu > Impostazioni e privacy > Account > Verifica), dove la funzione è attiva, oppure con il modulo online; se la richiesta viene respinta si può ripresentare dopo 30 giorni. Pesi dei segnali, percentuali e caso di studio dell’articolo sono osservazioni dell’autrice, non criteri ufficiali di TikTok.',
+			'nota'  => 'Aggiornamento 2026: secondo il Centro assistenza di TikTok la verifica si può richiedere dall’app (Profilo > menu > Impostazioni e privacy > Account > Verifica), dove la funzione è attiva, e non serve un numero minimo di follower; se la richiesta viene respinta si può ripresentare quando si hanno i requisiti. Pesi dei segnali, percentuali e caso di studio dell’articolo sono osservazioni dell’autrice, non criteri ufficiali di TikTok.',
 			'faq'   => array(
 				array( 'Quanto costa la spunta blu su TikTok?', 'Niente: TikTok non fa pagare la verifica e chi vende la spunta blu non ha legami con TikTok. Diffida anche di email e messaggi diretti che ti invitano a fare domanda: TikTok non li invia, tranne che agli account di governi e politici.' ),
 				array( 'Cosa significa la spunta blu su TikTok?', 'Indica che TikTok ha confermato che l’account appartiene davvero alla persona, al brand o all’ente che rappresenta. Non premia i numeri e non garantisce più visualizzazioni: serve a distinguere l’account ufficiale dalle imitazioni.' ),
