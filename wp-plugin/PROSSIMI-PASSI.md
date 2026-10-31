@@ -91,6 +91,26 @@ Uso da Claude (una richiesta alla volta):
   disattivare prima di eliminare; per il bridge usare solo il nuovo Influencee Claude Bridge (il vecchio va eliminato);
   prima di cancellare qualcosa chiedere al titolare. Il titolare non vuole più caricare zip a mano.
 
+## Revisione SEO/GEO/AEO di tutti gli articoli (31/10/2026) — Articoli 2.4.0
+
+- Controllo degli 85 articoli (scratchpad/seo/audit.json): 32 con autore «influencee_admin», 51 non aggiornati dal
+  2025, 29 senza immagini, 22 immagini senza alt, 34 senza fonti esterne, 54 senza H2 a domanda.
+- Per tutti: autore tecnico → «Team Influencee»; Person con url /chi-siamo/; alt automatico (didascalia, sezione
+  o titolo) e caricamento differito delle immagini del testo; title senza anno vecchio per /instagram-story-download/.
+- Potenziati altri 13 articoli (in tutto 23, `includes/potenziamenti.php`), con due grafici di dati veri in
+  `assets/grafici/` (costo post per fascia, engagement per fascia; fonti DeRev/ONIM, stime indicate).
+- `faq_testo => false` per /guida-alla-verifica-su-tiktok-…/: le FAQ dell'articolo dicono che la verifica non si
+  può chiedere, smentite dal centro assistenza TikTok. Da correggere nel testo.
+- Immagini: cartella Drive «Influencee · Immagini articoli» (https://drive.google.com/drive/folders/1hoPmah8J59Xm3Z1O7kkRq6OTpU_Axj1P)
+  con linee guida e prompt per ChatGPT dei 23 articoli; le immagini pronte vanno in «Immagini pronte» e poi in
+  `assets/` del plugin Articoli con alt e didascalia.
+- Da correggere nei testi (numeri senza fonte, refusi, dati superati): vedi i report dei lotti A e B in questa
+  sessione — 10 idee Instagram (percentuali e caso «Sara»), verifica TikTok (percentuali, caso «Martina»),
+  guadagnare con i social (tariffe senza fonte, refuso «Influecee»), 5 consigli fashion (refusi), Meta Business
+  Suite («tutti i clienti in una sessione» contro l'aiuto ufficiale), cosa usano i tiktoker (Dubsmash chiusa,
+  Premiere Rush dismessa). Il redirect del Core /come-calcolare-il-costo-degli-influencer/ → calcolatore (spento
+  sul sito) cancellerebbe un articolo in 6ª posizione: decidere prima di accendere «redirects».
+
 ## Potenziamento di 10 articoli (30/10/2026) — Articoli 2.3.0
 
 `wp-plugin/influencee-articoli/includes/potenziamenti.php`: per 10 articoli (Search Console: molte impressioni,

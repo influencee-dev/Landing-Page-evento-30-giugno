@@ -141,3 +141,4 @@
 .ifn-post .ia-breve p.ia-breve-t{color:#c8ff1a!important}
 .ifn-post .ia-links p.ia-breve-t{color:var(--muted)!important}
 .ifn-post .ia-nota p{color:var(--ink)!important}
+.ia-fig{margin:28px 0}.ia-fig img{display:block;width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--border)}.ia-fig figcaption{margin-top:8px;font-size:13px;color:var(--muted)}

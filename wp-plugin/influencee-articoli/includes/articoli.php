@@ -247,7 +247,7 @@ function inft_article_data( $post ) {
 	$author  = get_userdata( (int) $post->post_author );
 	$aname   = $author ? $author->display_name : '';
 	// nomi utente tecnici (admin, influencee2019…) diventano "Team Influencee"
-	if ( ! $aname || preg_match( '/^(admin|administrator|root|editor|wp)\b|\d{3,}|@/i', $aname ) ) {
+	if ( ! $aname || preg_match( '/^(admin|administrator|root|editor|wp)\b|_admin\b|^influencee[_-]|\d{3,}|@/i', $aname ) ) {
 		$aname = 'Team Influencee';
 	}
 	$abio    = $author ? trim( (string) get_the_author_meta( 'description', $author->ID ) ) : '';
@@ -256,6 +256,7 @@ function inft_article_data( $post ) {
 		$aname = $m['author']; // autore scritto nell'articolo (es. Giorgia Palazzo)
 		$abio  = ! empty( $m['author_role'] ) ? $m['author_role'] : $abio;
 	}
+	$clean['html'] = inft_article_img_alt( $clean['html'], wp_strip_all_tags( get_the_title( $post ) ) );
 	$faq     = $clean['faq'];
 	if ( ! $faq ) {
 		$faq = inft_article_faq_visibili( $clean['html'] ); // sezione «Domande frequenti» scritta nel testo
@@ -263,6 +264,9 @@ function inft_article_data( $post ) {
 	// FAQ già visibili nel testo? Allora non si ripetono
 	$visible = $faq && false !== mb_stripos( $text, mb_substr( $faq[0]['q'], 0, 40 ) );
 	$pot     = function_exists( 'inft_article_potenziamento' ) ? inft_article_potenziamento( inft_post_path( $post ) ) : null;
+	if ( $pot && isset( $pot['faq_testo'] ) && false === $pot['faq_testo'] ) {
+		$faq = array(); // FAQ dell'articolo superate: non vanno nei dati strutturati
+	}
 	$image   = get_the_post_thumbnail_url( $post, 'full' );
 	$image   = $image ? $image : ( ! empty( $m['image'] ) ? $m['image'] : '' );
 	$blog    = get_option( 'page_for_posts' ) ? get_permalink( (int) get_option( 'page_for_posts' ) ) : home_url( '/news-influencer-marketing/' );
@@ -318,7 +322,7 @@ function inft_article_ld( $a ) {
 		'inLanguage'       => 'it-IT',
 		'wordCount'        => $a['words'],
 		'articleSection'   => $a['cat'],
-		'author'           => 'Team Influencee' === $a['author'] ? array( '@id' => home_url( '/#org' ) ) : array_filter( array( '@type' => 'Person', 'name' => $a['author'], 'jobTitle' => $a['author_role'], 'worksFor' => array( '@id' => home_url( '/#org' ) ) ) ),
+		'author'           => 'Team Influencee' === $a['author'] ? array( '@id' => home_url( '/#org' ) ) : array_filter( array( '@type' => 'Person', 'name' => $a['author'], 'jobTitle' => $a['author_role'], 'url' => home_url( '/chi-siamo/' ), 'worksFor' => array( '@id' => home_url( '/#org' ) ) ) ),
 		'publisher'        => array( '@id' => home_url( '/#org' ) ),
 	);
 	if ( $a['image'] ) {
@@ -403,7 +407,7 @@ function inft_article_html( $post ) {
 	}
 	$h .= '</figure>';
 	if ( ! empty( $a['pot'] ) ) {
-		$h .= inft_article_breve_html( $a['pot'] );
+		$h .= inft_article_breve_html( $a['pot'] ) . inft_article_figura_html( $a['pot'] );
 	}
 	$h .= '<div class="ia-content" data-section="testo" data-inft-read>' . $a['html'] . '</div>'; // phpcs:ignore -- testo dell'articolo già filtrato da WordPress e ripulito
 	if ( ! empty( $a['faq_extra'] ) ) {
@@ -575,6 +579,41 @@ function inft_article_clean_page( $html ) {
 }
 
 /**
+ * Immagini del testo: testo alternativo se manca (dalla didascalia, altrimenti dal titolo della sezione in cui
+ * si trova, altrimenti dal titolo dell'articolo), caricamento differito e decodifica asincrona.
+ */
+function inft_article_img_alt( $html, $title ) {
+	$sezione = $title;
+	return preg_replace_callback(
+		'#<h[23]\b[^>]*>(.*?)</h[23]>|<figure\b[^>]*>.*?</figure>|<img\b[^>]*>#is',
+		function ( $m ) use ( &$sezione, $title ) {
+			if ( isset( $m[1] ) && '' !== $m[1] && 0 === stripos( $m[0], '<h' ) ) {
+				$sezione = trim( html_entity_decode( wp_strip_all_tags( $m[1] ), ENT_QUOTES, 'UTF-8' ) );
+				return $m[0];
+			}
+			$cap = preg_match( '#<figcaption\b[^>]*>(.*?)</figcaption>#is', $m[0], $c ) ? trim( html_entity_decode( wp_strip_all_tags( $c[1] ), ENT_QUOTES, 'UTF-8' ) ) : '';
+			return preg_replace_callback(
+				'#<img\b[^>]*>#i',
+				function ( $i ) use ( $cap, $sezione, $title ) {
+					$tag = $i[0];
+					if ( ! preg_match( '#\balt=["\'][^"\']+["\']#i', $tag ) ) {
+						$alt = $cap ? $cap : ( $sezione !== $title ? $sezione . ' – ' . $title : $title );
+						$tag = preg_replace( '#\salt=["\']["\']#i', '', $tag );
+						$tag = preg_replace( '#^<img\b#i', '<img alt="' . esc_attr( mb_substr( $alt, 0, 125 ) ) . '"', $tag );
+					}
+					if ( ! preg_match( '#\bloading=#i', $tag ) ) {
+						$tag = preg_replace( '#^<img\b#i', '<img loading="lazy" decoding="async"', $tag );
+					}
+					return $tag;
+				},
+				$m[0]
+			);
+		},
+		$html
+	);
+}
+
+/**
  * Domande frequenti scritte nel testo (sezione con titolo «Domande frequenti» o «FAQ»): coppie domanda/risposta
  * da <details><summary> oppure da <h3> + paragrafi, fino al titolo successivo. Servono per i dati FAQPage.
  */
@@ -607,6 +646,7 @@ function inft_article_faq_visibili( $html ) {
 function inft_article_titoli_seo() {
 	return array(
 		'/10-idee-per-gestire-il-tuo-profilo-instagram-in-modo-creativo/' => '10 idee per gestire il profilo Instagram in modo creativo',
+		'/instagram-story-download/' => 'Instagram Story Download: come scaricare le storie',
 		'/3-motivi-per-cui-i-marchi-di-viaggio-hanno-bisogno-di-influencer-nei-social-media/' => 'Travel influencer: 3 motivi per cui servono ai brand',
 		'/5-consigli-per-scegliere-linfluencer-giusto-per-la-tua-azienda/' => '5 consigli per scegliere l’influencer giusto per l’azienda',
 		'/6-consigli-per-avere-successo-nelle-collaborazioni-con-i-brand-su-youtube/' => 'Collaborazioni con i brand su YouTube: 6 consigli',
