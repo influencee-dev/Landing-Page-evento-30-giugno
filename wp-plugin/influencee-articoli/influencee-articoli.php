@@ -29,6 +29,7 @@ add_action(
 			return;
 		}
 		require_once INFA_DIR . 'includes/potenziamenti.php';
+		require_once INFA_DIR . 'includes/riscritti.php';
 		require_once INFA_DIR . 'includes/articoli.php';
 
 		add_filter(

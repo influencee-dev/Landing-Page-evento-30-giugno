@@ -238,7 +238,8 @@ function inft_article_data( $post ) {
 	}
 	setup_postdata( $post );
 	$GLOBALS['post'] = $post;
-	$raw     = apply_filters( 'the_content', get_the_content( null, false, $post ) );
+	$riscr   = function_exists( 'inft_riscritto' ) ? inft_riscritto( inft_post_path( $post ) ) : null;
+	$raw     = $riscr ? $riscr['html'] : apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$clean   = inft_article_clean( $raw );
 	$text    = wp_strip_all_tags( $clean['html'] );
 	$words   = max( 1, count( preg_split( '/\s+/u', trim( $text ) ) ) );
@@ -295,11 +296,16 @@ function inft_article_data( $post ) {
 		'modified'    => get_post_modified_time( 'c', false, $post ),
 		'updated_txt' => get_the_modified_date( 'j F Y', $post ),
 		'pot'         => $pot,
+		'riscritto'   => (bool) $riscr,
 		'faq_extra'   => $pot && ! empty( $pot['faq'] ) ? array_map( function ( $q ) {
 			return array( 'q' => $q[0], 'a' => $q[1] );
 		}, $pot['faq'] ) : array(),
 	);
-	if ( $pot ) {
+	if ( $riscr && $riscr['data'] ) {
+		// testo riscritto: la data di aggiornamento è quella della riscrittura
+		$cache[ $post->ID ]['modified']    = $riscr['data'] . 'T09:00:00+01:00';
+		$cache[ $post->ID ]['updated_txt'] = date_i18n( 'j F Y', strtotime( $riscr['data'] ) );
+	} elseif ( $pot ) {
 		// contenuto aggiunto oggi: la data di modifica lo dice (visibile e nei dati strutturati)
 		$cache[ $post->ID ]['modified']    = INFT_POTENZIATO_IL . 'T09:00:00+01:00';
 		$cache[ $post->ID ]['updated_txt'] = date_i18n( 'j F Y', strtotime( INFT_POTENZIATO_IL ) );
@@ -400,7 +406,7 @@ function inft_article_html( $post ) {
 	}
 	$h .= '<div class="ifn-post__author-meta"><span class="ifn-post__author-name" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">' . $e( $a['author'] ) . '</span></span>';
 	$h .= '<span class="ifn-post__author-title">' . $e( $a['author_role'] ? $a['author_role'] : $a['author_bio'] ) . '</span></div>';
-	$h .= '<div class="ifn-post__date-row"><time datetime="' . esc_attr( substr( $a['published'], 0, 10 ) ) . '" itemprop="datePublished">' . $e( $date ) . '</time><span class="dot"></span><span>' . (int) $a['minutes'] . ' min lettura</span>' . ( ! empty( $a['pot'] ) ? '<span class="dot"></span><span>Aggiornato il <time datetime="' . esc_attr( substr( $a['modified'], 0, 10 ) ) . '" itemprop="dateModified">' . $e( $a['updated_txt'] ) . '</time></span>' : '' ) . '</div></div>';
+	$h .= '<div class="ifn-post__date-row"><time datetime="' . esc_attr( substr( $a['published'], 0, 10 ) ) . '" itemprop="datePublished">' . $e( $date ) . '</time><span class="dot"></span><span>' . (int) $a['minutes'] . ' min lettura</span>' . ( ! empty( $a['pot'] ) || ! empty( $a['riscritto'] ) ? '<span class="dot"></span><span>Aggiornato il <time datetime="' . esc_attr( substr( $a['modified'], 0, 10 ) ) . '" itemprop="dateModified">' . $e( $a['updated_txt'] ) . '</time></span>' : '' ) . '</div></div>';
 	$h .= '<figure class="ifn-post__hero"><div class="ifn-post__hero-fallback">' . $e( $a['title'] ) . '</div>';
 	if ( $a['image'] ) {
 		$h .= '<img src="' . esc_url( $a['image'] ) . '" alt="' . esc_attr( $a['title'] ) . '" loading="eager" fetchpriority="high" decoding="async">';
