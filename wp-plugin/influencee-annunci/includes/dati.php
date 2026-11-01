@@ -110,6 +110,8 @@ function infn_annunci() {
 		$s    = infn_settings();
 		$list = ! empty( $s['annunci_wpjm'] ) ? infn_annunci_wpjm() : array();
 	}
+	// Influencee Offerte aggiunge le offerte inserite dal sito (e toglie quelle di WP Job Manager)
+	$list = (array) apply_filters( 'infn_annunci_lista', (array) $list );
 	return $list;
 }
 

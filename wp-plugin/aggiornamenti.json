@@ -7,5 +7,6 @@
  "influencee-tema": true,
  "influencee-pulizia": true,
  "influencee-aggiornamenti": true,
- "_nota": "auto: il sito installa da solo le versioni nuove. influencee-core spento finch\u00e9 la 2.2.18 del sito non \u00e8 unita (vedi PROSSIMI-PASSI.md)."
+ "influencee-offerte": "installa",
+ "_nota": "auto: il sito installa da solo le versioni nuove. influencee-core spento finché la 2.2.18 del sito non è unita (vedi PROSSIMI-PASSI.md). «installa»: il sito lo aggiunge e lo attiva anche se non c’è (solo con Aggiornamenti 1.1.0 o successivo)."
 }

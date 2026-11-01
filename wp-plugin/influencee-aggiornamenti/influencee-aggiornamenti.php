@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Aggiornamenti
  * Description:       Aggiorna da solo i plugin Influencee dal repository GitHub del sito: ogni ora controlla le versioni pubblicate, scarica gli zip, ne verifica l'impronta, installa, svuota la cache e controlla che il sito risponda; se non risponde rimette la versione precedente. Nessuna chiave da gestire.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFU_VERSION', '1.0.0' );
+define( 'INFU_VERSION', '1.1.0' );
 
 /**
  * Da dove arrivano gli aggiornamenti: cartella consegne/plugin-wordpress del repository pubblico del sito.
@@ -32,6 +32,7 @@ function infu_famiglia() {
 		'influencee-annunci'       => 'Influencee Annunci',
 		'influencee-tema'          => 'Influencee Tema',
 		'influencee-pulizia'       => 'Influencee Pulizia',
+		'influencee-offerte'       => 'Influencee Offerte',
 		'influencee-aggiornamenti' => 'Influencee Aggiornamenti',
 	);
 }
@@ -146,6 +147,29 @@ function infu_installa_zip( $tmp, $slug ) {
 	return true;
 }
 
+/**
+ * Plugin nuovo della famiglia («installa» nell'elenco delle versioni): installato e attivato. Se l'attivazione
+ * fallisce o il sito non risponde più, viene disattivato e tolto.
+ */
+function infu_aggiungi( $tmp, $slug, $versione, $check ) {
+	$r    = infu_installa_zip( $tmp, $slug );
+	$file = $slug . '/' . $slug . '.php';
+	$act  = is_wp_error( $r ) ? $r : activate_plugin( $file, '', false, false );
+	infu_svuota_cache();
+	if ( is_wp_error( $act ) || ( $check && ! infu_sito_ok() ) ) {
+		$perche = is_wp_error( $act ) ? $act->get_error_message() : 'il sito non risponde dopo l’attivazione';
+		deactivate_plugins( $file, true );
+		if ( file_exists( WP_PLUGIN_DIR . '/' . $file ) ) {
+			delete_plugins( array( $file ) );
+		}
+		infu_svuota_cache();
+		infu_log( $slug . ' ' . $versione . ': installazione NON riuscita (' . $perche . '), tolto.' );
+		return 'non installato';
+	}
+	infu_log( $slug . ' ' . $versione . ': installato e attivato.' );
+	return 'installato ' . $versione;
+}
+
 /** Controllo e aggiornamento: un plugin alla volta, con controllo del sito e ritorno indietro. */
 function infu_controlla( $forza = false ) {
 	if ( get_transient( 'infu_in_corso' ) && ! $forza ) {
@@ -172,9 +196,10 @@ function infu_controlla( $forza = false ) {
 		if ( ! isset( infu_famiglia()[ $slug ] ) || empty( $p['auto'] ) || empty( $p['versione'] ) || empty( $p['sha256'] ) ) {
 			continue;
 		}
-		$ora = infu_versione_installata( $slug );
-		if ( '' === $ora || version_compare( $p['versione'], $ora, '<=' ) ) {
-			continue; // non installato qui (non lo aggiunge) o già aggiornato
+		$ora   = infu_versione_installata( $slug );
+		$nuovo = '' === $ora;
+		if ( ( $nuovo && empty( $p['installa'] ) ) || ( ! $nuovo && version_compare( $p['versione'], $ora, '<=' ) ) ) {
+			continue; // non installato qui e non da aggiungere, o già aggiornato
 		}
 		$res = wp_remote_get( infu_sorgente() . rawurlencode( isset( $p['file'] ) ? $p['file'] : $slug . '.zip' ) . '?v=' . rawurlencode( $p['versione'] ), array( 'timeout' => 90 ) );
 		$zip = is_wp_error( $res ) ? '' : (string) wp_remote_retrieve_body( $res );
@@ -190,6 +215,11 @@ function infu_controlla( $forza = false ) {
 		}
 		$tmp = wp_tempnam( $slug . '.zip' );
 		file_put_contents( $tmp, $zip ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		if ( $nuovo ) {
+			$fatti[ $slug ] = infu_aggiungi( $tmp, $slug, $p['versione'], $check );
+			wp_delete_file( $tmp );
+			continue;
+		}
 		$bak = infu_backup( $slug );
 		$r   = infu_installa_zip( $tmp, $slug );
 		wp_delete_file( $tmp );

@@ -5,6 +5,7 @@
 //   influencee-articoli articoli del blog (PHP + CSS/JS propri)
 //   influencee-annunci  offerte di lavoro collegate all'app (PHP + CSS/JS propri)
 //   influencee-tema     intestazione, piè di pagina e layout del sito senza Elementor (usa il Core)
+//   influencee-offerte  offerte di lavoro inserite da WordPress (al posto di WP Job Manager), usa Core e Annunci
 //   influencee-pulizia  controllo e pulizia di WordPress (a sé, non usa il Core: si accende quando serve)
 // Uso: node scripts/build-wp-plugin.mjs
 import { build, createServer } from 'vite';
@@ -14,7 +15,7 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
-const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci', 'influencee-tema', 'influencee-pulizia', 'influencee-claude-bridge', 'influencee-aggiornamenti'];
+const PLUGINS = ['influencee-core', 'influencee-tools', 'influencee-pagine', 'influencee-articoli', 'influencee-annunci', 'influencee-tema', 'influencee-pulizia', 'influencee-claude-bridge', 'influencee-aggiornamenti', 'influencee-offerte'];
 const D = (slug) => join(ROOT, 'dist-wp', slug);
 for (const slug of [...PLUGINS, 'influencee-tools-legacy']) rmSync(D(slug), { recursive: true, force: true });
 rmSync(join(ROOT, 'dist-wp/influencee-tools'), { recursive: true, force: true });
@@ -97,7 +98,7 @@ for (const slug of PLUGINS) {
     copyFileSync(zip, join(CONS, `${slug}.zip`));
     const main = readFileSync(join(ROOT, 'wp-plugin', slug, `${slug}.php`), 'utf8');
     const v = (main.match(/Version:\s*([0-9.]+)/) || [])[1];
-    man.plugin[slug] = { versione: v, file: `${slug}.zip`, sha256: createHash('sha256').update(readFileSync(zip)).digest('hex'), auto: auto[slug] === true };
+    man.plugin[slug] = { versione: v, file: `${slug}.zip`, sha256: createHash('sha256').update(readFileSync(zip)).digest('hex'), auto: auto[slug] === true || auto[slug] === 'installa', ...(auto[slug] === 'installa' ? { installa: true } : {}) };
   }
   writeFileSync(join(CONS, 'versioni.json'), JSON.stringify(man, null, 1) + '\n');
 }

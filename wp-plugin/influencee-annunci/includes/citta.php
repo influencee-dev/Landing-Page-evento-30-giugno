@@ -143,7 +143,7 @@ function infn_card( $a, $anteprima ) {
 	$e    = 'esc_html';
 	$app  = 'app' === $a['fonte'];
 	$link = $app ? add_query_arg( array( 'utm_source' => 'influencee.it', 'utm_medium' => 'referral', 'utm_campaign' => 'offerte_lavoro' ), $a['url'] ) : $a['url'];
-	$lock = $app && $anteprima;
+	$lock = $anteprima && ( $app || ( 'offerte' === $a['fonte'] && '' === $a['azienda'] ) );
 	$new  = $a['pubblicato'] && strtotime( $a['pubblicato'] ) > time() - 7 * DAY_IN_SECONDS;
 	$h    = '<article class="infn-job"><div class="infn-job-top"><div class="infn-plat">';
 	foreach ( array_slice( $a['piattaforme'], 0, 3 ) as $pl ) {
@@ -165,7 +165,7 @@ function infn_card( $a, $anteprima ) {
 	}
 	$meta[] = '<div><dt>Entro</dt><dd>' . ( $a['scadenza'] ? $e( date_i18n( 'j M', strtotime( $a['scadenza'] ) ) ) : 'Aperta' ) . '</dd></div>';
 	$h .= '<dl class="infn-meta" style="grid-template-columns:repeat(' . count( $meta ) . ',1fr)">' . implode( '', $meta ) . '</dl>';
-	$h .= '<div class="infn-job-foot"><small>' . $e( $a['citta'] ? $a['citta'] : 'Tutta Italia' ) . '</small><a class="inf-btn" href="' . esc_url( $link ) . '" data-track="begin_job_apply">' . ( $lock ? 'Accedi e candidati' : 'Vedi l’offerta' ) . '</a></div>';
+	$h .= '<div class="infn-job-foot"><small>' . $e( $a['citta'] ? $a['citta'] : 'Tutta Italia' ) . '</small><a class="inf-btn" href="' . esc_url( $link ) . '" data-track="' . ( 'offerte' === $a['fonte'] ? 'job_teaser_click' : 'begin_job_apply' ) . '">' . ( 'offerte' === $a['fonte'] ? 'Vedi l’offerta' : ( $lock ? 'Accedi e candidati' : 'Vedi l’offerta' ) ) . '</a></div>';
 	return $h . '</article>';
 }
 

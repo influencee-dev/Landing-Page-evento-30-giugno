@@ -215,6 +215,7 @@ function infn_ricevi_bozza( WP_REST_Request $req ) {
 		}
 	}
 	update_post_meta( $id, '_infn_stato', $stato );
+	do_action( 'infn_bozza_ricevuta', $id, $d, $stato ); // Influencee Offerte: diventa un'offerta «da rivedere»
 	if ( ! $claim ) {
 		$claim = inft_app_link( '/iscriviti/brand/', 'pubblica_offerta', array( 'da' => 'annuncio' ) );
 	}

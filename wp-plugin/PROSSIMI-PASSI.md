@@ -220,3 +220,23 @@ Testi in `wp-plugin/influencee-articoli/riscritti/<slug>.html`, voci (title, des
 push. La voce di `voci.php` vale solo quando si vede il testo nuovo. Segnaposti immagine con quarto campo di
 riserva (screenshot già caricati) nell'articolo Meta Business Suite. Da far controllare al commercialista:
 /come-funziona-il-pagamento-degli-influencer/ (ritenute, forfettario, ATECO 73.11.03).
+
+## Influencee Offerte 1.0.0 (01/11/2026) — al posto di WP Job Manager
+
+Plugin a parte (`wp-plugin/influencee-offerte`, usa Core e Annunci). Menu «Offerte lavoro» in WordPress:
+- il team inserisce le offerte con gli stessi campi dell'app (compenso, piattaforme, contenuti, città, scadenza);
+  contatto dell'azienda riservato, mai sul sito;
+- le offerte mandate dalle aziende da /pubblica-offerta-lavoro/ arrivano «da rivedere» (email all'admin) se
+  l'app non le ha ricevute; se l'app le riceve, l'azienda le pubblica nell'app e arrivano dall'elenco dell'app;
+- pagina per ogni offerta /offerte-lavoro-influencer/<offerta>/ (titolo, compenso, contenuti, inizio del brief;
+  azienda e brief completo nell'app), «Candidati nell'app»; in bacheca, pagine città e sitemap;
+- scadenza automatica; chiusa = «Offerta chiusa» noindex per 30 giorni, poi 301 a città o bacheca;
+- «Importa e collega»: importa da WP Job Manager come bozze (default dal 01/01/2026: le 2 offerte del 2026);
+  campo per l'indirizzo dell'app che riceve le offerte pubblicate (firma HMAC con il segreto di Annunci).
+Annunci 1.4.0: filtro `infn_annunci_lista`, azione `infn_bozza_ricevuta`. Aggiornamenti 1.1.0: «installa» in
+`aggiornamenti.json` aggiunge e attiva un plugin nuovo della famiglia (con ritiro se il sito si rompe).
+
+Da fare: 1) importare le 2 offerte 2026 e controllarle; 2) disattivare WP Job Manager (poi eliminarlo, su
+conferma); 3) nell'app: indirizzo che riceve le offerte del sito e restituisce il link dell'annuncio, elenco
+pubblico degli annunci (annunci_feed), pagina di candidatura che legge ?offerta=; 4) JobPosting per Google solo
+per offerte pagate con azienda visibile (oggi nessun dato strutturato di offerta: l'azienda è nascosta).
