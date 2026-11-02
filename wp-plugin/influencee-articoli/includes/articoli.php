@@ -574,8 +574,9 @@ function inft_article_clean_page( $html ) {
 		if ( ! preg_match( '#<link[^>]+rel=["\']canonical["\']#i', $html ) ) {
 			$add .= '<link rel="canonical" href="' . esc_url( $a['url'] ) . '">' . "\n";
 		}
-		if ( $a['image'] && ! preg_match( '#<meta[^>]+property=["\']og:image["\']#i', $html ) ) {
-			$add .= '<meta data-inft property="og:image" content="' . esc_url( $a['image'] ) . '">' . "\n" . '<meta data-inft name="twitter:card" content="summary_large_image">' . "\n";
+		$share = inft_article_immagine_condivisione( $post, $a );
+		if ( $share && ! preg_match( '#<meta[^>]+property=["\']og:image["\']#i', $html ) ) {
+			$add .= '<meta data-inft property="og:image" content="' . esc_url( $share ) . '">' . "\n" . '<meta data-inft property="og:image:alt" content="' . esc_attr( $a['title'] ) . '">' . "\n" . '<meta data-inft name="twitter:card" content="summary_large_image">' . "\n" . '<meta data-inft name="twitter:image" content="' . esc_url( $share ) . '">' . "\n";
 		}
 		if ( $add ) {
 			$html = preg_replace( '#</head>#i', $add . '</head>', $html, 1 );
@@ -926,4 +927,22 @@ function inft_fix_mojibake( $s, $force = false ) {
 		},
 		$s
 	);
+}
+
+/**
+ * Immagine per l'anteprima dei link condivisi (LinkedIn, WhatsApp…): immagine in evidenza, altrimenti la prima
+ * immagine JPG/PNG dell'articolo, altrimenti lo screenshot dell'hero della home (Influencee Tema). Il WebP non
+ * va bene: alcuni social non lo mostrano nelle anteprime.
+ */
+function inft_article_immagine_condivisione( $post, $a ) {
+	if ( ! empty( $a['image'] ) && ! preg_match( '#\.webp(\?|$)#i', $a['image'] ) ) {
+		return $a['image'];
+	}
+	if ( preg_match( '#<img[^>]+src=["\']((?:https?:)?//[^"\']+/wp-content/uploads/[^"\']+\.(?:jpe?g|png))["\']#i', (string) $post->post_content, $m ) ) {
+		return $m[1];
+	}
+	if ( defined( 'INFE_URL' ) && defined( 'INFE_DIR' ) && file_exists( INFE_DIR . 'assets/condivisione/home.jpg' ) ) {
+		return INFE_URL . 'assets/condivisione/home.jpg';
+	}
+	return ! empty( $a['image'] ) ? $a['image'] : '';
 }
