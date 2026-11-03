@@ -64,6 +64,22 @@ gtag('config', <?php echo wp_json_encode( $id ); ?>, { linker: { domains: <?php 
 	1
 );
 
+/*
+ * Tempi reali degli utenti (Core Web Vitals → evento GA4 «web_vitals», assets/inft-vitals.js).
+ * Su tutte le pagine col tag, anche quelle Elementor senza inft-track.js: sono loro le «lente» di Search Console.
+ * File piccolo, in fondo alla pagina e «defer»: misura dopo il caricamento e invia quando la pagina si chiude.
+ * Si spegne con add_filter( 'inft_vitals_attivo', '__return_false' ).
+ */
+add_action(
+	'wp_enqueue_scripts',
+	function () {
+		if ( inft_ga4_attivo() && apply_filters( 'inft_vitals_attivo', true ) ) {
+			wp_enqueue_script( 'inft-vitals', INFC_URL . 'assets/inft-vitals.js', array(), INFC_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+		}
+	},
+	20
+);
+
 /* ─── Banner del consenso ─── */
 
 add_action(

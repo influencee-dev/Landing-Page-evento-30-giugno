@@ -195,3 +195,14 @@ della visita in corso. Codice: `wp-plugin/influencee-core/includes/percorso.php`
 | `post_job_click` | «Pubblica un'offerta gratis» dalle pagine città | aziende che arrivano dalle pagine per creator | quanto le pagine creator portano anche brand |
 
 `page_type` delle pagine città: `offerte_lavoro_citta`.
+
+## Tempi reali di caricamento (Core Web Vitals, Core `assets/inft-vitals.js`, 03/11/2026)
+
+| Evento | Quando | Perché conta | Decisione |
+|---|---|---|---|
+| `web_vitals` (`metric_name` = `LCP` / `INP` / `CLS` / `FCP` / `TTFB`, `metric_value` in ms arrotondati, CLS con 3 decimali, `metric_rating` = `good` / `needs-improvement` / `poor`, `page_type`, `page_path`) | una volta per metrica per pagina, quando la pagina viene chiusa o nascosta; su tutte le pagine col tag GA4, anche quelle Elementor | sono le stesse misure che Google usa in Search Console («pagine lente», dal 21/10/2026 247 URL) ma con i nostri visitatori, ogni giorno e per tipo di pagina | quale tipo di pagina sistemare per primo (server se `TTFB` è `poor`, immagini o caratteri se lo è solo `LCP`, JavaScript se lo è `INP`) e se le correzioni funzionano senza aspettare i 28 giorni di Search Console |
+
+Da registrare in GA4 come dimensioni personalizzate (ambito evento) `metric_name` e `metric_rating`, come metrica
+personalizzata `metric_value` (unità standard). Esplorazione: righe `page_type`, colonne `metric_rating`, filtro
+`metric_name = LCP`; la quota di `good` deve superare il 75%, la soglia di Google. Passa da gtag come gli altri eventi
+(Consent Mode). Si spegne con il filtro `inft_vitals_attivo`.
