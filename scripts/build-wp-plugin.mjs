@@ -27,6 +27,18 @@ mkdirSync(join(D('influencee-pagine'), 'pages'), { recursive: true });
 // 1. bundle client (JS + CSS)
 await build({ configFile: join(ROOT, 'vite.wp-plugin.config.ts'), logLevel: 'warn' });
 copyFileSync(join(ROOT, 'dist-wp/build/influencee-tools.js'), join(OUT, 'assets/influencee-tools.js'));
+// 1b. caricatore leggero (pochi KB): tracciamento subito, bundle React dopo la prima schermata (velocità: Core Web Vitals)
+await build({
+  configFile: false,
+  logLevel: 'warn',
+  publicDir: false,
+  build: {
+    outDir: 'dist-wp/build-boot',
+    emptyOutDir: true,
+    rollupOptions: { input: join(ROOT, 'src/influencee/v2/embed/boot.ts'), output: { format: 'iife', entryFileNames: 'inft-boot.js' } },
+  },
+});
+copyFileSync(join(ROOT, 'dist-wp/build-boot/inft-boot.js'), join(OUT, 'assets/inft-boot.js'));
 
 // 2. CSS isolato: niente @layer (il tema li batterebbe), ogni regola sotto #influencee-tools,
 //    via i font importati (li carica WordPress), html/body/:root → il contenitore.
@@ -102,6 +114,6 @@ for (const slug of PLUGINS) {
   }
   writeFileSync(join(CONS, 'versioni.json'), JSON.stringify(man, null, 1) + '\n');
 }
-console.log(`ok · pagine ${pages.length} · immagini ${imgs.size} · js ${kb(join(OUT, 'assets/influencee-tools.js'))} KB · css ${kb(join(OUT, 'assets/influencee-tools.css'))} KB`);
+console.log(`ok · pagine ${pages.length} · immagini ${imgs.size} · js ${kb(join(OUT, 'assets/influencee-tools.js'))} KB (caricatore ${kb(join(OUT, 'assets/inft-boot.js'))} KB) · css ${kb(join(OUT, 'assets/influencee-tools.css'))} KB`);
 for (const slug of PLUGINS) console.log(`  ${slug.padEnd(20)} ${String(kb(join(ROOT, 'dist-wp', `${slug}.zip`))).padStart(5)} KB`, slug === 'influencee-tools' || slug === 'influencee-pagine' ? `· ${Object.keys(meta[slug]).length} pagine` : '');
 console.log('  tool:', Object.keys(meta['influencee-tools']).join(' '));

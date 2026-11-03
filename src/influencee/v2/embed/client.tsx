@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { startTransition, useLayoutEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { initEmbedAnalytics } from '../analytics';
+import { initEmbedAnalytics, setEmbedContext } from '../analytics';
 import { MOTION } from '../../ds';
 import { ENV } from '../env';
 import { resolve } from '../pages';
 import { CreatorProfile } from '../profile';
+import { animaSezioniSotto } from './boot-anim';
 import { wpHref } from './routes';
 import './embed.css';
 import '../v2.css';
 
 /* Bundle del plugin WordPress: sostituisce l'HTML pre-renderizzato con la
    versione interattiva della stessa pagina (calcolatori, filtri, FAQ, lead).
-   Il contenitore è <div id="influencee-tools" data-route="/percorso/">. */
+   Il contenitore è <div id="influencee-tools" data-route="/percorso/">.
+   Lo carica il caricatore leggero (boot.ts) dopo la prima schermata: tracciamento e
+   dissolvenze li ha già avviati lui. Caricato da solo (HTML vecchio in cache) fa tutto come prima. */
 
 ENV.embed = true;
 
@@ -28,24 +31,13 @@ function fixLinks(root: HTMLElement, assets: string) {
   new MutationObserver(fix).observe(root, { subtree: true, childList: true, attributes: true, attributeFilter: ['href', 'src'] });
 }
 
-/** Dissolvenza leggera (CSS) per le sezioni sotto la prima schermata, quando ci si arriva scorrendo. */
-function animaSezioniSotto(root: HTMLElement) {
-  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const io = new IntersectionObserver(
-    (entries) => entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in-anim-on');
-        io.unobserve(e.target);
-      }
-    }),
-    { rootMargin: '0px 0px -60px 0px' },
-  );
-  root.querySelectorAll<HTMLElement>('section.in-section').forEach((s) => {
-    if (s.getBoundingClientRect().top > window.innerHeight) {
-      s.classList.add('in-anim');
-      io.observe(s);
-    }
-  });
+/** Avvisa il caricatore appena React ha sostituito l'HTML statico (prima che il browser disegni). */
+function Committed({ root, children }: { root: HTMLElement; children: React.ReactNode }) {
+  useLayoutEffect(() => {
+    window.__inftBoot?.done(root);
+    requestAnimationFrame(() => requestAnimationFrame(() => animaSezioniSotto(root)));
+  }, [root]);
+  return <>{children}</>;
 }
 
 function boot() {
@@ -56,11 +48,15 @@ function boot() {
   const el = path.startsWith('/creator/') && profile ? <CreatorProfile p={profile} /> : resolve(path)?.el;
   if (!el) return;
   const assets = window.INFLUENCEE_TOOLS?.assets ?? '';
-  initEmbedAnalytics(root, path);
+  const loader = window.__inftBoot;
+  if (loader) setEmbedContext(path); // ascoltatori GA4 già attivi nel caricatore
+  else initEmbedAnalytics(root, path);
   fixLinks(root, assets);
   MOTION.embed = true; // niente dissolvenze di motion: non deve sparire niente di ciò che è già sullo schermo
-  createRoot(root).render(el);
-  requestAnimationFrame(() => requestAnimationFrame(() => animaSezioniSotto(root)));
+  loader?.before(root);
+  const reactRoot = createRoot(root);
+  // render a pezzi (transition): l'HTML statico resta visibile e la pagina risponde ai tocchi mentre React lavora
+  startTransition(() => reactRoot.render(<Committed root={root}>{el}</Committed>));
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

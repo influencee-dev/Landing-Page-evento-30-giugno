@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { BadgeCheck, Heart, MessageCircle, Music2, Play, Send } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Marquee, Section, SectionHeader, SocialProof, TYPE, entrance, reveal, type Tone } from '../ds';
 import { CREATORS_DB, NICHE_INFO, REELS, fmtFollowers, type Creator, type WorkReel } from '../site/data';
+import { asset } from '../v2/env';
 
 /* ════════════════════════════════════════════════════════════════════
    REEL — card verticale con interfaccia Reels/TikTok ricostruita in HTML:
@@ -86,15 +87,17 @@ export function ReelCard({ c, video, delay = 0, className = '' }: { c: Creator; 
 /* Reel reale: copertina di un contenuto realizzato per un cliente.
    Stessa interfaccia della ReelCard ma solo settore e tipo di attività,
    senza nomi, follower o numeri. */
-export function WorkReelCard({ r, delay = 0, className = '' }: { r: WorkReel; delay?: number; className?: string }) {
+export function WorkReelCard({ r, delay = 0, className = '', priority }: { r: WorkReel; delay?: number; className?: string; priority?: 'high' | 'eager' }) {
   const reduce = useReducedMotion();
   return (
     <div className={`relative aspect-[9/16] w-full overflow-hidden rounded-[22px] bg-ink text-white shadow-float ${className}`}>
+      {/* priority: reel nella prima schermata (immagine LCP) → niente lazy; 'high' = scaricata per prima */}
       <motion.img
-        src={r.cover}
+        src={asset(r.cover)}
         alt={`Reel realizzato per: ${r.label}`}
         draggable={false}
-        loading="lazy"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority === 'high' ? 'high' : undefined}
         className="absolute inset-0 h-full w-full select-none object-cover"
         animate={reduce ? undefined : { scale: [1, 1.1] }}
         transition={{ duration: 9, delay, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
@@ -244,7 +247,7 @@ export function HeroReels({
       <Marquee className="mt-14 pb-8" speed="animate-[marquee_45s_linear_infinite]">
         {list.map((r, i) => (
           <a key={r.id} href="#casi-studio" className={`block w-44 shrink-0 sm:w-52 ${i % 2 ? 'translate-y-6' : ''}`}>
-            <WorkReelCard r={r} delay={i * 0.5} />
+            <WorkReelCard r={r} delay={i * 0.5} priority={i < 3 ? 'high' : undefined} />
           </a>
         ))}
       </Marquee>

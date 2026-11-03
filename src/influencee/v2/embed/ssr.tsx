@@ -28,7 +28,9 @@ function unhide(html: string) {
 function rewrite(html: string) {
   return html
     .replace(/href="(#\/[^"]*)"/g, (_m, h: string) => `href="${wpHref(h)}"`)
-    .replace(/src="(?:\.\/|\/)?([a-z0-9_-]+\.(?:webp|png|jpg|svg))"/gi, 'src="{{ASSETS}}/img/$1"');
+    .replace(/src="(?:\.\/|\/)?([a-z0-9_-]+\.(?:webp|png|jpg|svg))"/gi, 'src="{{ASSETS}}/img/$1"')
+    // anteprime delle immagini che React aggiunge da solo: senza la cartella del plugin diventavano 404 di WordPress
+    .replace(/(<link rel="preload" as="image" href=")(?:\.\/|\/)?([a-z0-9_-]+\.(?:webp|png|jpg|svg))"/gi, '$1{{ASSETS}}/img/$2"');
 }
 
 export function renderAll() {

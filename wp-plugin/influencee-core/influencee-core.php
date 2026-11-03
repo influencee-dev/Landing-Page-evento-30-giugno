@@ -475,11 +475,20 @@ add_action(
 		}
 		inft_enqueue_fonts();
 		wp_enqueue_style( 'inft', INFC_URL . 'assets/influencee-tools.css', array( 'inft-fonts' ), INFC_VERSION );
-		wp_enqueue_script( 'inft', INFC_URL . 'assets/influencee-tools.js', array(), INFC_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+		// caricatore leggero (pochi KB): tracciamento GA4 subito; il bundle React (influencee-tools.js, ~800 KB)
+		// lo scarica dopo la prima schermata, al primo segno di interazione o poco dopo il caricamento
+		wp_enqueue_script( 'inft', INFC_URL . 'assets/inft-boot.js', array(), INFC_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 		$data = array(
 			'assets' => untrailingslashit( INFC_URL . 'assets' ),
+			'bundle' => add_query_arg( 'ver', INFC_VERSION, INFC_URL . 'assets/influencee-tools.js' ),
 			'path'   => $page['path'],
 		);
+		// emoji di WordPress (script di 20 KB): i browser le mostrano da soli; restano nella pagina delle emoticon
+		if ( '/social-media-tool/emoticon-da-copiare/' !== $page['path'] ) {
+			remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+			remove_action( 'wp_print_styles', 'print_emoji_styles' );
+			wp_dequeue_style( 'wp-emoji-styles' );
+		}
 		$data = (array) apply_filters( 'inft_client_data', $data, $page ); // es. creator, profilo, elenco (Influencee Pagine)
 		wp_add_inline_script( 'inft', 'window.INFLUENCEE_TOOLS=' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . ';', 'before' );
 	},

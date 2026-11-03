@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { motion, useInView } from 'motion/react';
 import { ArrowUpRight, Menu, Star, X } from 'lucide-react';
 import { BRAND, NAV, CTA } from './content';
+import { asset } from './v2/env';
 
 /* ════════════════════════════════════════════════════════════════════
    DESIGN SYSTEM INFLUENCEE
@@ -295,7 +296,7 @@ export function AvatarStack({ src, size = 'h-8 w-8' }: { src: string[]; size?: s
   return (
     <span className="flex -space-x-2">
       {src.map((s, i) => (
-        <img key={i} src={s} alt="" className={`${size} rounded-full object-cover ring-2 ${dark ? 'ring-ink' : 'ring-white'}`} />
+        <img key={i} src={asset(s)} alt="" className={`${size} rounded-full object-cover ring-2 ${dark ? 'ring-ink' : 'ring-white'}`} />
       ))}
     </span>
   );

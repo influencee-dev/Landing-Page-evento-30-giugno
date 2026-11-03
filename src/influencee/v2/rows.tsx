@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Baby, BadgeCheck, BookOpen, Camera, Car, Check, ChevronDown, ChevronRight, Coffee, Dumbbell, FileText, Gamepad2, HeartPulse, Laugh, MousePointerClick, Music2, Megaphone, Users, LayoutGrid, BarChart3, PawPrint, PiggyBank, Plane, Search, Shirt, Smartphone, Sofa, Sparkles, UtensilsCrossed } from 'lucide-react';
 import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionHeader, TYPE, entrance, reveal, useInk, type Tone } from '../ds';
 import { faqOpen, track } from './analytics';
-import { ENV } from './env';
+import { ENV, asset } from './env';
 import { setToolContext } from './tools';
 import { APP, CATEGORIES, cityPath, regionPath, FACTS, MARKET, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
 
@@ -101,7 +101,7 @@ export function ClientsProof({ className = 'mt-8' }: { className?: string }) {
     <div className={`flex flex-wrap items-center justify-center gap-4 ${className}`}>
       <div className="flex -space-x-3">
         {people.map((p, i) => (
-          <img key={p} src={p} alt="" className="h-11 w-11 rounded-full object-cover object-[50%_22%] ring-[3px] ring-ink" style={{ zIndex: people.length - i }} />
+          <img key={p} src={asset(p)} alt="" className="h-11 w-11 rounded-full object-cover object-[50%_22%] ring-[3px] ring-ink" style={{ zIndex: people.length - i }} />
         ))}
         <span className="flex h-11 w-11 items-center justify-center rounded-full bg-acid font-heading text-xs font-semibold text-ink ring-[3px] ring-ink">+5K</span>
       </div>

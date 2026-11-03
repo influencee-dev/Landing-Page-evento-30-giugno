@@ -110,6 +110,9 @@ function keyEvents(kind: string, params: Params) {
 
 /* ─── Ascoltatori globali ───────────────────────────────────────── */
 let started = false;
+/** true mentre il caricatore delle pagine WordPress ripete un clic fatto prima che la pagina fosse interattiva
+ *  (il clic originale è già stato tracciato: niente evento doppio). */
+export const REPLAY = { on: false };
 export function initAnalytics() {
   if (started || typeof window === 'undefined') return;
   started = true;
@@ -139,7 +142,7 @@ function bindClicks(root: Document | HTMLElement) {
     'click',
     (e) => {
       const el = (e.target as Element | null)?.closest('a, button');
-      if (!el || el.hasAttribute('data-track-ignore')) return;
+      if (!el || el.hasAttribute('data-track-ignore') || REPLAY.on) return;
       const href = el instanceof HTMLAnchorElement ? el.getAttribute('href') ?? '' : '';
       const text = (el.getAttribute('aria-label') || el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80);
       const where = locate(el);
@@ -168,7 +171,7 @@ function bindSubmits(root: Document | HTMLElement) {
     'submit',
     (e) => {
       const form = e.target as HTMLFormElement;
-      if (form.hasAttribute('data-track-ignore')) return;
+      if (form.hasAttribute('data-track-ignore') || REPLAY.on) return;
       const where = locate(form);
       const name = form.getAttribute('data-form') || 'modulo';
       track('form_submit', { form_name: name, ...where });
@@ -206,6 +209,17 @@ export function initEmbedAnalytics(root: HTMLElement, path: string) {
   observeSections(root);
 }
 
+/** Solo il contesto di pagina (per gli eventi inviati dai componenti), senza ascoltatori:
+ *  nelle pagine WordPress gli ascoltatori li mette il caricatore leggero (embed/boot.ts). */
+export function setEmbedContext(path: string) {
+  ctx = { page_path: path, ...pageTypeOf(path) };
+}
+
+/** Sezioni di nuovo osservate dopo che React ha sostituito l'HTML statico (stesse sezioni: niente eventi doppi). */
+export function observeEmbedSections(root: HTMLElement) {
+  observeSections(root, true);
+}
+
 /* ─── Cambio pagina (pagina virtuale) e sezioni viste ──────────── */
 let observer: IntersectionObserver | null = null;
 let firstPage = true;
@@ -226,9 +240,11 @@ export function pageView(path: string, title: string) {
 }
 
 /** Sezioni viste almeno al 40%, una volta per pagina. */
-function observeSections(scope: Document | HTMLElement) {
+let seenIdx = new Set<number>();
+function observeSections(scope: Document | HTMLElement, keep = false) {
   observer?.disconnect();
   const seen = new Set<Element>();
+  if (!keep) seenIdx = new Set();
   const all = () => Array.from(scope.querySelectorAll('section'));
   observer = new IntersectionObserver(
     (entries) => {
@@ -236,8 +252,11 @@ function observeSections(scope: Document | HTMLElement) {
         if (!en.isIntersecting || seen.has(en.target)) return;
         seen.add(en.target);
         const list = all();
+        const idx = list.indexOf(en.target as HTMLElement);
+        if (seenIdx.has(idx)) return;
+        seenIdx.add(idx);
         const name = en.target.querySelector('h1, h2')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 60) ?? 'senza_titolo';
-        track('section_view', { section_name: name, section_index: list.indexOf(en.target as HTMLElement) + 1, sections_total: list.length });
+        track('section_view', { section_name: name, section_index: idx + 1, sections_total: list.length });
       });
     },
     { threshold: 0.4 },
