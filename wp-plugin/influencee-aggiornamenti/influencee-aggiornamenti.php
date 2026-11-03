@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Aggiornamenti
  * Description:       Aggiorna da solo i plugin Influencee dal repository GitHub del sito: ogni ora controlla le versioni pubblicate, scarica gli zip, ne verifica l'impronta, installa, svuota la cache e controlla che il sito risponda; se non risponde rimette la versione precedente. Nessuna chiave da gestire.
- * Version:           1.3.0
+ * Version:           1.3.1
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFU_VERSION', '1.3.0' );
+define( 'INFU_VERSION', '1.3.1' );
 define( 'INFU_DIR', plugin_dir_path( __FILE__ ) );
 require_once INFU_DIR . 'includes/misure.php';
 require_once INFU_DIR . 'includes/riscaldamento.php';

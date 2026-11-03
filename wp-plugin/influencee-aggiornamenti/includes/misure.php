@@ -18,6 +18,15 @@ function infu_misura_file() {
 
 /** Mette il mu-plugin una volta (per versione della misura). */
 function infu_misura_avvia() {
+	/* 1.3.1 (03/11): i dati raccolti bastano, la misura si spegne prima delle 48 ore (registra a ogni richiesta) */
+	if ( 'fine' !== get_option( 'infu_misura_v' ) ) {
+		if ( file_exists( infu_misura_file() ) ) {
+			@unlink( infu_misura_file() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors,WordPress.WP.AlternativeFunctions
+		}
+		update_option( 'infu_misura_v', 'fine', false );
+		infu_log( 'Misura dei tempi di caricamento spenta (dati raccolti).' );
+	}
+	return;
 	if ( '1' === get_option( 'infu_misura_v' ) || ! wp_is_file_mod_allowed( 'infu_misura' ) ) {
 		return;
 	}
