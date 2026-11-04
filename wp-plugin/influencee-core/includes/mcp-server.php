@@ -172,7 +172,7 @@ function inft_mcp_strumenti() {
 	if ( function_exists( 'wp_get_abilities' ) ) {
 		foreach ( wp_get_abilities() as $a ) {
 			$name = $a->get_name();
-			if ( 0 !== strpos( $name, 'influencee/' ) || 'influencee/aggiorna-plugin' === $name ) {
+			if ( ( 0 !== strpos( $name, 'influencee/' ) && 'influencee-pulizia/controllo' !== $name ) || 'influencee/aggiorna-plugin' === $name ) { // 2.3.1: anche il controllo di Pulizia, solo lettura (la pulizia resta dalla pagina in Strumenti)
 				continue; // lo zip si carica con POST /influencee/v1/plugin
 			}
 			$schema = $a->get_input_schema();
