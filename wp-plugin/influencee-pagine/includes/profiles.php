@@ -84,7 +84,10 @@ function inft_profile_of( $post ) {
 	$handle = $handle ? $handle : sanitize_title( $name );
 	$image  = ! empty( $igm['image'] ) ? (string) $igm['image'] : $base['image'];
 	$fol    = ! empty( $igm['followers_n'] ) ? (int) $igm['followers_n'] : (int) $base['followers'];
-	$tierId = ! empty( $igm['tier'] ) && isset( $d['tiers'][ strtolower( $igm['tier'] ) ] ) ? strtolower( $igm['tier'] ) : inft_tier_of( $fol );
+	// Fascia dai follower, come nelle schede dell'elenco (creators.php). La fascia salvata nei dati del profilo vale
+	// solo se mancano i follower: era vecchia (Martina Capone, 37,4K follower: «Mid» nella pagina, «Micro» nell'elenco,
+	// con il costo medio dei Mid), corretta il 7/11/2026.
+	$tierId = $fol > 0 ? inft_tier_of( $fol ) : ( ! empty( $igm['tier'] ) && isset( $d['tiers'][ strtolower( $igm['tier'] ) ] ) ? strtolower( $igm['tier'] ) : '' );
 	$tier   = isset( $d['tiers'][ $tierId ] ) ? $d['tiers'][ $tierId ] : array( 'name' => '', 'range' => '', 'er' => '', 'cost' => '' );
 
 	// categoria: termine del profilo → categoria del sito
