@@ -96,6 +96,48 @@ function infc_manda_email( $to, $to_name, $subject, $html, $text, $tag ) {
 	return wp_mail( $to, $subject, $html, $headers ) ? 'wp_mail' : new WP_Error( 'mail', 'wp_mail non ha inviato' );
 }
 
+/** Errore di wp_mail nel registro (per capire perché un'email non parte). */
+add_action(
+	'wp_mail_failed',
+	function ( $err ) {
+		if ( is_wp_error( $err ) ) {
+			inft_preventivo_log( 'wp_mail errore: ' . $err->get_error_message() );
+		}
+	}
+);
+
+/** Diagnosi per lo strumento MCP influencee/preventivo (nessuna chiave nel risultato). */
+function infc_preventivo_diagnosi() {
+	$c   = infc_preventivo_cfg();
+	$own = '' !== trim( (string) $c['preventivo_brevo_key'] );
+	$o   = get_option( 'sib_main_option' );
+	$out = array(
+		'email_attiva'   => (int) $c['preventivo_email'],
+		'mittente'       => $c['preventivo_nome'] . ' <' . $c['preventivo_mittente'] . '>',
+		'firma'          => $c['preventivo_ruolo'] . ' · ' . $c['preventivo_telefono'],
+		'team'           => $c['preventivo_team'],
+		'lista_brevo'    => (int) $c['preventivo_brevo_lista'],
+		'chiave_brevo'   => infc_brevo_key() ? ( $own ? 'impostazioni' : 'plugin Brevo del sito' ) : 'nessuna (si usa wp_mail)',
+		'plugin_brevo_opzioni' => is_array( $o ) ? array_keys( $o ) : 'assenti',
+		'registro'       => array_reverse( (array) get_option( 'infc_preventivo_log', array() ) ),
+	);
+	if ( infc_brevo_key() ) {
+		$r = wp_remote_get( 'https://api.brevo.com/v3/senders', array( 'timeout' => 8, 'headers' => array( 'api-key' => infc_brevo_key(), 'Accept' => 'application/json' ) ) );
+		if ( is_wp_error( $r ) ) {
+			$out['mittenti_brevo'] = 'errore: ' . $r->get_error_message();
+		} else {
+			$j = json_decode( (string) wp_remote_retrieve_body( $r ), true );
+			$out['mittenti_brevo'] = isset( $j['senders'] ) ? array_map(
+				function ( $x ) {
+					return ( isset( $x['email'] ) ? $x['email'] : '' ) . ( ! empty( $x['active'] ) ? ' (attivo)' : ' (non attivo)' );
+				},
+				$j['senders']
+			) : 'risposta ' . wp_remote_retrieve_response_code( $r );
+		}
+	}
+	return $out;
+}
+
 /** Ultime 30 righe di registro (visibili nelle impostazioni). */
 function inft_preventivo_log( $msg ) {
 	$log   = (array) get_option( 'infc_preventivo_log', array() );

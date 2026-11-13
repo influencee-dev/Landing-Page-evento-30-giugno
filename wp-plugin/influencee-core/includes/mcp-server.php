@@ -198,6 +198,13 @@ function inft_mcp_strumenti() {
 		'inputSchema' => array( 'type' => 'object', 'properties' => array( 'valori' => array( 'type' => 'object' ), 'conferma' => array( 'type' => 'boolean' ) ), 'required' => array( 'valori', 'conferma' ) ),
 		'run'         => 'inft_mcp_imposta',
 	);
+	$t['influencee/preventivo'] = array(
+		'description' => 'Calcolatore del preventivo: impostazioni dell\'email automatica (senza chiavi), da dove viene la chiave Brevo, mittenti verificati in Brevo e ultime righe del registro delle richieste. Solo lettura.',
+		'inputSchema' => array( 'type' => 'object', 'properties' => new stdClass() ),
+		'run'         => function () {
+			return function_exists( 'infc_preventivo_diagnosi' ) ? infc_preventivo_diagnosi() : new WP_Error( 'inft_preventivo', 'preventivo.php non caricato' );
+		},
+	);
 	$t['influencee/plugin-elenco'] = array(
 		'description' => 'Elenco dei plugin installati (file, nome, versione, attivo) e tema attivo.',
 		'inputSchema' => array( 'type' => 'object', 'properties' => new stdClass() ),
