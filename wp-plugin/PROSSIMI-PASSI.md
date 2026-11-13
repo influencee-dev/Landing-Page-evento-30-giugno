@@ -1,5 +1,18 @@
 # Lavori in corso e prossimi passi (aggiornato il 13/11/2026)
 
+## ✅ Email del preventivo via Brevo (13/11/2026, quarta parte) — Core 2.3.5 e 2.3.6, installati subito via MCP
+
+- Prima prova (Core 2.3.4): le email partivano con wp_mail dal server Netsons a nome di giorgia@influencee.it e non
+  arrivavano: l'SPF di influencee.it autorizza solo Zoho (`v=spf1 include:zohomail.eu ~all`).
+- Core 2.3.5: strumento MCP `influencee__preventivo` (sola lettura: impostazioni, origine della chiave Brevo,
+  mittenti Brevo, registro; errori di wp_mail nel registro).
+- Core 2.3.6: la chiave Brevo si legge anche da `sib_api_key_v3` (plugin Brevo 3.x «mailin», attivo sul sito).
+  giorgia@influencee.it è un mittente **attivo** in Brevo; il dominio ha il codice di verifica Brevo.
+  Seconda prova (verso l'alias giorgia@socialee.it): registro `{"guida":"brevo","team":"brevo"}`.
+- L'avviso al team va a influencee2019@gmail.com (email amministratore di WordPress): si cambia in Impostazioni → Preventivo.
+- Consiglio: aggiungere Brevo all'SPF (`include:spf.brevo.com`) per una consegna più sicura.
+
+
 ## ✅ Correzioni di Giorgia al calcolatore e all'email (13/11/2026, terza parte) — Core 2.3.4, Pagine 2.0.12, Tools 2.0.6
 
 - **Prezzi solo dopo il modulo**: nessun prezzo del listino nelle pagine né nei passi del calcolatore (nemmeno
