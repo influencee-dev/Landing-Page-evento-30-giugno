@@ -1,5 +1,23 @@
 # Lavori in corso e prossimi passi (aggiornato il 13/11/2026)
 
+## ✅ Correzioni di Giorgia al calcolatore e all'email (13/11/2026, terza parte) — Core 2.3.4, Pagine 2.0.12, Tools 2.0.6
+
+- **Prezzi solo dopo il modulo**: nessun prezzo del listino nelle pagine né nei passi del calcolatore (nemmeno
+  nascosto nell'HTML). Dopo «Calcola il preventivo» compaiono la stima al mese (creator × contenuti × fascia, più
+  UGC, con la maggiorazione di nicchia) e il listino indicativo, creati in quel momento. Tolti il vecchio
+  listino GESTITO (500 € al mese a influencer…) da FAQ e pagine /preventivo-campagne/ e /agenzia-influencer/,
+  il vecchio calcolatore `PreventivoPanel` e la riga in llms.txt. Restano solo le fasce di budget del menu e i
+  prezzi dell'abbonamento alla piattaforma (19/49/199 €).
+- **UGC da 120 €** (120–300 € a video).
+- **Ultimo passo**: nome, cognome, email, tipo di azienda (brand o azienda, e-commerce, agenzia, startup, negozio o
+  attività locale, professionista o studio, altro), tutti obbligatori. Telefono e nome dell'azienda tolti.
+- **Email**: mittente **giorgia@influencee.it**; firma copiata da Zoho (email inviate da giorgia@influencee.it il
+  12/11): nome in fucsia, «CEO & CO-Founder», email, telefono, nuovo logo e icone Instagram/LinkedIn (immagini
+  già su influencee.it/wp-content/uploads/). Carattere Manrope come in Zoho. P.S. con la stima vista nel
+  calcolatore. All'avviso al team: nome e cognome, tipo di azienda, stima mostrata.
+- Ruolo e telefono della firma modificabili in Influencee → Impostazioni → Preventivo.
+
+
 ## ✅ Calcolatore del preventivo a passi ovunque + email con la guida (13/11/2026, seconda parte) — Core 2.3.3, Pagine 2.0.11, Tools 2.0.5, Articoli 2.5.2
 
 Richiesta di Giorgia: il calcolatore in tutte le pagine dei brand e negli articoli; deve sembrare un preventivo fatto

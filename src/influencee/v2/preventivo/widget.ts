@@ -1,4 +1,4 @@
-import { BUDGET, FASCE, UGC, range } from './listino';
+import { BUDGET, FASCE, NICCHIA, TIPI_AZIENDA, UGC, euro, range } from './listino';
 
 /* ════════════════════════════════════════════════════════════════════
    CALCOLATORE DEL PREVENTIVO A PASSI (un solo componente per tutto il sito)
@@ -6,8 +6,8 @@ import { BUDGET, FASCE, UGC, range } from './listino';
    · nelle pagine nuove (React: PreventivoWidget in tools.tsx),
    · negli articoli e nelle pagine WordPress (Core: assets/inft-preventivo.js + .css).
    Il visitatore sceglie influencer o UGC, fascia, tipo di creator, quantità, città e budget,
-   vede la fascia di prezzo indicativa, lascia i contatti e preme «Calcola il preventivo»:
-   «Grazie, ti contatteremo al più presto per inviarti il preventivo».
+   lascia nome, cognome, email e tipo di azienda e preme «Calcola il preventivo»: solo ADESSO vede il preventivo
+   indicativo e il listino (mai prima, richiesta di Giorgia) e «ti contatteremo al più presto per inviarti il preventivo».
    Invio: <form data-tandem> (lo raccoglie tandem-forms → Tandem) e in più una richiesta a
    /wp-json/influencee/v1/preventivo (Core) che manda la guida via email e avvisa il team.
    ════════════════════════════════════════════════════════════════════ */
@@ -39,7 +39,8 @@ export function preventivoHTML(o: PreventivoOpts): string {
   const full = o.variant !== 'compact';
   const field = (n: string, label: string, type = 'text', req = false, ac = '', val = '') =>
     `<label class="ipv-field" for="${id(n)}"><span>${label}</span><input id="${id(n)}" name="${n}" type="${type}"${req ? ' required' : ''}${ac ? ` autocomplete="${ac}"` : ''}${val ? ` value="${esc(val)}"` : ''}></label>`;
-  const fasce = FASCE.map((f) => card('fascia', f.l, f.l, `<b data-ipv-price="${f.lo}|${f.hi ?? ''}">${range(f.lo, f.hi, false)}</b> a contenuto`)).join('') + card('fascia', 'Non lo so, consigliatemi voi', 'Non lo so', 'Ti consigliamo noi la fascia giusta');
+  const FX = ['Nano creator: community piccole e molto vicine', 'Micro creator: il miglior rapporto tra pubblico e costo', 'Creator medi: più visibilità, prezzo più alto', 'Macro creator: grande visibilità, preventivo su misura'];
+  const fasce = FASCE.map((f, i) => card('fascia', f.l, f.l, FX[i] ?? '')).join('') + card('fascia', 'Non lo so, consigliatemi voi', 'Non lo so', 'Ti consigliamo noi la fascia giusta');
   return `<div class="ipv ipv--${full ? 'full' : 'compact'}" data-inft-preventivo="${key}" data-endpoint="${esc(o.endpoint ?? ENDPOINT)}">
 <div class="ipv-grid">
 <form class="ipv-form" id="lead-form-${key}" name="Lead tool: ${key}" aria-label="Calcola il preventivo della campagna" data-tandem="" data-form="lead_${key}" data-lead-type="brand">
@@ -56,8 +57,8 @@ ${card('tipo', 'Non lo so', 'Non lo so ancora', 'Ti aiutiamo noi a scegliere in 
 
 <fieldset class="ipv-step" data-step="2" hidden><legend>Con che creator vuoi lavorare?</legend>
 <div data-ipv-only="influencer"><p class="ipv-q">Quanti follower devono avere gli influencer?</p><div class="ipv-cards ipv-cards--2">${fasce}</div>
-<p class="ipv-hint">Più follower ha il creator, più sale il prezzo: con 10.000 follower si parte da circa 300 €, verso gli 80.000 si va sui 900–1.000 € a contenuto.</p></div>
-<div data-ipv-only="ugc" hidden><p class="ipv-q">Video UGC</p><p class="ipv-hint ipv-hint--box">Un video UGC costa di solito <b data-ipv-price="${UGC.lo}|${UGC.hi}">${range(UGC.lo, UGC.hi, false)}</b>. Conta poco la community del creator: conta saper girare video che funzionano sui tuoi canali.</p></div>
+<p class="ipv-hint">Più follower ha il creator, più sale il prezzo: il tuo preventivo indicativo lo vedi alla fine.</p></div>
+<div data-ipv-only="ugc" hidden><p class="ipv-q">Video UGC</p><p class="ipv-hint ipv-hint--box">Nei video UGC conta poco la community del creator: conta saper girare video che funzionano sui tuoi canali. Per questo costano meno di un influencer.</p></div>
 <p class="ipv-q">Che tipo di creator?</p>
 <div class="ipv-cards ipv-cards--2">
 ${card('nicchia', 'Generici', 'Generici', 'Lifestyle, food, moda, famiglia, viaggi…', ' checked')}
@@ -82,24 +83,33 @@ ${o.sector ? `<input type="hidden" name="settore" value="${esc(o.sector)}">` : '
 <p class="ipv-hint ipv-hint--ok">Il budget ci serve per proporti i creator giusti: con qualsiasi cifra ti diciamo cosa si può fare, senza impegno.</p></fieldset>
 
 <fieldset class="ipv-step" data-step="5" hidden><legend>A chi mandiamo il preventivo?</legend>
-<div class="ipv-row">${field('nome', 'Nome', 'text', true, 'given-name')}${field('azienda', 'Azienda', 'text', false, 'organization')}</div>
-<div class="ipv-row">${field('email', 'Email', 'email', true, 'email')}${field('telefono', 'Telefono', 'tel', true, 'tel')}</div>
+<div class="ipv-row">${field('nome', 'Nome', 'text', true, 'given-name')}${field('cognome', 'Cognome', 'text', true, 'family-name')}</div>
+<div class="ipv-row">${field('email', 'Email', 'email', true, 'email')}<label class="ipv-field" for="${id('tipo')}"><span>Tipo di azienda</span><select id="${id('tipo')}" name="tipo_azienda" required><option value="">Scegli</option>${TIPI_AZIENDA.map((t) => `<option>${t}</option>`).join('')}</select></label></div>
 <label class="ipv-field" for="${id('ctx')}"><span>Riepilogo della richiesta</span><textarea id="${id('ctx')}" name="risultato_tool" rows="3" readonly></textarea></label>
 <label class="ipv-check"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e guide di Influencee (facoltativo)</label>
 <input class="ipv-hp" type="text" name="sito_web" tabindex="-1" autocomplete="off" aria-hidden="true">
-<p class="ipv-small">Usiamo i tuoi dati solo per mandarti il preventivo e la guida. <a href="/privacy-policy/">Informativa privacy</a></p>
-<p class="ipv-err" data-ipv-err hidden>Controlla nome, email e telefono.</p></fieldset>
+<p class="ipv-small">Premendo «Calcola il preventivo» vedi subito il preventivo indicativo e il listino. Usiamo i tuoi dati solo per mandarti il preventivo e la guida. <a href="/privacy-policy/">Informativa privacy</a></p>
+<p class="ipv-err" data-ipv-err hidden>Controlla nome, cognome, email e tipo di azienda.</p></fieldset>
 
 <div class="ipv-nav"><button type="button" class="ipv-back" data-ipv-back hidden>Indietro</button><button type="button" class="ipv-next" data-ipv-next>Avanti →</button><button type="submit" class="ipv-next ipv-submit" data-ipv-submit hidden>Calcola il preventivo →</button></div>
 <textarea name="pagina_origine" class="ipv-hp" tabindex="-1" aria-hidden="true" readonly>${esc(o.origin)}</textarea>
 </form>
 ${full ? `<aside class="ipv-side" aria-live="polite"><p class="ipv-side-k">Il tuo preventivo</p>
-<dl class="ipv-sum"><div><dt>Cosa</dt><dd data-ipv-sum="tipo">—</dd></div><div><dt>Creator</dt><dd data-ipv-sum="creator">—</dd></div><div><dt>Prezzo indicativo</dt><dd data-ipv-sum="prezzo">—</dd></div><div><dt>Progetto</dt><dd data-ipv-sum="progetto">—</dd></div><div><dt>Zona e budget</dt><dd data-ipv-sum="zona">—</dd></div></dl>
-<p class="ipv-side-x">Il prezzo finale dipende dai creator che scegli con noi. Ti mandiamo un progetto completo e trattiamo noi con i creator il prezzo migliore per te.</p></aside>` : `<p class="ipv-inline" aria-live="polite" data-ipv-inline hidden></p>`}
+<dl class="ipv-sum"><div><dt>Cosa</dt><dd data-ipv-sum="tipo">—</dd></div><div><dt>Creator</dt><dd data-ipv-sum="creator">—</dd></div><div><dt>Prezzo</dt><dd data-ipv-sum="prezzo">lo vedi alla fine</dd></div><div><dt>Progetto</dt><dd data-ipv-sum="progetto">—</dd></div><div><dt>Zona e budget</dt><dd data-ipv-sum="zona">—</dd></div></dl>
+<p class="ipv-side-x">Il preventivo indicativo e il listino li vedi appena compili il modulo. Il prezzo finale dipende dai creator che scegli con noi. Ti mandiamo un progetto completo e trattiamo noi con i creator il prezzo migliore per te.</p></aside>` : ''}
 </div>
 <div class="ipv-wait" data-ipv-wait hidden role="status"><span class="ipv-spin"></span><p>Sto calcolando il tuo preventivo…</p></div>
-<div class="ipv-done" data-ipv-done hidden role="status"><p class="ipv-done-t">Grazie, <span data-ipv-name></span>!</p><p>Ti contatteremo al più presto per inviarti il preventivo.</p><p class="ipv-done-x">Intanto ti abbiamo scritto un’email con una guida su come funzionano le campagne con influencer: puoi partire da solo con la piattaforma o lasciare che la gestiamo noi.</p><p class="ipv-done-a"><a class="ipv-next" href="https://app.influencee.it/iscriviti/brand/">Prova la piattaforma gratis</a></p></div>
+<div class="ipv-done" data-ipv-done hidden role="status"><p class="ipv-done-t">Grazie, <span data-ipv-name></span>!</p><p>Ti contatteremo al più presto per inviarti il preventivo definitivo. Intanto ecco la stima.</p>
+<div class="ipv-res"><p class="ipv-res-k">Il tuo preventivo indicativo</p><p class="ipv-res-v" data-ipv-res-tot></p><p class="ipv-res-x" data-ipv-res-x></p></div>
+<div class="ipv-list" data-ipv-list></div>
+<p class="ipv-done-x">Ti abbiamo scritto anche un’email con una guida su come funzionano le campagne con influencer: puoi partire da solo con la piattaforma o lasciare che la gestiamo noi.</p><p class="ipv-done-a"><a class="ipv-next" href="https://app.influencee.it/iscriviti/brand/">Prova la piattaforma gratis</a></p></div>
 </div>`;
+}
+
+/** Listino indicativo: si mostra solo dopo l'invio del modulo (richiesta di Giorgia). */
+function listinoHTML() {
+  return `<p class="ipv-res-k">Il listino indicativo</p><table><tbody>${FASCE.map((f) => `<tr><td>${f.l}</td><td>${range(f.lo, f.hi, false)}</td></tr>`).join('')}<tr><td>Video UGC</td><td>${range(UGC.lo, UGC.hi, false)}</td></tr></tbody></table>
+<p class="ipv-res-x">A contenuto, compenso del creator. Creator di nicchia e professionisti: dal ${Math.round((NICCHIA.lo - 1) * 100)}% al ${Math.round((NICCHIA.hi - 1) * 100)}% in più. La trattativa con i creator la facciamo noi, per ottenere il prezzo migliore per te.</p>`;
 }
 
 /* ─── comportamento ─────────────────────────────────────────────── */
@@ -148,24 +158,38 @@ export function bindPreventivo(root: HTMLElement) {
     const s = {
       tipo: tipo() || '—',
       creator: [wantsInf() ? val('fascia') : '', val('nicchia')].filter(Boolean).join(' · ') || '—',
-      prezzo: prezzo(),
+      prezzo: 'lo vedi alla fine',
       progetto: `${n} creator × ${c} contenuti al mese · ${val('durata')}`,
       zona,
     };
     root.querySelectorAll<HTMLElement>('[data-ipv-sum]').forEach((el) => (el.textContent = s[el.dataset.ipvSum as keyof typeof s]));
-    const inline = $<HTMLElement>('[data-ipv-inline]');
-    if (inline) {
-      inline.hidden = cur < 2 || s.prezzo === '—';
-      inline.innerHTML = `Prezzo indicativo: <b>${s.prezzo}</b>. Il progetto completo te lo mandiamo noi.`;
-    }
     const sector = val('settore');
     const ctx = root.querySelector<HTMLTextAreaElement>('textarea[name="risultato_tool"]');
-    if (ctx) ctx.value = `Pagina di origine: ${val('pagina_origine')} · ${s.tipo} · ${s.creator} · prezzo indicativo ${s.prezzo} · ${s.progetto} · zona: ${val('citta') || 'tutta Italia'}${sector ? ` · settore: ${sector}` : ''} · budget: ${val('budget') || 'non indicato'}`;
-    // prezzi delle carte con o senza maggiorazione di nicchia
-    root.querySelectorAll<HTMLElement>('[data-ipv-price]').forEach((el) => {
-      const [lo, hi] = el.dataset.ipvPrice!.split('|');
-      el.textContent = range(Number(lo), hi ? Number(hi) : null, nicchia());
-    });
+    if (ctx) ctx.value = `Pagina di origine: ${val('pagina_origine')} · ${s.tipo} · ${s.creator} · ${s.progetto} · zona: ${val('citta') || 'tutta Italia'}${sector ? ` · settore: ${sector}` : ''} · budget: ${val('budget') || 'non indicato'}`;
+  }
+
+  /** Stima mostrata solo dopo l'invio: compenso dei creator al mese (fascia × creator × contenuti, più UGC). */
+  function stima() {
+    const n = Math.max(1, Number(val('creator')) || 1);
+    const c = Math.max(1, Number(val('contenuti')) || 1);
+    const f = FASCE.find((x) => x.l === val('fascia'));
+    const k = nicchia() ? NICCHIA : { lo: 1, hi: 1 };
+    let lo = 0;
+    let hi = 0;
+    let suMisura = false;
+    if (wantsInf()) {
+      const b = f ?? FASCE[1]; // «non lo so»: stima sulla fascia micro
+      lo += b.lo * k.lo * n * c;
+      if (b.hi === null) suMisura = true;
+      else hi += b.hi * k.hi * n * c;
+    }
+    if (wantsUgc()) {
+      lo += UGC.lo * k.lo * n * c;
+      hi += UGC.hi * k.hi * n * c;
+    }
+    const r = (x: number) => Math.round(x / 50) * 50;
+    const tot = suMisura ? `da ${euro(r(lo))} al mese, su misura` : `${euro(r(lo))} – ${euro(r(hi))} al mese`;
+    return { tot, dettaglio: `${prezzo()} · ${n} creator × ${c} contenuti al mese · ${val('durata')}. Compenso dei creator; gestione del team e diritti d’uso nel preventivo definitivo.` };
   }
 
   function show(n: number) {
@@ -240,6 +264,11 @@ export function bindPreventivo(root: HTMLElement) {
     if (!ok(STEPS)) return;
     summary();
     const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+    const st = stima();
+    $<HTMLElement>('[data-ipv-res-tot]')!.textContent = st.tot;
+    $<HTMLElement>('[data-ipv-res-x]')!.textContent = st.dettaglio;
+    // il listino si crea solo adesso: prima dell'invio non è nemmeno nell'HTML della pagina
+    $<HTMLElement>('[data-ipv-list]')!.innerHTML = listinoHTML();
     if (!tracked) {
       send('form_submit', { form_name: formName, lead_type: 'brand' });
       send('generate_lead', { lead_source: formName, form_name: formName, lead_type: 'brand', currency: 'EUR', value: 0 });
@@ -247,7 +276,7 @@ export function bindPreventivo(root: HTMLElement) {
     const endpoint = root.dataset.endpoint;
     if (endpoint && !data.sito_web) {
       try {
-        void fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, modulo: key, pagina: location.pathname }), keepalive: true, credentials: 'omit' }).catch(() => undefined);
+        void fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, preventivo_indicativo: `${st.tot} (${st.dettaglio})`, modulo: key, pagina: location.pathname }), keepalive: true, credentials: 'omit' }).catch(() => undefined);
       } catch {
         /* nessun invio: il lead arriva comunque a Tandem */
       }

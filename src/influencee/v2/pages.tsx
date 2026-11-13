@@ -3,8 +3,7 @@ import { motion } from 'motion/react';
 import { Button, Container, Section, SectionHeader, entrance } from '../ds';
 import { HeroReels, ReelWall, WorkReelCard } from '../rows/reels';
 import { REELS } from '../site/data';
-import { FASCE, UGC, range } from './preventivo/listino';
-import { APP, CATEGORIES, SUBCATEGORIES, subcategoriesOf, cityPath, regionPath, CREATOR_TYPES, FACTS, FAQ, GESTITO, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
+import { APP, CATEGORIES, SUBCATEGORIES, subcategoriesOf, cityPath, regionPath, CREATOR_TYPES, FACTS, FAQ, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
 import { AnnunciMock, CalendarMock, CollabMock, ContractMock, DiscoveryMock, KitMock, TrustMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
 import {
   AnswerBox,
@@ -708,11 +707,11 @@ function Blog() {
 
 /* ─── Campagna gestita: preventivo online (ex /preventivo-campagne/) ─ */
 const GESTITO_FAQ: QA[] = [
-  { q: 'Quanto costa una campagna con influencer gestita dal team?', a: `Con il listino di Influencee, per creator fino a ${GESTITO.maxFollower.toLocaleString('it-IT')} follower: ${GESTITO.creator} € al mese per ogni influencer (${GESTITO.extraContent} € per ogni contenuto in più), ${GESTITO.creatorFee} € di gestione per influencer, ${GESTITO.ugc} € per video UGC più ${GESTITO.ugcFee} € di gestione. Le campagne di 3, 6 e 12 mesi hanno uno sconto del 5, 6 e 8%.` },
-  { q: 'Cosa comprende il servizio gestito?', a: 'Il team sceglie i creator con te, prepara brief e termini, segue consegne e approvazioni e misura i risultati con i link tracciati della piattaforma. Tu approvi creator e contenuti.' },
-  { q: 'E per creator con più di 70.000 follower?', a: 'Il listino vale fino a 70.000 follower. Per profili più grandi, VIP o campagne con molti creator facciamo un preventivo su misura: scrivici su WhatsApp.' },
-  { q: 'Quanto costa un video UGC?', a: `Nel listino del servizio gestito un video UGC costa ${GESTITO.ugc} € più ${GESTITO.ugcFee} € di gestione del team. Il prezzo vale per i creator fino a ${GESTITO.maxFollower.toLocaleString('it-IT')} follower.` },
-  { q: 'Perché una campagna di un mese costa di più?', a: `Le campagne di un solo mese hanno una maggiorazione del ${GESTITO.oneMonthSurcharge * 100}% sul totale mensile. Dai 3 mesi in su c’è uno sconto: 5% a 3 mesi, 6% a 6 mesi, 8% a 12 mesi.` },
+  { q: 'Quanto costa una campagna con influencer gestita dal team?', a: 'Dipende da quanti creator scegli, dalla loro fascia di follower, dal tipo di creator (generici o di nicchia e professionisti) e da quanti contenuti servono. Compila il calcolatore: appena lasci i tuoi dati vedi il preventivo indicativo e il listino, e il team ti manda il preventivo definitivo.' },
+  { q: 'Cosa comprende il servizio gestito?', a: 'Il team sceglie i creator con te, prepara brief e termini, contratta il prezzo con i creator, segue consegne e approvazioni e misura i risultati con i link tracciati della piattaforma. Tu approvi creator e contenuti.' },
+  { q: 'E per creator con molti follower o VIP?', a: 'Per profili grandi, VIP o campagne con molti creator facciamo un preventivo su misura: indicalo nel calcolatore o scrivici su WhatsApp.' },
+  { q: 'Che differenza c’è tra influencer e UGC creator?', a: 'L’influencer pubblica sul suo profilo e porta il tuo prodotto alla sua community: paghi anche la visibilità. L’UGC creator gira video per i tuoi canali e le tue inserzioni senza pubblicarli sul suo profilo: paghi il video, per questo costa meno.' },
+  { q: 'Le campagne di più mesi costano meno?', a: 'Sì: con una campagna di più mesi il prezzo con i creator si contratta una volta sola e il costo al mese scende. Nel preventivo trovi la differenza.' },
   { q: 'Meglio un’agenzia o la piattaforma?', a: 'Se hai tempo per scegliere i creator e seguire le consegne, la piattaforma ti basta e non ci sono commissioni sulle collaborazioni. Se preferisci delegare, la campagna la gestisce il team di Influencee come agenzia di influencer marketing.' },
   { q: 'Posso gestire la campagna da solo?', a: 'Sì: con la piattaforma cerchi i creator, pubblichi annunci e gestisci contratti e link tracciati in autonomia, senza commissioni sulle collaborazioni. Il servizio gestito è per chi preferisce delegare.' },
 ];
@@ -731,10 +730,12 @@ function GestitoPage() {
         { tag: 'Influencer', t: 'Usano la loro community', x: 'L’influencer pubblica il contenuto sul suo profilo: il tuo prodotto arriva ai suoi follower. Paghi il contenuto e la visibilità, per questo il prezzo cresce con i follower e con la nicchia.' },
         { tag: 'UGC creator', t: 'Video per i tuoi canali', x: 'Il creator gira video per i tuoi social e le tue inserzioni, senza pubblicarli sul suo profilo. Sono tanti micro creator, anche non famosi: paghi il video, non la community. Ideale per tenere vivi i tuoi canali ogni mese.' },
       ]} />
-      <CardGrid tone="paper" cols={4} eyebrow="Prezzi indicativi" title={'Quanto costa un creator\n*per fascia di follower*'} lead="Compenso del creator per un contenuto, gestione esclusa. Creator di nicchia e professionisti (nutrizionisti, medici, avvocati, notai) costano di più: il loro pubblico è più qualificato." items={[
-        ...FASCE.map((f) => ({ tag: f.l, t: range(f.lo, f.hi, false), x: 'a contenuto, per creator generici' })),
+      <CardGrid tone="paper" cols={3} eyebrow="Il prezzo" title={'Cosa fa salire\n*il prezzo di un creator*'} lead="Il listino indicativo lo vedi appena compili il calcolatore. Ecco da cosa dipende." items={[
+        { tag: 'Follower', t: 'Più pubblico, più costo', x: 'Un creator con una community grande costa di più a contenuto: per molte campagne conviene lavorare con più micro creator.' },
+        { tag: 'Nicchia', t: 'Professionisti ed esperti', x: 'Nutrizionisti, medici, avvocati, notai ed esperti di settore costano di più: il loro pubblico li ascolta davvero.' },
+        { tag: 'Uso dei contenuti', t: 'Formati e diritti d’uso', x: 'Reel, storie, video UGC e uso nelle inserzioni cambiano il prezzo. La trattativa con i creator la facciamo noi.' },
       ]} />
-      <AnswerBox q="Quanto costa una campagna con influencer?" a={`Dipende da tre cose: follower dei creator, tipo di creator e numero di contenuti. Indicativamente un creator fino a 10.000 follower costa ${range(FASCE[0].lo, FASCE[0].hi, false)} a contenuto, verso gli 80.000 follower si sale a 900–1.000 €, e creator di nicchia o professionisti costano di più. Un video UGC costa di solito ${range(UGC.lo, UGC.hi, false)}. Con il calcolatore vedi la tua fascia e ricevi il preventivo completo.`} points={['Influencer: paghi anche la visibilità', 'UGC: paghi il video', 'Nicchia e professionisti costano di più', 'La trattativa la facciamo noi']} />
+      <AnswerBox q="Quanto costa una campagna con influencer?" a={GESTITO_FAQ[0].a} points={['Influencer: paghi anche la visibilità', 'UGC: paghi il video', 'Nicchia e professionisti costano di più', 'La trattativa la facciamo noi']} />
       <Steps title={'Come lavoriamo\n*per te*'} steps={[
         { t: 'Preventivo e progetto', x: 'Dal calcolatore al progetto: obiettivo, creator e budget.' },
         { t: 'Scelta dei creator', x: 'Ti proponiamo i profili e trattiamo noi il prezzo, tu approvi.' },
@@ -754,7 +755,7 @@ function GestitoPage() {
 const AGENZIA_FAQ: QA[] = [
   { q: 'Perché affidarsi a un’agenzia invece di fare da soli?', a: 'Perché l’influencer marketing richiede tempo, esperienza e una rete di creator. Il team sceglie i profili, gestisce trattativa, brief e contratto e segue le consegne: tu approvi creator e contenuti ed eviti gli errori più costosi.' },
   { q: 'Come scegliete gli influencer giusti per il mio brand?', a: 'Non guardiamo solo i follower: confrontiamo l’engagement con la media della fascia, la qualità e la coerenza dei contenuti, la città e la categoria e i brand con cui il creator ha già collaborato. Ti proponiamo solo profili coerenti con obiettivo e tono di voce, e l’ultima parola è tua.' },
-  { q: 'Qual è il budget minimo per iniziare?', a: `Non c’è un budget fisso: ogni campagna è su misura. Come riferimento, con il listino del servizio gestito un influencer fino a ${GESTITO.maxFollower.toLocaleString('it-IT')} follower costa ${GESTITO.creator} € al mese più ${GESTITO.creatorFee} € di gestione, e un video UGC ${GESTITO.ugc} € più ${GESTITO.ugcFee} € di gestione. Il primo passo è una call gratuita per capire obiettivi e budget.` },
+  { q: 'Qual è il budget minimo per iniziare?', a: 'Non c’è un budget fisso: ogni campagna è su misura. Compila il calcolatore del preventivo: appena lasci i tuoi dati vedi il preventivo indicativo e il listino, poi il team ti manda il preventivo definitivo.' },
   GESTITO_FAQ[1],
   GESTITO_FAQ[5],
   { q: 'Lavorate anche con creator con più di 70.000 follower o VIP?', a: GESTITO_FAQ[2].a },
@@ -784,11 +785,10 @@ function AgencyServicePage() {
         { eyebrow: 'Il brief creativo', title: 'Il brief lo scriviamo insieme a te', text: 'Il punto di partenza di un buon contenuto è un brief chiaro: messaggio, tono, cosa mostrare e cosa evitare, date e formati. Lo prepariamo con te e lo condividiamo con i creator, così i contenuti sono autentici e allineati ai tuoi obiettivi.', bullets: ['Messaggio, tono e formati', 'Date di consegna e di pubblicazione', 'Revisioni prima della messa online'], visual: <CalendarMock /> },
         F.link,
       ]} />
-      <CardGrid tone="white" eyebrow="Il listino" title={'Quanto costa\n*il servizio gestito*'} lead={`Prezzi per creator fino a ${GESTITO.maxFollower.toLocaleString('it-IT')} follower. Per profili più grandi o VIP facciamo un preventivo su misura.`} cols={4} items={[
-        { tag: 'Influencer', t: `${GESTITO.creator} € al mese`, x: `Primo contenuto del mese; ${GESTITO.extraContent} € per ogni contenuto in più.` },
-        { tag: 'Gestione', t: `${GESTITO.creatorFee} € a influencer`, x: 'Selezione, brief, accordi, consegne e report del team.' },
-        { tag: 'UGC', t: `${GESTITO.ugc} € a video`, x: `Più ${GESTITO.ugcFee} € di gestione per ogni video UGC.` },
-        { tag: 'Durata', t: 'fino all’8% di sconto', x: `5% a 3 mesi, 6% a 6 mesi, 8% a 12 mesi; +${GESTITO.oneMonthSurcharge * 100}% per un solo mese.` },
+      <CardGrid tone="white" eyebrow="Il preventivo" title={'Quanto costa\n*il servizio gestito*'} lead="Dipende da creator, fascia di follower, contenuti e durata. Compila il calcolatore: il listino indicativo lo vedi appena lasci i tuoi dati." cols={3} items={[
+        { tag: 'Creator', t: 'Fascia e nicchia', x: 'Più follower e più specializzazione alzano il prezzo; più micro creator spesso rendono di più.' },
+        { tag: 'Gestione', t: 'Il team fa tutto', x: 'Selezione, trattativa, brief, accordi, consegne e report.' },
+        { tag: 'Durata', t: 'Più mesi, meno al mese', x: 'Con una campagna lunga il prezzo con i creator si contratta una volta sola.' },
       ]} />
       <PreventivoBand page="agenzia" origin="Agenzia influencer" title={'Quanto costerebbe\n*la tua campagna?*'} lead="Scegli quanti influencer ti servono e la durata: vedi subito la stima con il listino del servizio gestito, poi ti richiamiamo per confermarla." />
       <FeatureSplit tone="white" eyebrow="Vuoi gestire tutto da solo?" title={'Prova gratis la bacheca\n*delle offerte per influencer*'} lead="Pubblicando un’offerta entri in contatto con micro, macro e UGC creator senza intermediari: zero costi di pubblicazione e controllo completo sulla selezione." items={[F.annunci, F.ricerca]} />

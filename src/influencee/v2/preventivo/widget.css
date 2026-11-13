@@ -72,3 +72,10 @@
 .ipv-done .ipv-done-x{font-size:14px;max-width:520px;margin:12px auto 0}
 .ipv-done-a{margin-top:20px!important}
 .ipv-done .ipv-next{background:var(--ipv-acid);color:var(--ipv-ink)}
+.ipv-res,.ipv-list{background:rgba(255,255,255,.06);border-radius:20px;padding:16px 18px;margin:18px auto 0;max-width:560px;text-align:left}
+.ipv-done .ipv-res-k{margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ipv-acid)}
+.ipv-done .ipv-res-v{margin:6px 0 0;font-family:"Inter Tight",Inter,sans-serif;font-size:26px;font-weight:600;color:#fff}
+.ipv-done .ipv-res-x{font-size:13px;margin-top:8px}
+.ipv-list table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+.ipv-list td{padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1);color:#fff}
+.ipv-list td+td{text-align:right;font-weight:600;color:var(--ipv-acid);white-space:nowrap;padding-left:12px}

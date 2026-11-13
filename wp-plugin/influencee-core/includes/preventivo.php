@@ -19,9 +19,10 @@ function infc_preventivo_cfg() {
 	$s = inft_settings();
 	$d = array(
 		'preventivo_email'    => 1,                       // manda la guida al cliente
-		'preventivo_mittente' => 'info@influencee.it',    // indirizzo del mittente (deve essere un mittente verificato in Brevo)
+		'preventivo_mittente' => 'giorgia@influencee.it', // indirizzo del mittente (deve essere un mittente verificato in Brevo)
 		'preventivo_nome'     => 'Giorgia Palazzo',       // nome del mittente
-		'preventivo_ruolo'    => 'Amministratrice, Influencee',
+		'preventivo_ruolo'    => 'CEO & CO-Founder',     // come nella firma Zoho
+		'preventivo_telefono' => '+39 3281230265',       // telefono nella firma (come in Zoho)
 		'preventivo_team'     => get_option( 'admin_email' ), // chi riceve l'avviso di ogni richiesta
 		'preventivo_brevo_key'   => '',                   // chiave API v3 di Brevo (xkeysib-…); vuota = quella del plugin Brevo, se c'è
 		'preventivo_brevo_lista' => 0,                    // lista Brevo dove aggiungere chi dà il consenso (0 = nessuna)
@@ -144,6 +145,9 @@ function infc_preventivo_ricevi( WP_REST_Request $req ) {
 	$d     = array(
 		'nome'      => $nome,
 		'azienda'   => $txt( 'azienda', 80 ),
+		'cognome'   => trim( preg_replace( '#(https?://|www\.)\S*#i', '', $txt( 'cognome', 40 ) ) ),
+		'tipo'      => $txt( 'tipo_azienda', 60 ),
+		'preventivo' => $txt( 'preventivo_indicativo', 300 ),
 		'telefono'  => $txt( 'telefono', 30 ),
 		'citta'     => $txt( 'citta', 60 ),
 		'budget'    => $txt( 'budget', 60 ),
@@ -166,11 +170,14 @@ function infc_preventivo_ricevi( WP_REST_Request $req ) {
 				'link_brand'   => 'https://app.influencee.it/iscriviti/brand/',
 				'link_offerta' => home_url( '/pubblica-offerta-lavoro/' ),
 				'whatsapp'     => '+39 351 342 1629',
+				'preventivo'   => $d['preventivo'],
 				'firma_nome'   => $c['preventivo_nome'],
 				'firma_ruolo'  => $c['preventivo_ruolo'],
+				'firma_email'  => sanitize_email( $c['preventivo_mittente'] ),
+				'firma_tel'    => $c['preventivo_telefono'],
 			)
 		);
-		$r = infc_manda_email( $email, $d['nome'], infc_guida_oggetto( $d['nome'] ), $corpo['html'], $corpo['text'], 'guida-preventivo' );
+		$r = infc_manda_email( $email, trim( $d['nome'] . ' ' . $d['cognome'] ), infc_guida_oggetto( $d['nome'] ), $corpo['html'], $corpo['text'], 'guida-preventivo' );
 		$esito['guida'] = is_wp_error( $r ) ? 'errore' : $r;
 		if ( ! is_wp_error( $r ) ) {
 			set_transient( $kmail, 1, DAY_IN_SECONDS );
@@ -181,19 +188,19 @@ function infc_preventivo_ricevi( WP_REST_Request $req ) {
 	$team = sanitize_email( $c['preventivo_team'] );
 	if ( is_email( $team ) ) {
 		$righe = array(
-			'Nome: ' . $d['nome'],
-			'Azienda: ' . $d['azienda'],
+			'Nome: ' . trim( $d['nome'] . ' ' . $d['cognome'] ),
+			'Tipo di azienda: ' . $d['tipo'],
 			'Email: ' . $email,
-			'Telefono: ' . $d['telefono'],
 			'Città: ' . $d['citta'],
 			'Budget: ' . $d['budget'],
 			'Richiesta: ' . $d['riepilogo'],
+			'Preventivo indicativo mostrato: ' . $d['preventivo'],
 			'Modulo: ' . $d['modulo'] . ' · pagina ' . $d['pagina'],
 			'Consenso marketing: ' . ( $d['consenso'] ? 'sì' : 'no' ),
 			'Guida inviata: ' . ( isset( $esito['guida'] ) ? $esito['guida'] : 'no (già inviata oggi o spenta)' ),
 		);
 		$html = '<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6">' . implode( '<br>', array_map( 'esc_html', $righe ) ) . '</div>';
-		$r    = infc_manda_email( $team, 'Team Influencee', 'Nuova richiesta di preventivo: ' . ( $d['azienda'] ? $d['azienda'] : $d['nome'] ), $html, implode( "\n", $righe ), 'avviso-preventivo' );
+		$r    = infc_manda_email( $team, 'Team Influencee', 'Nuova richiesta di preventivo: ' . trim( $d['nome'] . ' ' . $d['cognome'] ) . ( $d['tipo'] ? ' (' . $d['tipo'] . ')' : '' ), $html, implode( "\n", $righe ), 'avviso-preventivo' );
 		$esito['team'] = is_wp_error( $r ) ? 'errore' : $r;
 	}
 
@@ -204,7 +211,7 @@ function infc_preventivo_ricevi( WP_REST_Request $req ) {
 			'/contacts',
 			array(
 				'email'         => $email,
-				'attributes'    => array( 'NOME' => $d['nome'], 'FIRSTNAME' => $d['nome'] ),
+				'attributes'    => array( 'NOME' => $d['nome'], 'FIRSTNAME' => $d['nome'], 'COGNOME' => $d['cognome'], 'LASTNAME' => $d['cognome'] ),
 				'listIds'       => array( (int) $c['preventivo_brevo_lista'] ),
 				'updateEnabled' => true,
 			)
@@ -283,6 +290,7 @@ add_filter(
 		$out['preventivo_mittente']       = sanitize_email( isset( $in['preventivo_mittente'] ) ? $in['preventivo_mittente'] : '' );
 		$out['preventivo_nome']           = sanitize_text_field( isset( $in['preventivo_nome'] ) ? $in['preventivo_nome'] : '' );
 		$out['preventivo_ruolo']          = sanitize_text_field( isset( $in['preventivo_ruolo'] ) ? $in['preventivo_ruolo'] : '' );
+		$out['preventivo_telefono']       = sanitize_text_field( isset( $in['preventivo_telefono'] ) ? $in['preventivo_telefono'] : '' );
 		$out['preventivo_team']           = sanitize_email( isset( $in['preventivo_team'] ) ? $in['preventivo_team'] : '' );
 		$key                              = trim( sanitize_text_field( isset( $in['preventivo_brevo_key'] ) ? $in['preventivo_brevo_key'] : '' ) );
 		if ( '' !== $key || ! empty( $in['preventivo_brevo_key_cancella'] ) ) {
@@ -308,7 +316,7 @@ add_action(
 		<table class="form-table" role="presentation"><tbody>
 			<tr><th scope="row">Guida al cliente</th><td><label><input type="checkbox" name="inft_settings[preventivo_email]" value="1" <?php checked( ! empty( $c['preventivo_email'] ) ); ?>> Dopo ogni richiesta di preventivo manda l’email «come funziona una campagna con influencer» (una volta al giorno per indirizzo)</label></td></tr>
 			<tr><th scope="row">Mittente</th><td><input type="text" name="inft_settings[preventivo_nome]" value="<?php echo esc_attr( $c['preventivo_nome'] ); ?>" class="regular-text"> <input type="email" name="inft_settings[preventivo_mittente]" value="<?php echo esc_attr( $c['preventivo_mittente'] ); ?>" class="regular-text"><p class="description">Nome e indirizzo da cui parte l’email; le risposte arrivano qui. Con Brevo l’indirizzo deve essere un mittente verificato.</p></td></tr>
-			<tr><th scope="row">Firma</th><td><input type="text" name="inft_settings[preventivo_ruolo]" value="<?php echo esc_attr( $c['preventivo_ruolo'] ); ?>" class="regular-text"></td></tr>
+			<tr><th scope="row">Firma</th><td><input type="text" name="inft_settings[preventivo_ruolo]" value="<?php echo esc_attr( $c['preventivo_ruolo'] ); ?>" class="regular-text"> <input type="text" name="inft_settings[preventivo_telefono]" value="<?php echo esc_attr( $c['preventivo_telefono'] ); ?>" class="regular-text"><p class="description">Ruolo e telefono nella firma (come in Zoho, con il nuovo logo).</p></td></tr>
 			<tr><th scope="row">Avviso al team</th><td><input type="email" name="inft_settings[preventivo_team]" value="<?php echo esc_attr( $c['preventivo_team'] ); ?>" class="regular-text"><p class="description">Riceve una copia di ogni richiesta (anche se Tandem non la registra).</p></td></tr>
 			<tr><th scope="row">Brevo</th><td>
 				<p><?php echo $key ? '✅ invio con l’API di Brevo' . ( $own ? ' (chiave salvata qui)' : ' (chiave del plugin Brevo del sito)' ) : '⚪ nessuna chiave Brevo: le email partono con il server del sito (wp_mail)'; ?></p>
