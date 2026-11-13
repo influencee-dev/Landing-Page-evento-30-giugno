@@ -27,9 +27,10 @@ function infc_preventivo_cfg() {
 		'preventivo_brevo_key'   => '',                   // chiave API v3 di Brevo (xkeysib-…); vuota = quella del plugin Brevo, se c'è
 		'preventivo_brevo_lista' => 0,                    // lista Brevo dove aggiungere chi dà il consenso (0 = nessuna)
 		'preventivo_pagina_vecchia' => 1,                 // calcolatore anche in /preventivi-influencer/
+		'preventivo_popup'    => 60,                      // popup del calcolatore dopo N secondi (0 = spento)
 	);
 	foreach ( $d as $k => $v ) {
-		if ( isset( $s[ $k ] ) && '' !== $s[ $k ] ) {
+		if ( isset( $s[ $k ] ) && '' !== $s[ $k ] && null !== $s[ $k ] ) {
 			$d[ $k ] = $s[ $k ];
 		}
 	}
@@ -322,6 +323,29 @@ add_filter(
 	20
 );
 
+/* ─── Popup dopo un minuto ──────────────────────────────────────────
+   Pagine nuove (React): il ritardo arriva con window.INFLUENCEE_TOOLS.popup (0 = spento).
+   Articoli: il Core aggiunge il segnaposto del popup in fondo alla pagina e carica inft-preventivo.js. */
+add_filter(
+	'inft_client_data',
+	function ( $data ) {
+		$data['popup'] = (int) infc_preventivo_cfg()['preventivo_popup'];
+		return $data;
+	}
+);
+add_action(
+	'wp_footer',
+	function () {
+		$sec = (int) infc_preventivo_cfg()['preventivo_popup'];
+		if ( $sec <= 0 || ! is_singular( 'post' ) || ! file_exists( INFC_DIR . 'assets/inft-preventivo.js' ) ) {
+			return;
+		}
+		infc_preventivo_enqueue(); // nel piè di pagina: WordPress stampa subito dopo script e stili aggiunti tardi
+		echo '<div hidden data-inft-preventivo-popup data-page="popup_articolo" data-delay="' . (int) $sec . '" data-origin="' . esc_attr( 'Popup dopo 1 minuto · articolo: ' . wp_strip_all_tags( get_the_title() ) ) . '"></div>' . "\n";
+	},
+	5
+);
+
 /* ─── Impostazioni ──────────────────────────────────────────────── */
 
 add_filter(
@@ -332,6 +356,7 @@ add_filter(
 		}
 		$out['preventivo_email']          = empty( $in['preventivo_email'] ) ? 0 : 1;
 		$out['preventivo_pagina_vecchia'] = empty( $in['preventivo_pagina_vecchia'] ) ? 0 : 1;
+		$out['preventivo_popup']          = isset( $in['preventivo_popup'] ) ? min( 600, absint( $in['preventivo_popup'] ) ) : 60;
 		$out['preventivo_mittente']       = sanitize_email( isset( $in['preventivo_mittente'] ) ? $in['preventivo_mittente'] : '' );
 		$out['preventivo_nome']           = sanitize_text_field( isset( $in['preventivo_nome'] ) ? $in['preventivo_nome'] : '' );
 		$out['preventivo_ruolo']          = sanitize_text_field( isset( $in['preventivo_ruolo'] ) ? $in['preventivo_ruolo'] : '' );
@@ -370,6 +395,7 @@ add_action(
 				<p class="description">Chiave API v3 (Brevo → Impostazioni SMTP e API → Chiavi API).</p>
 				<p><label>Lista per chi dà il consenso marketing (numero della lista, 0 = nessuna) <input type="number" min="0" name="inft_settings[preventivo_brevo_lista]" value="<?php echo (int) $c['preventivo_brevo_lista']; ?>" style="width:90px"></label></p>
 			</td></tr>
+			<tr><th scope="row">Popup</th><td><label>Apri il calcolatore in un popup dopo <input type="number" min="0" max="600" name="inft_settings[preventivo_popup]" value="<?php echo (int) $c['preventivo_popup']; ?>" style="width:80px"> secondi sulla pagina (0 = spento)</label><p class="description">Pagine per aziende e articoli; mai sulle pagine per creator. Al massimo una volta a settimana per visitatore e mai a chi ha già chiesto il preventivo.</p></td></tr>
 			<tr><th scope="row">/preventivi-influencer/</th><td><label><input type="checkbox" name="inft_settings[preventivo_pagina_vecchia]" value="1" <?php checked( ! empty( $c['preventivo_pagina_vecchia'] ) ); ?>> Aggiungi il calcolatore sotto il testo della pagina (il modulo Brevo resta com’è)</label></td></tr>
 			<?php if ( $log ) : ?>
 			<tr><th scope="row">Ultime richieste</th><td><details><summary><?php echo count( $log ); ?> righe</summary><pre style="white-space:pre-wrap"><?php echo esc_html( implode( "\n", $log ) ); ?></pre></details></td></tr>

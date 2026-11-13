@@ -228,3 +228,11 @@ Ogni modulo con `data-lead-type` passa il tipo di lead a `form_submit` e `genera
 | clic nella scheda finale | `data-track-zone = scheda_brand / scheda_creator / scheda_misto` | `cta_location`, `lead_type` |
 
 Imbuto da costruire in GA4: `preventivo_start` → `preventivo_step` (1…4) → `generate_lead`, per `form_name`.
+
+### Popup del preventivo (13/11/2026)
+
+| Evento | Quando | Parametri |
+|---|---|---|
+| `preventivo_popup_open` | il popup si apre dopo 60 s sulla pagina | `form_name = lead_preventivo_popup_<pagina>`, `lead_type = brand` |
+| `preventivo_popup_close` | chiusura con X (`ui_click` con data-track), Esc o clic fuori | `form_name`, `modo` |
+Poi `preventivo_start`, `preventivo_step`, `form_submit`, `generate_lead` come nel calcolatore. Tasso del popup = `generate_lead` con `form_name` che contiene `popup` ÷ `preventivo_popup_open`.

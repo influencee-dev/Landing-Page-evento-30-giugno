@@ -242,6 +242,7 @@ export function bindPreventivo(root: HTMLElement) {
   root.addEventListener('change', (e) => {
     if (!started) {
       started = true;
+      (window as W & { __ipvStarted?: boolean }).__ipvStarted = true; // chi ha già iniziato un calcolatore non vede il popup
       send('preventivo_start', { form_name: formName, lead_type: 'brand' });
     }
     const t = e.target as HTMLInputElement;
@@ -285,6 +286,11 @@ export function bindPreventivo(root: HTMLElement) {
     $<HTMLElement>('.ipv-grid')!.hidden = true;
     const wait = $<HTMLElement>('[data-ipv-wait]')!;
     wait.hidden = false;
+    try {
+      localStorage.setItem(POP_SENT, String(Date.now())); // niente popup a chi ha già chiesto il preventivo
+    } catch {
+      /* archivio non disponibile */
+    }
     $<HTMLElement>('[data-ipv-name]')!.textContent = data.nome || '';
     setTimeout(() => {
       wait.hidden = true;
@@ -297,4 +303,79 @@ export function bindPreventivo(root: HTMLElement) {
 /** Collega tutti i calcolatori presenti (o dentro root). */
 export function initPreventivi(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>('[data-inft-preventivo]').forEach(bindPreventivo);
+}
+
+/* ─── Popup dopo un minuto (richiesta di Giorgia, 13/11/2026) ─────────
+   Sulle pagine per aziende e negli articoli: dopo 60 secondi sulla pagina si apre il calcolatore compatto.
+   Non si apre a chi ha già iniziato un calcolatore nella pagina, a chi ha già chiesto il preventivo (mai più),
+   né più di una volta ogni 7 giorni. Si chiude con la X, con Esc o cliccando fuori. */
+const POP_SEEN = 'inft_pv_popup';
+const POP_SENT = 'inft_pv_sent';
+const WEEK = 7 * 24 * 3600 * 1000;
+
+function popupAllowed() {
+  try {
+    if (localStorage.getItem(POP_SENT)) return false;
+    const seen = Number(localStorage.getItem(POP_SEEN) || 0);
+    if (seen && Date.now() - seen < WEEK) return false;
+  } catch {
+    /* senza archivio: il popup può comparire, una volta per pagina */
+  }
+  return !(window as W & { __ipvStarted?: boolean }).__ipvStarted && !document.querySelector('.ipv-pop');
+}
+
+export function openPreventivoPopup(container: HTMLElement, o: PreventivoOpts) {
+  try {
+    localStorage.setItem(POP_SEEN, String(Date.now()));
+  } catch {
+    /* niente */
+  }
+  const key = `preventivo_${o.page.replace(/[^a-z0-9_]/gi, '_')}`;
+  const pop = document.createElement('div');
+  pop.className = 'ipv-pop';
+  pop.setAttribute('role', 'dialog');
+  pop.setAttribute('aria-modal', 'true');
+  pop.setAttribute('aria-labelledby', `ipv-pop-t-${key}`);
+  pop.innerHTML = `<div class="ipv-pop-box"><button type="button" class="ipv-pop-x" aria-label="Chiudi" data-track="preventivo_popup_close">×</button>
+<p class="ipv-pop-k">Preventivo in un minuto</p><p class="ipv-pop-t" id="ipv-pop-t-${key}">Quanto costerebbe la tua campagna con i creator?</p>
+<p class="ipv-pop-x2">Rispondi a poche domande: appena lasci i tuoi dati vedi il preventivo indicativo e il listino.</p>${preventivoHTML({ ...o, variant: 'compact' })}</div>`;
+  container.appendChild(pop);
+  const prevOverflow = document.documentElement.style.overflow;
+  document.documentElement.style.overflow = 'hidden';
+  const close = () => {
+    pop.remove();
+    document.documentElement.style.overflow = prevOverflow;
+    document.removeEventListener('keydown', onKey);
+  };
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      send('preventivo_popup_close', { form_name: `lead_${key}`, modo: 'esc' });
+      close();
+    }
+  };
+  document.addEventListener('keydown', onKey);
+  pop.addEventListener('click', (e) => {
+    const t = e.target as Element;
+    if (t === pop || t.closest('.ipv-pop-x')) {
+      if (t === pop) send('preventivo_popup_close', { form_name: `lead_${key}`, modo: 'fuori' });
+      close();
+    }
+  });
+  bindPreventivo(pop.querySelector<HTMLElement>('[data-inft-preventivo]')!);
+  pop.querySelector<HTMLButtonElement>('.ipv-pop-x')!.focus();
+  send('preventivo_popup_open', { form_name: `lead_${key}`, lead_type: 'brand' });
+  return close;
+}
+
+/** Programma il popup dopo `delay` ms (60 s). Restituisce la funzione che lo annulla. */
+export function schedulePreventivoPopup(container: HTMLElement, o: PreventivoOpts, delay = 60000) {
+  if (!popupAllowed()) return () => undefined;
+  let close: (() => void) | null = null;
+  const t = window.setTimeout(() => {
+    if (popupAllowed()) close = openPreventivoPopup(container, o);
+  }, delay);
+  return () => {
+    window.clearTimeout(t);
+    close?.();
+  };
 }

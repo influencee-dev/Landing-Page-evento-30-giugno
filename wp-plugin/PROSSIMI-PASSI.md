@@ -1,5 +1,17 @@
 # Lavori in corso e prossimi passi (aggiornato il 13/11/2026)
 
+## ✅ Popup del preventivo dopo un minuto (13/11/2026) — Core 2.3.7, Tools 2.0.7, Pagine 2.0.13
+
+- Dopo 60 secondi sulla pagina si apre il calcolatore compatto in un popup (su telefono sale dal basso):
+  pagine per aziende e miste (React: `PreventivoPopup` in `resolve`) e articoli (Core, `wp_footer` + `inft-preventivo.js`).
+  Mai su pagine per creator, /preventivo-campagne/, /preventivi-influencer/, contatti, pubblica offerta.
+- Al massimo una volta ogni 7 giorni per visitatore (localStorage `inft_pv_popup`), mai a chi ha già chiesto il
+  preventivo (`inft_pv_sent`) o ha già iniziato un calcolatore nella pagina. Chiusura con X, Esc, clic fuori.
+- Modulo «Lead tool: preventivo_popup_<pagina>» in Tandem; GA4 `preventivo_popup_open`, `preventivo_popup_close`
+  (modo esc/fuori), poi gli stessi eventi del calcolatore.
+- Impostazioni → Preventivo → «Popup»: secondi di attesa (0 = spento).
+
+
 ## ✅ Email del preventivo via Brevo (13/11/2026, quarta parte) — Core 2.3.5 e 2.3.6, installati subito via MCP
 
 - Prima prova (Core 2.3.4): le email partivano con wp_mail dal server Netsons a nome di giorgia@influencee.it e non

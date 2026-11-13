@@ -5,7 +5,7 @@ import { Container, Section, SectionHeader, GAP, TYPE, reveal, type Tone } from 
 import { track } from './analytics';
 import { ENV, liveJobs } from './env';
 import { APP, CATEGORIES, COMPENSI, JOBS, MARKET, WHATSAPP, type Compenso } from './data';
-import { bindPreventivo, preventivoHTML, type PreventivoOpts } from './preventivo/widget';
+import { bindPreventivo, preventivoHTML, schedulePreventivoPopup, type PreventivoOpts } from './preventivo/widget';
 import './preventivo/widget.css';
 
 /* ════════════════════════════════════════════════════════════════════
@@ -818,6 +818,18 @@ export function PreventivoWidget(props: PreventivoOpts & { className?: string })
     if (ref.current) bindPreventivo(ref.current.firstElementChild as HTMLElement);
   }, [html]);
   return <div ref={ref} className={className} dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+/** Popup del calcolatore dopo un minuto sulla pagina (pagine per aziende e miste). Spegnibile dal Core
+ *  (Impostazioni → Preventivo: window.INFLUENCEE_TOOLS.popup = 0). Resta dentro #influencee-tools: stessi stili. */
+export function PreventivoPopup({ page, origin }: { page: string; origin: string }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const cfg = (window as unknown as { INFLUENCEE_TOOLS?: { popup?: number } }).INFLUENCEE_TOOLS;
+    if (!ref.current || cfg?.popup === 0) return;
+    return schedulePreventivoPopup(ref.current, { page, origin }, (cfg?.popup || 60) * 1000);
+  }, [page, origin]);
+  return <div ref={ref} />;
 }
 
 /* Fascia «Preventivo» per le pagine con visite di brand (home, prezzi, categorie, città…).

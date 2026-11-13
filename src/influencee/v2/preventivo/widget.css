@@ -79,3 +79,12 @@
 .ipv-list table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
 .ipv-list td{padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1);color:#fff}
 .ipv-list td+td{text-align:right;font-weight:600;color:var(--ipv-acid);white-space:nowrap;padding-left:12px}
+.ipv-pop{position:fixed;inset:0;z-index:2147483000;background:rgba(29,29,31,.6);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;animation:ipv-in .25s ease}
+@keyframes ipv-in{from{opacity:0}to{opacity:1}}
+.ipv-pop-box{position:relative;width:100%;max-width:640px;max-height:calc(100vh - 32px);overflow:auto;background:#f6f6f6;border-radius:28px;padding:24px 16px 16px;box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#1d1d1f;text-align:left}
+@media (min-width:640px){.ipv-pop-box{padding:28px 24px 24px}}
+.ipv-pop-x{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;font-size:24px;line-height:1;cursor:pointer;color:#1d1d1f;padding:0}
+.ipv-pop-k{margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#d6006f}
+.ipv-pop-t{margin:6px 48px 6px 0;font-family:"Inter Tight",Inter,sans-serif;font-size:24px;line-height:1.15;font-weight:600;letter-spacing:-.02em}
+.ipv-pop-x2{margin:0 0 16px;font-size:14px;color:#6b6b6b}
+@media (max-width:639px){.ipv-pop{align-items:flex-end;padding:0}.ipv-pop-box{border-radius:24px 24px 0 0;max-height:92vh}}

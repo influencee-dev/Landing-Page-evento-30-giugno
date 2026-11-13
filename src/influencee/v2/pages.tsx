@@ -36,7 +36,7 @@ import { CreatorDirectory, CreatorList } from './creators';
 import { pageTypeOf } from './analytics';
 import { SUB_STORY } from './substory';
 import { EX_PAGES, exPage } from './ex';
-import { CostCalcPanel, PreventivoBand, PreventivoWidget, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
+import { CostCalcPanel, PreventivoBand, PreventivoPopup, PreventivoWidget, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
    PAGINE v2 — ogni route restituisce contenuto + metadati SEO.
@@ -1007,6 +1007,7 @@ const fit = (opts: string[]) => opts.map(T).find((t) => t.length <= 60) ?? T(opt
 
 /** Pagine per i creator: scheda finale con iscrizione creator e offerte. */
 const CREATOR_PATHS = ['/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/influencer/', '/funzionalita/media-kit/', '/academy-influencer-marketing/', '/social-media-tool/emoticon-da-copiare/'];
+const NO_POPUP = ['/preventivo-campagne/', '/preventivi-influencer/', '/contatti-influencee/', '/pubblica-offerta-lavoro/'];
 function audienceOf(path: string): Audience {
   if (CREATOR_PATHS.includes(path) || path.startsWith('/creator/') || path.startsWith('/offerte-lavoro-influencer/')) return 'creator';
   const a = pageTypeOf(path).audience;
@@ -1016,7 +1017,11 @@ function audienceOf(path: string): Audience {
 export function resolve(path: string): Resolved | null {
   const r = resolveRoute(path);
   if (!r) return null;
-  return { ...r, el: <AudienceCtx.Provider value={audienceOf(r.meta.path)}>{r.el}</AudienceCtx.Provider> };
+  const audience = audienceOf(r.meta.path);
+  // popup del preventivo dopo un minuto: non per i creator e non dove il calcolatore è già il protagonista
+  const popup = audience !== 'creator' && !NO_POPUP.includes(r.meta.path);
+  const slug = r.meta.path.replace(/^\/|\/$/g, '').replace(/[^a-z0-9]+/g, '_') || 'home';
+  return { ...r, el: <AudienceCtx.Provider value={audience}>{r.el}{popup && <PreventivoPopup page={`popup_${slug}`.slice(0, 50)} origin={`Popup dopo 1 minuto: ${r.meta.label}`} />}</AudienceCtx.Provider> };
 }
 
 function resolveRoute(path: string): Resolved | null {
