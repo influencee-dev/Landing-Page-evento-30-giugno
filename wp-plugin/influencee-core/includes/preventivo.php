@@ -317,7 +317,7 @@ add_filter(
 			return $html;
 		}
 		return $html . '<section class="inft-preventivo-sezione" style="margin:48px auto;max-width:1200px;padding:0 16px"><h2 style="font-size:30px;line-height:1.15;margin:0 0 8px">Calcola il preventivo in cinque passi</h2><p style="margin:0 0 24px;color:#6b6b6b">Influencer o UGC, che creator, dove e con quale budget: vedi la fascia di prezzo e ti mandiamo il preventivo completo.</p>'
-			. infc_preventivo_mount( array( 'page' => 'preventivi_influencer', 'origin' => 'Pagina /preventivi-influencer/', 'variant' => 'full', 'title' => 'Calcola il preventivo' ) )
+			. infc_preventivo_mount( array( 'page' => 'preventivi_influencer', 'origin' => 'Pagina /preventivi-influencer/', 'variant' => 'full', 'title' => 'Calcola il tuo preventivo' ) )
 			. '</section>';
 	},
 	20

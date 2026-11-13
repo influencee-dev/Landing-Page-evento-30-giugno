@@ -452,7 +452,7 @@ function inft_article_html( $post ) {
 		$h .= '</section>';
 	}
 	// calcolatore del preventivo (Core 2.3.3+): stesso componente delle pagine del sito, lead in Tandem e guida via email
-	$calc = function_exists( 'infc_preventivo_mount' ) ? infc_preventivo_mount( array( 'page' => 'articolo', 'origin' => 'Articolo: ' . $a['title'], 'variant' => 'compact', 'title' => 'Calcola il preventivo' ) ) : '';
+	$calc = function_exists( 'infc_preventivo_mount' ) ? infc_preventivo_mount( array( 'page' => 'articolo', 'origin' => 'Articolo: ' . $a['title'], 'variant' => 'compact', 'title' => 'Calcola il tuo preventivo' ) ) : '';
 	if ( $calc ) {
 		$h .= '<section id="ia-lead" class="ia-lead ia-lead--calc" data-section="calcolatore_preventivo"><p><strong>Vuoi applicarlo alla tua campagna?</strong><br>Rispondi a poche domande: influencer o UGC, che creator, dove e con quale budget. Vedi subito la fascia di prezzo e ti mandiamo il preventivo completo.</p>' . $calc . '</section>';
 	} else {

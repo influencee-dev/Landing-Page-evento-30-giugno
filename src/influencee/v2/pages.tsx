@@ -723,7 +723,7 @@ function GestitoPage() {
       <Section tone="paper" id="preventivo">
         <Container>
           <SectionHeader eyebrow="Il calcolatore" title={'Il tuo preventivo\n*in cinque passi*'} lead="Il prezzo finale dipende dai creator che scegliamo insieme: per ogni budget costruiamo un progetto e la trattativa con i creator la facciamo noi." />
-          <PreventivoWidget page="campagna" origin="Preventivo campagne" variant="full" title="Calcola il preventivo" className="mt-10" />
+          <PreventivoWidget page="campagna" origin="Preventivo campagne" variant="full" title="Calcola il tuo preventivo" className="mt-10" />
         </Container>
       </Section>
       <CardGrid tone="white" cols={2} eyebrow="Prima di scegliere" title={'Influencer o UGC:\n*che differenza c’è?*'} lead="Sono due modi diversi di lavorare con i creator, con prezzi diversi." items={[

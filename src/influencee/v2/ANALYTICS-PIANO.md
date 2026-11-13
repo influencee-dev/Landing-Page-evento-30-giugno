@@ -236,3 +236,5 @@ Imbuto da costruire in GA4: `preventivo_start` → `preventivo_step` (1…4) →
 | `preventivo_popup_open` | il popup si apre dopo 60 s sulla pagina | `form_name = lead_preventivo_popup_<pagina>`, `lead_type = brand` |
 | `preventivo_popup_close` | chiusura con X (`ui_click` con data-track), Esc o clic fuori | `form_name`, `modo` |
 Poi `preventivo_start`, `preventivo_step`, `form_submit`, `generate_lead` come nel calcolatore. Tasso del popup = `generate_lead` con `form_name` che contiene `popup` ÷ `preventivo_popup_open`.
+
+| `preventivo_sbloccato` | la stima e il listino compaiono dopo l'invio (13/11/2026) | `form_name`, `lead_type = brand` |

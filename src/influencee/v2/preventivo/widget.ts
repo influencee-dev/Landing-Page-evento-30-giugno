@@ -27,6 +27,53 @@ export interface PreventivoOpts {
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 const STEPS = 5;
+const CHEER = [
+  'Ti bastano 4 risposte per sbloccare il preventivo',
+  'Ottima scelta! Ancora 3 risposte',
+  'Sei a metà strada: ancora 2 risposte',
+  'Quasi fatto: questa è l’ultima domanda',
+  'Il tuo preventivo è pronto: lascia i dati e sbloccalo',
+];
+
+/** Fa salire i numeri del preventivo da zero al valore finale (effetto «slot»). */
+function countUp(el: HTMLElement, text: string) {
+  const nums = text.match(/\d[\d.]*/g) ?? [];
+  const vals = nums.map((x) => Number(x.replace(/\./g, '')));
+  const fmt = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  if (!vals.length || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = text;
+    return;
+  }
+  const t0 = performance.now();
+  const step = (t: number) => {
+    const k = Math.min(1, (t - t0) / 1100);
+    const e = 1 - Math.pow(1 - k, 3);
+    let i = 0;
+    el.textContent = text.replace(/\d[\d.]*/g, () => fmt(vals[i++] * e));
+    if (k < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/** Coriandoli nei colori del sito quando il preventivo si sblocca. */
+function confetti(box: HTMLElement) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'ipv-confetti';
+  wrap.setAttribute('aria-hidden', 'true');
+  const colors = ['#ff1f8f', '#c8ff1a', '#ffffff', '#ff7ac0'];
+  for (let i = 0; i < 36; i++) {
+    const c = document.createElement('i');
+    c.style.left = `${Math.random() * 100}%`;
+    c.style.background = colors[i % colors.length];
+    c.style.animationDelay = `${Math.random() * 0.3}s`;
+    c.style.setProperty('--x', `${(Math.random() - 0.5) * 160}px`);
+    c.style.setProperty('--r', `${Math.random() * 720 - 360}deg`);
+    wrap.appendChild(c);
+  }
+  box.appendChild(wrap);
+  setTimeout(() => wrap.remove(), 2600);
+}
 const ENDPOINT = '/wp-json/influencee/v1/preventivo';
 
 function card(name: string, value: string, title: string, text: string, extra = '') {
@@ -44,8 +91,9 @@ export function preventivoHTML(o: PreventivoOpts): string {
   return `<div class="ipv ipv--${full ? 'full' : 'compact'}" data-inft-preventivo="${key}" data-endpoint="${esc(o.endpoint ?? ENDPOINT)}">
 <div class="ipv-grid">
 <form class="ipv-form" id="lead-form-${key}" name="Lead tool: ${key}" aria-label="Calcola il preventivo della campagna" data-tandem="" data-form="lead_${key}" data-lead-type="brand">
-<div class="ipv-top"><p class="ipv-kicker">${esc(o.title ?? 'Calcola il preventivo')}</p><p class="ipv-count"><span data-ipv-n>1</span> di ${STEPS}</p></div>
-<div class="ipv-bar" aria-hidden="true"><span data-ipv-bar style="width:${100 / STEPS}%"></span></div>
+<div class="ipv-top"><p class="ipv-kicker">${esc(o.title ?? 'Calcola il tuo preventivo')}</p><p class="ipv-count"><span data-ipv-pct>20%</span> <span class="ipv-count-n">· domanda <span data-ipv-n>1</span> di ${STEPS}</span></p></div>
+<div class="ipv-bar" aria-hidden="true"><span class="ipv-bar-f" data-ipv-bar style="width:20%"></span><span class="ipv-bar-lock" data-ipv-lock><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg></span></div>
+<p class="ipv-cheer" data-ipv-cheer aria-live="polite">Ti bastano 4 risposte per sbloccare il preventivo</p>
 
 <fieldset class="ipv-step" data-step="1"><legend>Cosa ti serve per la campagna?</legend>
 <div class="ipv-cards">
@@ -88,18 +136,18 @@ ${o.sector ? `<input type="hidden" name="settore" value="${esc(o.sector)}">` : '
 <label class="ipv-field" for="${id('ctx')}"><span>Riepilogo della richiesta</span><textarea id="${id('ctx')}" name="risultato_tool" rows="3" readonly></textarea></label>
 <label class="ipv-check"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e guide di Influencee (facoltativo)</label>
 <input class="ipv-hp" type="text" name="sito_web" tabindex="-1" autocomplete="off" aria-hidden="true">
-<p class="ipv-small">Premendo «Calcola il preventivo» vedi subito il preventivo indicativo e il listino. Usiamo i tuoi dati solo per mandarti il preventivo e la guida. <a href="/privacy-policy/">Informativa privacy</a></p>
+<p class="ipv-small">Premendo «Sblocca il mio preventivo» vedi subito il preventivo indicativo e il listino. Usiamo i tuoi dati solo per mandarti il preventivo e la guida. <a href="/privacy-policy/">Informativa privacy</a></p>
 <p class="ipv-err" data-ipv-err hidden>Controlla nome, cognome, email e tipo di azienda.</p></fieldset>
 
-<div class="ipv-nav"><button type="button" class="ipv-back" data-ipv-back hidden>Indietro</button><button type="button" class="ipv-next" data-ipv-next>Avanti →</button><button type="submit" class="ipv-next ipv-submit" data-ipv-submit hidden>Calcola il preventivo →</button></div>
+<div class="ipv-nav"><button type="button" class="ipv-back" data-ipv-back hidden>Indietro</button><button type="button" class="ipv-next" data-ipv-next>Avanti →</button><button type="submit" class="ipv-next ipv-submit" data-ipv-submit hidden><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 9.6-2M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg> Sblocca il mio preventivo</button></div>
 <textarea name="pagina_origine" class="ipv-hp" tabindex="-1" aria-hidden="true" readonly>${esc(o.origin)}</textarea>
 </form>
 ${full ? `<aside class="ipv-side" aria-live="polite"><p class="ipv-side-k">Il tuo preventivo</p>
 <dl class="ipv-sum"><div><dt>Cosa</dt><dd data-ipv-sum="tipo">—</dd></div><div><dt>Creator</dt><dd data-ipv-sum="creator">—</dd></div><div><dt>Prezzo</dt><dd data-ipv-sum="prezzo">lo vedi alla fine</dd></div><div><dt>Progetto</dt><dd data-ipv-sum="progetto">—</dd></div><div><dt>Zona e budget</dt><dd data-ipv-sum="zona">—</dd></div></dl>
 <p class="ipv-side-x">Il preventivo indicativo e il listino li vedi appena compili il modulo. Il prezzo finale dipende dai creator che scegli con noi. Ti mandiamo un progetto completo e trattiamo noi con i creator il prezzo migliore per te.</p></aside>` : ''}
 </div>
-<div class="ipv-wait" data-ipv-wait hidden role="status"><span class="ipv-spin"></span><p>Sto calcolando il tuo preventivo…</p></div>
-<div class="ipv-done" data-ipv-done hidden role="status"><p class="ipv-done-t">Grazie, <span data-ipv-name></span>!</p><p>Ti contatteremo al più presto per inviarti il preventivo definitivo. Intanto ecco la stima.</p>
+<div class="ipv-wait" data-ipv-wait hidden role="status"><span class="ipv-spin"></span><p>Sto calcolando il tuo preventivo…</p><p class="ipv-wait-x" data-ipv-wait-x>Confronto i creator della fascia scelta</p></div>
+<div class="ipv-done" data-ipv-done hidden role="status"><p class="ipv-unlocked"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 9.6-2M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg> Preventivo sbloccato</p><p class="ipv-done-t">Grazie, <span data-ipv-name></span>!</p><p>Ti contatteremo al più presto per inviarti il preventivo definitivo. Intanto ecco la stima.</p>
 <div class="ipv-res"><p class="ipv-res-k">Il tuo preventivo indicativo</p><p class="ipv-res-v" data-ipv-res-tot></p><p class="ipv-res-x" data-ipv-res-x></p></div>
 <div class="ipv-list" data-ipv-list></div>
 <p class="ipv-done-x">Ti abbiamo scritto anche un’email con una guida su come funzionano le campagne con influencer: puoi partire da solo con la piattaforma o lasciare che la gestiamo noi.</p><p class="ipv-done-a"><a class="ipv-next" href="https://app.influencee.it/iscriviti/brand/">Prova la piattaforma gratis</a></p></div>
@@ -196,7 +244,12 @@ export function bindPreventivo(root: HTMLElement) {
     cur = n;
     steps.forEach((s) => (s.hidden = Number(s.dataset.step) !== n));
     $<HTMLElement>('[data-ipv-n]')!.textContent = String(n);
-    $<HTMLElement>('[data-ipv-bar]')!.style.width = `${(n / STEPS) * 100}%`;
+    // progresso «già avviato» (parte dal 20%) e incoraggiamento a ogni passo: chi vede la meta vicina finisce
+    const pct = [20, 40, 60, 80, 95][n - 1] ?? 95;
+    $<HTMLElement>('[data-ipv-bar]')!.style.width = `${pct}%`;
+    $<HTMLElement>('[data-ipv-pct]')!.textContent = `${pct}%`;
+    $<HTMLElement>('[data-ipv-cheer]')!.textContent = CHEER[n - 1] ?? '';
+    root.classList.toggle('ipv--last', n === STEPS);
     $<HTMLButtonElement>('[data-ipv-back]')!.hidden = n === 1;
     $<HTMLButtonElement>('[data-ipv-next]')!.hidden = n === STEPS;
     $<HTMLButtonElement>('[data-ipv-submit]')!.hidden = n !== STEPS;
@@ -266,7 +319,7 @@ export function bindPreventivo(root: HTMLElement) {
     summary();
     const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
     const st = stima();
-    $<HTMLElement>('[data-ipv-res-tot]')!.textContent = st.tot;
+    $<HTMLElement>('[data-ipv-res-tot]')!.textContent = '';
     $<HTMLElement>('[data-ipv-res-x]')!.textContent = st.dettaglio;
     // il listino si crea solo adesso: prima dell'invio non è nemmeno nell'HTML della pagina
     $<HTMLElement>('[data-ipv-list]')!.innerHTML = listinoHTML();
@@ -293,9 +346,17 @@ export function bindPreventivo(root: HTMLElement) {
     }
     $<HTMLElement>('[data-ipv-name]')!.textContent = data.nome || '';
     setTimeout(() => {
+      const x = $<HTMLElement>('[data-ipv-wait-x]');
+      if (x) x.textContent = 'Applico la nostra trattativa con i creator';
+    }, 700);
+    setTimeout(() => {
       wait.hidden = true;
-      $<HTMLElement>('[data-ipv-done]')!.hidden = false;
-    }, 1400);
+      const done = $<HTMLElement>('[data-ipv-done]')!;
+      done.hidden = false;
+      confetti(done);
+      countUp($<HTMLElement>('[data-ipv-res-tot]')!, st.tot);
+      send('preventivo_sbloccato', { form_name: formName, lead_type: 'brand' });
+    }, 1500);
   });
   show(1);
 }
@@ -342,9 +403,9 @@ export function openPreventivoPopup(container: HTMLElement, o: PreventivoOpts) {
 <p class="ipv-pop-pill"><span class="ipv-pop-dot"></span>Preventivo gratuito · 1 minuto</p>
 <p class="ipv-pop-t" id="ipv-pop-t-${key}">Quanto costerebbe la tua <span>campagna</span> con i creator?</p>
 <p class="ipv-pop-x2">Influencer o UGC, che creator, dove e con quale budget: rispondi a poche domande e vedi subito la stima.</p>
-<div class="ipv-pop-tease" aria-hidden="true"><p class="ipv-pop-tease-k">Il tuo preventivo indicativo</p><p class="ipv-pop-tease-v">2.400 € – 4.800 €<small>/mese</small></p><p class="ipv-pop-lock"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg> Si sblocca alla fine</p></div>
+<div class="ipv-pop-tease" aria-hidden="true"><p class="ipv-pop-tease-k">Il tuo preventivo indicativo</p><p class="ipv-pop-tease-v">2.400 € – 4.800 €<small>/mese</small></p><p class="ipv-pop-lock"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg> Rispondi a 4 domande per sbloccarlo</p></div>
 <ul class="ipv-pop-list"><li>${check}Creator italiani verificati</li><li>${check}La trattativa la facciamo noi</li><li>${check}Nessun impegno</li></ul></div>
-<div class="ipv-pop-main">${preventivoHTML({ ...o, variant: 'compact', title: 'Il tuo preventivo' })}</div></div>`;
+<div class="ipv-pop-main">${preventivoHTML({ ...o, variant: 'compact', title: 'Calcola il tuo preventivo' })}</div></div>`;
   container.appendChild(pop);
   const prevOverflow = document.documentElement.style.overflow;
   document.documentElement.style.overflow = 'hidden';

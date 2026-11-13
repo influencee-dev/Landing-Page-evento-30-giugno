@@ -1,5 +1,15 @@
 # Lavori in corso e prossimi passi (aggiornato il 13/11/2026)
 
+## ✅ Calcolatore «gamificato» (13/11/2026) — Core 2.3.9, Tools 2.0.8, Pagine 2.0.14, Articoli 2.5.3
+
+Titolo «Calcola il tuo preventivo». Barra che parte dal 20% (progresso già avviato) con percentuale, sfumatura
+fucsia→verde e lucchetto in fondo che vibra all'ultimo passo; frase di incoraggiamento a ogni passo («Ottima
+scelta! Ancora 3 risposte»…); spunta animata sulle scelte; pulsante finale «Sblocca il mio preventivo» luminoso;
+attesa con due messaggi; all'arrivo etichetta «Preventivo sbloccato», coriandoli nei colori del sito e cifra che
+sale. Nel popup: «Rispondi a 4 domande per sbloccarlo». Movimenti spenti con «riduci movimento». GA4: nuovo
+evento `preventivo_sbloccato`.
+
+
 ## ✅ Popup del preventivo dopo un minuto (13/11/2026) — Core 2.3.7, Tools 2.0.7, Pagine 2.0.13; grafica nuova Core 2.3.8
 
 - Core 2.3.8: popup ridisegnato (pannello nero con bagliore fucsia/verde, titolo con «campagna» evidenziata in verde
