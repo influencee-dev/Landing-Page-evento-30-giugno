@@ -40,6 +40,9 @@ function infc_preventivo_cfg() {
 function infc_brevo_key() {
 	$k = trim( (string) infc_preventivo_cfg()['preventivo_brevo_key'] );
 	if ( '' === $k ) {
+		$k = (string) get_option( 'sib_api_key_v3', '' ); // plugin Brevo 3.x (mailin): chiave API v3 salvata qui
+	}
+	if ( '' === $k ) {
 		$o = get_option( 'sib_main_option' );
 		if ( is_array( $o ) && ! empty( $o['access_key'] ) ) {
 			$k = (string) $o['access_key'];
