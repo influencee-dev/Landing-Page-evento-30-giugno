@@ -387,6 +387,24 @@ function inft_article_related( $post, $a ) {
 	return $list;
 }
 
+/**
+ * Riquadro a metà articolo (richiesta di Giorgia, 13/11/2026): ogni articolo porta al calcolatore del preventivo
+ * e all'iscrizione. Va prima del terzo titolo H2 (o del secondo, o in fondo se il testo ne ha meno).
+ */
+function inft_article_cta_meta( $html ) {
+	$box = '<aside class="ia-cta" data-section="cta_preventivo"><p class="ia-cta-k">Campagne con influencer</p>'
+		. '<p class="ia-cta-t">Quanto costerebbe la tua campagna?</p>'
+		. '<p>Influencer o UGC, fascia di follower, città e budget: calcola il preventivo in un minuto. Oppure prova la piattaforma e trova i creator da solo.</p>'
+		. '<p class="ia-cta-a"><a class="ia-btn" href="' . esc_url( home_url( '/preventivo-campagne/' ) ) . '#preventivo" data-track="preventivo_cta_click" data-lead-type="brand" data-form-name="lead_preventivo_campagna">Calcola il preventivo</a>'
+		. '<a class="ia-btn ia-btn-ghost" href="https://app.influencee.it/iscriviti/brand/" data-lead-type="brand">Prova Influencee gratis</a></p>'
+		. '<p class="ia-cta-c">Sei un creator? <a href="https://app.influencee.it/iscriviti/creator/" data-lead-type="creator">Iscriviti gratis</a> e ricevi le proposte dei brand.</p></aside>';
+	if ( preg_match_all( '#<h2\b#i', $html, $m, PREG_OFFSET_CAPTURE ) && count( $m[0] ) >= 2 ) {
+		$at = $m[0][ count( $m[0] ) >= 3 ? 2 : 1 ][1];
+		return substr( $html, 0, $at ) . $box . substr( $html, $at );
+	}
+	return $html . $box;
+}
+
 function inft_article_html( $post ) {
 	$a    = inft_article_data( $post );
 	$e    = 'esc_html';
@@ -415,7 +433,7 @@ function inft_article_html( $post ) {
 	if ( ! empty( $a['pot'] ) ) {
 		$h .= inft_article_breve_html( $a['pot'] ) . inft_article_figura_html( $a['pot'] );
 	}
-	$h .= '<div class="ia-content" data-section="testo" data-inft-read>' . $a['html'] . '</div>'; // phpcs:ignore -- testo dell'articolo già filtrato da WordPress e ripulito
+	$h .= '<div class="ia-content" data-section="testo" data-inft-read>' . inft_article_cta_meta( $a['html'] ) . '</div>'; // phpcs:ignore -- testo dell'articolo già filtrato da WordPress e ripulito
 	if ( ! empty( $a['faq_extra'] ) ) {
 		$h .= '<section class="ifn-post__faq" data-section="faq_extra"><h2 id="altre-domande">Altre domande frequenti</h2>';
 		foreach ( $a['faq_extra'] as $q ) {
@@ -433,19 +451,25 @@ function inft_article_html( $post ) {
 		}
 		$h .= '</section>';
 	}
-	// lead verso tandem (lo script del sito raccoglie i form con data-tandem), nello stile dei box del modello
-	$h .= '<section id="ia-lead" class="ia-lead" data-section="modulo_lead"><p><strong>Vuoi applicarlo alla tua campagna?</strong><br>Dicci categoria, zona e budget: il team di Influencee ti propone una prima selezione di creator italiani. Nessun impegno.</p>';
-	$h .= '<form class="ia-form" id="lead-form-articolo" data-tandem data-form="lead_articolo" data-inft-lead>'
-		. '<p class="ia-f"><label for="ia-nome">Nome</label><input id="ia-nome" name="nome" autocomplete="name" required></p>'
-		. '<p class="ia-f"><label for="ia-email">Email</label><input id="ia-email" type="email" name="email" autocomplete="email" required></p>'
-		. '<p class="ia-f"><label for="ia-tel">Telefono <small>(facoltativo)</small></label><input id="ia-tel" type="tel" name="telefono" autocomplete="tel"></p>'
-		. '<p class="ia-f ia-f-full"><label for="ia-rich">Di cosa hai bisogno</label><textarea id="ia-rich" name="richiesta" rows="3" placeholder="Brand, categoria, zona, budget…"></textarea></p>'
-		. '<textarea name="risultato_tool" hidden readonly>' . $e( 'Articolo: ' . $a['title'] ) . '</textarea>'
-		. '<label class="ia-check ia-f-full"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e tool gratuiti di Influencee (facoltativo)</label>'
-		. '<p class="ia-f-full"><button type="submit" class="ia-btn">Ricevi la selezione →</button></p>'
-		. '<p class="ia-small ia-f-full">Usiamo i tuoi dati solo per risponderti. <a href="' . esc_url( home_url( '/privacy-policy/' ) ) . '">Informativa privacy</a></p>'
-		. '<p class="inf-ok ia-ok ia-f-full" role="status" hidden>Richiesta ricevuta: ti rispondiamo presto.</p>'
-		. '</form></section>';
+	// calcolatore del preventivo (Core 2.3.3+): stesso componente delle pagine del sito, lead in Tandem e guida via email
+	$calc = function_exists( 'infc_preventivo_mount' ) ? infc_preventivo_mount( array( 'page' => 'articolo', 'origin' => 'Articolo: ' . $a['title'], 'variant' => 'compact', 'title' => 'Calcola il preventivo' ) ) : '';
+	if ( $calc ) {
+		$h .= '<section id="ia-lead" class="ia-lead ia-lead--calc" data-section="calcolatore_preventivo"><p><strong>Vuoi applicarlo alla tua campagna?</strong><br>Rispondi a poche domande: influencer o UGC, che creator, dove e con quale budget. Vedi subito la fascia di prezzo e ti mandiamo il preventivo completo.</p>' . $calc . '</section>';
+	} else {
+		// lead verso tandem (lo script del sito raccoglie i form con data-tandem), nello stile dei box del modello
+		$h .= '<section id="ia-lead" class="ia-lead" data-section="modulo_lead"><p><strong>Vuoi applicarlo alla tua campagna?</strong><br>Dicci categoria, zona e budget: il team di Influencee ti propone una prima selezione di creator italiani. Nessun impegno.</p>';
+		$h .= '<form class="ia-form" id="lead-form-articolo" data-tandem data-form="lead_articolo" data-inft-lead>'
+			. '<p class="ia-f"><label for="ia-nome">Nome</label><input id="ia-nome" name="nome" autocomplete="name" required></p>'
+			. '<p class="ia-f"><label for="ia-email">Email</label><input id="ia-email" type="email" name="email" autocomplete="email" required></p>'
+			. '<p class="ia-f"><label for="ia-tel">Telefono <small>(facoltativo)</small></label><input id="ia-tel" type="tel" name="telefono" autocomplete="tel"></p>'
+			. '<p class="ia-f ia-f-full"><label for="ia-rich">Di cosa hai bisogno</label><textarea id="ia-rich" name="richiesta" rows="3" placeholder="Brand, categoria, zona, budget…"></textarea></p>'
+			. '<textarea name="risultato_tool" hidden readonly>' . $e( 'Articolo: ' . $a['title'] ) . '</textarea>'
+			. '<label class="ia-check ia-f-full"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e tool gratuiti di Influencee (facoltativo)</label>'
+			. '<p class="ia-f-full"><button type="submit" class="ia-btn">Ricevi la selezione →</button></p>'
+			. '<p class="ia-small ia-f-full">Usiamo i tuoi dati solo per risponderti. <a href="' . esc_url( home_url( '/privacy-policy/' ) ) . '">Informativa privacy</a></p>'
+			. '<p class="inf-ok ia-ok ia-f-full" role="status" hidden>Richiesta ricevuta: ti rispondiamo presto.</p>'
+			. '</form></section>';
+	}
 	// "Continua a leggere": quelli scelti nell'articolo (link interni di oggi), altrimenti stessi argomenti
 	if ( ! empty( $a['related_html'] ) ) {
 		$h .= str_replace( '<section class="ifn-post__related"', '<section class="ifn-post__related" data-section="correlati"', $a['related_html'] ); // phpcs:ignore -- HTML dell'articolo, già ripulito

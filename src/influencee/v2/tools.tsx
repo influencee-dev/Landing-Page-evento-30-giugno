@@ -5,6 +5,8 @@ import { Container, Section, SectionHeader, GAP, TYPE, reveal, type Tone } from 
 import { track } from './analytics';
 import { ENV, liveJobs } from './env';
 import { APP, CATEGORIES, COMPENSI, GESTITO, JOBS, MARKET, WHATSAPP, type Compenso } from './data';
+import { bindPreventivo, preventivoHTML, type PreventivoOpts } from './preventivo/widget';
+import './preventivo/widget.css';
 
 /* ════════════════════════════════════════════════════════════════════
    TOOL GRATUITI RESTAURATI (lead magnet del vecchio sito)
@@ -889,121 +891,53 @@ export function PreventivoPanel({ className = '' }: { className?: string }) {
   );
 }
 
-/* ─── 8. Fascia «Preventivo campagna gestita» per le pagine con visite di brand ──
-   Misura del 13/11/2026: il calcolatore stava solo in /preventivo-campagne/ (10 persone in 16 giorni).
-   Questa fascia porta un calcolatore ridotto e il modulo «Ti richiamiamo» nelle pagine che i brand vedono
-   davvero (home, prezzi, costo influencer, categorie, città…). Stesso schema di ToolLead: <form data-tandem>,
-   nome «Lead tool: preventivo_<pagina>», pagina di origine e stima nel campo visibile «risultato_tool»
-   (tandem ignora i campi nascosti). GA4: clic sul pulsante = `preventivo_cta_click`, invio = `form_submit`
-   + `generate_lead`, entrambi con lead_type = brand e form_name = lead_preventivo_<pagina>. */
-const BUDGETS = ['Meno di 1.000 €', '1.000 – 3.000 €', '3.000 – 10.000 €', 'Oltre 10.000 €', 'Non lo so ancora'];
+/* ─── 8. Calcolatore del preventivo a passi (preventivo/widget.ts) ──
+   Stesso componente in tutto il sito: qui la versione React, negli articoli e nelle pagine WordPress
+   la versione del Core (assets/inft-preventivo.js). L'HTML lo scrive widget.ts; React non lo tocca più
+   dopo il primo disegno, il comportamento lo collega bindPreventivo. */
+export function PreventivoWidget(props: PreventivoOpts & { className?: string }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const { className, ...o } = props;
+  const html = useMemo(() => preventivoHTML(o), [o.page, o.origin, o.variant, o.city, o.sector, o.title]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (ref.current) bindPreventivo(ref.current.firstElementChild as HTMLElement);
+  }, [html]);
+  return <div ref={ref} className={className} dangerouslySetInnerHTML={{ __html: html }} />;
+}
 
-export function PreventivoBand({ page, origin, eyebrow = 'Campagna gestita dal team', title, lead, tone = 'paper', city, sector }: {
-  /** chiave breve della pagina: diventa «preventivo_<page>» (nome del modulo in Tandem e in GA4) */
+/* Fascia «Preventivo» per le pagine con visite di brand (home, prezzi, categorie, città…).
+   Misura del 13/11/2026: il calcolatore stava solo in /preventivo-campagne/ (10 persone in 16 giorni).
+   Modulo «Lead tool: preventivo_<pagina>» (Tandem), GA4: preventivo_start, preventivo_step, form_submit,
+   generate_lead con lead_type = brand. */
+export function PreventivoBand({ page, origin, eyebrow = 'Preventivo in un minuto', title, lead, tone = 'paper', city, sector }: {
   page: string;
-  /** testo leggibile della pagina di origine, inviato con la richiesta (es. «Categoria: Food») */
   origin: string;
   eyebrow?: string;
   title: string;
   lead?: string;
   tone?: Tone;
-  /** città o regione nota dalla pagina: precompila il campo */
   city?: string;
-  /** settore noto dalla pagina: precompila il campo */
   sector?: string;
 }) {
-  const key = `preventivo_${page}`;
-  const formName = `lead_${key}`;
-  const [n, setN] = useState(3);
-  const [ugc, setUgc] = useState(0);
-  const [months, setMonths] = useState(3);
-  const [sent, setSent] = useState(false);
-  const q = gestitoQuote(n, 1, ugc, months);
-  useDebouncedTrack('calculator_use', { calculator: key, creators: n, contents: 1, ugc, months, result_band: `${Math.round(q.monthly)}/mese` }, [n, ugc, months]);
-  const context = `Pagina di origine: ${origin} · stima: ${n} influencer con 1 contenuto al mese, ${ugc} video UGC al mese, ${months} mes${months === 1 ? 'e' : 'i'} · ${it(q.monthly)} € al mese, totale ${it(q.total)} €`;
-  const field = 'mt-1.5 h-12 w-full rounded-2xl bg-paper px-4 text-[15px] text-ink outline-none ring-1 ring-line focus:ring-brand';
-  const card = tone === 'paper' ? 'bg-white' : 'bg-paper';
   return (
-    <Section tone={tone} id={`lead-${key}`}>
+    <Section tone={tone} id={`lead-preventivo_${page}`}>
       <Container>
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_1.05fr]">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
-            <SectionHeader align="left" eyebrow={eyebrow} title={title} lead={lead ?? `Scegli quanti influencer ti servono e vedi subito la stima con il nostro listino. Il team sceglie i creator con te, segue i contenuti e misura i risultati.`} />
-            <div className={`mt-8 rounded-[28px] p-5 text-ink ring-1 ring-line sm:p-6 ${card}`}>
-              <div className="grid grid-cols-2 gap-3">
-                <Stepper id={`${key}-n`} label="Influencer" value={n} set={setN} min={1} />
-                <Stepper id={`${key}-u`} label="Video UGC al mese" value={ugc} set={setUgc} />
-              </div>
-              <div className="mt-3">
-                <span className="text-xs font-semibold text-mute">Durata</span>
-                <div className="mt-1.5 grid h-12 grid-cols-4 gap-1 rounded-2xl bg-paper p-1 ring-1 ring-line" role="tablist" aria-label="Durata in mesi">
-                  {[1, 3, 6, 12].map((m) => (
-                    <button key={m} type="button" role="tab" aria-selected={months === m} onClick={() => setMonths(m)} className={`rounded-xl text-sm font-semibold ${months === m ? 'bg-ink text-white' : 'text-mute'}`}>
-                      {m} mes{m === 1 ? 'e' : 'i'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-4 rounded-[22px] bg-ink p-5 text-white" aria-live="polite">
-                <div className="flex flex-wrap items-end justify-between gap-3">
-                  <div>
-                    <p className={`${TYPE.label} text-white/55`}>Stima al mese</p>
-                    <p className="mt-1 font-heading text-4xl font-semibold tracking-tight tabular-nums">{it(q.monthly)} €</p>
-                  </div>
-                  <div className="text-right">
-                    <p className={`${TYPE.label} text-white/55`}>Totale {months} mes{months === 1 ? 'e' : 'i'}</p>
-                    <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-acid">{it(q.total)} €</p>
-                  </div>
-                </div>
-                <p className="mt-3 text-xs text-white/55">Un contenuto al mese per influencer, gestione inclusa. Listino per creator fino a {it(GESTITO.maxFollower)} follower{q.discount ? `, sconto durata ${it(q.discount * 100)}%` : ''}.</p>
-                <a href="#/preventivo-campagne/#preventivo" data-track="preventivo_cta_click" data-lead-type="brand" data-form-name={formName} className="mt-4 inline-flex h-11 items-center gap-2 rounded-full bg-acid px-5 text-sm font-semibold text-ink transition hover:-translate-y-0.5">
-                  Calcola il preventivo completo <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
-            </div>
+            <SectionHeader align="left" eyebrow={eyebrow} title={title} lead={lead ?? 'Rispondi a quattro domande: influencer o UGC, che creator, dove e con che budget. Vedi subito la fascia di prezzo e ti mandiamo il preventivo completo.'} />
+            <ul className="mt-8 grid gap-3">
+              {['Influencer o UGC: ti spieghiamo la differenza', 'Prezzo indicativo per fascia di follower', 'La trattativa con i creator la facciamo noi'].map((b, i) => (
+                <li key={b} className={`flex items-center gap-4 rounded-2xl p-4 text-[15px] font-semibold ${tone === 'paper' ? 'bg-white ring-1 ring-line' : 'bg-paper'}`}>
+                  <span className={`flex h-10 w-10 flex-none items-center justify-center rounded-xl ${['bg-acid text-ink', 'bg-brand text-white', 'bg-ink text-white'][i % 3]}`}>{React.createElement([BadgeCheck, TrendingUp, Check][i % 3], { className: 'h-4 w-4' })}</span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+            <a href="#/preventivo-campagne/" data-track="preventivo_cta_click" data-lead-type="brand" data-form-name={`lead_preventivo_${page}`} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand-ink underline-offset-4 hover:underline">
+              Apri il calcolatore completo <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
-          {sent ? (
-            <div className="rounded-[28px] bg-ink p-8 text-white" role="status">
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-acid text-ink"><Check className="h-5 w-5" /></span>
-              <p className="mt-5 font-heading text-2xl font-semibold tracking-tight">Ricevuto, grazie!</p>
-              <p className="mt-2 text-white/65">Ti richiama una persona del team con il preventivo. Se hai fretta scrivici su WhatsApp.</p>
-              <a href={WHATSAPP.href} className="mt-6 inline-flex h-11 items-center rounded-full bg-[#25d366] px-5 text-sm font-semibold text-ink">Scrivici su WhatsApp</a>
-            </div>
-          ) : (
-            <form
-              id={`lead-form-${key}`}
-              name={`Lead tool: ${key}`}
-              aria-label="Ti richiamiamo con il preventivo"
-              data-tandem=""
-              data-form={formName}
-              data-lead-type="brand"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSent(true);
-              }}
-              className="grid grid-cols-1 gap-3 rounded-[28px] bg-white p-5 text-ink shadow-[0_24px_60px_-30px_rgba(29,29,31,0.35)] ring-1 ring-line sm:grid-cols-2 sm:p-7"
-            >
-              <div className="sm:col-span-2">
-                <p className="font-heading text-xl font-semibold tracking-tight">Ti richiamiamo con il preventivo</p>
-                <p className="mt-1 text-xs text-mute">Una persona del team rivede la stima con te e ti propone i primi creator. Nessun impegno.</p>
-              </div>
-              <label htmlFor={`${key}-nome`}><span className="text-xs font-semibold text-mute">Nome</span><input id={`${key}-nome`} name="nome" autoComplete="given-name" required className={field} /></label>
-              <label htmlFor={`${key}-azienda`}><span className="text-xs font-semibold text-mute">Azienda</span><input id={`${key}-azienda`} name="azienda" autoComplete="organization" className={field} /></label>
-              <label htmlFor={`${key}-email`}><span className="text-xs font-semibold text-mute">Email</span><input id={`${key}-email`} name="email" type="email" autoComplete="email" required className={field} /></label>
-              <label htmlFor={`${key}-tel`}><span className="text-xs font-semibold text-mute">Telefono</span><input id={`${key}-tel`} name="telefono" type="tel" autoComplete="tel" required className={field} /></label>
-              <label htmlFor={`${key}-budget`} className={city || sector ? '' : 'sm:col-span-2'}><span className="text-xs font-semibold text-mute">Budget indicativo</span>
-                <select id={`${key}-budget`} name="budget" className={field} defaultValue=""><option value="">Scegli</option>{BUDGETS.map((b) => <option key={b}>{b}</option>)}</select>
-              </label>
-              {city && <label htmlFor={`${key}-citta`}><span className="text-xs font-semibold text-mute">Città o zona</span><input id={`${key}-citta`} name="citta" defaultValue={city} className={field} /></label>}
-              {!city && sector && <label htmlFor={`${key}-settore`}><span className="text-xs font-semibold text-mute">Settore</span><input id={`${key}-settore`} name="settore" defaultValue={sector} className={field} /></label>}
-              <label htmlFor={`${key}-ctx`} className="sm:col-span-2"><span className="text-xs font-semibold text-mute">La tua stima (la inviamo insieme alla richiesta)</span>
-                <textarea id={`${key}-ctx`} name="risultato_tool" readOnly value={context} rows={3} className="mt-1.5 w-full resize-none rounded-2xl bg-ink px-4 py-3 text-xs leading-relaxed text-white/80 outline-none" />
-              </label>
-              <label className="flex items-start gap-2 text-xs text-mute sm:col-span-2"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4 accent-[#ff1f8f]" /> Voglio ricevere novità e tool gratuiti di Influencee (facoltativo)</label>
-              <button type="submit" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-semibold text-white sm:col-span-2">Richiamatemi con il preventivo <ArrowRight className="h-4 w-4" /></button>
-              <p className="text-[11px] leading-relaxed text-mute sm:col-span-2">Usiamo i tuoi dati solo per risponderti. <a href="/privacy-policy/" className="underline">Informativa privacy</a></p>
-            </form>
-          )}
+          <PreventivoWidget page={page} origin={origin} variant="compact" city={city} sector={sector} />
         </div>
       </Container>
     </Section>

@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Button, entrance } from '../ds';
+import { Button, Container, Section, SectionHeader, entrance } from '../ds';
 import { HeroReels, ReelWall, WorkReelCard } from '../rows/reels';
 import { REELS } from '../site/data';
+import { FASCE, UGC, range } from './preventivo/listino';
 import { APP, CATEGORIES, SUBCATEGORIES, subcategoriesOf, cityPath, regionPath, CREATOR_TYPES, FACTS, FAQ, GESTITO, MARKET, REGIONS, SITE, WHATSAPP, type QA } from './data';
 import { AnnunciMock, CalendarMock, CollabMock, ContractMock, DiscoveryMock, KitMock, TrustMock, LinkMock, ProfileMock, SearchMock, SignupMock } from './mocks';
 import {
@@ -29,11 +30,14 @@ import {
   TiersRow,
   type Crumb,
   type FeatureItem,
+  AudienceCtx,
+  type Audience,
 } from './rows';
 import { CreatorDirectory, CreatorList } from './creators';
+import { pageTypeOf } from './analytics';
 import { SUB_STORY } from './substory';
 import { EX_PAGES, exPage } from './ex';
-import { CostCalcPanel, PreventivoBand, PreventivoPanel, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
+import { CostCalcPanel, PreventivoBand, PreventivoWidget, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
    PAGINE v2 — ogni route restituisce contenuto + metadati SEO.
@@ -407,7 +411,7 @@ function JobsPage() {
       ]} />
       <FaqSeo items={JOBS_FAQ} />
       <Related links={[{ label: 'UGC creator', text: 'Cos’è e come diventarlo', href: '#/ugc-creator/' }, { label: 'Costo di un influencer', text: 'Quanto chiedere per un post', href: '#/social-media-tool/costo-influencer/' }, { label: 'Media kit', text: 'Presentati ai brand', href: '#/funzionalita/media-kit/' }]} />
-      <CtaDual title={'Pubblica o candidati,\n*è gratis*'} />
+      <CtaDual />
     </>
   );
 }
@@ -713,20 +717,33 @@ const GESTITO_FAQ: QA[] = [
   { q: 'Posso gestire la campagna da solo?', a: 'Sì: con la piattaforma cerchi i creator, pubblichi annunci e gestisci contratti e link tracciati in autonomia, senza commissioni sulle collaborazioni. Il servizio gestito è per chi preferisce delegare.' },
 ];
 function GestitoPage() {
+  const go = () => document.getElementById('preventivo')?.scrollIntoView({ behavior: 'smooth' });
   return (
     <>
-      <HeroPlatform crumbs={[{ label: 'Soluzioni' }, { label: 'Campagna gestita' }]} eyebrow="Campagna gestita dal team" title={'Quanto costa una campagna\ncon influencer? *Calcolala*'} lead="Scegli quanti influencer e video UGC ti servono e vedi subito il preventivo con il nostro listino. Il team segue creator, contenuti e risultati." actions={<Button href={WHATSAPP.href} variant="secondary">Parla con il team</Button>} visual={<PreventivoPanel className="mx-auto max-w-[540px]" />} />
-      <ToolLead tool="preventivo_campagna" eyebrow="Preferisci una chiamata?" title={'Ti richiamiamo\n*con il preventivo*'} lead="Lascia i contatti: il team ti richiama, rivede il preventivo con te e ti propone i primi creator." bullets={['Preventivo confermato per iscritto', 'Prima selezione di creator', 'Nessun impegno']} cta="Richiamatemi" phone="obbligatorio" />
-      <AnswerBox q="Quanto costa una campagna con influencer?" a={`${GESTITO_FAQ[0].a} Esempio: 3 influencer con un contenuto al mese per 3 mesi costano 6.412,50 €, con lo sconto del 5%.`} points={[`${GESTITO.creator} € a influencer al mese`, `${GESTITO.ugc} € a video UGC`, 'Gestione del team inclusa nel listino', 'Sconti fino all’8% sulla durata']} />
+      <HeroPlatform crumbs={[{ label: 'Soluzioni' }, { label: 'Preventivo campagna' }]} eyebrow="Preventivo campagna con influencer" title={'Quanto costa una campagna\ncon influencer? *Calcolala*'} lead="Rispondi a poche domande: influencer o UGC, che creator, quanti, dove e con quale budget. Vedi subito la fascia di prezzo e ti mandiamo il preventivo completo, con il progetto della campagna." actions={<><Button onClick={go}>Calcola il preventivo</Button><Button href={WHATSAPP.href} variant="secondary">Parla con il team</Button></>} visual={<CollabMock className="mx-auto max-w-[500px]" />} />
+      <Section tone="paper" id="preventivo">
+        <Container>
+          <SectionHeader eyebrow="Il calcolatore" title={'Il tuo preventivo\n*in cinque passi*'} lead="Il prezzo finale dipende dai creator che scegliamo insieme: per ogni budget costruiamo un progetto e la trattativa con i creator la facciamo noi." />
+          <PreventivoWidget page="campagna" origin="Preventivo campagne" variant="full" title="Calcola il preventivo" className="mt-10" />
+        </Container>
+      </Section>
+      <CardGrid tone="white" cols={2} eyebrow="Prima di scegliere" title={'Influencer o UGC:\n*che differenza c’è?*'} lead="Sono due modi diversi di lavorare con i creator, con prezzi diversi." items={[
+        { tag: 'Influencer', t: 'Usano la loro community', x: 'L’influencer pubblica il contenuto sul suo profilo: il tuo prodotto arriva ai suoi follower. Paghi il contenuto e la visibilità, per questo il prezzo cresce con i follower e con la nicchia.' },
+        { tag: 'UGC creator', t: 'Video per i tuoi canali', x: 'Il creator gira video per i tuoi social e le tue inserzioni, senza pubblicarli sul suo profilo. Sono tanti micro creator, anche non famosi: paghi il video, non la community. Ideale per tenere vivi i tuoi canali ogni mese.' },
+      ]} />
+      <CardGrid tone="paper" cols={4} eyebrow="Prezzi indicativi" title={'Quanto costa un creator\n*per fascia di follower*'} lead="Compenso del creator per un contenuto, gestione esclusa. Creator di nicchia e professionisti (nutrizionisti, medici, avvocati, notai) costano di più: il loro pubblico è più qualificato." items={[
+        ...FASCE.map((f) => ({ tag: f.l, t: range(f.lo, f.hi, false), x: 'a contenuto, per creator generici' })),
+      ]} />
+      <AnswerBox q="Quanto costa una campagna con influencer?" a={`Dipende da tre cose: follower dei creator, tipo di creator e numero di contenuti. Indicativamente un creator fino a 10.000 follower costa ${range(FASCE[0].lo, FASCE[0].hi, false)} a contenuto, verso gli 80.000 follower si sale a 900–1.000 €, e creator di nicchia o professionisti costano di più. Un video UGC costa di solito ${range(UGC.lo, UGC.hi, false)}. Con il calcolatore vedi la tua fascia e ricevi il preventivo completo.`} points={['Influencer: paghi anche la visibilità', 'UGC: paghi il video', 'Nicchia e professionisti costano di più', 'La trattativa la facciamo noi']} />
       <Steps title={'Come lavoriamo\n*per te*'} steps={[
-        { t: 'Brief e budget', x: 'Obiettivo, prodotto e pubblico, in una call.' },
-        { t: 'Scelta dei creator', x: 'Ti proponiamo i profili, tu approvi.' },
+        { t: 'Preventivo e progetto', x: 'Dal calcolatore al progetto: obiettivo, creator e budget.' },
+        { t: 'Scelta dei creator', x: 'Ti proponiamo i profili e trattiamo noi il prezzo, tu approvi.' },
         { t: 'Contenuti', x: 'Brief, consegne e approvazioni nella piattaforma.' },
         { t: 'Risultati', x: 'Click e visitatori dai link tracciati.' },
       ]} />
       <FeatureSplit items={[F.campagne, F.link]} />
       <FaqSeo items={GESTITO_FAQ} />
-      <Related links={[{ label: 'Quanto costa un influencer', text: 'Prezzo di un singolo creator', href: '#/social-media-tool/costo-influencer/' }, { label: 'Fake follower checker', text: 'Controlla un profilo', href: '#/followe-instagram-fake-follower/' }, { label: 'Agenzia influencer', text: 'Il servizio gestito di Influencee', href: `${SITE.url}/agenzia-influencer/` }]} />
+      <Related links={[{ label: 'Quanto costa un influencer', text: 'Prezzo di un singolo creator', href: '#/social-media-tool/costo-influencer/' }, { label: 'Pubblica un’offerta', text: 'Gratis, i creator si candidano', href: '#/pubblica-offerta-lavoro/' }, { label: 'Agenzia influencer', text: 'Il servizio gestito di Influencee', href: `${SITE.url}/agenzia-influencer/` }]} />
       <CtaDual />
     </>
   );
@@ -974,10 +991,12 @@ const T = (s: string) => `${s} | ${SITE.name}`;
 /** Modulo lead (tandem) in fondo alle pagine che non ne hanno già uno: demo per i brand, avvisi per i creator. */
 const BRAND_LEAD = ['/piattaforma-influencer/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/prezzi/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/'];
 const CREATOR_LEAD = ['/diventa-creator/', '/ugc-creator/'];
+const BAND_TOOLS = ['/social-media-tool/', '/followe-instagram-fake-follower/', '/benchmark-engagement-rate/', '/pubblica-offerta-lavoro/', '/contatti-influencee/'];
 function withLead(r: Resolved): Resolved {
   const p = r.meta.path;
-  if (BRAND_LEAD.includes(p) || p.startsWith('/funzionalita/'))
-    return { ...r, el: <>{r.el}<ToolLead tool="demo" context={`Pagina: ${r.meta.label}`} tone="paper" eyebrow="Demo" title={'Ti mostriamo la piattaforma\n*con il tuo settore*'} lead="Lasciaci i contatti: in una call ti mostriamo creator del tuo settore e come si gestisce una campagna su Influencee." bullets={['Creator del tuo settore e della tua zona', 'Campagne, contratto e link tracciati', 'Nessun impegno']} cta="Richiedi la demo" /></> };
+  // pagine per aziende e tool: calcolatore del preventivo (al posto del vecchio modulo «demo», 13/11/2026)
+  if ((BRAND_LEAD.includes(p) && p !== '/prezzi/' && p !== '/influencer-marketing-aziende/') || p.startsWith('/funzionalita/') || BAND_TOOLS.includes(p))
+    return { ...r, el: <>{r.el}<PreventivoBand page={p.replace(/^\/|\/$/g, '').replace(/[^a-z0-9]+/g, '_') || 'home'} origin={r.meta.label} title={'Vuoi una campagna con i creator?\n*Calcola il preventivo*'} /></> };
   if (CREATOR_LEAD.includes(p))
     return { ...r, el: <>{r.el}<ToolLead tool="creator_avvisi" context={`Pagina: ${r.meta.label}`} tone="paper" eyebrow="Per i creator" title={'Ricevi le offerte\n*della tua categoria*'} lead="Lasciaci email e categoria: ti scriviamo quando un brand cerca creator come te." bullets={['Solo offerte della tua categoria', 'Iscrizione gratuita', 'Ti cancelli quando vuoi']} cta="Avvisami" phone="no" withCategory /></> };
   return r;
@@ -986,7 +1005,21 @@ function withLead(r: Resolved): Resolved {
 /** Primo title che resta entro 60 caratteri (con il nome del sito). */
 const fit = (opts: string[]) => opts.map(T).find((t) => t.length <= 60) ?? T(opts[opts.length - 1]);
 
+/** Pagine per i creator: scheda finale con iscrizione creator e offerte. */
+const CREATOR_PATHS = ['/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/influencer/', '/funzionalita/media-kit/', '/academy-influencer-marketing/', '/social-media-tool/emoticon-da-copiare/'];
+function audienceOf(path: string): Audience {
+  if (CREATOR_PATHS.includes(path) || path.startsWith('/creator/') || path.startsWith('/offerte-lavoro-influencer/')) return 'creator';
+  const a = pageTypeOf(path).audience;
+  return a === 'brand' || a === 'creator' ? a : 'misto';
+}
+
 export function resolve(path: string): Resolved | null {
+  const r = resolveRoute(path);
+  if (!r) return null;
+  return { ...r, el: <AudienceCtx.Provider value={audienceOf(r.meta.path)}>{r.el}</AudienceCtx.Provider> };
+}
+
+function resolveRoute(path: string): Resolved | null {
   const p = path.replace(/\/?$/, '/');
   const seg = p.split('/').filter(Boolean);
 
@@ -1004,7 +1037,7 @@ export function resolve(path: string): Resolved | null {
     '/ugc-creator/': () => ({ meta: { path: p, label: 'UGC creator', type: 'page', kw: 'ugc creator', title: T('UGC creator: cos’è e come diventarlo in Italia'), description: 'Cosa fa un UGC creator, differenza con l’influencer, quanto guadagna e come trovare brand che cercano UGC creator in Italia. Iscrizione gratuita.', crumbs: [{ label: 'UGC creator' }], faq: [{ q: 'Serve la partita IVA per fare l’UGC creator?', a: 'Dipende da quanto e con che continuità lavori: per collaborazioni occasionali può bastare la prestazione occasionale, per un’attività continuativa serve la partita IVA. Chiedi conferma al tuo commercialista. Su influencee puoi indicare la partita IVA nel profilo.' }, { q: 'Dove trovo brand che cercano UGC creator?', a: 'Nella bacheca annunci di influencee: i brand pubblicano offerte con compenso e scadenza e i creator iscritti si candidano.' }, FAQ.creator[1], FAQ.creator[0]] }, el: <Ugc /> }),
     '/offerte-lavoro-influencer/': () => ({ meta: { path: p, label: 'Offerte di lavoro', type: 'page', kw: 'offerte lavoro influencer', title: T('Offerte di lavoro per influencer e UGC creator'), description: 'Collaborazioni con i brand per influencer e UGC creator: offerte pagate, cambio merce e % sulle vendite. Cerca per settore e città e candidati gratis.', crumbs: [{ label: 'Creator' }, { label: 'Offerte di lavoro' }], faq: JOBS_FAQ }, el: <JobsPage /> }),
     '/pubblica-offerta-lavoro/': () => ({ meta: { path: p, label: 'Pubblica offerta', type: 'software', kw: 'annuncio per influencer', title: T('Pubblica un annuncio per influencer, gratis'), description: 'Pubblica gratis un’offerta di collaborazione per influencer e UGC creator italiani: compenso, cambio merce o % sulle vendite. Ti ricontattiamo noi.', crumbs: [{ label: 'Aziende' }, { label: 'Pubblica offerta' }], faq: POST_FAQ }, el: <PostJobPage /> }),
-    '/preventivo-campagne/': () => ({ meta: { path: p, label: 'Campagna gestita', type: 'tool', kw: 'preventivo campagna influencer marketing', title: T('Preventivo campagna influencer marketing'), description: 'Quanto costa una campagna con influencer e UGC creator gestita dal team Influencee: 500 € a influencer al mese, 150 € a video UGC, sconti fino all’8%.', crumbs: [{ label: 'Soluzioni' }, { label: 'Campagna gestita' }], faq: GESTITO_FAQ }, el: <GestitoPage /> }),
+    '/preventivo-campagne/': () => ({ meta: { path: p, label: 'Preventivo campagna', type: 'tool', kw: 'preventivo campagna influencer marketing', title: T('Preventivo campagna influencer marketing'), description: 'Calcola il preventivo di una campagna con influencer o UGC creator: fascia di follower, tipo di creator, città e budget. Il progetto completo te lo mandiamo noi.', crumbs: [{ label: 'Soluzioni' }, { label: 'Campagna gestita' }], faq: GESTITO_FAQ }, el: <GestitoPage /> }),
     '/social-media-tool/': () => ({ meta: { path: p, label: 'Tool gratuiti', type: 'page', kw: 'tool influencer marketing', title: T('Tool influencer marketing gratuiti'), description: 'Tool gratuiti per influencer marketing: fake follower checker, calcolo engagement rate, costo influencer, preventivo campagna ed emoticon da copiare.', crumbs: [{ label: 'Risorse' }, { label: 'Tool gratuiti' }], faq: HUB_FAQ }, el: <ToolsHubPage /> }),
     '/followe-instagram-fake-follower/': () => ({ meta: { path: p, label: 'Fake follower', type: 'tool', kw: 'fake follower instagram', title: T('Fake follower Instagram: check gratuito e guida'), description: 'Controlla gratis i follower falsi di un profilo Instagram o TikTok: 5 segnali con soglie dichiarate, senza login. Più la guida per riconoscerli a mano.', crumbs: [{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Fake follower' }], faq: FF_FAQ }, el: <FakeFollowerPage /> }),
     '/social-media-tool/emoticon-da-copiare/': () => ({ meta: { path: p, label: 'Emoticon da copiare', type: 'tool', kw: 'emoji da copiare', title: T('Emoticon ed emoji da copiare e incollare'), description: 'Emoji ed emoticon da copiare e incollare gratis: faccine, cuori, mani, cibo, viaggi e simboli. Un clic per copiare su Instagram, TikTok e WhatsApp.', crumbs: [{ label: 'Tool gratuiti', href: '#/social-media-tool/' }, { label: 'Emoticon da copiare' }], faq: EMOJI_FAQ }, el: <EmojiPage /> }),

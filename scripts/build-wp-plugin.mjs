@@ -39,6 +39,20 @@ await build({
   },
 });
 copyFileSync(join(ROOT, 'dist-wp/build-boot/inft-boot.js'), join(OUT, 'assets/inft-boot.js'));
+// 1c. calcolatore del preventivo per articoli e pagine WordPress (JS + CSS propri, senza React)
+await build({
+  configFile: false,
+  logLevel: 'warn',
+  publicDir: false,
+  build: {
+    outDir: 'dist-wp/build-preventivo',
+    emptyOutDir: true,
+    cssCodeSplit: false,
+    rollupOptions: { input: join(ROOT, 'src/influencee/v2/preventivo/standalone.ts'), output: { format: 'iife', entryFileNames: 'inft-preventivo.js', assetFileNames: 'inft-preventivo[extname]' } },
+  },
+});
+copyFileSync(join(ROOT, 'dist-wp/build-preventivo/inft-preventivo.js'), join(OUT, 'assets/inft-preventivo.js'));
+copyFileSync(join(ROOT, 'dist-wp/build-preventivo/inft-preventivo.css'), join(OUT, 'assets/inft-preventivo.css'));
 
 // 2. CSS isolato: niente @layer (il tema li batterebbe), ogni regola sotto #influencee-tools,
 //    via i font importati (li carica WordPress), html/body/:root → il contenitore.

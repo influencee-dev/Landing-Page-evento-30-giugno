@@ -217,3 +217,14 @@ personalizzata `metric_value` (unità standard). Esplorazione: righe `page_type`
 
 Ogni modulo con `data-lead-type` passa il tipo di lead a `form_submit` e `generate_lead`; ogni pulsante con
 `data-lead-type` / `data-form-name` lo passa al suo evento di clic. Registrare `lead_type` come dimensione personalizzata.
+
+### Calcolatore a passi (13/11/2026, sostituisce la fascia con stima immediata)
+
+| Evento | Quando | Parametri |
+|---|---|---|
+| `preventivo_start` | prima scelta nel calcolatore | `form_name`, `lead_type = brand` |
+| `preventivo_step` | passaggio al passo successivo | `step` (1–4), `scelta` (tipo, fascia, budget), `form_name` |
+| `form_submit` + `generate_lead` | «Calcola il preventivo» con i contatti | `form_name` / `lead_source = lead_preventivo_<pagina>`, `lead_type = brand` |
+| clic nella scheda finale | `data-track-zone = scheda_brand / scheda_creator / scheda_misto` | `cta_location`, `lead_type` |
+
+Imbuto da costruire in GA4: `preventivo_start` → `preventivo_step` (1…4) → `generate_lead`, per `form_name`.

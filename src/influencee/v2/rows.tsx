@@ -506,29 +506,42 @@ export function Related({ tone = 'white', title = 'Continua a\n*esplorare*', lin
 }
 
 /* ─── Doppio ingresso: brand e creator ──────────────────────────── */
-export function CtaDual({ title = 'Inizia oggi,\n*è gratis*' }: { title?: string }) {
+/** Pubblico della pagina (lo imposta resolve in pages.tsx): decide la scheda finale. */
+export type Audience = 'brand' | 'creator' | 'misto';
+export const AudienceCtx = React.createContext<Audience>('misto');
+
+/* Scheda finale in tutte le pagine, diversa per pubblico (richiesta di Giorgia, 13/11/2026):
+   creator → iscrizione creator e offerte; aziende → iscrizione azienda, pubblica offerta, preventivo;
+   pagine miste → tutte e quattro. */
+export function CtaDual({ title }: { title?: string }) {
+  const audience = React.useContext(AudienceCtx);
+  const cards = {
+    brand: { href: APP.brand, tag: 'Aziende e agenzie', t: 'Trova i creator giusti', x: `${FACTS.trialDays} giorni di Premium in prova, nessuna carta richiesta.`, cta: 'Registra la tua azienda', cls: 'bg-white text-ink', link: 'text-brand-ink' },
+    offerta: { href: '#/pubblica-offerta-lavoro/', tag: 'Aziende', t: 'Pubblica un’offerta di lavoro', x: 'Gratis: descrivi la collaborazione e i creator si candidano.', cta: 'Pubblica l’offerta', cls: 'bg-ink-2 text-white ring-1 ring-white/10', link: 'text-acid' },
+    preventivo: { href: '#/preventivo-campagne/', tag: 'Campagna gestita', t: 'Calcola il preventivo', x: 'Influencer o UGC, fascia e budget: ti mandiamo il progetto completo.', cta: 'Calcola il preventivo', cls: 'bg-brand text-white', link: 'text-white' },
+    creator: { href: APP.creator, tag: 'Creator', t: 'Ricevi proposte dai brand', x: 'Iscrizione gratuita, collega i social e ottieni il badge Verificato.', cta: 'Iscriviti come creator', cls: 'bg-acid text-ink', link: 'text-ink' },
+    offerte: { href: '#/offerte-lavoro-influencer/', tag: 'Creator', t: 'Sfoglia le offerte di lavoro', x: 'Collaborazioni pagate, cambio merce e % sulle vendite. Candidarsi è gratis.', cta: 'Vedi le offerte', cls: 'bg-white text-ink', link: 'text-brand-ink' },
+  };
+  const list = audience === 'creator' ? [cards.creator, cards.offerte] : audience === 'brand' ? [cards.brand, cards.offerta, cards.preventivo] : [cards.brand, cards.offerta, cards.preventivo, cards.creator];
+  const head = title ?? (audience === 'creator' ? 'Inizia oggi,\n*è gratis*' : audience === 'brand' ? 'Parti oggi:\n*da solo o con noi*' : 'Inizia oggi,\n*è gratis*');
+  const lead = audience === 'creator' ? 'Iscriviti in pochi minuti e ricevi le proposte dei brand.' : audience === 'brand' ? 'Registra l’azienda, pubblica un’offerta gratis o chiedici il preventivo per una campagna gestita.' : 'Scegli da che parte stai: l’iscrizione richiede pochi minuti.';
+  const grid = list.length === 2 ? 'md:grid-cols-2' : list.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4';
   return (
     <Section tone="ink">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(255,31,143,0.3),transparent_55%)]" />
       <Container>
-        <SectionHeader title={title} lead="Scegli da che parte stai: l’iscrizione richiede pochi minuti." />
-        <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} md:grid-cols-2`}>
-          <motion.a {...reveal()} href={APP.brand} className="group rounded-3xl bg-white p-8 text-ink transition hover:-translate-y-1">
-            <p className={`${TYPE.label} text-brand`}>Aziende e agenzie</p>
-            <p className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em]">Trova i creator giusti</p>
-            <p className="mt-3 text-mute">{FACTS.trialDays} giorni di Premium in prova, nessuna carta richiesta.</p>
-            <span className="mt-8 inline-flex items-center gap-2 font-semibold text-brand-ink">
-              Registra la tua azienda <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-            </span>
-          </motion.a>
-          <motion.a {...reveal(1)} href={APP.creator} className="group rounded-3xl bg-acid p-8 text-ink transition hover:-translate-y-1">
-            <p className={`${TYPE.label}`}>Creator</p>
-            <p className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em]">Ricevi proposte dai brand</p>
-            <p className="mt-3 text-ink/70">Iscrizione gratuita, collega i social e ottieni il badge Verificato.</p>
-            <span className="mt-8 inline-flex items-center gap-2 font-semibold">
-              Iscriviti come creator <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-            </span>
-          </motion.a>
+        <SectionHeader title={head} lead={lead} />
+        <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} ${grid}`} data-track-zone={`scheda_${audience}`}>
+          {list.map((c, i) => (
+            <motion.a key={c.cta} {...reveal(i)} href={c.href} data-lead-type={audience === 'creator' || c === cards.creator ? 'creator' : 'brand'} className={`group flex flex-col rounded-3xl p-8 transition hover:-translate-y-1 ${c.cls}`}>
+              <p className={`${TYPE.label} opacity-80`}>{c.tag}</p>
+              <p className="mt-4 font-heading text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{c.t}</p>
+              <p className="mt-3 opacity-75">{c.x}</p>
+              <span className={`mt-auto inline-flex items-center gap-2 pt-8 font-semibold ${c.link}`}>
+                {c.cta} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </motion.a>
+          ))}
         </div>
       </Container>
     </Section>

@@ -1,5 +1,45 @@
 # Lavori in corso e prossimi passi (aggiornato il 13/11/2026)
 
+## ✅ Calcolatore del preventivo a passi ovunque + email con la guida (13/11/2026, seconda parte) — Core 2.3.3, Pagine 2.0.11, Tools 2.0.5, Articoli 2.5.2
+
+Richiesta di Giorgia: il calcolatore in tutte le pagine dei brand e negli articoli; deve sembrare un preventivo fatto
+al momento, ma alla fine chiede i contatti e risponde «Grazie, ti contatteremo al più presto per inviarti il
+preventivo»; dopo l'invio parte in automatico un'email scritta da lei con una guida su come funzionano le campagne.
+- **Calcolatore** (`src/influencee/v2/preventivo/`: `widget.ts`, `widget.css`, `listino.ts`): 5 passi —
+  influencer o UGC (spiegati), fascia di follower con prezzo indicativo + generici o di nicchia/professionisti
+  (il prezzo sale), quanti creator/contenuti/durata, città e budget, contatti. Senza React: lo stesso codice gira
+  nelle pagine nuove (`PreventivoWidget` in `tools.tsx`) e negli articoli/pagine WordPress (Core
+  `assets/inft-preventivo.js/.css`, `infc_preventivo_mount()`). Modulo `<form data-tandem>` «Lead tool:
+  preventivo_<pagina>», riepilogo nel campo visibile `risultato_tool`.
+- **Prezzi indicativi** (`listino.ts`, a contenuto, gestione esclusa): fino a 10k 150–300 €, 10–50k 300–600 €,
+  50–100k 800–1.200 €, oltre 100k da 1.500 € su misura; UGC 150–300 € a video; nicchia ×1,3–1,6.
+  **Da confermare con Giorgia** (sue solo: 10k ≈ 300 €, 80k ≈ 900–1.000 €). ⚠ Le FAQ di /preventivo-campagne/ e
+  il listino di /agenzia-influencer/ dicono ancora «500 € al mese a influencer» (listino GESTITO): da allineare.
+- **Dove**: /preventivo-campagne/ (calcolatore grande con riepilogo laterale, spiegazione influencer/UGC, prezzi per
+  fascia; tolti il vecchio calcolatore a listino e il modulo «Ti richiamiamo»); fascia compatta in home, prezzi,
+  aziende, agenzia, hub, categorie, regioni, città, costo influencer, engagement rate, piattaforma, funzionalità,
+  agenzie, micro influencer, UGC, campagne locali, professionisti, verificati, tool, fake follower, benchmark,
+  pubblica offerta, contatti (al posto del modulo «demo»): 160 pagine; **articoli**: riquadro a metà testo
+  (preventivo + «Prova Influencee gratis» + «Sei un creator? Iscriviti») e calcolatore in fondo al posto del
+  modulo «Ricevi la selezione»; **/preventivi-influencer/**: calcolatore aggiunto sotto il testo, il modulo Brevo
+  «INVIA» resta (si spegne in Influencee → Impostazioni → Preventivo). Nessun redirect.
+- **Scheda finale per pubblico** (`CtaDual`, pubblico deciso in `resolve` con `AudienceCtx`): creator → iscrizione
+  creator + offerte; aziende → registra l'azienda + pubblica un'offerta + calcola il preventivo; miste (home,
+  blog…) → tutte e quattro.
+- **Email** (Core `includes/preventivo.php`, `includes/email-guida.php`): `POST /wp-json/influencee/v1/preventivo`
+  (pubblico; trappola per robot, 5 richieste/ora per IP, guida una volta al giorno per indirizzo). Manda al cliente
+  la guida firmata Giorgia Palazzo (testo semplice, «scritto a mano»), avvisa il team (copia di sicurezza del
+  lead), aggiunge a una lista Brevo chi dà il consenso. Invio con l'API di Brevo se c'è una chiave (impostazioni
+  o quella del plugin Brevo del sito, `sib_main_option`), altrimenti `wp_mail`. Registro delle ultime 30 richieste
+  nelle impostazioni. Copia per Brevo con `{{ contact.FIRSTNAME }}`: `consegne/email/guida-campagne-influencer.html`.
+- **Da fare (Giorgia)**: in Influencee → Impostazioni → «Preventivo»: controllare mittente (di base
+  info@influencee.it, nome «Giorgia Palazzo»; con Brevo deve essere un mittente verificato), email del team, chiave
+  Brevo e numero della lista. Il connettore Brevo di Claude non rispondeva (502): niente fatto direttamente su Brevo.
+  Formattazione delle email di Manuel Arlotti non trovata in questa sessione: se la manda, si adatta il modello.
+- GA4: `preventivo_start`, `preventivo_step` (step, scelta), `form_submit` + `generate_lead` con
+  `form_name = lead_preventivo_<pagina>` e `lead_type = brand`; clic sulle schede con `lead_type` brand/creator.
+
+
 ## ✅ Fascia «Preventivo campagna gestita» nelle pagine dei brand (13/11/2026) — Core 2.3.2, Pagine 2.0.10, Tools 2.0.4
 
 Perché: richieste di preventivo scese da 6–7 al mese (2025) a 1–2 (2026). In 16 giorni (28/10–13/11) 2.178 persone

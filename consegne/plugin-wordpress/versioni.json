@@ -1,28 +1,28 @@
 {
- "generato": "2026-11-13T14:25:58.275Z",
+ "generato": "2026-11-13T14:53:38.556Z",
  "plugin": {
   "influencee-core": {
-   "versione": "2.3.2",
+   "versione": "2.3.3",
    "file": "influencee-core.zip",
-   "sha256": "65658fe8cc3b03ff69e74fa31b3068000a27a37a7465493a03acd85d5d1525f4",
+   "sha256": "062643e74caa1729867209ffa5a259a50bb176da1d5566c992e1997cfa82d823",
    "auto": true
   },
   "influencee-tools": {
-   "versione": "2.0.4",
+   "versione": "2.0.5",
    "file": "influencee-tools.zip",
-   "sha256": "92805f63c8d64b1a84f454991870b3abb020bd41056c064c12c4b1e8daa4f142",
+   "sha256": "4f011067c00a5a4866c4feec3149745ae9fb0d51f4ad0ea468d0f2c4b2890a51",
    "auto": true
   },
   "influencee-pagine": {
-   "versione": "2.0.10",
+   "versione": "2.0.11",
    "file": "influencee-pagine.zip",
-   "sha256": "abb5a014dfbb890d9098063c5f6cafd2fb9efebb3758c0cc8421930995ba80a1",
+   "sha256": "b59acefa70c81b5e286529dfde111a84840358fc87ae7474fbc931345b6a82be",
    "auto": true
   },
   "influencee-articoli": {
-   "versione": "2.5.1",
+   "versione": "2.5.2",
    "file": "influencee-articoli.zip",
-   "sha256": "d93c32065e46360597f0cde68d3f6bcc2d7d0788b464d9dcc23b302687f6406e",
+   "sha256": "1db6b3e0813eb5fdbb4c728cff95b6af2cac264f14e8017b4035ceb20c390d7d",
    "auto": true
   },
   "influencee-annunci": {
