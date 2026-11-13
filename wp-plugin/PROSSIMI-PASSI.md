@@ -1,4 +1,31 @@
-# Lavori in corso e prossimi passi (aggiornato il 31/10/2026)
+# Lavori in corso e prossimi passi (aggiornato il 13/11/2026)
+
+## ✅ Fascia «Preventivo campagna gestita» nelle pagine dei brand (13/11/2026) — Core 2.3.2, Pagine 2.0.10, Tools 2.0.4
+
+Perché: richieste di preventivo scese da 6–7 al mese (2025) a 1–2 (2026). In 16 giorni (28/10–13/11) 2.178 persone
+sul sito, ma /preventivo-campagne/ l'hanno vista in 10, /preventivi-influencer/ in 3, /prezzi/ in 49.
+Cosa: `PreventivoBand` (`src/influencee/v2/tools.tsx`): calcolatore ridotto (influencer, video UGC, durata; stesso
+listino `GESTITO`) con pulsante «Calcola il preventivo completo» → `/preventivo-campagne/#preventivo`, e accanto il
+modulo «Ti richiamiamo con il preventivo» (nome, azienda, email, telefono obbligatorio, budget indicativo, città o
+settore precompilati se la pagina li conosce, consenso marketing facoltativo). Il modulo è `<form data-tandem>`
+con `name="Lead tool: preventivo_<pagina>"`; pagina di origine e stima vanno nel campo visibile `risultato_tool`.
+- Pagine: home (sopra le FAQ), /prezzi/, /influencer-marketing-aziende/, /agenzia-influencer/, /influencer-italiani/,
+  tutte le categorie e sottocategorie («Campagna con food influencer?»), regioni e città («Campagna con influencer
+  di Napoli?»), /social-media-tool/costo-influencer/, /come-calcolare-engagement-rate/. In tutto 143 pagine
+  pre-renderizzate. Non messa in diventa-creator, offerte di lavoro, emoticon, profili creator.
+- Nomi dei moduli: `preventivo_home`, `_prezzi`, `_aziende`, `_agenzia`, `_influencer_italiani`, `_categoria`,
+  `_regione`, `_citta`, `_costo_influencer`, `_engagement_rate` (categoria/città precise nel campo «risultato»).
+- GA4: clic sul pulsante = `preventivo_cta_click`; invio = `form_submit` + `generate_lead`; tutti con
+  `lead_type = brand` e `form_name = lead_preventivo_<pagina>` (nuovi parametri: registrarli come dimensioni
+  personalizzate `lead_type` e `form_name` se non ci sono). Uso del calcolatore = `calculator_use` con
+  `calculator = preventivo_<pagina>`.
+- **/preventivi-influencer/ NON toccata** (form Brevo «INVIA», quasi tutti i preventivi degli ultimi 18 mesi):
+  nessun redirect. Da rivalutare solo quando la fascia porta richieste in Tandem.
+- Core, Pagine e Tools sono «automatici» in `aggiornamenti.json`: arrivano sul sito entro un'ora dal push.
+  Gli zip degli altri plugin (Pulizia compresa) sono rimasti identici a prima.
+- Da misurare tra 2–4 settimane: in Tandem i lead «Lead tool: preventivo_*», in GA4 `generate_lead` per
+  `form_name` e `page_path`.
+
 
 ## ✅ Aggiornamenti automatici dal repository (Influencee Aggiornamenti 1.0.0, 31/10/2026)
 

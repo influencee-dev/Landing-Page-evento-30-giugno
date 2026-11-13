@@ -206,3 +206,14 @@ Da registrare in GA4 come dimensioni personalizzate (ambito evento) `metric_name
 personalizzata `metric_value` (unità standard). Esplorazione: righe `page_type`, colonne `metric_rating`, filtro
 `metric_name = LCP`; la quota di `good` deve superare il 75%, la soglia di Google. Passa da gtag come gli altri eventi
 (Consent Mode). Si spegne con il filtro `inft_vitals_attivo`.
+
+## Fascia «Preventivo campagna gestita» (13/11/2026)
+
+| Evento | Quando | Parametri |
+|---|---|---|
+| `preventivo_cta_click` | clic su «Calcola il preventivo completo» nella fascia | `lead_type = brand`, `form_name = lead_preventivo_<pagina>`, `cta_location`, `page_path` |
+| `form_submit` + `generate_lead` | invio di «Ti richiamiamo con il preventivo» | `form_name` / `lead_source = lead_preventivo_<pagina>`, `lead_type = brand` |
+| `calculator_use` | uso del calcolatore ridotto | `calculator = preventivo_<pagina>`, `creators`, `ugc`, `months`, `result_band` |
+
+Ogni modulo con `data-lead-type` passa il tipo di lead a `form_submit` e `generate_lead`; ogni pulsante con
+`data-lead-type` / `data-form-name` lo passa al suo evento di clic. Registrare `lead_type` come dimensione personalizzata.

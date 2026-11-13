@@ -33,7 +33,7 @@ import {
 import { CreatorDirectory, CreatorList } from './creators';
 import { SUB_STORY } from './substory';
 import { EX_PAGES, exPage } from './ex';
-import { CostCalcPanel, PreventivoPanel, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
+import { CostCalcPanel, PreventivoBand, PreventivoPanel, ToolLead, EmojiTool, FakeFollowerPanel, FakeSignalsGrid, FF_RULES, JobsBoard, PostJobForm, ToolsHubGrid } from './tools';
 
 /* ════════════════════════════════════════════════════════════════════
    PAGINE v2 — ogni route restituisce contenuto + metadati SEO.
@@ -189,6 +189,7 @@ function Home() {
       <CategoryGrid />
       <Plans compact />
       <ToolLead tool="demo_home" context="Home" eyebrow="Demo" title={'Ti mostriamo la piattaforma\n*con il tuo settore*'} lead="Lasciaci i contatti: in una call ti mostriamo creator del tuo settore e come si gestisce una campagna." bullets={['Creator del tuo settore e della tua zona', 'Campagne, contratto e link tracciati', 'Nessun impegno']} cta="Richiedi la demo" />
+      <PreventivoBand page="home" origin="Home" tone="white" title={'Vuoi che la campagna\n*la gestiamo noi?* Calcola il preventivo'} />
       <FaqSeo items={[...FAQ.piattaforma.slice(0, 2), FAQ.brand[0], FAQ.creator[0], FAQ.creator[1]]} />
       <ManagedRow />
       <CtaDual />
@@ -269,6 +270,7 @@ function Brands() {
       <ReelWall eyebrow="Esempi" title={'Contenuti per\n*attività come la tua*'} lead="Reel realizzati per ristoranti, palestre, farmacie e centri estetici italiani." stats={[['Food', 'ristoranti e prodotti'], ['Fitness', 'palestre e corsi'], ['Salute', 'farmacie e benessere']]} />
       <Plans compact tone="paper" />
       <ManagedRow />
+      <PreventivoBand page="aziende" origin="Influencer marketing per aziende" title={'Preferisci delegare?\n*Calcola il preventivo* della campagna gestita'} />
       <FaqSeo items={FAQ.brand} />
       <Related links={[
         { label: 'Micro influencer', text: 'Perché funzionano per le PMI', href: '#/micro-influencer/' },
@@ -516,6 +518,7 @@ function Pricing() {
       <HeroPlatform crumbs={[{ label: 'Prezzi' }]} eyebrow="Prezzi" title={'Prezzi di influencee:\n*parti gratis*'} lead={`Piano gratuito per sempre, Premium da 19 € al mese con ${FACTS.trialDays} giorni di prova senza carta. Nessuna commissione per il brand sulle collaborazioni.`} actions={brandCtas} visual={<SearchMock className="mx-auto max-w-[500px]" />} />
       <Plans tone="white" />
       <ManagedRow />
+      <PreventivoBand page="prezzi" origin="Prezzi" title={'Non solo la piattaforma:\n*quanto costa la campagna gestita?*'} lead="Se preferisci che la campagna la seguiamo noi, ecco il listino del servizio gestito: scegli quanti influencer ti servono e vedi subito la stima." />
       <FaqSeo items={[
         FAQ.brand[0],
         { q: 'Cosa include il piano gratuito?', a: `Ricerca creator con i primi ${FACTS.freeResults} risultati in chiaro, annunci nella bacheca, ${FACTS.freeLinks} link tracciati attivi e chat con i creator delle tue collaborazioni.` },
@@ -538,6 +541,7 @@ function ItaliansHub() {
       <RegionGrid tone="paper" />
       <ToolLead tool="creator_hub" context="Hub influencer italiani" eyebrow="Selezione gratuita" title={'Ti mandiamo i creator\n*adatti alla tua campagna*'} lead="Dicci categoria, zona e budget: il team ti propone una prima selezione di creator italiani." bullets={['Creator italiani per categoria e città', 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <TiersRow />
+      <PreventivoBand page="influencer_italiani" origin="Hub influencer italiani" title={'Campagna con influencer italiani?\n*Calcola il preventivo*'} lead="Il team sceglie con te creator italiani per categoria e città, segue i contenuti e misura i risultati. Vedi subito la stima con il nostro listino." />
       <FaqSeo items={[
         { q: 'Quali sono le categorie di influencer?', a: 'Su influencee sono 18: cucina e food, viaggi, moda, beauty, fitness e sport, tecnologia, gaming, famiglia, animali, musica, lifestyle, casa e design, motori, finanza personale, salute e benessere, arte e fotografia, libri e cultura, intrattenimento e comicità.' },
         FAQ.piattaforma[3],
@@ -620,6 +624,7 @@ function CategoryPage({ slug }: { slug: string }) {
       <FeatureSplit items={[{ ...F.ricerca, title: `Trova creator ${k.name.toLowerCase()} con i filtri giusti` }, F.campagne]} />
       <RegionGrid tone="paper" title={`${k.short} influencer\n*per regione*`} />
       <CategoryGrid exclude={k.slug} title={'Altre\n*categorie*'} />
+      <PreventivoBand page="categoria" origin={`Categoria: ${k.name}`} sector={k.name} tone="paper" title={`Campagna con ${k.short.toLowerCase()} influencer?\n*Calcola il preventivo*`} lead={`Scegli quanti creator ${k.name.toLowerCase()} ti servono e vedi subito la stima con il nostro listino. Il team sceglie i profili con te, segue i contenuti e misura i risultati.`} />
       <FaqSeo items={catFaq(k)} />
       <CtaDual />
     </>
@@ -643,6 +648,7 @@ function RegionPage({ region, city }: { region: string; city?: string }) {
       <ToolLead tool={ct ? 'creator_citta' : 'creator_regione'} context={ct ? `Città: ${ct.name} (${r.name})` : `Regione: ${r.name}`} eyebrow="Selezione gratuita" title={`Ti mandiamo i creator ${ct ? `di ${ct.name}` : `in ${r.name}`}\n*adatti alla tua campagna*`} lead="Dicci attività e budget: il team ti propone una prima selezione di creator della zona, con prezzo indicativo." bullets={[`Creator ${ct ? `di ${ct.name}` : `in ${r.name}`} per la tua categoria`, 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <CategoryGrid title={`Influencer a ${place}\n*per categoria*`} lead="Scegli il settore della tua campagna." />
       {!ct && r.cities.length > 0 && <RegionGrid tone="paper" only={r.slug} title={`Città della\n*regione ${r.name}*`} lead="Apri la pagina della città." />}
+      <PreventivoBand page={ct ? 'citta' : 'regione'} origin={ct ? `Città: ${ct.name} (${r.name})` : `Regione: ${r.name}`} city={place} tone="paper" title={`Campagna con influencer ${ct ? 'di' : 'in'} ${place}?\n*Calcola il preventivo*`} lead={`Scegli quanti creator ${ct ? 'di' : 'in'} ${place} ti servono e vedi subito la stima con il nostro listino. Il team sceglie i profili della zona con te, segue i contenuti e misura i risultati.`} />
       <FaqSeo items={placeFaq(place)} />
       <Related links={[{ label: 'Micro influencer', text: 'Perfetti per le campagne locali', href: '#/micro-influencer/' }, ct && JOB_CITIES.includes(ct.slug) ? { label: `Lavoro content creator ${ct.name}`, text: `Offerte dei brand per creator di ${ct.name}`, href: `#/offerte-lavoro-influencer/content-creator-${ct.slug}/` } : { label: 'Annunci', text: 'Pubblica un annuncio per la tua città', href: '#/offerte-lavoro-influencer/' }, { label: 'Tutte le regioni', text: 'Influencer in tutta Italia', href: '#/influencer-italiani/' }]} />
       <CtaDual />
@@ -767,6 +773,7 @@ function AgencyServicePage() {
         { tag: 'UGC', t: `${GESTITO.ugc} € a video`, x: `Più ${GESTITO.ugcFee} € di gestione per ogni video UGC.` },
         { tag: 'Durata', t: 'fino all’8% di sconto', x: `5% a 3 mesi, 6% a 6 mesi, 8% a 12 mesi; +${GESTITO.oneMonthSurcharge * 100}% per un solo mese.` },
       ]} />
+      <PreventivoBand page="agenzia" origin="Agenzia influencer" title={'Quanto costerebbe\n*la tua campagna?*'} lead="Scegli quanti influencer ti servono e la durata: vedi subito la stima con il listino del servizio gestito, poi ti richiamiamo per confermarla." />
       <FeatureSplit tone="white" eyebrow="Vuoi gestire tutto da solo?" title={'Prova gratis la bacheca\n*delle offerte per influencer*'} lead="Pubblicando un’offerta entri in contatto con micro, macro e UGC creator senza intermediari: zero costi di pubblicazione e controllo completo sulla selezione." items={[F.annunci, F.ricerca]} />
       <ManagedRow />
       <ToolLead tool="agenzia" context="Pagina: Agenzia influencer" eyebrow="Consulenza gratuita" title={'Ti richiamiamo\n*e partiamo dal tuo obiettivo*'} lead="Lascia i contatti: una persona del team ti richiama, capisce obiettivo e budget e ti propone i primi creator, senza impegno." bullets={['Call gratuita con il team', 'Prima selezione di creator', 'Preventivo scritto, nessun impegno']} cta="Richiamatemi" phone="obbligatorio" />
@@ -853,6 +860,7 @@ function CalcPage() {
       <ToolLead tool="engagement_rate" tone="paper" eyebrow="Confronto" title={'Vuoi confrontare il creator\n*con altri della sua fascia?*'} lead="Lasciaci i contatti: ti mostriamo creator della stessa fascia e categoria con engagement verificato." bullets={['Engagement calcolato sulla mediana di 90 giorni', 'Badge Verificato da account collegato', 'Nessun impegno']} cta="Voglio il confronto" />
       <AnswerBox q="Come si calcola l’engagement rate?" a={CALC_FAQ[0].a} points={['Interazioni ÷ follower × 100', 'Usa la mediana, non la media', 'Confronta con la stessa fascia', 'Check sponsor: interazioni ÷ views']} />
       <FeatureSplit items={[{ ...F.scheda, title: 'Su influencee l’engagement è già calcolato' }, { ...F.ricerca, title: 'Filtra i creator per engagement e fascia' }]} />
+      <PreventivoBand page="engagement_rate" origin="Calcolo engagement rate" tone="paper" title={'Hai trovato i creator giusti?\n*Calcola il preventivo* della campagna'} lead="Se preferisci che la campagna la gestiamo noi, scegli quanti influencer ti servono e vedi subito la stima con il nostro listino." />
       <FaqSeo items={CALC_FAQ} />
       <Related links={[{ label: 'Benchmark engagement', text: 'Valori di riferimento per fascia', href: '#/benchmark-engagement-rate/' }, { label: 'Quanto costa un influencer', text: 'Costi medi per fascia', href: '#/social-media-tool/costo-influencer/' }, { label: 'Creator verificati', text: 'Come verifichiamo i dati', href: '#/creator-verificati/' }]} />
       <CtaDual />
@@ -880,6 +888,7 @@ function CostPage() {
         { t: 'Ospitalità o evento', x: 'Esperienze per ristoranti, hotel, locali ed eventi.' },
         { t: 'Revenue share', x: 'Condivisione dei ricavi su progetti continuativi.' },
       ]} />
+      <PreventivoBand page="costo_influencer" origin="Quanto costa un influencer" tone="white" eyebrow="Dal singolo post alla campagna" title={'Quanto costa una campagna intera?\n*Calcola il preventivo*'} lead="Il calcolatore sopra stima un singolo contenuto. Qui vedi il costo di una campagna gestita dal team, con il nostro listino: creator, gestione e video UGC." />
       <FaqSeo items={COST_FAQ} />
       <ManagedRow />
       <Related links={[{ label: 'Micro influencer', text: 'Il miglior rapporto costo/risultato', href: '#/micro-influencer/' }, { label: 'Preventivo campagna gestita', text: 'Quanto costa una campagna completa', href: '#/preventivo-campagne/' }, { label: 'Calcolo engagement rate', text: 'Verifica prima di pagare', href: '#/come-calcolare-engagement-rate/' }]} />

@@ -157,6 +157,9 @@ function bindClicks(root: Document | HTMLElement) {
         element: el.tagName.toLowerCase() === 'a' ? (el.className.includes('rounded-full') ? 'pulsante' : 'link') : 'pulsante',
         ...where,
         menu_group: isMenu ? el.closest('[data-menu-group]')?.getAttribute('data-menu-group') ?? undefined : undefined,
+        // pulsanti verso un modulo lead (es. fascia preventivo): tipo di lead e nome del modulo, per misurare pagina per pagina
+        lead_type: el.getAttribute('data-lead-type') ?? undefined,
+        form_name: el.getAttribute('data-form-name') ?? undefined,
       };
       track(event, params);
       keyEvents(base.event, params);
@@ -174,8 +177,9 @@ function bindSubmits(root: Document | HTMLElement) {
       if (form.hasAttribute('data-track-ignore') || REPLAY.on) return;
       const where = locate(form);
       const name = form.getAttribute('data-form') || 'modulo';
-      track('form_submit', { form_name: name, ...where });
-      track('generate_lead', { lead_source: name, currency: 'EUR', value: 0, ...where });
+      const leadType = form.getAttribute('data-lead-type') ?? undefined; // «brand» per i moduli preventivo
+      track('form_submit', { form_name: name, lead_type: leadType, ...where });
+      track('generate_lead', { lead_source: name, form_name: name, lead_type: leadType, currency: 'EUR', value: 0, ...where });
     },
     { capture: true },
   );
