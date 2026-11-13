@@ -86,8 +86,8 @@ export function preventivoHTML(o: PreventivoOpts): string {
   const full = o.variant !== 'compact';
   const field = (n: string, label: string, type = 'text', req = false, ac = '', val = '') =>
     `<label class="ipv-field" for="${id(n)}"><span>${label}</span><input id="${id(n)}" name="${n}" type="${type}"${req ? ' required' : ''}${ac ? ` autocomplete="${ac}"` : ''}${val ? ` value="${esc(val)}"` : ''}></label>`;
-  const FX = ['Nano creator: community piccole e molto vicine', 'Micro creator: il miglior rapporto tra pubblico e costo', 'Creator medi: più visibilità, prezzo più alto', 'Macro creator: grande visibilità, preventivo su misura'];
-  const fasce = FASCE.map((f, i) => card('fascia', f.l, f.l, FX[i] ?? '')).join('') + card('fascia', 'Non lo so, consigliatemi voi', 'Non lo so', 'Ti consigliamo noi la fascia giusta');
+  const FX = ['Nano creator', 'Micro creator', 'Creator medi', 'Macro creator'];
+  const fasce = FASCE.map((f, i) => card('fascia', f.l, f.l, FX[i] ?? '')).join('') + card('fascia', 'Non lo so, consigliatemi voi', 'Non lo so', 'Ti consigliamo noi');
   return `<div class="ipv ipv--${full ? 'full' : 'compact'}" data-inft-preventivo="${key}" data-endpoint="${esc(o.endpoint ?? ENDPOINT)}">
 <div class="ipv-grid">
 <form class="ipv-form" id="lead-form-${key}" name="Lead tool: ${key}" aria-label="Calcola il preventivo della campagna" data-tandem="" data-form="lead_${key}" data-lead-type="brand">
@@ -97,22 +97,22 @@ export function preventivoHTML(o: PreventivoOpts): string {
 
 <fieldset class="ipv-step" data-step="1"><legend>Cosa ti serve per la campagna?</legend>
 <div class="ipv-cards">
-${card('tipo', 'Influencer', 'Influencer', 'Pubblicano sul <b>loro profilo</b>: il tuo prodotto arriva alla loro community. Paghi la visibilità, oltre al contenuto.')}
-${card('tipo', 'UGC creator', 'UGC creator', 'Girano video <b>per i tuoi canali</b> e le tue inserzioni, senza usare la loro community: tanti micro creator, anche non famosi, per riempire i tuoi social.')}
-${card('tipo', 'Influencer e UGC', 'Tutti e due', 'Visibilità dagli influencer e video UGC per i tuoi canali.')}
-${card('tipo', 'Non lo so', 'Non lo so ancora', 'Ti aiutiamo noi a scegliere in base all’obiettivo.')}
+${card('tipo', 'Influencer', 'Influencer', 'Pubblicano <b>sul loro profilo</b>: paghi anche la visibilità')}
+${card('tipo', 'UGC creator', 'UGC creator', 'Video <b>per i tuoi canali</b>, senza usare la loro community')}
+${card('tipo', 'Influencer e UGC', 'Tutti e due', 'Visibilità più video per i tuoi canali')}
+${card('tipo', 'Non lo so', 'Non lo so ancora', 'Ti consigliamo noi')}
 </div><p class="ipv-err" data-ipv-err hidden>Scegli una risposta per andare avanti.</p></fieldset>
 
 <fieldset class="ipv-step" data-step="2" hidden><legend>Con che creator vuoi lavorare?</legend>
-<div data-ipv-only="influencer"><p class="ipv-q">Quanti follower devono avere gli influencer?</p><div class="ipv-cards ipv-cards--2">${fasce}</div>
+<div data-ipv-only="influencer"><p class="ipv-q">Quanti follower devono avere gli influencer?</p><div class="ipv-cards ipv-cards--2 ipv-cards--s">${fasce}</div>
 <p class="ipv-hint">Più follower ha il creator, più sale il prezzo: il tuo preventivo indicativo lo vedi alla fine.</p></div>
 <div data-ipv-only="ugc" hidden><p class="ipv-q">Video UGC</p><p class="ipv-hint ipv-hint--box">Nei video UGC conta poco la community del creator: conta saper girare video che funzionano sui tuoi canali. Per questo costano meno di un influencer.</p></div>
 <p class="ipv-q">Che tipo di creator?</p>
 <div class="ipv-cards ipv-cards--2">
-${card('nicchia', 'Generici', 'Generici', 'Lifestyle, food, moda, famiglia, viaggi…', ' checked')}
-${card('nicchia', 'Di nicchia o professionisti', 'Di nicchia o professionisti', 'Nutrizionisti, medici, avvocati, notai, esperti di settore: il prezzo sale.')}
+${card('nicchia', 'Generici', 'Generici', 'Lifestyle, food, moda, viaggi', ' checked')}
+${card('nicchia', 'Di nicchia o professionisti', 'Professionisti', 'Nutrizionisti, medici, notai: costano di più')}
 </div>
-<p class="ipv-hint ipv-hint--ok">Tranquillo: per ogni budget costruiamo un progetto e la trattativa con i creator la facciamo noi, per ottenere il prezzo migliore per te.</p>
+<p class="ipv-hint ipv-hint--ok">Per ogni budget costruiamo un progetto: la trattativa con i creator la facciamo noi.</p>
 <p class="ipv-err" data-ipv-err hidden>Scegli la fascia di follower.</p></fieldset>
 
 <fieldset class="ipv-step" data-step="3" hidden><legend>Quanto grande è il progetto?</legend>
@@ -402,7 +402,7 @@ export function openPreventivoPopup(container: HTMLElement, o: PreventivoOpts) {
 <div class="ipv-pop-side"><span class="ipv-pop-glow" aria-hidden="true"></span>
 <p class="ipv-pop-pill"><span class="ipv-pop-dot"></span>Preventivo gratuito · 1 minuto</p>
 <p class="ipv-pop-t" id="ipv-pop-t-${key}">Quanto costerebbe la tua <span>campagna</span> con i creator?</p>
-<p class="ipv-pop-x2">Influencer o UGC, che creator, dove e con quale budget: rispondi a poche domande e vedi subito la stima.</p>
+<p class="ipv-pop-x2">Rispondi a 4 domande e vedi subito la stima.</p>
 <div class="ipv-pop-tease" aria-hidden="true"><p class="ipv-pop-tease-k">Il tuo preventivo indicativo</p><p class="ipv-pop-tease-v">2.400 € – 4.800 €<small>/mese</small></p><p class="ipv-pop-lock"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg> Rispondi a 4 domande per sbloccarlo</p></div>
 <ul class="ipv-pop-list"><li>${check}Creator italiani verificati</li><li>${check}La trattativa la facciamo noi</li><li>${check}Nessun impegno</li></ul></div>
 <div class="ipv-pop-main">${preventivoHTML({ ...o, variant: 'compact', title: 'Calcola il tuo preventivo' })}</div></div>`;

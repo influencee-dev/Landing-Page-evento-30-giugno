@@ -1,6 +1,9 @@
 # Lavori in corso e prossimi passi (aggiornato il 13/11/2026)
 
-## ✅ Calcolatore «gamificato» (13/11/2026) — Core 2.3.9, Tools 2.0.8, Pagine 2.0.14, Articoli 2.5.3
+## ✅ Calcolatore «gamificato» (13/11/2026) — Core 2.3.9, Tools 2.0.8, Pagine 2.0.14, Articoli 2.5.3; più compatto in Core 2.3.10, Tools 2.0.9, Pagine 2.0.15
+
+Versione compatta (fascia, popup, articoli): testi delle scelte di una riga, fasce di follower senza descrizione,
+schede e caratteri più piccoli, due colonne anche su telefono; popup largo 860 px, titolo 32 px (22 su telefono).
 
 Titolo «Calcola il tuo preventivo». Barra che parte dal 20% (progresso già avviato) con percentuale, sfumatura
 fucsia→verde e lucchetto in fondo che vibra all'ultimo passo; frase di incoraggiamento a ogni passo («Ottima

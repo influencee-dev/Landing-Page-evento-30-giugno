@@ -144,3 +144,38 @@
 @keyframes ipv-fall{to{transform:translate(var(--x),520px) rotate(var(--r));opacity:0}}
 @media (prefers-reduced-motion:reduce){.ipv *,.ipv-pop,.ipv-pop-box{animation:none!important;transition:none!important}}
 @media (max-width:480px){.ipv-back{padding:0 14px;font-size:14px}.ipv-submit{white-space:nowrap;padding:0 18px;font-size:15px;flex:1}}
+
+/* ─── versione compatta più leggibile (13/11/2026): fascia nelle pagine, popup, articoli ─── */
+.ipv--compact .ipv-form{padding:18px}
+@media (min-width:640px){.ipv--compact .ipv-form{padding:22px}}
+.ipv--compact .ipv-kicker{font-size:16px}
+.ipv--compact .ipv-step legend{font-size:19px;margin-bottom:10px}
+.ipv--compact .ipv-cheer{margin:4px 0 12px;font-size:12px}
+.ipv--compact .ipv-cards{gap:8px}
+.ipv--compact .ipv-card-b{padding:10px 12px;border-radius:14px;gap:2px}
+.ipv--compact .ipv-card-t{font-size:14px}
+.ipv--compact .ipv-card-x{font-size:12px;line-height:1.35}
+.ipv--compact .ipv-cards--s{grid-template-columns:1fr 1fr}
+.ipv--compact .ipv-cards--s .ipv-card-x{display:none}
+.ipv--compact .ipv-q{margin:12px 0 6px;font-size:12px}
+.ipv--compact .ipv-hint{font-size:12px;margin-top:8px}
+.ipv--compact .ipv-hint--ok,.ipv--compact .ipv-hint--box{padding:8px 12px;border-radius:12px}
+.ipv--compact .ipv-field{margin-bottom:8px}
+.ipv--compact .ipv-field input,.ipv--compact .ipv-field select,.ipv--compact .ipv-num{height:42px;border-radius:12px;font-size:14px}
+.ipv--compact .ipv-field textarea{font-size:11px}
+.ipv--compact .ipv-pill span{height:34px;padding:0 12px;font-size:13px}
+.ipv--compact .ipv-nav{margin-top:12px}
+.ipv--compact .ipv-next,.ipv--compact .ipv-back{height:42px;font-size:14px}
+.ipv--compact .ipv-card input:checked+.ipv-card-b::after{top:8px;right:8px;width:18px;height:18px;font-size:11px}
+.ipv--compact .ipv-card-t{padding-right:20px}
+/* popup più piccolo */
+.ipv-pop-box{max-width:860px}
+@media (min-width:900px){.ipv-pop-box{grid-template-columns:.8fr 1.2fr}.ipv-pop-side{padding:36px 28px}.ipv-pop-t{font-size:32px}.ipv-pop-main{padding:60px 16px 16px 0}}
+.ipv-pop-t{font-size:24px}
+.ipv-pop-x2{font-size:14px;margin-top:10px}
+.ipv-pop-tease{margin-top:16px;padding:12px 14px}
+.ipv-pop-tease-v{font-size:22px}
+.ipv-pop-list{margin-top:16px;gap:8px}
+.ipv-pop-list li{font-size:13px}
+@media (max-width:899px){.ipv-pop-side{padding:22px 20px 4px}.ipv-pop-pill{font-size:11px;padding:4px 10px}.ipv-pop-t{margin-top:12px;font-size:22px}.ipv-pop-x2{display:none}.ipv-pop-main{padding:12px}.ipv-pop-x{top:10px;right:10px;width:36px;height:36px;font-size:20px}}
+.ipv--compact .ipv-cards{grid-template-columns:1fr 1fr}
