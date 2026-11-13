@@ -1,6 +1,9 @@
 # Lavori in corso e prossimi passi (aggiornato il 13/11/2026)
 
-## ✅ Popup del preventivo dopo un minuto (13/11/2026) — Core 2.3.7, Tools 2.0.7, Pagine 2.0.13
+## ✅ Popup del preventivo dopo un minuto (13/11/2026) — Core 2.3.7, Tools 2.0.7, Pagine 2.0.13; grafica nuova Core 2.3.8
+
+- Core 2.3.8: popup ridisegnato (pannello nero con bagliore fucsia/verde, titolo con «campagna» evidenziata in verde
+  acido, anteprima sfocata del preventivo «si sblocca alla fine», tre punti di forza; su telefono scheda dal basso).
 
 - Dopo 60 secondi sulla pagina si apre il calcolatore compatto in un popup (su telefono sale dal basso):
   pagine per aziende e miste (React: `PreventivoPopup` in `resolve`) e articoli (Core, `wp_footer` + `inft-preventivo.js`).

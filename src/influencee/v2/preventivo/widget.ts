@@ -336,9 +336,15 @@ export function openPreventivoPopup(container: HTMLElement, o: PreventivoOpts) {
   pop.setAttribute('role', 'dialog');
   pop.setAttribute('aria-modal', 'true');
   pop.setAttribute('aria-labelledby', `ipv-pop-t-${key}`);
+  const check = '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   pop.innerHTML = `<div class="ipv-pop-box"><button type="button" class="ipv-pop-x" aria-label="Chiudi" data-track="preventivo_popup_close">×</button>
-<p class="ipv-pop-k">Preventivo in un minuto</p><p class="ipv-pop-t" id="ipv-pop-t-${key}">Quanto costerebbe la tua campagna con i creator?</p>
-<p class="ipv-pop-x2">Rispondi a poche domande: appena lasci i tuoi dati vedi il preventivo indicativo e il listino.</p>${preventivoHTML({ ...o, variant: 'compact' })}</div>`;
+<div class="ipv-pop-side"><span class="ipv-pop-glow" aria-hidden="true"></span>
+<p class="ipv-pop-pill"><span class="ipv-pop-dot"></span>Preventivo gratuito · 1 minuto</p>
+<p class="ipv-pop-t" id="ipv-pop-t-${key}">Quanto costerebbe la tua <span>campagna</span> con i creator?</p>
+<p class="ipv-pop-x2">Influencer o UGC, che creator, dove e con quale budget: rispondi a poche domande e vedi subito la stima.</p>
+<div class="ipv-pop-tease" aria-hidden="true"><p class="ipv-pop-tease-k">Il tuo preventivo indicativo</p><p class="ipv-pop-tease-v">2.400 € – 4.800 €<small>/mese</small></p><p class="ipv-pop-lock"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg> Si sblocca alla fine</p></div>
+<ul class="ipv-pop-list"><li>${check}Creator italiani verificati</li><li>${check}La trattativa la facciamo noi</li><li>${check}Nessun impegno</li></ul></div>
+<div class="ipv-pop-main">${preventivoHTML({ ...o, variant: 'compact', title: 'Il tuo preventivo' })}</div></div>`;
   container.appendChild(pop);
   const prevOverflow = document.documentElement.style.overflow;
   document.documentElement.style.overflow = 'hidden';

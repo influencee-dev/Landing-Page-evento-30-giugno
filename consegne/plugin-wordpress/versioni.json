@@ -1,10 +1,10 @@
 {
- "generato": "2026-11-13T21:23:29.829Z",
+ "generato": "2026-11-13T21:33:21.701Z",
  "plugin": {
   "influencee-core": {
-   "versione": "2.3.7",
+   "versione": "2.3.8",
    "file": "influencee-core.zip",
-   "sha256": "6250badf75c13f7c4545d834479f7eaaa4628151b7a4cc7989de62727788c1f6",
+   "sha256": "3c07d15e29de9ac9f24d67758a9b66db1e5774cad314da0ff20bb89aa430783e",
    "auto": true
   },
   "influencee-tools": {
