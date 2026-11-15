@@ -125,7 +125,7 @@ function inft_app_link( $path, $campaign, $extra = array() ) {
 /**
  * Pagine dei plugin Influencee (home, categorie, regioni, città, tool…): via quello che altri plugin caricano su
  * tutto il sito ma qui non serve e blocca il disegno della pagina.
- * - Brevo (mailin-front.css/js): serve solo dove c'è un modulo Brevo nel contenuto ([sibwp_form]);
+ * - Brevo (mailin-front.css/js): serve solo sulle pagine col modulo Brevo (/preventivi-influencer/, filtro 'inft_pagine_brevo');
  * - jQuery e jQuery Migrate (in testa alla pagina, bloccanti): tolti se nessuno script rimasto li usa;
  * - vecchio Influencee GeoPages Manager: chiede due file che non esistono più (404 su regioni e città).
  * Filtro 'inft_alleggerisci' (false) per tornare come prima.
@@ -144,14 +144,13 @@ function inft_script_usa( $handle, $cercato, $visti = array() ) {
 	return false;
 }
 
-add_action(
-	'wp_enqueue_scripts',
-	function () {
+function inft_alleggerisci() {
 		if ( is_admin() || ! function_exists( 'inft_current' ) || ! inft_current() || ! apply_filters( 'inft_alleggerisci', true ) ) {
 			return;
 		}
-		$post = get_post();
-		if ( ! ( $post && false !== strpos( (string) $post->post_content, 'sibwp_form' ) ) ) {
+		// il contenuto WordPress della pagina qui non si vede (lo sostituisce il plugin): conta solo la pagina col modulo Brevo
+		$pagina = inft_current();
+		if ( ! in_array( isset( $pagina['path'] ) ? $pagina['path'] : '', (array) apply_filters( 'inft_pagine_brevo', array( '/preventivi-influencer/' ) ), true ) ) {
 			wp_dequeue_script( 'sib-front-js' );
 			wp_dequeue_style( 'sib-front-css' );
 		}
@@ -178,6 +177,8 @@ add_action(
 			wp_dequeue_script( 'jquery-core' );
 			wp_dequeue_script( 'jquery-migrate' );
 		}
-	},
-	999
-);
+}
+// due passaggi: dopo gli altri plugin e subito prima che la testa della pagina stampi CSS e script
+// (Brevo aggiunge i suoi file tardi); gli script aggiunti dopo, nel piè di pagina, riportano jQuery da soli se serve
+add_action( 'wp_enqueue_scripts', 'inft_alleggerisci', PHP_INT_MAX );
+add_action( 'wp_head', 'inft_alleggerisci', 7 );
