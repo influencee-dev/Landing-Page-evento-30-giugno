@@ -16,9 +16,14 @@ while ( have_posts() ) {
 	} else {
 		ob_start();
 		the_content();
-		$html = infe_testo_pulito( (string) ob_get_clean() );
+		$html = (string) ob_get_clean();
+		// 1.2.8: pagine con impaginazione propria (guide «Calendario marketing 2027», classe infg) tengono il loro H1
+		$propria = false !== strpos( $html, 'class="infg"' ) && preg_match( '#<h1[\s>]#i', $html );
+		$html    = $propria ? $html : infe_testo_pulito( $html );
 		echo '<div class="inf-scope"><article class="inf-wrap it-testo">';
-		echo '<h1>' . esc_html( get_the_title() ) . '</h1>'; // H1 = titolo della pagina; quelli del testo diventano H2
+		if ( ! $propria ) {
+			echo '<h1>' . esc_html( get_the_title() ) . '</h1>'; // H1 = titolo della pagina; quelli del testo diventano H2
+		}
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput -- contenuto della pagina già filtrato da WordPress
 		echo '</article></div>';
 	}
