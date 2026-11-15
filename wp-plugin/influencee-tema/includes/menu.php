@@ -114,6 +114,7 @@ function infe_menu() {
 				array(
 					'title' => 'Lavora con i brand',
 					'items' => array(
+						$v( 'Costruisci un progetto con noi', array( '/progetti-creator/' ), 'Novità: il business dietro la tua community', 'spark' ),
 						$v( 'Entra come creator', array( '/diventa-creator/', '/influencer/' ), 'Iscrizione gratuita, ricevi proposte', 'star' ),
 						array( 'Offerte di lavoro', '/offerte-lavoro-influencer/', 'Candidati agli annunci dei brand', 'briefcase' ),
 						$v( 'Creator UGC', array( '/contenuti-ugc/' ), 'Contenuti per i brand anche senza follower', 'camera' ),
@@ -128,7 +129,7 @@ function infe_menu() {
 					),
 				),
 			),
-			'card'  => array( 'Per i creator', 'Fatti trovare dai brand italiani', 'Crea il profilo gratis: i brand ti contattano per collaborazioni pagate.', 'Iscriviti come creator', infe_app( '/iscriviti/creator/' ) ),
+			'card'  => array( 'Novità per i creator', 'Hai la community? Costruiamo il business dietro', 'Offerta, pagine, automazioni e pagamenti li facciamo noi. Zero costi per partire.', 'Scopri i progetti', infe_meglio( array( '/progetti-creator/', '/diventa-creator/' ) ) ),
 		),
 		array( 'label' => 'Prezzi', 'href' => infe_meglio( array( '/prezzi/', '/#prezzi' ) ) ),
 		array( 'label' => 'Preventivi', 'href' => infe_meglio( array( '/preventivo-campagne/', '/preventivi-influencer/' ) ), 'nuovo' => true ),

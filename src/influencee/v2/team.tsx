@@ -9,7 +9,7 @@ import { PreventivoBand } from './tools';
 
 /* /team/ — le persone di Influencee e dello studio Socialee (stessa società, stesso team).
    Foto: quelle del sito socialee.it (settembre 2026), ridimensionate in public/team-*.webp.
-   Fabrizia Marra non ha ancora la foto: scheda con le iniziali nello stesso stile, finché non arriva. */
+   La foto di Fabrizia Marra è quella mandata da Giorgia (15/11/2026), già nello stesso stile. */
 
 type Persona = { name: string; role: string; text: string; photo?: string; tag?: string };
 
@@ -17,7 +17,7 @@ const TEAM: Persona[] = [
   { name: 'Giorgia Palazzo', role: 'CEO e co-founder', tag: 'Founder', photo: 'team-giorgia-palazzo.webp', text: 'Ha voluto Influencee per far lavorare brand e creator con regole chiare. Legge ogni richiesta di preventivo e risponde di persona.' },
   { name: 'Manuel Arlotti', role: 'CIO e co-founder', tag: 'Founder', photo: 'team-manuel-arlotti.webp', text: 'Growth hacker e anima tecnica: costruisce gli strumenti che usiamo ogni giorno e trasforma i numeri in decisioni.' },
   { name: 'Giuseppe Bonaccorso', role: 'COO e co-founder', tag: 'Founder', photo: 'team-giuseppe-bonaccorso.webp', text: 'Tiene insieme progetti, tempi e persone. Se una campagna parte puntuale, di solito c’è il suo zampino.' },
-  { name: 'Fabrizia Marra', role: 'Growth & Influencer Manager', tag: 'Creator', text: 'È la persona dei creator: li conosce, li segue e costruisce con loro progetti che durano più di un post.' },
+  { name: 'Fabrizia Marra', role: 'Growth & Influencer Manager', tag: 'Creator', photo: 'team-fabrizia-marra.webp', text: 'È la persona dei creator: li conosce, li segue e costruisce con loro progetti che durano più di un post.' },
   { name: 'Carlo Baldassini', role: 'Sales Director', photo: 'team-carlo-baldassini.webp', text: 'Il primo che ascolta le aziende: capisce cosa serve davvero e lo traduce in un progetto con un budget sensato.' },
   { name: 'Noemi Vitone', role: 'Social Media Manager e Account', photo: 'team-noemi-vitone.webp', text: 'Segue i brand giorno per giorno: piano editoriale, contenuti dei creator, community.' },
   { name: 'Marika Malaspina', role: 'Graphic Designer e Project', photo: 'team-marika-malaspina.webp', text: 'Dà forma alle idee: grafiche, brand book e tutto quello che deve essere bello e riconoscibile.' },

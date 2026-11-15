@@ -219,12 +219,34 @@ function infe_preventivo_cta() {
 	if ( in_array( $qui, array( '/preventivo-campagne/', '/preventivi-influencer/' ), true ) ) {
 		return '';
 	}
+	if ( infe_pagina_creator( $qui ) ) {
+		return infe_progetto_cta( $qui );
+	}
 	$href = infe_meglio( array( '/preventivo-campagne/', '/preventivi-influencer/' ) );
 	return '<div class="it-pv" data-section="footer_preventivo"><div class="it-wrapw"><div class="it-pv-in">'
 		. '<img class="it-pv-foto" src="' . esc_url( INFE_URL . 'assets/giorgia-palazzo.webp' ) . '" alt="Giorgia Palazzo, CEO e co-founder di Influencee" width="160" height="160" loading="lazy" decoding="async">'
 		. '<div class="it-pv-txt"><p class="it-pv-eye">Giorgia Palazzo · CEO e co-founder</p><p class="it-pv-t">Vuoi una campagna con influencer? <em>Richiedimi un preventivo.</em></p>'
 		. '<p class="it-pv-x">Rispondi a 4 domande: costruiamo il progetto sul tuo budget e la trattativa con i creator la facciamo noi.</p></div>'
 		. '<a class="inf-btn inf-btn-acid it-pv-btn" href="' . esc_url( infe_url( $href ) ) . '" data-track="preventivo_cta_click" data-lead-type="preventivo">Richiedimi un preventivo <span aria-hidden="true">→</span></a>'
+		. '</div></div></div>';
+}
+
+/** Pagine per i creator: in fondo c'è Fabrizia con «Costruisci un progetto con noi» al posto del preventivo. */
+function infe_pagina_creator( $qui ) {
+	$esatte = array( '/diventa-creator/', '/ugc-creator/', '/influencer/', '/funzionalita/media-kit/', '/academy-influencer-marketing/', '/social-media-tool/emoticon-da-copiare/', '/guide-e-risorse/', '/news-influencer-marketing/' );
+	return in_array( $qui, $esatte, true ) || 0 === strpos( $qui, '/offerte-lavoro-influencer/' ) || 0 === strpos( $qui, '/creator/' );
+}
+
+/** «Costruisci un progetto con noi»: foto di Fabrizia Marra e WhatsApp, sulle pagine per i creator. */
+function infe_progetto_cta( $qui ) {
+	$wa  = 'https://wa.me/393513421629?text=' . rawurlencode( 'Ciao Fabrizia, sono un creator e vorrei costruire un progetto con Influencee. Il mio profilo è: ' );
+	$pag = infe_se_esiste( array( '/progetti-creator/' ) );
+	return '<div class="it-pv" data-section="footer_progetto_creator"><div class="it-wrapw"><div class="it-pv-in">'
+		. '<img class="it-pv-foto" src="' . esc_url( INFE_URL . 'assets/fabrizia-marra.webp' ) . '" alt="Fabrizia Marra, Growth & Influencer Manager di Influencee" width="160" height="160" loading="lazy" decoding="async">'
+		. '<div class="it-pv-txt"><p class="it-pv-eye">Fabrizia Marra · Growth & Influencer Manager</p><p class="it-pv-t">Hai la community? <em>Costruisci un progetto con noi.</em></p>'
+		. '<p class="it-pv-x">Tu ci metti la faccia, noi offerta, pagine, automazioni e pagamenti. Zero costi per partire: scrivimi e guardiamo insieme il tuo profilo.</p></div>'
+		. '<div class="it-pv-btns"><a class="inf-btn it-pv-wa" href="' . esc_url( $wa ) . '" target="_blank" rel="noopener" data-lead-type="progetto_creator">Scrivi a Fabrizia su WhatsApp</a>'
+		. ( $pag && '/progetti-creator/' !== $qui ? '<a class="it-pv-link" href="' . esc_url( infe_url( $pag ) ) . '">Come funziona →</a>' : '' ) . '</div>'
 		. '</div></div></div>';
 }
 

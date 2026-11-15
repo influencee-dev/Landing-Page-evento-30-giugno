@@ -284,6 +284,7 @@ export const MENU: MenuGroup[] = [
       { label: 'Contenuti UGC', href: '#/contenuti-ugc/', text: 'Video dei creator per i tuoi canali e le ads' },
       { label: 'Campagne locali', href: '#/influencer-marketing-locale/', text: 'Ristoranti, negozi, palestre ed eventi' },
       { label: 'Creator professionisti', href: '#/creator-professionisti/', text: 'Medici, nutrizionisti, personal trainer' },
+      { label: 'Progetti con i creator', href: '#/progetti-creator/', text: 'Costruisci un business con noi, zero costi per partire' },
       { label: 'Per i creator', href: '#/diventa-creator/', text: 'Iscriviti gratis e ricevi proposte dai brand' },
       { label: 'UGC creator', href: '#/ugc-creator/', text: 'Lavora con i brand anche senza tanti follower' },
     ],

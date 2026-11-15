@@ -34,6 +34,7 @@ import {
   type Audience,
 } from './rows';
 import { TeamPage } from './team';
+import { ProgettiPage } from './progetti';
 import { CreatorDirectory, CreatorList } from './creators';
 import { pageTypeOf } from './analytics';
 import { SUB_STORY } from './substory';
@@ -716,13 +717,11 @@ const GESTITO_FAQ: QA[] = [
   { q: 'Posso gestire la campagna da solo?', a: 'Sì: con la piattaforma cerchi i creator, pubblichi annunci e gestisci contratti e link tracciati in autonomia, senza commissioni sulle collaborazioni. Il servizio gestito è per chi preferisce delegare.' },
 ];
 function GestitoPage() {
-  const go = () => document.getElementById('preventivo')?.scrollIntoView({ behavior: 'smooth' });
   return (
     <>
-      <HeroPlatform crumbs={[{ label: 'Soluzioni' }, { label: 'Preventivo campagna' }]} eyebrow="Preventivo campagna con influencer" title={'Quanto costa una campagna\ncon influencer? *Calcolala*'} lead="Rispondi a poche domande: influencer o UGC, che creator, quanti, dove e con quale budget. Vedi subito la fascia di prezzo e ti mandiamo il preventivo completo, con il progetto della campagna." actions={<><Button onClick={go}>Calcola il preventivo</Button><Button href={WHATSAPP.href} variant="secondary">Parla con il team</Button></>} visual={<CollabMock className="mx-auto max-w-[500px]" />} />
-      <Section tone="paper" id="preventivo">
+      <Section tone="ink" id="preventivo">
         <Container>
-          <SectionHeader eyebrow="Il calcolatore" title={'Il tuo preventivo\n*in cinque passi*'} lead="Il prezzo finale dipende dai creator che scegliamo insieme: per ogni budget costruiamo un progetto e la trattativa con i creator la facciamo noi." />
+          <SectionHeader as="h1" eyebrow="Preventivo campagna con influencer" title={'Quanto costa una campagna con influencer?\n*Calcola il tuo preventivo*'} lead="Il prezzo finale dipende dai creator che scegliamo insieme: per ogni budget costruiamo un progetto e la trattativa con i creator la facciamo noi." />
           <PreventivoWidget page="campagna" origin="Preventivo campagne" variant="full" title="Calcola il tuo preventivo" className="mt-10" />
         </Container>
       </Section>
@@ -1005,7 +1004,7 @@ function withLead(r: Resolved): Resolved {
 const fit = (opts: string[]) => opts.map(T).find((t) => t.length <= 60) ?? T(opts[opts.length - 1]);
 
 /** Pagine per i creator: scheda finale con iscrizione creator e offerte. */
-const CREATOR_PATHS = ['/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/influencer/', '/funzionalita/media-kit/', '/academy-influencer-marketing/', '/social-media-tool/emoticon-da-copiare/'];
+const CREATOR_PATHS = ['/progetti-creator/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/influencer/', '/funzionalita/media-kit/', '/academy-influencer-marketing/', '/social-media-tool/emoticon-da-copiare/'];
 /** Home e pagine hub con il blocco «Trova influencer» in fondo (oltre a categorie, regioni e città). */
 const LINK_HUB = ['/', '/influencer-italiani/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/agenzia-influencer/', '/micro-influencer/', '/influencer-marketing-locale/', '/creator-professionisti/', '/contenuti-ugc/', '/social-media-tool/', '/preventivo-campagne/', '/prezzi/', '/blog/'];
 const NO_POPUP = ['/preventivo-campagne/', '/preventivi-influencer/', '/contatti-influencee/', '/pubblica-offerta-lavoro/'];
@@ -1061,6 +1060,7 @@ function resolveRoute(path: string): Resolved | null {
     '/funzionalita/calendario-campagne/': () => ({ meta: { path: p, label: 'Calendario campagne', type: 'software', kw: 'calendario campagne influencer', title: T('Calendario campagne influencer e scadenze'), description: 'Tutte le scadenze delle collaborazioni in un calendario: consegne, revisioni, pubblicazioni e contenuti in ritardo, per brand e creator.', crumbs: [{ label: 'Piattaforma', href: '#/piattaforma-influencer/' }, { label: 'Calendario campagne' }], faq: CAL_FAQ }, el: <FeaturePage crumb="Calendario campagne" eyebrow="Calendario" title={'Il calendario delle campagne\n*con gli influencer*'} lead="Consegne, revisioni e pubblicazioni di tutti i creator in una vista a calendario o a lista, con le consegne in ritardo in evidenza." visual={<CalendarMock className="mx-auto max-w-[480px]" />} answer={{ q: 'Come si organizza una campagna con più influencer?', a: CAL_FAQ[0].a, points: ['Vista calendario o lista', 'Stato di ogni contenuto', 'Etichetta "In ritardo"', 'Chat con ogni creator'] }} items={[{ eyebrow: 'Calendario', title: 'Tutte le scadenze in una vista', text: 'Ogni collaborazione porta in calendario le sue date: brief, consegne, revisioni e pubblicazione. Passa dalla vista mensile alla lista quando gestisci molte campagne insieme.', bullets: ['Campagne e scadenze insieme', 'Vista per periodo', 'Anche per i creator'], visual: <CalendarMock /> }, { ...F.campagne, title: 'Consegne, modifiche e approvazioni' }, F.link]} faq={CAL_FAQ} related={[{ label: 'Contratto', text: 'Termini e documento', href: '#/funzionalita/contratto-influencer/' }, { label: 'Per le agenzie', text: 'Più campagne in parallelo', href: '#/piattaforma-agenzie/' }, { label: 'Link tracciati', text: 'Misura i risultati', href: '#/funzionalita/link-tracciati/' }]} /> }),
     '/agenzia-influencer/': () => ({ meta: { path: p, label: 'Agenzia influencer', type: 'page', kw: 'agenzia influencer marketing', title: fit(['Agenzia influencer marketing: campagne gestite', 'Agenzia influencer marketing']), description: 'Agenzia di influencer marketing: il team di Influencee sceglie i creator italiani con te, prepara brief e contratto, segue i contenuti e misura i click.', crumbs: [{ label: 'Soluzioni' }, { label: 'Agenzia influencer' }], faq: AGENZIA_FAQ }, el: <AgencyServicePage /> }),
     '/contatti-influencee/': () => ({ meta: { path: p, label: 'Contatti', type: 'page', kw: 'contatti influencee', title: T('Contatti'), description: 'Scrivi al team di influencee per una demo con il tuo settore o per aiuto con la piattaforma.', crumbs: [{ label: 'Contatti' }] }, el: <Contacts /> }),
+    '/progetti-creator/': () => ({ meta: { path: p, label: 'Progetti con i creator', type: 'page', kw: 'progetti per creator', title: T('Costruisci un progetto con noi: per creator'), description: 'Hai la community, noi costruiamo il business dietro: offerta, pagine, automazioni e pagamenti. Zero costi per partire, guadagniamo solo se guadagni tu.', crumbs: [{ label: 'Creator' }, { label: 'Progetti con i creator' }] }, el: <ProgettiPage /> }),
     '/team/': () => ({ meta: { path: p, label: 'Team', type: 'page', kw: 'team influencee', title: T('Il team di Influencee: le persone'), description: 'Le persone di Influencee e dello studio Socialee: founder, account, creativi, fotografi, videomaker e una referente dedicata ai creator.', crumbs: [{ label: 'Team' }] }, el: <TeamPage /> }),
     '/blog/': () => ({ meta: { path: p, label: 'Blog', type: 'page', kw: 'blog influencer marketing', title: T('Blog di influencer marketing'), description: 'Guide pratiche di influencer marketing per brand e creator: engagement, campagne, strumenti social.', crumbs: [{ label: 'Blog' }] }, el: <Blog /> }),
   };
@@ -1097,7 +1097,7 @@ function resolveRoute(path: string): Resolved | null {
 
 /** Elenco di tutte le route (sitemap e test). */
 export function allPaths() {
-  const out = ['/', '/agenzia-influencer/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/preventivo-campagne/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti-influencee/', '/team/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
+  const out = ['/', '/agenzia-influencer/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/funzionalita/gestione-campagne/', '/funzionalita/link-tracciati/', '/funzionalita/media-kit/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/micro-influencer/', '/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/pubblica-offerta-lavoro/', '/preventivo-campagne/', '/social-media-tool/', '/followe-instagram-fake-follower/', '/social-media-tool/emoticon-da-copiare/', '/benchmark-engagement-rate/', '/prezzi/', '/influencer-italiani/', '/contatti-influencee/', '/team/', '/progetti-creator/', '/blog/', '/come-calcolare-engagement-rate/', '/social-media-tool/costo-influencer/', '/contenuti-ugc/', '/influencer-marketing-locale/', '/creator-professionisti/', '/creator-verificati/', '/funzionalita/contratto-influencer/', '/funzionalita/calendario-campagne/'];
   EX_PAGES.filter((x) => x.ready).forEach((x) => out.push(x.path));
   CATEGORIES.forEach((k) => out.push(`/${k.slug}/`));
   SUBCATEGORIES.forEach((k) => out.push(`/${k.slug}/`));

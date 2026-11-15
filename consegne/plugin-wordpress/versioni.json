@@ -1,22 +1,22 @@
 {
- "generato": "2026-11-15T15:25:49.221Z",
+ "generato": "2026-11-15T15:52:24.014Z",
  "plugin": {
   "influencee-core": {
-   "versione": "2.3.12",
+   "versione": "2.3.13",
    "file": "influencee-core.zip",
-   "sha256": "001a20149ceee10dfa4d043d3bb91b53f454e6ff8ddb66a92622c8b1f3ba4282",
+   "sha256": "6bc52146a51e74bb592acf815891e965ffb41fcf0d4a0fd88fa7b7c608742178",
    "auto": true
   },
   "influencee-tools": {
-   "versione": "2.0.11",
+   "versione": "2.0.12",
    "file": "influencee-tools.zip",
-   "sha256": "7304fa370e3243686480d64dd6758fdb60dac6146060ee1e5ab692ee704b3eca",
+   "sha256": "9cbd4f3ada211b25874c96ac43979608fb00502e9ef0c0dc5fabb5d3097326b0",
    "auto": true
   },
   "influencee-pagine": {
-   "versione": "2.0.17",
+   "versione": "2.0.18",
    "file": "influencee-pagine.zip",
-   "sha256": "1c5d092300d56e31c7f7f0f5884b0923cb76a83a9a4bd6e631be53aa851b1ecd",
+   "sha256": "d7853b06228c9e3ea93cf7cc39806f4841a6d2adb0a1b7dd4ef1aaad78f60205",
    "auto": true
   },
   "influencee-articoli": {
@@ -32,9 +32,9 @@
    "auto": true
   },
   "influencee-tema": {
-   "versione": "1.2.3",
+   "versione": "1.2.4",
    "file": "influencee-tema.zip",
-   "sha256": "0d72886155afda8722982f7740bdab93adfa4fe26ee65a21fa57e903c098d39d",
+   "sha256": "f80e06fa660a4d7d73f773273d497235f0f7d379b8e95957bc121a17c66b8da3",
    "auto": true
   },
   "influencee-pulizia": {
