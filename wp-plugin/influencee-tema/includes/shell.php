@@ -216,7 +216,7 @@ function infe_header_html() {
  */
 function infe_preventivo_cta() {
 	$qui = '/' . trim( (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/', PHP_URL_PATH ), '/' ) . '/';
-	if ( in_array( $qui, array( '/preventivo-campagne/', '/preventivi-influencer/' ), true ) ) {
+	if ( in_array( $qui, array( '/preventivo-campagne/', '/preventivi-influencer/', '/progetti-creator/' ), true ) ) {
 		return '';
 	}
 	if ( infe_pagina_creator( $qui ) ) {
