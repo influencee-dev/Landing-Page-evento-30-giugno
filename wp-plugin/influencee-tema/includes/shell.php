@@ -45,7 +45,7 @@ function infe_attivo() {
 	if ( is_admin() || wp_doing_ajax() || is_feed() || is_embed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ! did_action( 'wp' ) ) {
 		return false;
 	}
-	if ( isset( $_GET['elementor-preview'] ) || isset( $_GET['preview'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+	if ( isset( $_GET['elementor-preview'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification -- 1.2.5: le anteprime delle bozze hanno l'intestazione nuova
 		return false;
 	}
 	$s    = infe_settings();

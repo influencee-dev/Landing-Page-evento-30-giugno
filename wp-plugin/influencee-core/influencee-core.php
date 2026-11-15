@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Core
  * Description:       Base comune dei plugin Influencee: SEO/GEO/AEO (title, description, dati strutturati, llms.txt), tracciamento GA4, CSS e JavaScript condivisi, redirect 301, impostazioni e accesso MCP per Claude. Necessario per Influencee Tools, Pagine, Articoli e Annunci.
- * Version:           2.3.14
+ * Version:           2.3.15
  * Author:            Partidea SRL
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFC_VERSION', '2.3.14' );
+define( 'INFC_VERSION', '2.3.15' );
 define( 'INFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFT_COMPANY', 'Partidea SRL' );
@@ -73,6 +73,12 @@ $GLOBALS['inft_uri_originale'] = isset( $_SERVER['REQUEST_URI'] ) ? (string) $_S
 function inft_request_path() {
 	$uri  = isset( $GLOBALS['inft_uri_originale'] ) ? wp_unslash( $GLOBALS['inft_uri_originale'] ) : ( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/' );
 	$path = (string) wp_parse_url( $uri, PHP_URL_PATH );
+	/* 2.3.15: indirizzi per numero (anteprima delle bozze ?page_id=…&preview=true, ?p=…): non sono la pagina del
+	   percorso, la disegna WordPress. Prima l'anteprima di una bozza mostrava la home. */
+	parse_str( (string) wp_parse_url( $uri, PHP_URL_QUERY ), $q );
+	if ( isset( $q['page_id'] ) || isset( $q['p'] ) || isset( $q['preview_id'] ) ) {
+		return '/?wp-id/';
+	}
 	$base = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
 	if ( $base && '/' !== $base && 0 === strpos( $path, rtrim( $base, '/' ) ) ) {
 		$path = substr( $path, strlen( rtrim( $base, '/' ) ) );
