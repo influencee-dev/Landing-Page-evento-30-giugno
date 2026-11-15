@@ -1,5 +1,5 @@
 {
- "generato": "2026-11-15T16:58:51.809Z",
+ "generato": "2026-11-15T17:01:51.835Z",
  "plugin": {
   "influencee-core": {
    "versione": "2.3.16",
@@ -32,9 +32,9 @@
    "auto": true
   },
   "influencee-tema": {
-   "versione": "1.2.5",
+   "versione": "1.2.6",
    "file": "influencee-tema.zip",
-   "sha256": "eaca7d795c7a9f3fb4c59de16aa4d970b4d3306832648ae5d99527ec7838595a",
+   "sha256": "d9261a30208e3eee969a025e3deccf8861f37cad86e4594d0a00066b442b5a31",
    "auto": true
   },
   "influencee-pulizia": {

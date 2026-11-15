@@ -211,7 +211,7 @@ function infe_header_html() {
 }
 
 /**
- * «Richiedimi un preventivo»: riquadro con la foto di Giorgia Palazzo (dal sito Socialee) in fondo a ogni pagina,
+ * «Richiedimi un preventivo»: riquadro con la foto di Fabrizia Marra (WhatsApp +39 351 342 1629) in fondo a ogni pagina,
  * sopra il piè di pagina. Non compare dove il calcolatore è già la pagina.
  */
 function infe_preventivo_cta() {
@@ -224,10 +224,11 @@ function infe_preventivo_cta() {
 	}
 	$href = infe_meglio( array( '/preventivo-campagne/', '/preventivi-influencer/' ) );
 	return '<div class="it-pv" data-section="footer_preventivo"><div class="it-wrapw"><div class="it-pv-in">'
-		. '<img class="it-pv-foto" src="' . esc_url( INFE_URL . 'assets/giorgia-palazzo.webp' ) . '" alt="Giorgia Palazzo, CEO e co-founder di Influencee" width="160" height="160" loading="lazy" decoding="async">'
-		. '<div class="it-pv-txt"><p class="it-pv-eye">Giorgia Palazzo · CEO e co-founder</p><p class="it-pv-t">Vuoi una campagna con influencer? <em>Richiedimi un preventivo.</em></p>'
+		. '<img class="it-pv-foto" src="' . esc_url( INFE_URL . 'assets/fabrizia-marra.webp' ) . '" alt="Fabrizia Marra, Growth & Influencer Manager di Influencee" width="160" height="160" loading="lazy" decoding="async">'
+		. '<div class="it-pv-txt"><p class="it-pv-eye">Fabrizia Marra · Growth & Influencer Manager</p><p class="it-pv-t">Vuoi una campagna con influencer? <em>Richiedimi un preventivo.</em></p>'
 		. '<p class="it-pv-x">Rispondi a 4 domande: costruiamo il progetto sul tuo budget e la trattativa con i creator la facciamo noi.</p></div>'
-		. '<a class="inf-btn inf-btn-acid it-pv-btn" href="' . esc_url( infe_url( $href ) ) . '" data-track="preventivo_cta_click" data-lead-type="preventivo">Richiedimi un preventivo <span aria-hidden="true">→</span></a>'
+		. '<div class="it-pv-btns"><a class="inf-btn inf-btn-acid" href="' . esc_url( infe_url( $href ) ) . '" data-track="preventivo_cta_click" data-lead-type="preventivo">Richiedimi un preventivo <span aria-hidden="true">→</span></a>'
+		. '<a class="it-pv-link" href="' . esc_url( 'https://wa.me/393513421629?text=' . rawurlencode( 'Ciao Fabrizia, vorrei un preventivo per una campagna con influencer.' ) ) . '" target="_blank" rel="noopener" data-lead-type="preventivo_whatsapp">Oppure scrivimi su WhatsApp</a></div>'
 		. '</div></div></div>';
 }
 

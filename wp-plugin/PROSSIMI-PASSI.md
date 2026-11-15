@@ -377,5 +377,5 @@ per offerte pagate con azienda visibile (oggi nessun dato strutturato di offerta
   - Foto di Fabrizia Marra nel team.
   - Nuova pagina /progetti-creator/ «Costruisci un progetto con noi» (dal documento Creator Infrastructure Partner, senza dati interni): promessa, problema, ruoli, «video» animato in 5 scene su come funziona la collab, tre formati, per chi è / non è, regole, 3 progetti pilota, FAQ, WhatsApp a Fabrizia. Nel menu Creator (prima voce + scheda).
   - Pagine per i creator: in fondo il riquadro di Fabrizia con WhatsApp al posto di quello del preventivo (Tema, `infe_pagina_creator`).
-  - Il WhatsApp di Fabrizia per ora è il numero di Influencee con il messaggio «Ciao Fabrizia…»: se ha un numero suo, cambiare `FABRIZIA.tel` in `src/influencee/v2/progetti.tsx` e `$wa` in `infe_progetto_cta()`.
+  - WhatsApp di Fabrizia: +39 351 342 1629 (confermato da Giorgia). Tema 1.2.5: anche il riquadro «Richiedimi un preventivo» in fondo alle pagine ha la foto di Fabrizia e il link WhatsApp.
   - /preventivo-campagne/: tolto l'hero, il calcolatore è la prima sezione (titolo H1 su nero).
