@@ -177,7 +177,8 @@ function infe_header_html() {
 	$h .= '<nav class="it-nav" id="it-nav" aria-label="Menu principale"><ul class="it-menu">';
 	foreach ( infe_menu() as $i => $g ) {
 		if ( empty( $g['cols'] ) ) {
-			$h .= '<li><a class="it-top" href="' . esc_url( infe_url( $g['href'] ) ) . '">' . esc_html( $g['label'] ) . '</a></li>';
+			$new = ! empty( $g['nuovo'] ) ? ' <span class="it-new">New</span>' : '';
+			$h  .= '<li><a class="it-top' . ( $new ? ' it-top-new' : '' ) . '" href="' . esc_url( infe_url( $g['href'] ) ) . '">' . esc_html( $g['label'] ) . $new . '</a></li>';
 			continue;
 		}
 		$sez = 'header_' . sanitize_title( $g['label'] );
@@ -209,8 +210,27 @@ function infe_header_html() {
 	return $h . '</div></header>';
 }
 
+/**
+ * «Richiedimi un preventivo»: riquadro con la foto di Giorgia Palazzo (dal sito Socialee) in fondo a ogni pagina,
+ * sopra il piè di pagina. Non compare dove il calcolatore è già la pagina.
+ */
+function infe_preventivo_cta() {
+	$qui = '/' . trim( (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/', PHP_URL_PATH ), '/' ) . '/';
+	if ( in_array( $qui, array( '/preventivo-campagne/', '/preventivi-influencer/' ), true ) ) {
+		return '';
+	}
+	$href = infe_meglio( array( '/preventivo-campagne/', '/preventivi-influencer/' ) );
+	return '<div class="it-pv" data-section="footer_preventivo"><div class="it-wrapw"><div class="it-pv-in">'
+		. '<img class="it-pv-foto" src="' . esc_url( INFE_URL . 'assets/giorgia-palazzo.webp' ) . '" alt="Giorgia Palazzo, CEO e co-founder di Influencee" width="160" height="160" loading="lazy" decoding="async">'
+		. '<div class="it-pv-txt"><p class="it-pv-eye">Giorgia Palazzo · CEO e co-founder</p><p class="it-pv-t">Vuoi una campagna con influencer? <em>Richiedimi un preventivo.</em></p>'
+		. '<p class="it-pv-x">Rispondi a 4 domande: costruiamo il progetto sul tuo budget e la trattativa con i creator la facciamo noi.</p></div>'
+		. '<a class="inf-btn inf-btn-acid it-pv-btn" href="' . esc_url( infe_url( $href ) ) . '" data-track="preventivo_cta_click" data-lead-type="preventivo">Richiedimi un preventivo <span aria-hidden="true">→</span></a>'
+		. '</div></div></div>';
+}
+
 function infe_footer_html() {
 	$f  = '<footer class="it-footer inf-scope" data-inft-track data-page-type="' . esc_attr( infe_tipo_pagina() ) . '" data-section="footer">';
+	$f .= infe_preventivo_cta();
 	$f .= '<div class="it-fcta" data-section="footer_cta"><div class="it-wrapw it-fcta-in"><div><p class="it-feye">Influencer marketing 100% italiano</p><p class="it-fhead">Brand e creator italiani, <em>nello stesso posto.</em></p></div>';
 	$f .= '<div class="it-fbtn"><a class="inf-btn inf-btn-acid" href="' . esc_url( infe_app( '/iscriviti/brand/' ) ) . '">Sono un brand</a><a class="inf-btn it-btn-ghost" href="' . esc_url( infe_app( '/iscriviti/creator/' ) ) . '">Sono un creator</a></div></div></div>';
 	$f .= '<div class="it-wrapw it-fgrid"><div class="it-fbrand">' . infe_logo();

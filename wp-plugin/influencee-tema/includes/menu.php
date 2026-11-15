@@ -130,28 +130,8 @@ function infe_menu() {
 			),
 			'card'  => array( 'Per i creator', 'Fatti trovare dai brand italiani', 'Crea il profilo gratis: i brand ti contattano per collaborazioni pagate.', 'Iscriviti come creator', infe_app( '/iscriviti/creator/' ) ),
 		),
-		array(
-			'label' => 'Prezzi',
-			'cols'  => array(
-				array(
-					'title' => 'Piattaforma',
-					'items' => array(
-						$v( 'Prezzi della piattaforma', array( '/prezzi/' ), 'Gratis per sempre o Premium da 19 € al mese', 'tag' ),
-						$v( 'Per le agenzie', array( '/piattaforma-agenzie/', '/agenzie/' ), 'Più clienti, un solo account', 'users' ),
-						array( 'Pubblica un’offerta di lavoro', '/pubblica-offerta-lavoro/', 'Gratis, i creator si candidano', 'briefcase' ),
-					),
-				),
-				array(
-					'title' => 'Preventivi',
-					'items' => array(
-						$v( 'Calcola il preventivo', array( '/preventivo-campagne/', '/preventivi-influencer/' ), 'Quanto costa la tua campagna, in un minuto', 'calc' ),
-						array( 'Campagna gestita da noi', '/agenzia-influencer/', 'Scegliamo i creator e trattiamo il prezzo', 'handshake' ),
-						array( 'Quanto costa un influencer', '/social-media-tool/costo-influencer/', 'Il prezzo medio di un post o di un reel', 'chart' ),
-					),
-				),
-			),
-			'card'  => array( '3 giorni di Premium gratis', 'Prova la piattaforma senza carta', 'Cerca i creator italiani, pubblica un’offerta e gestisci la campagna da solo.', 'Inizia gratis', infe_app( '/iscriviti/brand/' ) ),
-		),
+		array( 'label' => 'Prezzi', 'href' => infe_meglio( array( '/prezzi/', '/#prezzi' ) ) ),
+		array( 'label' => 'Preventivi', 'href' => infe_meglio( array( '/preventivo-campagne/', '/preventivi-influencer/' ) ), 'nuovo' => true ),
 	);
 	foreach ( $menu as &$g ) {
 		if ( isset( $g['cols'] ) ) {

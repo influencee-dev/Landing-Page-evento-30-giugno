@@ -167,3 +167,18 @@ details[open]>.it-top svg{transform:rotate(180deg)}
 .it-pagine{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:40px}
 .it-pagine .page-numbers{display:inline-flex;min-width:40px;height:40px;align-items:center;justify-content:center;padding:0 12px;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#0f172a;font-size:14px}
 .it-pagine .current{background:#0f172a;color:#fff;border-color:#0f172a}
+
+/* Voce «Preventivi» con etichetta New gialla */
+.it-new{display:inline-block;margin-left:2px;padding:3px 7px;border-radius:999px;background:#ffe500;color:#111;font:800 10px/1 "Montserrat",sans-serif;letter-spacing:.06em;text-transform:uppercase;vertical-align:2px}
+.it-top-new{font-weight:700;color:var(--it-ink)}
+/* «Richiedimi un preventivo» con la foto di Giorgia, in fondo a ogni pagina */
+.it-pv{background:#fff;padding:40px 0}
+.it-pv-in{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:20px 28px;padding:28px;border-radius:28px;background:var(--it-paper);border:1px solid var(--it-line)}
+.it-pv-foto{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.it-pv-eye{margin:0;font:700 12px/1.3 "Montserrat",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#d6006f}
+.it-pv-t{margin:6px 0 0;font:700 clamp(22px,2.6vw,30px)/1.15 "Montserrat",sans-serif;letter-spacing:-.02em;color:var(--it-ink)}
+.it-pv-t em{font-style:normal;color:var(--it-ink);background:linear-gradient(transparent 58%,#ffe500 58%)}
+.it-pv-x{margin:8px 0 0;font:400 15px/1.5 "Montserrat",sans-serif;color:#555;max-width:560px}
+.it-pv-btn{grid-column:1/-1;justify-self:start;white-space:nowrap}
+@media(min-width:900px){.it-pv-in{grid-template-columns:auto 1fr auto;padding:28px 36px}.it-pv-foto{width:140px;height:140px}.it-pv-btn{grid-column:auto;justify-self:end}}
+@media(max-width:560px){.it-pv-in{grid-template-columns:1fr;text-align:left}.it-pv-foto{width:96px;height:96px}.it-pv-btn{width:100%;justify-content:center}}
