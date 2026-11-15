@@ -431,7 +431,7 @@ function inft_mcp_update_plugin( $in ) {
 		wp_delete_file( $tmp );
 		return new WP_Error( 'inft_zip', 'Zip non leggibile.' );
 	}
-	$family = array( 'influencee-core' => 'Influencee Core', 'influencee-tools' => 'Influencee Tools', 'influencee-pagine' => 'Influencee Pagine', 'influencee-articoli' => 'Influencee Articoli', 'influencee-annunci' => 'Influencee Annunci', 'influencee-tema' => 'Influencee Tema', 'influencee-pulizia' => 'Influencee Pulizia' );
+	$family = array( 'influencee-core' => 'Influencee Core', 'influencee-tools' => 'Influencee Tools', 'influencee-pagine' => 'Influencee Pagine', 'influencee-articoli' => 'Influencee Articoli', 'influencee-annunci' => 'Influencee Annunci', 'influencee-tema' => 'Influencee Tema', 'influencee-pulizia' => 'Influencee Pulizia', 'influencee-guide-2027' => 'Influencee Guide 2027' ); // 2.3.14: anche il plugin che crea in bozza le guide 2027
 	$first  = $za->numFiles > 0 ? (string) $za->getNameIndex( 0 ) : '';
 	$slug   = strtok( $first, '/' );
 	$ok     = isset( $family[ $slug ] );

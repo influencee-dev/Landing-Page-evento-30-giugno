@@ -205,6 +205,30 @@ function inft_mcp_strumenti() {
 			return function_exists( 'infc_preventivo_diagnosi' ) ? infc_preventivo_diagnosi() : new WP_Error( 'inft_preventivo', 'preventivo.php non caricato' );
 		},
 	);
+	/* 2.3.14: il pulsante «Crea le bozze» del plugin Influencee Guide 2027 (Pagine → Guide 2027). Crea o aggiorna solo
+	   bozze fatte da quel plugin; non pubblica e non tocca altre pagine. */
+	$t['influencee/guide-2027-bozze'] = array(
+		'description' => 'Come «Crea le bozze» in Pagine → Guide 2027: crea in bozza /calendario-marketing-2027/ e le guide di settore, con PDF e copertine nei media. Non pubblica niente. Richiede il plugin Influencee Guide 2027 attivo e conferma.',
+		'inputSchema' => array( 'type' => 'object', 'properties' => array( 'conferma' => array( 'type' => 'boolean' ) ), 'required' => array( 'conferma' ) ),
+		'run'         => function ( $args ) {
+			if ( empty( $args['conferma'] ) ) {
+				return new WP_Error( 'inft_conferma', 'Serve conferma: true.' );
+			}
+			if ( ! function_exists( 'infg27_crea' ) ) {
+				return new WP_Error( 'inft_guide', 'Il plugin Influencee Guide 2027 non è attivo.' );
+			}
+			$out = array();
+			foreach ( (array) infg27_crea() as $e ) {
+				if ( is_wp_error( $e ) ) {
+					$out[] = array( 'errore' => $e->get_error_message() );
+					continue;
+				}
+				$id    = (int) $e['id'];
+				$out[] = array( 'id' => $id, 'titolo' => get_the_title( $id ), 'percorso' => '/' . get_page_uri( $id ) . '/', 'stato' => get_post_status( $id ), 'nota' => $e['nota'], 'anteprima' => get_preview_post_link( $id ), 'modifica' => admin_url( 'post.php?post=' . $id . '&action=edit' ) );
+			}
+			return array( 'esiti' => $out );
+		},
+	);
 	$t['influencee/plugin-elenco'] = array(
 		'description' => 'Elenco dei plugin installati (file, nome, versione, attivo) e tema attivo.',
 		'inputSchema' => array( 'type' => 'object', 'properties' => new stdClass() ),
