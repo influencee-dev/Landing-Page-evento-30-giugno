@@ -2,9 +2,10 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, BookOpen, CalendarDays, Store, TrendingUp, Users } from 'lucide-react';
 import { Button, Container, GAP, Section, SectionHeader, TYPE, reveal } from '../../ds';
-import { APP, MARKET, TIERS, type QA } from '../data';
+import { MARKET, TIERS, type QA } from '../data';
 import { AnswerBox, CtaDual, FaqSeo, FeatureSplit, HeroPlatform, Related } from '../rows';
 import { ToolLead, ToolsHubGrid } from '../tools';
+import { GuideScaffale } from './guide-pdf';
 import type { ExPage } from './types';
 
 /* /guide-e-risorse/ — pagina ex Elementor rifatta nel template v2 (testo originale: copia del 22/10/2026).
@@ -36,7 +37,7 @@ const CREATOR_GUIDES = [
 ];
 
 const FAQ_RISORSE: QA[] = [
-  { q: 'Le guide e i tool sono gratuiti?', a: 'Sì. Le guide sono articoli liberi da leggere e i tool di influencer marketing funzionano dal browser, gratis e senza registrazione.' },
+  { q: 'Le guide e i tool sono gratuiti?', a: 'Sì. Le guide del calendario marketing 2027 si scaricano gratis in PDF lasciando nome ed email, gli articoli del blog sono liberi da leggere e i tool di influencer marketing funzionano dal browser, gratis e senza registrazione.' },
   { q: 'Qual è un buon engagement rate su Instagram?', a: `Dipende dalla fascia di follower. Secondo le fonti italiane raccolte da Influencee la media è circa ${MARKET.erIG[0].v.toLocaleString('it-IT')}% per i nano influencer, ${MARKET.erIG[1].v.toLocaleString('it-IT')}% per i micro e ${MARKET.erIG[4].v.toLocaleString('it-IT')}% per i profili oltre il milione di follower.` },
   { q: 'Come si pianificano i contenuti con creator e UGC?', a: 'Con un calendario che raccoglie date di consegna e di pubblicazione di ogni creator. Per il piano editoriale dei tuoi canali c’è il calendario editoriale gratuito; nella piattaforma il calendario delle campagne mostra le scadenze di tutte le collaborazioni.' },
   { q: 'Posso farmi aiutare dal team di Influencee?', a: 'Sì: puoi chiedere una demo della piattaforma con creator del tuo settore, oppure affidare al team l’intera campagna con il servizio gestito.' },
@@ -64,7 +65,7 @@ function GuideCards() {
   return (
     <Section tone="white" id="guide">
       <Container>
-        <SectionHeader eyebrow="Guide 2026" title={'Dati e strategie\n*per l’influencer marketing*'} lead="Tre guide pratiche per brand, agenzie e negozi: leggile gratis sul blog." />
+        <SectionHeader eyebrow="Sul blog" title={'Dati e strategie\n*per l’influencer marketing*'} lead="Tre approfondimenti pratici per brand, agenzie e negozi, da leggere gratis sul blog." />
         <div className={`${GAP.header} grid grid-cols-1 ${GAP.grid} md:grid-cols-3`}>
           {GUIDE_2026.map((g, i) => (
             <motion.a key={g.href} href={g.href} {...reveal(i)} className="group flex flex-col overflow-hidden rounded-3xl bg-paper transition hover:-translate-y-1">
@@ -194,18 +195,19 @@ function GuideRisorse() {
         lead="Dati, strategie e strumenti gratuiti per lavorare con i creator nel 2026: guide pratiche, benchmark di engagement e tool da usare subito dal browser."
         actions={
           <>
-            <Button href="#/social-media-tool/">Apri i tool gratuiti</Button>
-            <Button href={APP.brand} variant="secondary">
-              Prova la piattaforma
+            <Button href="#guide-pdf">Scarica le guide 2027</Button>
+            <Button href="#/social-media-tool/" variant="secondary">
+              Apri i tool gratuiti
             </Button>
           </>
         }
         visual={<GuideStack className="mx-auto max-w-[440px]" />}
       />
+      <GuideScaffale />
       <AnswerBox
         q="Dove trovo guide gratuite di influencer marketing?"
-        a="In questa pagina trovi le guide di Influencee per brand, agenzie e creator, i valori di riferimento dell’engagement per fascia di follower e i tool gratuiti: fake follower checker, calcolo dell’engagement rate, costo di un influencer, calendario editoriale e preventivo per una campagna gestita."
-        points={['Guide 2026 sul blog', 'Benchmark con le fonti', 'Tool senza registrazione', 'Calendario editoriale']}
+        a="In questa pagina trovi le guide gratuite in PDF del calendario marketing 2027 per settore, le guide di Influencee per brand, agenzie e creator, i valori di riferimento dell’engagement per fascia di follower e i tool gratuiti: fake follower checker, calcolo dell’engagement rate, costo di un influencer, calendario editoriale e preventivo per una campagna gestita."
+        points={['Guide 2027 in PDF', 'Benchmark con le fonti', 'Tool senza registrazione', 'Calendario editoriale']}
       />
       <GuideCards />
       <FeatureSplit

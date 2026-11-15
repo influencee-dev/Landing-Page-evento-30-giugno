@@ -229,6 +229,18 @@ function inft_mcp_strumenti() {
 			return array( 'esiti' => $out );
 		},
 	);
+	$t['influencee/guide-2027-pubblica'] = array(
+		'description' => 'Pubblica le pagine «Calendario marketing 2027» create dal plugin Influencee Guide 2027 (solo quelle) e svuota la cache. Richiede conferma.',
+		'inputSchema' => array( 'type' => 'object', 'properties' => array( 'conferma' => array( 'type' => 'boolean' ) ), 'required' => array( 'conferma' ) ),
+		'run'         => function ( $args ) {
+			if ( empty( $args['conferma'] ) ) {
+				return new WP_Error( 'inft_conferma', 'Serve conferma: true.' );
+			}
+			$out = inft_g27_pubblica();
+			inft_purge_cache();
+			return array( 'esiti' => $out );
+		},
+	);
 	$t['influencee/plugin-elenco'] = array(
 		'description' => 'Elenco dei plugin installati (file, nome, versione, attivo) e tema attivo.',
 		'inputSchema' => array( 'type' => 'object', 'properties' => new stdClass() ),
