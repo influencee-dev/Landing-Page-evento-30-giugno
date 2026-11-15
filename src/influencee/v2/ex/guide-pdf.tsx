@@ -47,13 +47,13 @@ export function Copertina({ g, className = 'w-[150px]', eager = false }: { g: Gu
 }
 
 /* ─── Scaffale (seconda riga di Guide e risorse) ───────────────── */
-export function GuideScaffale({ tone = 'white' }: { tone?: 'white' | 'paper' }) {
+export function GuideScaffale({ tone = 'white', escludi, eyebrow = 'Guide gratuite in PDF', title = 'Calendario marketing 2027\n*le guide per settore*', lead = 'Le date, le stagioni di vendita e le giornate da segnare nel 2027, settore per settore. Scegli la tua guida e scaricala gratis.' }: { tone?: 'white' | 'paper'; escludi?: string; eyebrow?: string; title?: string; lead?: string }) {
   return (
     <Section tone={tone} id="guide-pdf">
       <Container>
-        <SectionHeader eyebrow="Guide gratuite in PDF" title={'Calendario marketing 2027\n*le guide per settore*'} lead="Le date, le stagioni di vendita e le giornate da segnare nel 2027, settore per settore. Scegli la tua guida e scaricala gratis." />
+        <SectionHeader eyebrow={eyebrow} title={title} lead={lead} />
         <div className={`${GAP.header} -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-6 sm:-mx-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-5 lg:gap-y-10 lg:overflow-visible lg:px-0`}>
-          {GUIDE_2027.map((g, i) => (
+          {GUIDE_2027.filter((g) => g.slug !== escludi).map((g, i) => (
             <motion.a key={g.slug} href={guidaHref(g)} {...reveal(i % 4)} className="group flex w-[200px] flex-none snap-start flex-col lg:w-auto">
               <div className="relative flex h-[270px] items-end justify-center rounded-3xl bg-gradient-to-b from-paper to-[#ececf2] px-6 pb-7 pt-8 transition group-hover:-translate-y-1">
                 <Copertina g={g} />

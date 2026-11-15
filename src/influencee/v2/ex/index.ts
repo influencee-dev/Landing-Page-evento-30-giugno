@@ -7,8 +7,9 @@ import { PAGE as P_TUTORIAL } from './tutorial';
 import { PAGE as P_CONTRATTO } from './contratto';
 import { PAGE as P_CREATOR_MANAGER } from './creator-manager';
 import { PAGE as P_AMMINISTRAZIONE_PAGAMENTI } from './amministrazione-pagamenti';
+import { CALENDARIO_2027_PAGES } from './calendario-2027';
 import type { ExPage } from './types';
 
 /** Le pagine ex Elementor (fase 2 del piano senza Elementor). Solo quelle `ready` vanno nel plugin. */
-export const EX_PAGES: ExPage[] = [P_INFLUENCER, P_INFLUENCER_ITALIANE, P_ACADEMY, P_CHI_SIAMO, P_GUIDE_E_RISORSE, P_TUTORIAL, P_CONTRATTO, P_CREATOR_MANAGER, P_AMMINISTRAZIONE_PAGAMENTI];
+export const EX_PAGES: ExPage[] = [P_INFLUENCER, P_INFLUENCER_ITALIANE, P_ACADEMY, P_CHI_SIAMO, P_GUIDE_E_RISORSE, P_TUTORIAL, P_CONTRATTO, P_CREATOR_MANAGER, P_AMMINISTRAZIONE_PAGAMENTI, ...CALENDARIO_2027_PAGES];
 export const exPage = (path: string) => EX_PAGES.find((x) => x.path === path);

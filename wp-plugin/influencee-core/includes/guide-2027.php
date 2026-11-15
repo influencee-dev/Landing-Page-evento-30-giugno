@@ -24,6 +24,10 @@ function inft_g27_corrente() {
 		return $k;
 	}
 	$k = '';
+	// 2.3.17: se la pagina la disegna il Core (template del sito, ex/calendario-2027.tsx) qui non si aggiunge niente
+	if ( function_exists( 'inft_current' ) && inft_current() ) {
+		return $k;
+	}
 	if ( did_action( 'wp' ) && is_page() ) {
 		$id = (int) get_queried_object_id();
 		$f  = array_search( $id, inft_g27_pagine(), true );

@@ -1,0 +1,1953 @@
+{
+ "date_2027": [
+  {
+   "data": "2027-01-01",
+   "nome": "Capodanno",
+   "tipo": "Festa nazionale",
+   "nota": "Cade di venerdì: weekend lungo dal 1° al 3 gennaio."
+  },
+  {
+   "data": "2027-01-06",
+   "nome": "Epifania",
+   "tipo": "Festa nazionale",
+   "nota": "Mercoledì, chiude le feste: calze, dolci e ultimi regali."
+  },
+  {
+   "data": "2027-02-09",
+   "nome": "Martedì grasso",
+   "tipo": "Tradizione",
+   "nota": "Chiude il Carnevale: dolci fritti e feste dei bambini."
+  },
+  {
+   "data": "2027-02-14",
+   "nome": "San Valentino",
+   "tipo": "Ricorrenza commerciale",
+   "nota": "Cade di domenica: il weekend 13-14 febbraio è quello delle cene e dei regali."
+  },
+  {
+   "data": "2027-03-08",
+   "nome": "Festa della donna",
+   "tipo": "Ricorrenza",
+   "nota": "Lunedì: le iniziative si concentrano nel weekend prima."
+  },
+  {
+   "data": "2027-03-19",
+   "nome": "Festa del papà",
+   "tipo": "Ricorrenza",
+   "nota": "Venerdì: regali e dolci della tradizione (zeppole)."
+  },
+  {
+   "data": "2027-03-28",
+   "nome": "Pasqua",
+   "tipo": "Festa religiosa",
+   "nota": "Pasqua è presto nel 2027: colombe e uova vanno preparate già da febbraio."
+  },
+  {
+   "data": "2027-03-29",
+   "nome": "Pasquetta",
+   "tipo": "Festa nazionale",
+   "nota": "Gite e pranzi all'aperto."
+  },
+  {
+   "data": "2027-04-25",
+   "nome": "Festa della Liberazione",
+   "tipo": "Festa nazionale",
+   "nota": "Cade di domenica: niente ponte."
+  },
+  {
+   "data": "2027-05-01",
+   "nome": "Festa del lavoro",
+   "tipo": "Festa nazionale",
+   "nota": "Cade di sabato: niente ponte."
+  },
+  {
+   "data": "2027-05-09",
+   "nome": "Festa della mamma",
+   "tipo": "Ricorrenza commerciale",
+   "nota": "Seconda domenica di maggio."
+  },
+  {
+   "data": "2027-06-02",
+   "nome": "Festa della Repubblica",
+   "tipo": "Festa nazionale",
+   "nota": "Mercoledì: possibile ponte lungo solo per chi prende due giorni."
+  },
+  {
+   "data": "2027-08-15",
+   "nome": "Ferragosto",
+   "tipo": "Festa nazionale",
+   "nota": "Cade di domenica."
+  },
+  {
+   "data": "2027-10-02",
+   "nome": "Festa dei nonni",
+   "tipo": "Ricorrenza (legge 159/2005)",
+   "nota": "Sabato: occasione per iniziative in negozio."
+  },
+  {
+   "data": "2027-10-31",
+   "nome": "Halloween",
+   "tipo": "Ricorrenza commerciale",
+   "nota": "Domenica, attaccata a Ognissanti: weekend lungo dal 30 ottobre al 1° novembre."
+  },
+  {
+   "data": "2027-11-01",
+   "nome": "Ognissanti",
+   "tipo": "Festa nazionale",
+   "nota": "Lunedì: ponte naturale con il weekend."
+  },
+  {
+   "data": "2027-11-26",
+   "nome": "Black Friday",
+   "tipo": "Ricorrenza commerciale",
+   "nota": "Il venerdì dopo il Giorno del Ringraziamento americano."
+  },
+  {
+   "data": "2027-11-29",
+   "nome": "Cyber Monday",
+   "tipo": "Ricorrenza commerciale",
+   "nota": "Il lunedì dopo il Black Friday, soprattutto online."
+  },
+  {
+   "data": "2027-12-08",
+   "nome": "Immacolata",
+   "tipo": "Festa nazionale",
+   "nota": "Mercoledì: per tradizione apre la stagione degli acquisti di Natale."
+  },
+  {
+   "data": "2027-12-25",
+   "nome": "Natale",
+   "tipo": "Festa nazionale",
+   "nota": "Cade di sabato; Santo Stefano di domenica."
+  }
+ ],
+ "giornate": [
+  {
+   "data": "2027-01-17",
+   "nome": "Giornata mondiale della pizza",
+   "fonte": "Tradizione (Sant'Antonio Abate, patrono dei pizzaioli)",
+   "settore": "food"
+  },
+  {
+   "data": "2027-02-05",
+   "nome": "Giornata nazionale di prevenzione dello spreco alimentare",
+   "fonte": "Italia",
+   "settore": "food"
+  },
+  {
+   "data": "2027-02-10",
+   "nome": "Giornata mondiale dei legumi",
+   "fonte": "ONU",
+   "settore": "food"
+  },
+  {
+   "data": "2027-03-08",
+   "nome": "Giornata internazionale della donna",
+   "fonte": "ONU",
+   "settore": "tutti"
+  },
+  {
+   "data": "2027-03-22",
+   "nome": "Giornata mondiale dell'acqua",
+   "fonte": "ONU",
+   "settore": "tutti"
+  },
+  {
+   "data": "2027-03-24",
+   "nome": "Giornata europea del gelato artigianale",
+   "fonte": "Parlamento europeo",
+   "settore": "food"
+  },
+  {
+   "data": "2027-04-22",
+   "nome": "Giornata della Terra",
+   "fonte": "ONU",
+   "settore": "tutti"
+  },
+  {
+   "data": "2027-05-02",
+   "nome": "Giornata mondiale del tonno",
+   "fonte": "ONU",
+   "settore": "food"
+  },
+  {
+   "data": "2027-05-20",
+   "nome": "Giornata mondiale delle api",
+   "fonte": "ONU",
+   "settore": "food"
+  },
+  {
+   "data": "2027-05-21",
+   "nome": "Giornata internazionale del tè",
+   "fonte": "ONU",
+   "settore": "food"
+  },
+  {
+   "data": "2027-06-05",
+   "nome": "Giornata mondiale dell'ambiente",
+   "fonte": "ONU",
+   "settore": "tutti"
+  },
+  {
+   "data": "2027-06-07",
+   "nome": "Giornata mondiale della sicurezza alimentare",
+   "fonte": "ONU",
+   "settore": "food"
+  },
+  {
+   "data": "2027-09-29",
+   "nome": "Giornata internazionale contro perdite e sprechi alimentari",
+   "fonte": "ONU",
+   "settore": "food"
+  },
+  {
+   "data": "2027-10-16",
+   "nome": "Giornata mondiale dell'alimentazione",
+   "fonte": "ONU (FAO)",
+   "settore": "food"
+  }
+ ],
+ "settori": [
+  [
+   "food",
+   "Food",
+   "Panettoni, colombe, gelato, castagne: quando cominciare a promuovere."
+  ],
+  [
+   "viaggi",
+   "Viaggi",
+   "Sci, mete estive, Ferragosto, mercatini e Capodanno."
+  ],
+  [
+   "casa",
+   "Casa",
+   "Condizionatori, giardino, fotovoltaico e addobbi di Natale."
+  ],
+  [
+   "famiglia",
+   "Famiglia",
+   "Befana, Carnevale, maturità, vacanze e Babbo Natale."
+  ],
+  [
+   "sport-benessere",
+   "Sport e benessere",
+   "Tennis, Giro d'Italia, corsa, piscina, allergie e sauna."
+  ],
+  [
+   "moda-beauty",
+   "Moda e beauty",
+   "Costumi, abbronzatura, Black Friday e cosa cresce."
+  ],
+  [
+   "tech-mobilita",
+   "Tech e mobilità",
+   "Black Friday, Cyber Monday, gomme invernali e bollo."
+  ]
+ ],
+ "hub_faq": [
+  [
+   "Quando cade Pasqua nel 2027?",
+   "Domenica 28 marzo 2027; Pasquetta è lunedì 29 marzo. È una Pasqua alta: chi vende colombe e uova deve partire con vetrine e preordini già a febbraio."
+  ],
+  [
+   "Quando è il Black Friday 2027?",
+   "Venerdì 26 novembre 2027. Il Cyber Monday è lunedì 29 novembre."
+  ],
+  [
+   "Quali ponti ci sono nel 2027?",
+   "Pochi: il 25 aprile cade di domenica e il 1° maggio di sabato. I weekend lunghi sono Capodanno (1-3 gennaio), Ognissanti (30 ottobre-1° novembre) e Natale con Santo Stefano."
+  ],
+  [
+   "Quali sono le giornate mondiali del 2027 utili per il marketing?",
+   "Nella tabella di questa pagina trovi le giornate riconosciute da ONU, Unione europea e istituzioni italiane, con il giorno della settimana. Per il food: pizza (17 gennaio), gelato artigianale (24 marzo), api (20 maggio), alimentazione (16 ottobre)."
+  ],
+  [
+   "Da dove vengono le date di stagione delle guide?",
+   "Dalle visite alle voci della Wikipedia italiana dal 2016, lette con regole fisse e uguali per tutti i temi: niente stime a occhio e niente intelligenza artificiale. Il metodo è spiegato in ogni guida."
+  ],
+  [
+   "Le guide sono gratuite?",
+   "Sì. Sono sette, una per settore (food, viaggi, casa, famiglia, sport e benessere, moda e beauty, tech e mobilità): si leggono online e si scaricano in PDF, senza registrazione."
+  ]
+ ],
+ "guide": {
+  "food": {
+   "slug": "food",
+   "categoria": "Food",
+   "del_": "del food",
+   "aggiornato": "9 novembre 2026",
+   "sottotitolo": "La guida marketing per negozi, PMI e aziende del food",
+   "stagioni": [
+    {
+     "nome": "Chiacchiere",
+     "da": "2026-12-13",
+     "picco": "2027-02-03",
+     "sale": "oltre 10 volte",
+     "reg": "3 stagioni su 3",
+     "negozio": "Vassoio in vista vicino alla cassa da metà gennaio, porzioni da asporto e confezioni regalo per le feste dei bambini.",
+     "online": "Foto del laboratorio e «pronte da questo sabato» nelle storie, ogni settimana fino al martedì grasso.",
+     "creator": "Un assaggio con 2-3 creator della città entro fine gennaio, prima che l'interesse arrivi al massimo."
+    },
+    {
+     "nome": "Colomba pasquale",
+     "da": "2027-02-01",
+     "picco": "2027-03-25",
+     "sale": "oltre 10 volte",
+     "reg": "3 stagioni su 3",
+     "negozio": "Preordini aperti a inizio febbraio, vetrina pasquale da inizio marzo, una colomba in degustazione al banco.",
+     "online": "Il listino dei preordini nel profilo e un promemoria a due settimane da Pasqua (28 marzo).",
+     "creator": "Unboxing e assaggio 3-4 settimane prima di Pasqua: i video restano visibili fino al picco."
+    },
+    {
+     "nome": "Pastiera",
+     "da": "2027-02-23",
+     "picco": "2027-03-25",
+     "sale": "9,3 volte",
+     "reg": "3 stagioni su 3",
+     "negozio": "Prenotazioni dal 23 febbraio, formati piccoli per chi la vuole assaggiare prima di Pasqua.",
+     "online": "La ricetta di casa raccontata in un reel: è il dolce che la gente cerca anche per farlo da sé.",
+     "creator": "Creator di cucina che la preparano con i vostri ingredienti, grano cotto e ricotta in evidenza."
+    },
+    {
+     "nome": "Fragole",
+     "da": "2027-02-14",
+     "picco": "2027-04-10",
+     "sale": "3,6 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Banco frutta in evidenza da marzo, abbinamenti pronti (fragole e panna, cestini per dolci di Pasqua).",
+     "online": "Prima fragola della stagione, provenienza e arrivi del giorno nelle storie.",
+     "creator": "Ricette veloci con creator food a fine marzo, quando la ricerca sale di più."
+    },
+    {
+     "nome": "Anguria",
+     "da": "2027-05-21",
+     "picco": "2027-07-18",
+     "sale": "5,3 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Fette pronte in frigo e mezze angurie da fine maggio; a luglio in vetrina, è il frutto più cercato.",
+     "online": "Arrivi e prezzo al chilo nelle storie, idee di macedonie e granite.",
+     "creator": "Contenuti «estate» con creator di famiglia e lifestyle a giugno, prima del picco di metà luglio."
+    },
+    {
+     "nome": "Gelato",
+     "da": "2027-06-12",
+     "picco": "2027-07-24",
+     "sale": "1,6 volte",
+     "reg": "7 anni su 10",
+     "negozio": "Gusto del mese da metà giugno, vaschette da asporto e torte gelato per le feste.",
+     "online": "Un gusto nuovo a settimana, votato dai clienti nelle storie.",
+     "creator": "Assaggi con creator locali a fine giugno, con un codice per la prima visita."
+    },
+    {
+     "nome": "Passata di pomodoro",
+     "da": "2027-08-02",
+     "picco": "2027-08-16",
+     "sale": "1,7 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Pomodori da salsa a cassette, barattoli e passapomodoro esposti insieme dai primi di agosto.",
+     "online": "La «giornata della salsa» raccontata come tradizione: ricetta, dosi, tempi.",
+     "creator": "Video della preparazione in famiglia a inizio agosto, quando le persone si organizzano."
+    },
+    {
+     "nome": "Spritz",
+     "da": "2027-08-03",
+     "picco": "2027-08-15",
+     "sale": "1,6 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Kit aperitivo (bottiglie, bicchieri, stuzzichini) per Ferragosto, dal 3 agosto.",
+     "online": "Il vostro aperitivo del weekend e la serata di Ferragosto, con orari e prenotazioni.",
+     "creator": "Creator della zona per un aperitivo nel locale la settimana prima di Ferragosto."
+    },
+    {
+     "nome": "Castagne",
+     "da": "2027-09-11",
+     "picco": "2027-10-19",
+     "sale": "9,7 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Castagne fresche, farina e marmellata in un unico angolo da metà settembre; caldarroste se si può.",
+     "online": "Le sagre e le ricette d'autunno, con quello che trovano da voi.",
+     "creator": "Una ricetta d'autunno con creator food a fine settembre, il picco arriva il 19 ottobre."
+    },
+    {
+     "nome": "Zucca",
+     "da": "2027-09-12",
+     "picco": "2027-10-26",
+     "sale": "3,7 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Zucche da cucina e da intaglio in vista da metà settembre, insieme per Halloween (31 ottobre).",
+     "online": "Ricette salate e idee per Halloween, con un prima e dopo dell'intaglio.",
+     "creator": "Creator di famiglie e bambini per Halloween, da fine settembre."
+    },
+    {
+     "nome": "Vin brulé",
+     "da": "2027-09-23",
+     "picco": "2027-12-17",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Vino, spezie e kit per il vin brulé dall'autunno; bicchiere caldo al banco nelle settimane di Natale.",
+     "online": "La ricetta e gli eventi di dicembre: mercatini, serate, aperture straordinarie.",
+     "creator": "Contenuti «serata d'inverno» con creator locali a fine novembre: è la stagione più lunga dell'anno."
+    },
+    {
+     "nome": "Torrone",
+     "da": "2027-10-16",
+     "picco": "2027-12-25",
+     "sale": "5,5 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Torroni artigianali al banco da metà ottobre, confezioni per i cesti di Natale.",
+     "online": "Provenienza e lavorazione, gusti e formati regalo.",
+     "creator": "Assaggi e confezioni regalo con creator a inizio novembre."
+    },
+    {
+     "nome": "Olio di oliva",
+     "da": "2027-10-20",
+     "picco": "2027-11-07",
+     "sale": "1,6 volte",
+     "reg": "9 anni su 10",
+     "negozio": "L'olio nuovo in degustazione da fine ottobre: pane, sale e un assaggio al banco.",
+     "online": "Frantoio, raccolta e annata: le persone vogliono sapere da dove viene.",
+     "creator": "Visita al frantoio con un creator a fine ottobre, prima del picco del 7 novembre."
+    },
+    {
+     "nome": "Pandoro",
+     "da": "2027-10-24",
+     "picco": "2027-12-23",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Preordini da fine ottobre, piramide in vetrina dalla metà di novembre.",
+     "online": "Listino di Natale, formati e ritiro: un post fisso in alto nel profilo.",
+     "creator": "Unboxing e farciture a fine novembre, quando le famiglie decidono cosa comprare."
+    },
+    {
+     "nome": "Panettone",
+     "da": "2027-10-28",
+     "picco": "2027-12-23",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Preordini da fine ottobre, assaggio al banco e cesti per le aziende entro metà novembre.",
+     "online": "Gusti, artigianalità e date di ritiro; il «panettone del mese» se ne fate più versioni.",
+     "creator": "Recensioni e confronti con creator food a fine novembre: il picco è il 23 dicembre."
+    }
+   ],
+   "trimestri": [
+    {
+     "titolo": "Gennaio – marzo",
+     "sotto": "Carnevale e Pasqua (28 marzo)",
+     "temi": [
+      "Chiacchiere",
+      "Colomba pasquale",
+      "Pastiera",
+      "Fragole"
+     ],
+     "breve": "Carnevale e Pasqua"
+    },
+    {
+     "titolo": "Aprile – giugno",
+     "sotto": "Arriva l'estate: frutta fresca e leggerezza",
+     "temi": [
+      "Anguria",
+      "Gelato"
+     ],
+     "breve": "Arriva l'estate"
+    },
+    {
+     "titolo": "Luglio – settembre",
+     "sotto": "Ferragosto e il ritorno dell'autunno",
+     "temi": [
+      "Passata di pomodoro",
+      "Spritz",
+      "Castagne",
+      "Zucca"
+     ],
+     "breve": "Ferragosto e autunno"
+    },
+    {
+     "titolo": "Ottobre – dicembre",
+     "sotto": "Olio nuovo, Halloween e Natale",
+     "temi": [
+      "Olio di oliva",
+      "Torrone",
+      "Vin brulé",
+      "Pandoro",
+      "Panettone"
+     ],
+     "breve": "Olio nuovo e Natale"
+    }
+   ],
+   "ricorrenze": [
+    {
+     "nome": "Capodanno",
+     "data": "2027-01-01",
+     "idea": "Cenone e pranzo del primo dell'anno: lenticchie, cotechino e zampone, spumante. Ordini entro il 20 dicembre."
+    },
+    {
+     "nome": "Befana",
+     "data": "2027-01-06",
+     "idea": "Calze ripiene e carbone di zucchero: in vetrina dal 27 dicembre, finito il Natale."
+    },
+    {
+     "nome": "Festa della Repubblica",
+     "data": "2027-06-02",
+     "idea": "Il ponte di inizio estate: grigliate, gite e pic-nic, con kit pronti dalla settimana prima."
+    },
+    {
+     "nome": "San Valentino",
+     "data": "2027-02-14",
+     "idea": "Dolci e cene per due: prenotazioni e confezioni regalo da inizio febbraio."
+    },
+    {
+     "nome": "Martedì grasso",
+     "data": "2027-02-09",
+     "idea": "Chiacchiere e frittelle: il picco è il 3 febbraio, una settimana prima."
+    },
+    {
+     "nome": "Festa della donna",
+     "data": "2027-03-08",
+     "idea": "Mimosa (la torta) e omaggi in negozio."
+    },
+    {
+     "nome": "Festa del papà",
+     "data": "2027-03-19",
+     "idea": "Zeppole di San Giuseppe e idee regalo gastronomiche."
+    },
+    {
+     "nome": "Pasqua e Pasquetta",
+     "data": "2027-03-28",
+     "idea": "Colomba, pastiera, uova: preordini da febbraio; Pasquetta il 29 marzo."
+    },
+    {
+     "nome": "Festa della mamma",
+     "data": "2027-05-09",
+     "idea": "Torte e colazioni da regalare: prenotazioni dalla settimana prima."
+    },
+    {
+     "nome": "Ferragosto",
+     "data": "2027-08-15",
+     "idea": "Aperitivo, grigliata e anguria: kit pronti dai primi di agosto."
+    },
+    {
+     "nome": "Halloween",
+     "data": "2027-10-31",
+     "idea": "Zucca e dolcetti: vetrina dalla metà di ottobre."
+    },
+    {
+     "nome": "Black Friday",
+     "data": "2027-11-26",
+     "idea": "Cesti e confezioni di Natale in anticipo, non sconti sul fresco. Cyber Monday il 29."
+    },
+    {
+     "nome": "Natale",
+     "data": "2027-12-25",
+     "idea": "Panettone, pandoro, torrone: preordini da fine ottobre, cesti aziendali entro metà novembre."
+    }
+   ],
+   "cresce": [
+    [
+     "Poke",
+     "+18%"
+    ],
+    [
+     "Matcha",
+     "+18%"
+    ],
+    [
+     "Pandoro",
+     "+12%"
+    ],
+    [
+     "Sushi",
+     "+12%"
+    ],
+    [
+     "Pizza",
+     "+10%"
+    ]
+   ],
+   "etichette": {},
+   "foto_copertina": [
+    "N i c o l a",
+    "CC BY 2.0",
+    "Panettone - Nicolettone 2017 - IMG 7085"
+   ],
+   "intro": "Quindici stagioni del cibo, dalle chiacchiere al panettone, con la data in cui gli italiani cominciano a cercarle e quella del picco. Per negozi, bar, ristoranti e aziende del food che vogliono arrivare prima degli altri.",
+   "faq": [
+    [
+     "Quando iniziare a promuovere il panettone nel 2027?",
+     "L'interesse per il panettone comincia a salire dal 28 ottobre e tocca il massimo il 23 dicembre. Vetrina e contenuti vanno pronti entro fine ottobre."
+    ],
+    [
+     "Quando promuovere la colomba per Pasqua 2027?",
+     "Pasqua è il 28 marzo 2027. L'interesse per la colomba sale dal 1 febbraio e arriva al picco il 25 marzo: i preordini vanno aperti a inizio febbraio."
+    ],
+    [
+     "Quando si cercano di più le chiacchiere di Carnevale?",
+     "Dal domenica 13 dicembre 2026 l'interesse comincia a salire; il picco è il 3 febbraio, prima del martedì grasso (9 febbraio 2027)."
+    ],
+    [
+     "Quando è la Giornata mondiale della pizza 2027?",
+     "Domenica 17 gennaio 2027, giorno di Sant'Antonio Abate, patrono dei pizzaioli."
+    ],
+    [
+     "Quando è la Giornata del gelato artigianale 2027?",
+     "Mercoledì 24 marzo 2027. È la giornata europea istituita dal Parlamento europeo nel 2012."
+    ],
+    [
+     "Come sono calcolate le date?",
+     "Dalle visite alle voci della Wikipedia italiana dal 2016 (bot esclusi), con regole fisse e uguali per tutti i temi. «Quanto sale» confronta il picco con il resto dell'anno; «regolarità» dice in quanti anni la stagione si è ripetuta."
+    ]
+   ],
+   "meta": null,
+   "creator_link": [
+    "/food-influencers/",
+    "creator food"
+   ],
+   "metodo": "Influencee Trends misura l'interesse degli italiani dalle visite di persone (bot esclusi) alle voci della Wikipedia italiana, con l'API pubblica di Wikimedia, dal 2016. Le regole sono fisse e uguali per tutti i temi; nessun numero è stimato a occhio."
+  },
+  "viaggi": {
+   "slug": "viaggi",
+   "categoria": "Viaggi",
+   "del_": "dei viaggi",
+   "aggiornato": "9 novembre 2026",
+   "sottotitolo": "La guida marketing per agenzie, hotel e aziende del turismo",
+   "stagioni": [
+    {
+     "nome": "Sci alpino",
+     "da": "2026-11-18",
+     "picco": "2027-01-27",
+     "sale": "4 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Vetrina neve e prenotazioni della settimana bianca da metà novembre; noleggio e skipass in un unico pacchetto.",
+     "online": "Date di apertura degli impianti, neve caduta e posti liberi nelle storie, ogni settimana fino a fine gennaio.",
+     "creator": "Una giornata sulle piste con 2-3 creator a dicembre, prima del picco di fine gennaio."
+    },
+    {
+     "nome": "Maldive",
+     "da": "2027-01-25",
+     "picco": "2027-02-02",
+     "sale": "1,6 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Proposte per viaggi di nozze e fughe al caldo pronte a metà gennaio, con le date dei mesi successivi.",
+     "online": "Un post fisso con periodi consigliati, durata del volo e documenti, da fine gennaio.",
+     "creator": "Racconti di viaggio già pubblicati da ripubblicare a fine gennaio: la finestra dura otto giorni."
+    },
+    {
+     "nome": "Cinque Terre",
+     "da": "2027-04-20",
+     "picco": "2027-04-28",
+     "sale": "1,6 volte",
+     "reg": "6 anni su 10",
+     "negozio": "Proposte di due o tre notti per fine aprile, con treno e sentieri spiegati, pronte da inizio aprile.",
+     "online": "Itinerario a piedi tra i cinque borghi e consigli per i giorni meno affollati.",
+     "creator": "Un itinerario a piedi con un creator a inizio aprile, da far uscire prima del 20."
+    },
+    {
+     "nome": "Costiera amalfitana",
+     "da": "2027-06-15",
+     "picco": "2027-06-19",
+     "sale": "1,5 volte",
+     "reg": "7 anni su 10",
+     "negozio": "Pacchetti di giugno con barca e traghetti, in vetrina da fine maggio.",
+     "online": "Spiagge, traghetti e orari: le informazioni pratiche da avere sempre in vista.",
+     "creator": "Contenuti dalla costa a inizio giugno: la finestra dura pochi giorni."
+    },
+    {
+     "nome": "Spiaggia",
+     "da": "2027-07-31",
+     "picco": "2027-08-11",
+     "sale": "1,6 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Teli, borse e ombrelloni in vista da fine luglio; in hotel, ombrellone incluso.",
+     "online": "Posti liberi e foto della spiaggia al mattino, ogni giorno.",
+     "creator": "Una giornata al mare con creator di famiglia, a fine luglio."
+    },
+    {
+     "nome": "Ferragosto",
+     "da": "2027-07-02",
+     "picco": "2027-08-12",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Offerte per il weekend di Ferragosto (domenica 15) dai primi di luglio.",
+     "online": "Il programma della settimana: eventi, cene, gite, prenotazioni aperte.",
+     "creator": "Contenuti a metà luglio: a luglio l'interesse vale già tre volte un mese normale."
+    },
+    {
+     "nome": "Dolomiti",
+     "da": "2027-07-10",
+     "picco": "2027-08-17",
+     "sale": "1,6 volte",
+     "reg": "7 anni su 10",
+     "negozio": "Scarponi e zaini in vetrina da inizio luglio; in hotel, pacchetti con escursioni.",
+     "online": "Sentieri, rifugi e impianti aperti, con la difficoltà spiegata semplice.",
+     "creator": "Un'escursione con un creator di montagna a inizio luglio."
+    },
+    {
+     "nome": "Camper",
+     "da": "2027-08-08",
+     "picco": "2027-08-16",
+     "sale": "1,5 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Noleggi: ultimi posti di agosto e prenotazioni di settembre, dai primi del mese.",
+     "online": "Aree di sosta e itinerari di una settimana, in un post da salvare.",
+     "creator": "Un viaggio in camper raccontato da una famiglia, a inizio agosto."
+    },
+    {
+     "nome": "Mercatino di Natale",
+     "da": "2027-08-19",
+     "picco": "2027-12-03",
+     "sale": "7 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Gite in pullman e weekend ai mercatini in vendita da metà agosto, con le date di apertura delle città.",
+     "online": "Il calendario dei mercatini, città per città, aggiornato da settembre a dicembre.",
+     "creator": "Weekend ai mercatini raccontati dai creator a novembre, quando l'interesse sale di più."
+    },
+    {
+     "nome": "Capodanno",
+     "da": "2027-10-27",
+     "picco": "2027-12-30",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Pacchetti di Capodanno chiusi e in vendita a fine ottobre, con il cenone incluso e chiaro.",
+     "online": "Posti rimasti, programma della serata e prezzi aggiornati: un post fisso da novembre.",
+     "creator": "Contenuti «dove festeggiare» a fine novembre, prima del picco del 30 dicembre."
+    }
+   ],
+   "trimestri": [
+    {
+     "titolo": "Gennaio – aprile",
+     "sotto": "Neve, mare d'inverno e i borghi di primavera",
+     "temi": [
+      "Sci alpino",
+      "Maldive",
+      "Cinque Terre"
+     ],
+     "breve": "Neve e primavera"
+    },
+    {
+     "titolo": "Giugno – agosto",
+     "sotto": "L'estate tra mare, montagna e Ferragosto",
+     "temi": [
+      "Costiera amalfitana",
+      "Spiaggia",
+      "Ferragosto",
+      "Dolomiti",
+      "Camper"
+     ],
+     "breve": "Mare, monti e Ferragosto"
+    },
+    {
+     "titolo": "Settembre – dicembre",
+     "sotto": "Mercatini di Natale e Capodanno",
+     "temi": [
+      "Mercatino di Natale",
+      "Capodanno"
+     ],
+     "breve": "Mercatini e Capodanno"
+    }
+   ],
+   "ricorrenze": [
+    {
+     "nome": "Capodanno",
+     "data": "2027-01-01",
+     "idea": "Ultimi posti e last minute. Per il Capodanno 2028 la stagione riparte il 27 ottobre."
+    },
+    {
+     "nome": "Befana",
+     "data": "2027-01-06",
+     "idea": "Cade di mercoledì e chiude le feste: offerte per le settimane bianche di gennaio, meno care."
+    },
+    {
+     "nome": "Martedì grasso",
+     "data": "2027-02-09",
+     "idea": "Carnevali in città e weekend in montagna: proposte per il fine settimana del 6-7 febbraio."
+    },
+    {
+     "nome": "San Valentino",
+     "data": "2027-02-14",
+     "idea": "È domenica: un weekend per due dal 12 al 14 febbraio, con buono regalo da stampare."
+    },
+    {
+     "nome": "Festa del papà",
+     "data": "2027-03-19",
+     "idea": "Esperienze da regalare: una giornata sugli sci, un'escursione, una notte fuori."
+    },
+    {
+     "nome": "Pasqua e Pasquetta",
+     "data": "2027-03-28",
+     "idea": "Pasqua presto: in alta quota si scia ancora. Pacchetti di 3-4 notti; Pasquetta il 29 marzo."
+    },
+    {
+     "nome": "Festa della mamma",
+     "data": "2027-05-09",
+     "idea": "Buoni regalo per un weekend o una giornata fuori porta, da vendere anche online."
+    },
+    {
+     "nome": "Festa della Repubblica",
+     "data": "2027-06-02",
+     "idea": "Cade di mercoledì: niente ponte lungo, meglio proposte di due notti a metà settimana."
+    },
+    {
+     "nome": "Ferragosto",
+     "data": "2027-08-15",
+     "idea": "È domenica. Il picco di interesse arriva il 12: offerte e disponibilità dai primi di luglio."
+    },
+    {
+     "nome": "Halloween",
+     "data": "2027-10-31",
+     "idea": "Con Ognissanti lunedì 1 novembre è un ponte di tre giorni: borghi, città d'arte, autunno."
+    },
+    {
+     "nome": "Black Friday",
+     "data": "2027-11-26",
+     "idea": "Offerte per prenotare presto la neve e i viaggi del 2028; attrezzatura invernale. Cyber Monday il 29."
+    },
+    {
+     "nome": "Natale",
+     "data": "2027-12-25",
+     "idea": "Viaggi e buoni regalo sotto l'albero; i mercatini sono al picco già il 3 dicembre."
+    }
+   ],
+   "cresce": [
+    [
+     "Sci alpino",
+     "+89%"
+    ],
+    [
+     "Maldive",
+     "+33%"
+    ]
+   ],
+   "etichette": {
+    "negozio": "In agenzia o struttura",
+    "idea": "Un'idea per agenzie e strutture",
+    "appendere": "Da appendere in agenzia",
+    "mosse": "Tre mosse per ogni agenzia o struttura, in sede, online e con i creator, più una per tour operator e aziende del turismo."
+   },
+   "foto_copertina": [
+    "Nicola Cerroni",
+    "CC BY-SA 4.0",
+    "Positano panorama"
+   ],
+   "intro": "Viaggi 2027 è la guida gratuita di Influencee Trends per agenzie di viaggio, hotel, B&B, noleggi e aziende del turismo. Raccoglie le 10 stagioni dei viaggi misurate su dieci anni di visite alla Wikipedia italiana: da quando prepararsi, quando arriva il picco e cosa fare in agenzia, online e con i creator. Dentro anche le ricorrenze del 2027, le tendenze degli ultimi dodici mesi e una checklist mese per mese.",
+   "faq": [
+    [
+     "Quando conviene preparare le offerte per la settimana bianca?",
+     "Dal 18 novembre 2026: è il giorno in cui l'interesse per lo sci alpino comincia a salire. Il picco arriva verso il 27 gennaio 2027."
+    ],
+    [
+     "Quando iniziano a cercare i mercatini di Natale?",
+     "Dal 19 agosto 2027. È la stagione più lunga dei viaggi: circa 106 giorni fino al picco, verso il 3 dicembre."
+    ],
+    [
+     "Quando preparare le offerte di Capodanno?",
+     "Entro il 27 ottobre 2027, quando comincia la salita. Il picco di interesse arriva verso il 30 dicembre, oltre dieci volte un mese normale."
+    ],
+    [
+     "Quando promuovere Ferragosto?",
+     "Dai primi di luglio: l'interesse sale dal 2 luglio e arriva al massimo verso il 12 agosto. Nel 2027 Ferragosto cade di domenica."
+    ],
+    [
+     "Quali temi dei viaggi crescono di più?",
+     "Negli ultimi dodici mesi lo sci alpino (+89%) e le Maldive (+33%), rispetto all'andamento di tutta la Wikipedia italiana."
+    ],
+    [
+     "Quanti ponti ci sono nel 2027?",
+     "Pochi: il 25 aprile è domenica, il primo maggio sabato, il 2 giugno mercoledì. Ognissanti cade lunedì 1 novembre e fa un weekend lungo."
+    ]
+   ],
+   "meta": "Quando gli italiani cercano sci, mare, Ferragosto, mercatini e Capodanno nel 2027: 10 stagioni con le date e la guida PDF gratuita.",
+   "creator_link": [
+    "/travel-influencers/",
+    "travel creator"
+   ],
+   "metodo": "Influencee Trends misura l'interesse degli italiani dalle visite di persone (bot esclusi) alle voci della Wikipedia italiana, con l'API pubblica di Wikimedia, dal 2016. Le regole sono fisse e uguali per tutti i temi; nessun numero è stimato a occhio."
+  },
+  "casa": {
+   "slug": "casa",
+   "categoria": "Casa",
+   "del_": "della casa",
+   "aggiornato": "9 novembre 2026",
+   "sottotitolo": "La guida marketing per negozi, installatori e aziende della casa",
+   "stagioni": [
+    {
+     "nome": "Giardinaggio",
+     "da": "2027-03-30",
+     "picco": "2027-04-08",
+     "sale": "1,6 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Piantine, terricci e vasi in vista prima di Pasqua, con un banco «primo balcone» vicino all'ingresso.",
+     "online": "Cosa piantare adesso e cosa è appena arrivato, nelle storie ogni settimana di aprile.",
+     "creator": "Un balcone rifatto con un creator della zona, online entro fine marzo."
+    },
+    {
+     "nome": "Fotovoltaico",
+     "da": "2027-05-08",
+     "picco": "2027-05-20",
+     "sale": "1,6 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Una giornata porte aperte a inizio maggio, con un tecnico che risponde alle domande.",
+     "online": "Domande frequenti, tempi di installazione e un impianto già fatto raccontato passo per passo.",
+     "creator": "Un cliente o un creator di casa che racconta il suo impianto, senza promettere cifre."
+    },
+    {
+     "nome": "Condizionatore",
+     "da": "2027-05-26",
+     "picco": "2027-06-29",
+     "sale": "3,9 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Modelli esposti e listino con installazione pronti a metà maggio; sopralluoghi prenotabili prima del caldo.",
+     "online": "Le date di installazione ancora libere, aggiornate ogni settimana fino a luglio.",
+     "creator": "Contenuti «casa fresca» con creator della zona a fine maggio, prima del picco del 29 giugno."
+    },
+    {
+     "nome": "Deumidificatore",
+     "da": "2027-06-09",
+     "picco": "2027-06-29",
+     "sale": "2 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Accanto ai condizionatori, con un cartello chiaro su quando serve l'uno e quando l'altro.",
+     "online": "Un post semplice: come accorgersi dell'umidità in casa e quale apparecchio scegliere.",
+     "creator": "Una prova in una stanza vera con un creator a inizio giugno: prima e dopo."
+    },
+    {
+     "nome": "Halloween",
+     "da": "2027-08-30",
+     "picco": "2027-10-27",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Un angolo Halloween da metà settembre e la vetrina piena da inizio ottobre: luci, zucche finte, porta d'ingresso.",
+     "online": "Un'idea a settimana per decorare casa e porta, da fine settembre a fine ottobre.",
+     "creator": "Creator di famiglia e casa che addobbano con i vostri prodotti a fine settembre."
+    },
+    {
+     "nome": "Calendario dell'Avvento",
+     "da": "2027-09-07",
+     "picco": "2027-11-30",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Calendari pronti e da riempire in vista da metà settembre; a ottobre un banco «fai il tuo calendario».",
+     "online": "Ordini e personalizzazioni aperti a settembre, con una data chiara di consegna entro novembre.",
+     "creator": "Unboxing e calendari fai-da-te con creator a ottobre: restano online fino al picco."
+    },
+    {
+     "nome": "Presepe",
+     "da": "2027-09-26",
+     "picco": "2027-12-19",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Statuine, casette e muschio in un angolo dedicato da inizio ottobre, con i pezzi singoli bene in vista.",
+     "online": "I presepi dei clienti ripubblicati, insieme ai pezzi nuovi arrivati in negozio.",
+     "creator": "Un presepe costruito a puntate con un creator, da fine ottobre."
+    },
+    {
+     "nome": "Albero di Natale",
+     "da": "2027-10-09",
+     "picco": "2027-12-14",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Alberi già addobbati in esposizione da metà ottobre; consegna e montaggio per chi lo chiede.",
+     "online": "Gli stili dell'anno e gli addobbi coordinati, con un post fisso in alto per prezzi e consegne.",
+     "creator": "L'albero fatto con un creator di casa a metà novembre, prima del picco del 14 dicembre."
+    }
+   ],
+   "trimestri": [
+    {
+     "titolo": "Marzo – giugno",
+     "sotto": "Giardino, sole e la corsa al fresco",
+     "temi": [
+      "Giardinaggio",
+      "Fotovoltaico",
+      "Condizionatore",
+      "Deumidificatore"
+     ],
+     "breve": "Giardino, sole e caldo"
+    },
+    {
+     "titolo": "Settembre – dicembre",
+     "sotto": "Halloween e il lungo Natale di casa",
+     "temi": [
+      "Halloween",
+      "Calendario dell'Avvento",
+      "Presepe",
+      "Albero di Natale"
+     ],
+     "breve": "Halloween e Natale"
+    }
+   ],
+   "ricorrenze": [
+    {
+     "nome": "Capodanno",
+     "data": "2027-01-01",
+     "idea": "Luci, tavola e addobbi per la festa, in vetrina con il Natale."
+    },
+    {
+     "nome": "Befana",
+     "data": "2027-01-06",
+     "idea": "Si smonta: scatole e contenitori per gli addobbi, e il riordino."
+    },
+    {
+     "nome": "Martedì grasso",
+     "data": "2027-02-09",
+     "idea": "Festoni, coriandoli e addobbi per le feste di Carnevale in casa."
+    },
+    {
+     "nome": "San Valentino",
+     "data": "2027-02-14",
+     "idea": "Candele, tavola per due, piccoli oggetti per la casa da regalare."
+    },
+    {
+     "nome": "Festa del papà",
+     "data": "2027-03-19",
+     "idea": "Attrezzi, fai-da-te e barbecue: un angolo regalo in negozio."
+    },
+    {
+     "nome": "Pasqua e Pasquetta",
+     "data": "2027-03-28",
+     "idea": "Tavola di Pasqua e primo balcone; Pasquetta il 29 marzo."
+    },
+    {
+     "nome": "Festa della mamma",
+     "data": "2027-05-09",
+     "idea": "Piante fiorite, vasi e oggetti per la casa da regalare."
+    },
+    {
+     "nome": "Festa della Repubblica",
+     "data": "2027-06-02",
+     "idea": "Il ponte d'inizio estate: arredo da esterni e condizionatori."
+    },
+    {
+     "nome": "Ferragosto",
+     "data": "2027-08-15",
+     "idea": "Chiusure e ultime date di installazione, comunicate per tempo."
+    },
+    {
+     "nome": "Halloween",
+     "data": "2027-10-31",
+     "idea": "Zucche finte, luci e decorazioni per la porta in vetrina."
+    },
+    {
+     "nome": "Black Friday",
+     "data": "2027-11-26",
+     "idea": "La data dell'anno per elettrodomestici e clima."
+    },
+    {
+     "nome": "Cyber Monday",
+     "data": "2027-11-29",
+     "idea": "Online: piccoli elettrodomestici e oggetti facili da spedire."
+    },
+    {
+     "nome": "Natale",
+     "data": "2027-12-25",
+     "idea": "Dopo i picchi di albero e presepe contano consegne e regali."
+    }
+   ],
+   "cresce": [
+    [
+     "Piscina",
+     "+44%"
+    ],
+    [
+     "Superbonus",
+     "+38%"
+    ],
+    [
+     "Condizionatore",
+     "+4%"
+    ]
+   ],
+   "etichette": {
+    "mosse": "Tre mosse per ogni negozio o installatore, in vetrina, online e con i creator, più una per chi produce e distribuisce."
+   },
+   "foto_copertina": [
+    "Chris Olszewski",
+    "CC BY-SA 4.0",
+    "Christmas tree decorations and gifts on Christmas Eve in Brisbane, Australia, 2021"
+   ],
+   "intro": "Quando gli italiani cominciano a pensare a giardino, condizionatore, Halloween e Natale in casa, e quando arriva il picco. La guida Casa 2027 di Influencee Trends mette in fila le 8 stagioni della casa con le date da cui prepararsi, misurate su dieci anni di visite alla Wikipedia italiana. Per ogni stagione: cosa fare in negozio, online e con i creator, e cosa preparare se produci o installi.",
+   "faq": [
+    [
+     "Quando conviene preparare la stagione dei condizionatori nel 2027?",
+     "L'interesse comincia a salire dal 26 maggio 2027 e arriva al picco verso il 29 giugno; a luglio vale 3,9 volte un mese normale. Esposizione, listini e agende di installazione vanno pronti entro metà maggio."
+    ],
+    [
+     "Quando parte la stagione del giardinaggio?",
+     "Dal 30 marzo 2027, con il picco verso l'8 aprile: una finestra di nove giorni, subito dopo Pasqua (28 marzo)."
+    ],
+    [
+     "Da quando si cercano gli addobbi di Halloween?",
+     "Dal 30 agosto 2027, con il picco verso il 27 ottobre. A ottobre l'interesse supera di oltre dieci volte un mese normale."
+    ],
+    [
+     "Quando preparare albero di Natale e presepe?",
+     "Il presepe sale dal 26 settembre (picco verso il 19 dicembre), l'albero dal 9 ottobre (picco verso il 14 dicembre). Il calendario dell'Avvento parte ancora prima, dal 7 settembre."
+    ],
+    [
+     "Cosa cresce di più nella casa?",
+     "Negli ultimi 12 mesi, rispetto all'andamento di tutta la Wikipedia italiana: piscina +44%, Superbonus +38%, condizionatore +4%."
+    ],
+    [
+     "Da dove vengono i dati?",
+     "Dalle visite di persone (bot esclusi) alle voci della Wikipedia italiana, dal 2016, con l'API pubblica di Wikimedia e regole fisse. Misurano l'interesse, non le vendite."
+    ]
+   ],
+   "meta": "Quando promuovere condizionatori, giardino, fotovoltaico, Halloween e Natale nel 2027: 8 stagioni con le date e la guida PDF gratuita.",
+   "creator_link": [
+    "/home-influencers/",
+    "creator di casa e arredo"
+   ],
+   "metodo": "Influencee Trends misura l'interesse degli italiani dalle visite di persone (bot esclusi) alle voci della Wikipedia italiana, con l'API pubblica di Wikimedia, dal 2016. Le regole sono fisse e uguali per tutti i temi; nessun numero è stimato a occhio."
+  },
+  "famiglia": {
+   "slug": "famiglia",
+   "categoria": "Famiglia",
+   "del_": "della famiglia",
+   "aggiornato": "9 novembre 2026",
+   "sottotitolo": "La guida marketing per negozi, PMI e aziende dei bambini e della famiglia",
+   "stagioni": [
+    {
+     "nome": "Befana",
+     "da": "2026-10-18",
+     "picco": "2027-01-01",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Calze, piccoli giochi e libri sotto i 10 euro in un angolo dedicato da dopo Natale fino al 6 gennaio.",
+     "online": "Le idee per riempire la calza, divise per età, in un post fisso dal 26 dicembre.",
+     "creator": "Un «cosa mettiamo nella calza» con 2-3 creator di famiglia a fine dicembre, prima del picco del 1 gennaio."
+    },
+    {
+     "nome": "Carnevale",
+     "da": "2026-12-11",
+     "picco": "2027-02-03",
+     "sale": "oltre 10 volte",
+     "reg": "3 stagioni su 3",
+     "negozio": "Costumi in vetrina e taglie esposte da inizio gennaio, con coriandoli, trucchi e accessori vicino alla cassa.",
+     "online": "Le foto dei costumi per età e taglia, con la disponibilità aggiornata ogni settimana.",
+     "creator": "La prova del costume con creator di famiglia a metà gennaio: il picco arriva il 3 febbraio."
+    },
+    {
+     "nome": "Festa del papà",
+     "da": "2027-01-25",
+     "picco": "2027-03-13",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Kit per lavoretti, biglietti da colorare e piccoli regali scelti dai bambini, in vista da metà febbraio.",
+     "online": "Tre idee di regalo per fascia d'età, pubblicate entro fine febbraio.",
+     "creator": "Un lavoretto fatto in casa con un creator, a fine febbraio: resta online fino al 19 marzo."
+    },
+    {
+     "nome": "Maturità",
+     "da": "2027-05-29",
+     "picco": "2027-06-22",
+     "sale": "3,6 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Regali per la fine della scuola, quaderni e libri per l'estate in vetrina dagli ultimi giorni di maggio.",
+     "online": "Il «dopo l'esame»: letture per l'estate, idee regalo, orari estivi del negozio.",
+     "creator": "Creator giovani per i regali di fine scuola a inizio giugno, quando le famiglie ci pensano."
+    },
+    {
+     "nome": "Gardaland",
+     "da": "2027-07-18",
+     "picco": "2027-08-11",
+     "sale": "2,1 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Giochi da viaggio, borracce e abbigliamento per le gite in evidenza da metà luglio.",
+     "online": "Se gestisci un parco o un'attività per famiglie: orari di agosto, prezzi e prenotazioni ben visibili dal 18 luglio.",
+     "creator": "Una giornata da voi con una famiglia creator a fine luglio, prima della settimana di Ferragosto."
+    },
+    {
+     "nome": "Babbo Natale",
+     "da": "2027-10-09",
+     "picco": "2027-12-20",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Novità di Natale in vetrina da metà ottobre, la cassetta delle letterine a novembre, pacchetti regalo pronti.",
+     "online": "La lista dei regali per età in alto nel profilo e le date utili: prenotazioni, consegne, aperture straordinarie.",
+     "creator": "Prove e unboxing con creator di famiglia a inizio novembre: restano visibili fino al picco del 20 dicembre."
+    },
+    {
+     "nome": "LEGO",
+     "da": "2027-12-18",
+     "picco": "2027-12-31",
+     "sale": "1,8 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Costruzioni in vista per i regali da novembre; dopo Natale un angolo per completare i set e usare i buoni regalo.",
+     "online": "Idee per costruire insieme nelle vacanze di Natale, con le fasce d'età chiare.",
+     "creator": "Una costruzione in famiglia con un creator, pubblicata entro il 18 dicembre per le vacanze."
+    }
+   ],
+   "trimestri": [
+    {
+     "titolo": "Gennaio – marzo",
+     "sotto": "Befana, Carnevale e Festa del papà",
+     "temi": [
+      "Befana",
+      "Carnevale",
+      "Festa del papà"
+     ],
+     "breve": "Le feste di inizio anno"
+    },
+    {
+     "titolo": "Maggio – agosto",
+     "sotto": "Scuola finita, famiglie in vacanza",
+     "temi": [
+      "Maturità",
+      "Gardaland"
+     ],
+     "breve": "Fine scuola e vacanze"
+    },
+    {
+     "titolo": "Ottobre – dicembre",
+     "sotto": "Il Natale dei bambini",
+     "temi": [
+      "Babbo Natale",
+      "LEGO"
+     ],
+     "breve": "Il Natale dei bambini"
+    }
+   ],
+   "ricorrenze": [
+    {
+     "nome": "Befana",
+     "data": "2027-01-06",
+     "idea": "Calze e piccoli regali: dopo Natale c'è ancora una settimana di vendite. L'interesse tocca il massimo il 1 gennaio."
+    },
+    {
+     "nome": "Martedì grasso",
+     "data": "2027-02-09",
+     "idea": "Costumi, maschere e coriandoli: il picco del Carnevale arriva il 3 febbraio, sei giorni prima."
+    },
+    {
+     "nome": "Festa del papà",
+     "data": "2027-03-19",
+     "idea": "Lavoretti, biglietti e regali scelti dai bambini: l'interesse è al massimo il 13 marzo."
+    },
+    {
+     "nome": "Pasqua e Pasquetta",
+     "data": "2027-03-28",
+     "idea": "Sorprese, cestini e giochi all'aperto per la gita: Pasquetta è il 29 marzo."
+    },
+    {
+     "nome": "Festa della mamma",
+     "data": "2027-05-09",
+     "idea": "Kit creativi e biglietti per il regalo fatto dai bambini, in vista da metà aprile."
+    },
+    {
+     "nome": "Festa della Repubblica",
+     "data": "2027-06-02",
+     "idea": "Il primo ponte d'estate: giochi all'aperto, gite, attività per famiglie."
+    },
+    {
+     "nome": "Ferragosto",
+     "data": "2027-08-15",
+     "idea": "Vacanze in famiglia: giochi da spiaggia e da viaggio, attività per chi resta in città."
+    },
+    {
+     "nome": "Halloween",
+     "data": "2027-10-31",
+     "idea": "Costumi e feste per bambini: vetrina e laboratori da inizio ottobre."
+    },
+    {
+     "nome": "Black Friday",
+     "data": "2027-11-26",
+     "idea": "Per molte famiglie è l'inizio dei regali di Natale: liste e prenotazioni più che sconti a pioggia."
+    },
+    {
+     "nome": "Cyber Monday",
+     "data": "2027-11-29",
+     "idea": "Per chi vende anche online: ritiro in negozio e date di consegna prima di Natale ben chiare."
+    },
+    {
+     "nome": "Natale",
+     "data": "2027-12-25",
+     "idea": "Letterine, regali e pacchetti: Babbo Natale arriva al picco il 20 dicembre."
+    }
+   ],
+   "cresce": [],
+   "etichette": {},
+   "foto_copertina": [
+    "Garry Knight",
+    "CC BY 2.0",
+    "Wooden Toys (2919607754)"
+   ],
+   "intro": "La guida Famiglia 2027 di Influencee Trends raccoglie le 7 stagioni dei bambini e della famiglia, misurate su dieci anni di visite alla Wikipedia italiana. Per ognuna trovi il giorno da cui prepararsi, il picco e cosa fare in negozio, online e con i creator. È pensata per negozi di giocattoli e prima infanzia, cartolerie, librerie per ragazzi, abbigliamento bambino, parchi e attività per famiglie.",
+   "faq": [
+    [
+     "Quando conviene preparare il Natale per un negozio di giocattoli?",
+     "L'interesse per Babbo Natale comincia a salire dal 9 ottobre 2027 e arriva al picco verso il 20 dicembre: vetrine e contenuti vanno pronti da metà ottobre."
+    ],
+    [
+     "Quando si cercano i costumi di Carnevale nel 2027?",
+     "Il Carnevale sale dall'11 dicembre 2026 e arriva al picco il 3 febbraio 2027; il martedì grasso è il 9 febbraio."
+    ],
+    [
+     "Qual è la stagione più lunga della famiglia?",
+     "La Befana: circa 75 giorni dalla salita dell'interesse (18 ottobre 2026) al picco del 1 gennaio 2027."
+    ],
+    [
+     "Quando sale l'interesse per la Festa del papà?",
+     "Dal 25 gennaio 2027, con il picco il 13 marzo; la festa è il 19 marzo."
+    ],
+    [
+     "Quali temi della famiglia crescono di più?",
+     "Negli ultimi dodici mesi nessun tema della famiglia è cresciuto più della media di Wikipedia italiana. Gravidanza, allattamento, svezzamento, parco divertimenti e compleanno restano stabili tutto l'anno."
+    ],
+    [
+     "Quando sale l'interesse per LEGO e i giochi di costruzione?",
+     "Tra Natale e Capodanno: dal 18 dicembre al picco del 31 dicembre 2027, con dicembre a 1,8 volte un mese normale."
+    ],
+    [
+     "Quando sono Black Friday e Cyber Monday 2027?",
+     "Il Black Friday è venerdì 26 novembre 2027, il Cyber Monday lunedì 29 novembre."
+    ]
+   ],
+   "meta": "Befana, Carnevale, maturità, estate e Babbo Natale: le 7 stagioni 2027 della famiglia con le date e la guida PDF gratuita.",
+   "creator_link": [
+    "/mom-influencers/",
+    "creator di famiglia"
+   ],
+   "metodo": "Influencee Trends misura l'interesse degli italiani dalle visite di persone (bot esclusi) alle voci della Wikipedia italiana, con l'API pubblica di Wikimedia, dal 2016. Le regole sono fisse e uguali per tutti i temi; nessun numero è stimato a occhio."
+  },
+  "sport-benessere": {
+   "slug": "sport-benessere",
+   "categoria": "Sport e benessere",
+   "del_": "dello sport e del benessere",
+   "aggiornato": "9 novembre 2026",
+   "sottotitolo": "La guida marketing per negozi, palestre, centri benessere e aziende dello sport",
+   "stagioni": [
+    {
+     "nome": "Sauna",
+     "da": "2026-12-27",
+     "picco": "2027-01-02",
+     "sale": "1,6 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Centri benessere e spa: pacchetti e buoni per le feste pronti a dicembre, ingressi di inizio anno comunicati prima di Capodanno.",
+     "online": "Come funziona il percorso, cosa portare, orari delle feste e prenotazioni: le domande di chi non c'è mai stato.",
+     "creator": "Una visita con un creator lifestyle tra Natale e Capodanno, quando l'interesse comincia a salire."
+    },
+    {
+     "nome": "Internazionali di tennis",
+     "da": "2027-03-09",
+     "picco": "2027-05-12",
+     "sale": "oltre 10 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Racchette, palline e abbigliamento da terra rossa in vetrina da metà marzo; a maggio un torneo sociale o una giornata di prova.",
+     "online": "Il calendario del torneo e i vostri corsi di primavera nello stesso post, aggiornato fino a metà maggio.",
+     "creator": "Creator di tennis e padel della zona in campo a inizio aprile, quando l'interesse ha già cominciato a salire."
+    },
+    {
+     "nome": "Nuoto",
+     "da": "2027-03-26",
+     "picco": "2027-04-01",
+     "sale": "1,7 volte",
+     "reg": "7 anni su 10",
+     "negozio": "Costumi, cuffie e occhialini in vista a fine marzo; per le piscine, iscrizioni ai corsi di primavera aperte prima di Pasqua.",
+     "online": "Orari delle vasche, corsi e prezzi in un unico post fisso, da ripetere a maggio, il mese più alto dell'anno.",
+     "creator": "Una prova in vasca con un creator sportivo o di famiglia, pubblicata nella settimana di Pasqua."
+    },
+    {
+     "nome": "Giro d'Italia",
+     "da": "2027-04-03",
+     "picco": "2027-05-25",
+     "sale": "oltre 10 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Angolo rosa con bici, caschi e abbigliamento da inizio aprile; percorso in vetrina se il Giro passa da voi.",
+     "online": "Le tappe vicine a voi e un'uscita in gruppo prima del passaggio.",
+     "creator": "Creator di ciclismo su una salita della zona a fine aprile."
+    },
+    {
+     "nome": "Allergia",
+     "da": "2027-04-18",
+     "picco": "2027-04-26",
+     "sale": "1,6 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Per erboristerie e parafarmacie: indirizzare al medico o al farmacista, senza promesse.",
+     "online": "Contenuti informativi fatti con un professionista; niente consigli fai-da-te.",
+     "creator": "Solo professionisti riconosciuti: qui conta la fiducia."
+    },
+    {
+     "nome": "Corsa",
+     "da": "2027-05-10",
+     "picco": "2027-05-21",
+     "sale": "1,7 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Scarpe da corsa e prova del passo dal 10 maggio; un gruppo di corsa il sabato.",
+     "online": "Percorsi della città, gare di zona, ritrovo del gruppo.",
+     "creator": "Runner della città che provano le scarpe a inizio maggio."
+    },
+    {
+     "nome": "Ciclismo",
+     "da": "2027-05-14",
+     "picco": "2027-05-26",
+     "sale": "2,5 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Controllo gratuito di freni e gomme a metà maggio, accanto alla vetrina del Giro.",
+     "online": "Giri in bici della zona, con tempi e dislivelli.",
+     "creator": "Un'uscita con creator di ciclismo dal 14 maggio, con tappa in negozio."
+    },
+    {
+     "nome": "Calcio",
+     "da": "2027-05-19",
+     "picco": "2027-05-27",
+     "sale": "1,7 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Scarpe da calcetto, palloni e divise per le squadre amatoriali a fine maggio.",
+     "online": "Campi, tornei estivi e camp per ragazzi in un solo post.",
+     "creator": "Una sfida al campo con creator di calcio amatoriale, a fine maggio."
+    }
+   ],
+   "trimestri": [
+    {
+     "titolo": "Gennaio – marzo",
+     "sotto": "La sauna d'inverno, poi tennis e piscine",
+     "temi": [
+      "Sauna",
+      "Internazionali di tennis",
+      "Nuoto"
+     ],
+     "breve": "Sauna, tennis e piscine"
+    },
+    {
+     "titolo": "Aprile – maggio",
+     "sotto": "Il Giro, la primavera e il mese dello sport",
+     "temi": [
+      "Giro d'Italia",
+      "Allergia",
+      "Corsa",
+      "Ciclismo",
+      "Calcio"
+     ],
+     "breve": "Giro, corsa, bici e calcio"
+    }
+   ],
+   "ricorrenze": [
+    {
+     "nome": "Capodanno",
+     "data": "2027-01-01",
+     "idea": "I buoni propositi: abbonamenti, corsi e pacchetti pronti prima delle feste. Gennaio è il mese più alto per dieta e sauna."
+    },
+    {
+     "nome": "Befana",
+     "data": "2027-01-06",
+     "idea": "Finite le feste si riparte: prova gratuita in palestra o in piscina dal 7 gennaio."
+    },
+    {
+     "nome": "San Valentino",
+     "data": "2027-02-14",
+     "idea": "Ingressi spa e massaggi per due, buoni regalo da inizio febbraio."
+    },
+    {
+     "nome": "Festa della donna",
+     "data": "2027-03-08",
+     "idea": "Una giornata benessere o una lezione aperta, prenotabile dalla settimana prima."
+    },
+    {
+     "nome": "Festa del papà",
+     "data": "2027-03-19",
+     "idea": "Idee regalo sportive: scarpe da corsa, accessori bici, un buono per la revisione."
+    },
+    {
+     "nome": "Pasqua e Pasquetta",
+     "data": "2027-03-28",
+     "idea": "Gite, bici e prime uscite all'aperto: corsi di primavera aperti prima della festa; Pasquetta il 29 marzo."
+    },
+    {
+     "nome": "Festa della mamma",
+     "data": "2027-05-09",
+     "idea": "Buoni per spa, corsi e trattamenti: vendita in negozio e online dalla settimana prima."
+    },
+    {
+     "nome": "Festa della Repubblica",
+     "data": "2027-06-02",
+     "idea": "Il ponte di inizio estate: bici, trekking e piscine all'aperto, orari comunicati per tempo."
+    },
+    {
+     "nome": "Ferragosto",
+     "data": "2027-08-15",
+     "idea": "Orari estivi di palestre e piscine chiari e visibili; accessori da mare e da acqua in vetrina."
+    },
+    {
+     "nome": "Black Friday",
+     "data": "2027-11-26",
+     "idea": "Attrezzatura e abbonamenti per l'anno nuovo, non sconti a caso. Cyber Monday il 29."
+    },
+    {
+     "nome": "Natale",
+     "data": "2027-12-25",
+     "idea": "Buoni regalo per palestra, spa e corsi, e articoli sportivi confezionati: tutto pronto a fine novembre."
+    }
+   ],
+   "cresce": [
+    [
+     "Olimpiadi",
+     "+109%"
+    ],
+    [
+     "Meditazione",
+     "+49%"
+    ],
+    [
+     "Calisthenics",
+     "+40%"
+    ],
+    [
+     "Surf",
+     "+31%"
+    ],
+    [
+     "Dieta",
+     "+29%"
+    ]
+   ],
+   "etichette": {
+    "negozio": "In negozio o in palestra",
+    "idea": "Un'idea per negozi e palestre",
+    "appendere": "Da appendere in negozio o in palestra",
+    "mosse": "Tre mosse per ogni negozio, palestra o centro, in sede, online e con i creator, più una per chi produce e distribuisce."
+   },
+   "foto_copertina": [
+    "Xander from Yellowknife, NT, Canada",
+    "CC BY 2.0",
+    "Swimming pool with lane ropes in place"
+   ],
+   "intro": "La guida marketing 2027 per negozi di articoli sportivi, palestre, piscine, centri benessere e aziende dello sport. Otto stagioni misurate su dieci anni di dati pubblici: da quando prepararsi, quando arriva il picco e cosa fare in negozio, online e con i creator. Gratis, in PDF da stampare.",
+   "faq": [
+    [
+     "Qual è la prima stagione dello sport da preparare nel 2027?",
+     "Gli Internazionali di tennis: l'interesse comincia a salire dal 9 marzo e arriva al picco verso il 12 maggio. È anche la stagione più lunga, circa 64 giorni."
+    ],
+    [
+     "Quando si prepara la stagione del Giro d'Italia 2027?",
+     "Dal 3 aprile, quando l'interesse comincia a salire; il picco arriva verso il 25 maggio. Il ciclismo segue a ruota: dal 14 al 26 maggio."
+    ],
+    [
+     "Perché maggio è il mese più importante per lo sport?",
+     "Perché cinque stagioni su otto arrivano al picco tra il 12 e il 27 maggio: Internazionali di tennis, corsa, Giro d'Italia, ciclismo e calcio."
+    ],
+    [
+     "Quando cresce l'interesse per palestra e pilates?",
+     "Non sono stagioni forti, ma nella tabella dei dodici mesi il pilates ha il mese più alto a settembre (163, dove 100 è un mese tipico) e la palestra a ottobre (126)."
+    ],
+    [
+     "Quando conviene comunicare la sauna e il centro benessere?",
+     "D'inverno: l'interesse per la sauna sale dal 27 dicembre e arriva al picco il 2 gennaio; gennaio vale 1,6 volte un mese tipico. Pacchetti e buoni vanno pronti prima delle feste."
+    ],
+    [
+     "Cosa cresce di più nello sport e nel benessere?",
+     "Negli ultimi 12 mesi, rispetto a tutta la Wikipedia italiana: Olimpiadi +109%, meditazione +49%, calisthenics +40%, surf +31%, dieta +29%."
+    ]
+   ],
+   "meta": "Tennis, Giro d'Italia, corsa, piscina, allergie e sauna: le stagioni 2027 di sport e benessere con le date e la guida PDF gratuita.",
+   "creator_link": [
+    "/fitness-influencers/",
+    "creator di sport e fitness"
+   ],
+   "metodo": "Influencee Trends misura l'interesse degli italiani dalle visite di persone (bot esclusi) alle voci della Wikipedia italiana, con l'API pubblica di Wikimedia, dal 2016. Le regole sono fisse e uguali per tutti i temi; nessun numero è stimato a occhio."
+  },
+  "moda-beauty": {
+   "slug": "moda-beauty",
+   "categoria": "Moda e beauty",
+   "del_": "di moda e beauty",
+   "aggiornato": "9 novembre 2026",
+   "sottotitolo": "La guida marketing per negozi, PMI e aziende di moda e beauty",
+   "stagioni": [
+    {
+     "nome": "Abbronzatura",
+     "da": "2027-06-04",
+     "picco": "2027-07-30",
+     "sale": "2,8 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Solari, doposole e autoabbronzanti in prima fila dai primi di giugno, con un angolo «prima e dopo il mare».",
+     "online": "Consigli pratici del personale su come scegliere i prodotti, senza promesse sulla pelle o sulla salute.",
+     "creator": "Routine estive con creator beauty a inizio giugno: il picco arriva solo a fine luglio."
+    },
+    {
+     "nome": "Bikini",
+     "da": "2027-06-18",
+     "picco": "2027-06-29",
+     "sale": "1,7 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Nuove fantasie in vetrina entro metà giugno e taglie complete per l'ultima settimana del mese.",
+     "online": "Le novità in un carosello, con taglie disponibili e ritiro in negozio.",
+     "creator": "Prove in camerino con creator della zona entro il 18 giugno: la finestra dura meno di due settimane."
+    },
+    {
+     "nome": "Costume da bagno",
+     "da": "2027-07-24",
+     "picco": "2027-08-03",
+     "sale": "1,7 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Costumi per chi parte ad agosto, uomo e bambino compresi, ben in vista dal 24 luglio.",
+     "online": "Orari estivi, disponibilità e «ultimi pezzi» nelle storie, la settimana prima delle ferie.",
+     "creator": "Contenuti «valigia per il mare» a fine luglio, quando le persone preparano la partenza."
+    },
+    {
+     "nome": "Black Friday",
+     "da": "2027-09-01",
+     "picco": "2027-11-23",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "A settembre decidi cosa mettere in promozione e cosa no; a novembre vetrina dedicata e personale in più.",
+     "online": "Iscrizione alla newsletter o lista d'attesa da ottobre, per avvisare i clienti prima degli altri.",
+     "creator": "Contenuti con i creator pronti a fine ottobre, quando l'interesse è già oltre 4 volte un mese tipico."
+    }
+   ],
+   "trimestri": [
+    {
+     "titolo": "Giugno – luglio",
+     "sotto": "L'estate comincia dalla pelle",
+     "temi": [
+      "Abbronzatura",
+      "Bikini"
+     ],
+     "breve": "Abbronzatura e bikini"
+    },
+    {
+     "titolo": "Fine luglio – novembre",
+     "sotto": "Dall'ultimo costume al Black Friday",
+     "temi": [
+      "Costume da bagno",
+      "Black Friday"
+     ],
+     "breve": "Costume e Black Friday"
+    }
+   ],
+   "ricorrenze": [
+    {
+     "nome": "Capodanno",
+     "data": "2027-01-01",
+     "idea": "Abiti da festa, trucco e piega per la notte del 31."
+    },
+    {
+     "nome": "Befana",
+     "data": "2027-01-06",
+     "idea": "Saldi: a gennaio «outlet» vale 1,4 volte un mese tipico."
+    },
+    {
+     "nome": "Martedì grasso",
+     "data": "2027-02-09",
+     "idea": "Trucco, glitter e accessori per le feste in maschera."
+    },
+    {
+     "nome": "San Valentino",
+     "data": "2027-02-14",
+     "idea": "Profumi, gioielli e intimo: a febbraio valgono 1,2 volte."
+    },
+    {
+     "nome": "Festa della donna",
+     "data": "2027-03-08",
+     "idea": "Una piega o un trattamento in omaggio, una serata in salone."
+    },
+    {
+     "nome": "Festa del papà",
+     "data": "2027-03-19",
+     "idea": "Kit barba, rasoi e profumi da uomo, già confezionati."
+    },
+    {
+     "nome": "Pasqua e Pasquetta",
+     "data": "2027-03-28",
+     "idea": "Cambio di stagione: capi leggeri e scarpe da ginnastica."
+    },
+    {
+     "nome": "Festa della mamma",
+     "data": "2027-05-09",
+     "idea": "Buoni regalo per trattamenti, profumi e gioielli."
+    },
+    {
+     "nome": "Festa della Repubblica",
+     "data": "2027-06-02",
+     "idea": "Solari in vetrina: l'abbronzatura sale dal 4 giugno."
+    },
+    {
+     "nome": "Ferragosto",
+     "data": "2027-08-15",
+     "idea": "Costumi, teli e doposole per chi parte per le ferie."
+    },
+    {
+     "nome": "Halloween",
+     "data": "2027-10-31",
+     "idea": "Trucco a tema e tutorial di estetiste e make-up artist."
+    },
+    {
+     "nome": "Black Friday",
+     "data": "2027-11-26",
+     "idea": "A novembre oltre 10 volte un mese tipico: vetrina dedicata."
+    },
+    {
+     "nome": "Cyber Monday",
+     "data": "2027-11-29",
+     "idea": "Online, offerte diverse da quelle del venerdì."
+    },
+    {
+     "nome": "Natale",
+     "data": "2027-12-25",
+     "idea": "Profumi, gioielli e orologi: confezioni pronte a novembre."
+    }
+   ],
+   "cresce": [
+    [
+     "Mascara",
+     "+63%"
+    ],
+    [
+     "Vinted",
+     "+60%"
+    ],
+    [
+     "Bikini",
+     "+30%"
+    ],
+    [
+     "Barba",
+     "+17%"
+    ],
+    [
+     "Scarpe da ginnastica",
+     "+15%"
+    ]
+   ],
+   "etichette": {},
+   "foto_copertina": [
+    "geehairimages",
+    "CC BY 2.0",
+    "Make Up Set, Palettes and Brushes - 50921483638"
+   ],
+   "intro": "La guida Moda e beauty 2027 di Influencee Trends dice quando sale l'interesse degli italiani per 20 temi di moda e bellezza, da quando prepararsi e cosa fare in negozio, online e con i creator. Quattro stagioni forti, quattordici ricorrenze e cinque tendenze in crescita, misurate su dieci anni di visite alla Wikipedia italiana.",
+   "faq": [
+    [
+     "Quando inizia la stagione del Black Friday 2027 per la moda?",
+     "L'interesse comincia a salire dal 1 settembre 2027 e arriva al picco verso il 23 novembre. Il Black Friday cade venerdì 26 novembre 2027, il Cyber Monday il 29 novembre."
+    ],
+    [
+     "Quando conviene preparare la vetrina dei bikini nel 2027?",
+     "Entro il 18 giugno 2027: da quel giorno l'interesse sale e arriva al picco verso il 29 giugno. La finestra dura circa undici giorni."
+    ],
+    [
+     "Quando sale l'interesse per l'abbronzatura?",
+     "Dal 4 giugno 2027, con il picco verso il 30 luglio. Da giugno ad agosto l'interesse resta tra 2,6 e 2,8 volte un mese tipico."
+    ],
+    [
+     "Quando si cercano i costumi da bagno?",
+     "Dal 24 luglio 2027, con il picco verso il 3 agosto: è l'acquisto di chi parte per le ferie."
+    ],
+    [
+     "Cosa cresce di più nella moda e nel beauty?",
+     "Negli ultimi 12 mesi, rispetto a tutta la Wikipedia italiana: mascara +63%, Vinted +60%, bikini +30%, barba +17%, scarpe da ginnastica +15%."
+    ],
+    [
+     "Quali ricorrenze contano per profumerie e negozi di moda?",
+     "San Valentino (14 febbraio), Festa del papà (19 marzo), Festa della mamma (9 maggio), Black Friday (26 novembre) e Natale. Il profumo ha i mesi più alti tra dicembre e febbraio."
+    ]
+   ],
+   "meta": "Costumi, abbronzatura, Black Friday e le tendenze che crescono: il calendario 2027 di moda e beauty con la guida PDF gratuita.",
+   "creator_link": [
+    "/fashion-influencers/",
+    "creator di moda"
+   ],
+   "metodo": "Influencee Trends misura l'interesse degli italiani dalle visite di persone (bot esclusi) alle voci della Wikipedia italiana, con l'API pubblica di Wikimedia, dal 2016. Le regole sono fisse e uguali per tutti i temi; nessun numero è stimato a occhio."
+  },
+  "tech-mobilita": {
+   "slug": "tech-mobilita",
+   "categoria": "Tech e mobilità",
+   "del_": "di tech e mobilità",
+   "aggiornato": "9 novembre 2026",
+   "sottotitolo": "La guida marketing per negozi, officine e aziende di tecnologia e mobilità",
+   "stagioni": [
+    {
+     "nome": "Nintendo Switch",
+     "da": "2026-12-25",
+     "picco": "2027-01-19",
+     "sale": "1,7 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Dopo Natale giochi, custodie, memoria e controller in più vicino alla cassa: chi ha ricevuto la console torna a gennaio.",
+     "online": "Una guida breve «cosa serve dopo la console», con i giochi per la famiglia e gli accessori che avete in negozio.",
+     "creator": "Partite e prove di accessori con creator di videogiochi della zona tra fine dicembre e metà gennaio."
+    },
+    {
+     "nome": "Cyber Monday",
+     "da": "2027-09-12",
+     "picco": "2027-11-27",
+     "sale": "oltre 10 volte",
+     "reg": "10 anni su 10",
+     "negozio": "Entro settembre scegli i prodotti da mettere in offerta e ordina le scorte: la curiosità parte il 12 settembre.",
+     "online": "Una pagina «aspettando il Black Friday» da ottobre, con l'iscrizione alla newsletter per ricevere le offerte per primi.",
+     "creator": "Recensioni e confronti a fine ottobre, quando l'interesse è già 3,4 volte un mese tipico."
+    },
+    {
+     "nome": "Pneumatico invernale",
+     "da": "2027-10-28",
+     "picco": "2027-12-11",
+     "sale": "2,7 volte",
+     "reg": "9 anni su 10",
+     "negozio": "Prenotazioni del cambio gomme aperte da metà ottobre, con l'agenda online e un promemoria via messaggio.",
+     "online": "Come riconoscere una gomma invernale e quando cambiarla, con le giornate ancora libere per prenotare.",
+     "creator": "Un creator di motori in officina durante il cambio gomme, a fine ottobre, prima della salita."
+    },
+    {
+     "nome": "AirPods",
+     "da": "2027-11-13",
+     "picco": "2027-11-25",
+     "sale": "1,6 volte",
+     "reg": "8 anni su 10",
+     "negozio": "Cuffie e auricolari in prova al banco dal 13 novembre, con custodie e accessori accanto.",
+     "online": "Un confronto semplice tra modelli e fasce di prezzo, pubblicato prima del Black Friday.",
+     "creator": "Unboxing e prove d'ascolto con creator di tecnologia nella prima metà di novembre."
+    },
+    {
+     "nome": "Bollo auto",
+     "da": "2027-12-08",
+     "picco": "2027-12-22",
+     "sale": "1,6 volte",
+     "reg": "10 anni su 10",
+     "negozio": "In officina, in concessionaria o in agenzia pratiche, un cartello e un aiuto a capire come pagare, da inizio dicembre.",
+     "online": "Un post chiaro su come si paga e dove si controlla la scadenza, con il rimando ai siti ufficiali della propria regione.",
+     "creator": "Un video di spiegazione con un creator di motori, senza promesse di risparmio, nella prima settimana di dicembre."
+    }
+   ],
+   "trimestri": [
+    {
+     "titolo": "Gennaio",
+     "sotto": "Dopo i regali, la console resta accesa",
+     "temi": [
+      "Nintendo Switch"
+     ],
+     "breve": "La console dopo Natale"
+    },
+    {
+     "titolo": "Settembre – novembre",
+     "sotto": "Black Friday e Cyber Monday: le offerte si preparano presto",
+     "temi": [
+      "Cyber Monday",
+      "AirPods"
+     ],
+     "breve": "Black Friday e Cyber Monday"
+    },
+    {
+     "titolo": "Ottobre – dicembre",
+     "sotto": "Gomme invernali e bollo: l'inverno dell'automobilista",
+     "temi": [
+      "Pneumatico invernale",
+      "Bollo auto"
+     ],
+     "breve": "Gomme invernali e bollo"
+    }
+   ],
+   "ricorrenze": [
+    {
+     "nome": "Capodanno",
+     "data": "2027-01-01",
+     "idea": "Buoni propositi: corsi di patente in autoscuola, bici e abbonamenti per muoversi di più. Da comunicare a fine dicembre."
+    },
+    {
+     "nome": "Befana",
+     "data": "2027-01-06",
+     "idea": "Ultimi regali per i ragazzi: giochi, accessori e videogiochi. Cade nella salita della console, che dura fino al 19 gennaio."
+    },
+    {
+     "nome": "San Valentino",
+     "data": "2027-02-14",
+     "idea": "Regali di tecnologia per due: cuffie, smartwatch, cornici digitali. In vetrina da inizio febbraio."
+    },
+    {
+     "nome": "Festa del papà",
+     "data": "2027-03-19",
+     "idea": "Accessori per l'auto e la bici, attrezzi, smartwatch: un angolo regalo dai primi di marzo."
+    },
+    {
+     "nome": "Pasqua e Pasquetta",
+     "data": "2027-03-28",
+     "idea": "Gite fuori porta: controllo di auto e bici prima del ponte, portabici e accessori. Pasquetta il 29 marzo."
+    },
+    {
+     "nome": "Festa della mamma",
+     "data": "2027-05-09",
+     "idea": "Regali facili da usare, come cuffie, tablet e smartwatch, con la configurazione fatta in negozio."
+    },
+    {
+     "nome": "Festa della Repubblica",
+     "data": "2027-06-02",
+     "idea": "Il primo ponte d'estate: check-up dell'auto prima dei viaggi, aria condizionata e gomme estive."
+    },
+    {
+     "nome": "Ferragosto",
+     "data": "2027-08-15",
+     "idea": "Partenze: controllo di gomme e climatizzatore, noleggio di bici e monopattini nei luoghi di vacanza."
+    },
+    {
+     "nome": "Black Friday",
+     "data": "2027-11-26",
+     "idea": "Il giorno dopo il picco degli auricolari (25 novembre). Offerte chiare, scorte pronte e personale in più al banco."
+    },
+    {
+     "nome": "Cyber Monday",
+     "data": "2027-11-29",
+     "idea": "Il giorno dell'online: stesse offerte sul sito, ritiro in negozio e consegne prima di Natale."
+    },
+    {
+     "nome": "Natale",
+     "data": "2027-12-25",
+     "idea": "Regali di tecnologia e buoni per servizi: tagliando, cambio gomme, corso di guida. Il bollo ha il picco il 22 dicembre."
+    }
+   ],
+   "cresce": [
+    [
+     "Pneumatico invernale",
+     "+53%"
+    ],
+    [
+     "MacBook",
+     "+49%"
+    ],
+    [
+     "Smartwatch",
+     "+24%"
+    ],
+    [
+     "Cyber Monday",
+     "+15%"
+    ]
+   ],
+   "etichette": {
+    "idea": "Un'idea per negozi e officine",
+    "appendere": "Da appendere in negozio o in officina",
+    "mosse": "Tre mosse per ogni negozio o officina, al banco, online e con i creator, più una per chi produce e distribuisce."
+   },
+   "foto_copertina": [
+    "Ivan Radic",
+    "CC BY 2.0",
+    "Electric car charging (9213)"
+   ],
+   "intro": "Quando sale l'interesse degli italiani per tecnologia e mobilità nel 2027, e cosa fare per farsi trovare pronti. Cinque stagioni su 17 temi, dal Black Friday alle gomme invernali e al bollo auto, con le date da cui prepararsi e i consigli per negozi, officine, concessionarie e aziende del settore. Dati da dieci anni di visite alla Wikipedia italiana, letti con regole fisse.",
+   "faq": [
+    [
+     "Quando è il Black Friday 2027?",
+     "Venerdì 26 novembre 2027; il Cyber Monday è lunedì 29 novembre. La curiosità per il Cyber Monday comincia a salire dal 12 settembre e arriva al picco verso il 27 novembre."
+    ],
+    [
+     "Quando conviene preparare il cambio gomme invernali nel 2027?",
+     "L'interesse per il pneumatico invernale sale dal 28 ottobre e arriva al picco verso l'11 dicembre, 2,7 volte un mese tipico, in nove anni su dieci. A gennaio resta 2,5 volte un mese tipico."
+    ],
+    [
+     "Qual è la stagione più lunga di tecnologia e mobilità?",
+     "Il Cyber Monday: circa 76 giorni dalla salita dell'interesse, il 12 settembre, al picco verso il 27 novembre. A novembre supera di oltre dieci volte un mese tipico."
+    ],
+    [
+     "Quando si cerca il bollo auto?",
+     "L'interesse sale dall'8 dicembre e arriva al picco verso il 22 dicembre, 1,6 volte un mese tipico, in dieci anni su dieci. A gennaio resta 1,6 volte un mese tipico."
+    ],
+    [
+     "Quando salgono le ricerche sugli auricolari?",
+     "Dal 13 novembre, con il picco verso il 25 novembre, il giorno prima del Black Friday. A dicembre l'interesse è ancora 1,5 volte un mese tipico."
+    ],
+    [
+     "Cosa cresce di più nella tecnologia e nella mobilità?",
+     "Negli ultimi 12 mesi, rispetto a tutta la Wikipedia italiana: pneumatico invernale +53%, MacBook +49%, smartwatch +24%, Cyber Monday +15%."
+    ]
+   ],
+   "meta": "Black Friday, Cyber Monday, gomme invernali e bollo: le date 2027 di tecnologia e mobilità con la guida PDF gratuita.",
+   "creator_link": [
+    "/tech-influencers/",
+    "creator tech"
+   ],
+   "metodo": "Influencee Trends misura l'interesse degli italiani dalle visite di persone (bot esclusi) alle voci della Wikipedia italiana, con l'API pubblica di Wikimedia, dal 2016. Le regole sono fisse e uguali per tutti i temi; nessun numero è stimato a occhio."
+  }
+ }
+}
