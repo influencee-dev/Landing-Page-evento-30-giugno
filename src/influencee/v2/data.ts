@@ -284,18 +284,18 @@ export const MENU: MenuGroup[] = [
       { label: 'Contenuti UGC', href: '#/contenuti-ugc/', text: 'Video dei creator per i tuoi canali e le ads' },
       { label: 'Campagne locali', href: '#/influencer-marketing-locale/', text: 'Ristoranti, negozi, palestre ed eventi' },
       { label: 'Creator professionisti', href: '#/creator-professionisti/', text: 'Medici, nutrizionisti, personal trainer' },
-      { label: 'Campagna gestita da noi', href: '#/preventivo-campagne/', text: 'Preventivo online con il nostro listino' },
       { label: 'Per i creator', href: '#/diventa-creator/', text: 'Iscriviti gratis e ricevi proposte dai brand' },
       { label: 'UGC creator', href: '#/ugc-creator/', text: 'Lavora con i brand anche senza tanti follower' },
     ],
   },
   {
-    label: 'Influencer italiani',
-    href: '#/influencer-italiani/',
-    wide: true,
-    items: [{ label: 'Tutti gli influencer italiani', href: '#/influencer-italiani/', text: 'Per categoria, regione e città' }, ...CATEGORIES.slice(0, 9).map((k) => ({ label: k.short, href: `#/${k.slug}/` }))],
+    label: 'Prezzi',
+    items: [
+      { label: 'Prezzi della piattaforma', href: '#/prezzi/', text: 'Gratis per sempre o Premium da 19 € al mese' },
+      { label: 'Calcola il preventivo', href: '#/preventivo-campagne/', text: 'Quanto costa la tua campagna, in un minuto' },
+      { label: 'Campagna gestita da noi', href: '#/agenzia-influencer/', text: 'Scegliamo i creator e trattiamo il prezzo' },
+    ],
   },
-  { label: 'Prezzi', href: '#/prezzi/' },
   {
     label: 'Risorse',
     items: [
@@ -305,7 +305,6 @@ export const MENU: MenuGroup[] = [
       { label: 'Calcolo engagement rate', href: '#/come-calcolare-engagement-rate/', text: 'Calcolatore gratuito e check sponsor' },
       { label: 'Benchmark engagement', href: '#/benchmark-engagement-rate/', text: 'Valori di riferimento per fascia' },
       { label: 'Offerte di lavoro', href: '#/offerte-lavoro-influencer/', text: 'Le offerte aperte dei brand' },
-      { label: 'Blog', href: '#/blog/', text: 'Guide per brand e creator' },
     ],
   },
 ];

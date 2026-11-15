@@ -24,6 +24,7 @@ import {
   Plans,
   Prose,
   RegionGrid,
+  LinkHub,
   Related,
   Steps,
   TiersRow,
@@ -541,7 +542,6 @@ function ItaliansHub() {
       <AnswerBox q="Come trovare influencer italiani?" a="Parti da categoria e zona: food a Napoli, fitness a Milano, viaggi in Sicilia. Poi scegli la fascia di follower in base all’obiettivo, nano e micro per campagne locali e di nicchia, mid e macro per la visibilità nazionale. Su influencee filtri tutto questo in un’unica ricerca, solo tra creator italiani." />
       <CreatorDirectory title={'Tutti i creator italiani\n*su Influencee*'} lead="Cerca per nome o città e filtra per categoria, regione e fascia di follower. Apri il profilo per vedere dati e costo medio." />
       <CategoryGrid />
-      <RegionGrid tone="paper" />
       <ToolLead tool="creator_hub" context="Hub influencer italiani" eyebrow="Selezione gratuita" title={'Ti mandiamo i creator\n*adatti alla tua campagna*'} lead="Dicci categoria, zona e budget: il team ti propone una prima selezione di creator italiani." bullets={['Creator italiani per categoria e città', 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <TiersRow />
       <PreventivoBand page="influencer_italiani" origin="Hub influencer italiani" title={'Campagna con influencer italiani?\n*Calcola il preventivo*'} lead="Il team sceglie con te creator italiani per categoria e città, segue i contenuti e misura i risultati. Vedi subito la stima con il nostro listino." />
@@ -625,7 +625,6 @@ function CategoryPage({ slug }: { slug: string }) {
       <SubCategoryRow parent={parent ? parent.slug : k.slug} current={k.slug} />
       <ToolLead tool="creator_categoria" context={`Categoria: ${k.name}`} eyebrow="Selezione gratuita" title={`Ti mandiamo ${catMany(k)}\n*adatti alla tua campagna*`} lead="Dicci prodotto e budget: il team ti propone una prima selezione di creator della categoria, con prezzo indicativo." bullets={[`Creator ${k.name.toLowerCase()} italiani`, 'Prezzo indicativo di ogni profilo', 'Nessun impegno']} cta="Ricevi la selezione" />
       <FeatureSplit items={[{ ...F.ricerca, title: `Trova creator ${k.name.toLowerCase()} con i filtri giusti` }, F.campagne]} />
-      <RegionGrid tone="paper" title={`${k.short} influencer\n*per regione*`} />
       <CategoryGrid exclude={k.slug} title={'Altre\n*categorie*'} />
       <PreventivoBand page="categoria" origin={`Categoria: ${k.name}`} sector={k.name} tone="paper" title={`Campagna con ${k.short.toLowerCase()} influencer?\n*Calcola il preventivo*`} lead={`Scegli quanti creator ${k.name.toLowerCase()} ti servono e vedi subito la stima con il nostro listino. Il team sceglie i profili con te, segue i contenuti e misura i risultati.`} />
       <FaqSeo items={catFaq(k)} />
@@ -947,7 +946,6 @@ function LocalPage() {
         { t: 'Offerta', x: 'Ospitalità, cambio merce o compenso, scritti nell’accordo.' },
         { t: 'Misura', x: 'Link tracciati e QR per contare chi arriva.' },
       ]} />
-      <RegionGrid tone="paper" title={'Trova creator\n*nella tua città*'} />
       <FaqSeo items={LOCAL_FAQ} />
       <ManagedRow />
       <CtaDual />
@@ -1007,6 +1005,8 @@ const fit = (opts: string[]) => opts.map(T).find((t) => t.length <= 60) ?? T(opt
 
 /** Pagine per i creator: scheda finale con iscrizione creator e offerte. */
 const CREATOR_PATHS = ['/diventa-creator/', '/ugc-creator/', '/offerte-lavoro-influencer/', '/influencer/', '/funzionalita/media-kit/', '/academy-influencer-marketing/', '/social-media-tool/emoticon-da-copiare/'];
+/** Home e pagine hub con il blocco «Trova influencer» in fondo (oltre a categorie, regioni e città). */
+const LINK_HUB = ['/', '/influencer-italiani/', '/piattaforma-influencer/', '/funzionalita/database-influencer/', '/influencer-marketing-aziende/', '/piattaforma-agenzie/', '/agenzia-influencer/', '/micro-influencer/', '/influencer-marketing-locale/', '/creator-professionisti/', '/contenuti-ugc/', '/social-media-tool/', '/preventivo-campagne/', '/prezzi/', '/blog/'];
 const NO_POPUP = ['/preventivo-campagne/', '/preventivi-influencer/', '/contatti-influencee/', '/pubblica-offerta-lavoro/'];
 function audienceOf(path: string): Audience {
   if (CREATOR_PATHS.includes(path) || path.startsWith('/creator/') || path.startsWith('/offerte-lavoro-influencer/')) return 'creator';
@@ -1021,7 +1021,8 @@ export function resolve(path: string): Resolved | null {
   // popup del preventivo dopo un minuto: non per i creator e non dove il calcolatore è già il protagonista
   const popup = audience !== 'creator' && !NO_POPUP.includes(r.meta.path);
   const slug = r.meta.path.replace(/^\/|\/$/g, '').replace(/[^a-z0-9]+/g, '_') || 'home';
-  return { ...r, el: <AudienceCtx.Provider value={audience}>{r.el}{popup && <PreventivoPopup page={`popup_${slug}`.slice(0, 50)} origin={`Popup dopo 1 minuto: ${r.meta.label}`} />}</AudienceCtx.Provider> };
+  const hub = LINK_HUB.includes(r.meta.path) || /^\/[a-z-]+-influencers?\/$/.test(r.meta.path) || r.meta.path.startsWith('/influencer-italiani/');
+  return { ...r, el: <AudienceCtx.Provider value={audience}>{r.el}{hub && <LinkHub current={r.meta.path} />}{popup && <PreventivoPopup page={`popup_${slug}`.slice(0, 50)} origin={`Popup dopo 1 minuto: ${r.meta.label}`} />}</AudienceCtx.Provider> };
 }
 
 function resolveRoute(path: string): Resolved | null {

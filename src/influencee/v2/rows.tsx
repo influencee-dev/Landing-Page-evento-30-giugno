@@ -5,7 +5,7 @@ import { Button, Container, Eyebrow, GAP, Heading, Lead, Logo, Section, SectionH
 import { faqOpen, track } from './analytics';
 import { ENV, asset } from './env';
 import { setToolContext } from './tools';
-import { APP, CATEGORIES, cityPath, regionPath, FACTS, MARKET, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
+import { APP, CATEGORIES, SUBCATEGORIES, cityPath, regionPath, FACTS, MARKET, PLANS, REGIONS, SITE, TIERS, WHATSAPP, type QA } from './data';
 
 /* ════════════════════════════════════════════════════════════════════
    ROW DEL SITO v2 — stesso design system (fasce a tutta larghezza,
@@ -446,6 +446,80 @@ export function RegionGrid({ tone = 'white', title = 'Influencer\n*per regione e
               </div>
             </motion.div>
           ))}
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+/* ─── Trova influencer: tutti i link alle pagine per categoria, specialità, regione e città ───
+   Ha preso il posto della voce «Trova influencer» del menu: sta in fondo a home, pagine hub, categorie,
+   regioni e città, così ogni pagina dell'elenco riceve link da tutte le altre (link juice). Tutti i link sono
+   nell'HTML, visibili, senza schede o fisarmoniche. */
+const TOP_CITIES = ['milano', 'roma', 'napoli', 'torino', 'bologna', 'firenze', 'venezia', 'verona', 'bari', 'palermo', 'catania', 'genova', 'padova', 'brescia', 'bergamo', 'lecce', 'pescara', 'parma'];
+export function LinkHub({ current = '' }: { current?: string }) {
+  const cur = (href: string) => (href === current ? 'page' : undefined);
+  const chip = 'rounded-full px-3 py-1.5 text-[13px] font-medium transition';
+  const chipCls = (href: string) => `${chip} ${href === current ? 'bg-acid text-ink' : 'bg-white/10 text-white hover:bg-acid hover:text-ink'}`;
+  const top = TOP_CITIES.map((slug) => {
+    const r = REGIONS.find((x) => x.cities.some((c) => c.slug === slug));
+    const c = r?.cities.find((x) => x.slug === slug);
+    return r && c ? { label: `Influencer ${c.name}`, href: cityPath(r, c) } : null;
+  }).filter(Boolean) as { label: string; href: string }[];
+  const groups: { title: string; links: { label: string; href: string }[] }[] = [
+    { title: 'Per categoria', links: CATEGORIES.map((k) => ({ label: `${k.short} influencer`, href: `/${k.slug}/` })) },
+    { title: 'Per specialità', links: SUBCATEGORIES.map((k) => ({ label: `${k.short} influencer`, href: `/${k.slug}/` })) },
+    { title: 'Città più cercate', links: top },
+  ];
+  return (
+    <Section tone="ink">
+      <Container>
+        <div data-track-zone="link_hub">
+          <SectionHeader eyebrow="Trova influencer" title={'Influencer italiani\n*per categoria, regione e città*'} lead="Tutte le pagine dell’elenco: scegli il settore della campagna o la zona dove ti servono i creator." />
+          <div className={`${GAP.header} grid grid-cols-1 gap-8 lg:grid-cols-3`}>
+            {groups.map((g) => (
+              <div key={g.title}>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-acid">{g.title}</p>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {g.links.map((l) => (
+                    <a key={l.href} href={`#${l.href}`} aria-current={cur(l.href)} className={chipCls(l.href)}>
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 border-t border-white/10 pt-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-acid">Tutte le regioni e le città</p>
+            <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3 lg:grid-cols-5">
+              {REGIONS.map((r) => (
+                <div key={r.slug}>
+                  <a href={`#${regionPath(r)}`} aria-current={cur(regionPath(r))} className={`font-heading text-[15px] font-semibold ${regionPath(r) === current ? 'text-acid' : 'text-white hover:text-acid'}`}>
+                    Influencer {r.name}
+                  </a>
+                  <ul className="mt-1.5 space-y-1">
+                    {r.cities.map((c) => (
+                      <li key={c.slug}>
+                        <a href={`#${cityPath(r, c)}`} aria-current={cur(cityPath(r, c))} className={`text-[13px] ${cityPath(r, c) === current ? 'text-acid' : 'text-white/60 hover:text-white'}`}>
+                          Influencer {c.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <p className="mt-10 text-sm text-white/60">
+              <a href="#/influencer-italiani/" className="font-semibold text-white underline decoration-acid underline-offset-4 hover:text-acid">Tutti gli influencer italiani</a>
+              {' · '}
+              <a href="#/micro-influencer/" className="hover:text-white">Micro influencer</a>
+              {' · '}
+              <a href="#/creator-professionisti/" className="hover:text-white">Creator professionisti</a>
+              {' · '}
+              <a href="#/contenuti-ugc/" className="hover:text-white">UGC creator</a>
+            </p>
+          </div>
         </div>
       </Container>
     </Section>

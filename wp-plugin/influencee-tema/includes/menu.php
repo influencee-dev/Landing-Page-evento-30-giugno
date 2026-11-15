@@ -58,20 +58,8 @@ function infe_menu() {
 		$href = infe_se_esiste( $percorsi );
 		return $href ? array( $label, $href, $testo, $icona ) : null;
 	};
-	// Nel mega menu solo categorie e specialità: le pagine geografiche ricevono i link dal flusso
-	// home → categorie → regioni → città (link juice), non dal menu.
-	$spec      = array( 'sport', 'model', 'luxury', 'wedding', 'entrepreneur' );
-	$categorie = array();
-	$special   = array();
-	foreach ( infe_categorie() as $slug => $nome ) {
-		$voce = $v( $nome, '/' . $slug . '-influencers/' );
-		if ( in_array( $slug, $spec, true ) ) {
-			$special[] = $voce;
-		} else {
-			$categorie[] = $voce;
-		}
-	}
-	$special[] = $v( 'Artisti', '/artist-influencer/' );
+	// «Trova influencer» non è più nel menu: le pagine per categoria, specialità, regione e città ricevono i link
+	// dal blocco «Trova influencer» in fondo a home, pagine hub, categorie, regioni e città (plugin Pagine).
 	$menu = array(
 		array(
 			'label' => 'Piattaforma',
@@ -115,7 +103,6 @@ function infe_menu() {
 						$v( 'Calcolo preventivo', array( '/preventivo-campagne/', '/preventivi-influencer/' ), 'Quanto costa la tua campagna', 'calc' ),
 						array( 'Pubblica un’offerta di lavoro', '/pubblica-offerta-lavoro/', 'Gratis, i creator si candidano', 'briefcase' ),
 						array( 'Tool gratuiti', '/social-media-tool/', 'Fake follower, costo influencer, engagement', 'spark' ),
-						$v( 'Prezzi', array( '/prezzi/' ), 'Piani per brand e agenzie', 'tag' ),
 					),
 				),
 			),
@@ -138,23 +125,33 @@ function infe_menu() {
 						array( 'Calcolatore costo post', '/social-media-tool/costo-influencer/', 'Quanto vale un tuo contenuto', 'calc' ),
 						$v( 'Engagement rate', array( '/come-calcolare-engagement-rate/' ), 'Calcola il tuo in pochi secondi', 'chart' ),
 						$v( 'Guide gratuite', array( '/guide-e-risorse/' ), 'Per crescere sui social', 'book' ),
-						array( 'Blog', '/news-influencer-marketing/', 'Novità e consigli per creator', 'book' ),
 					),
 				),
 			),
 			'card'  => array( 'Per i creator', 'Fatti trovare dai brand italiani', 'Crea il profilo gratis: i brand ti contattano per collaborazioni pagate.', 'Iscriviti come creator', infe_app( '/iscriviti/creator/' ) ),
 		),
 		array(
-			'label' => 'Trova influencer',
-			'wide'  => true,
+			'label' => 'Prezzi',
 			'cols'  => array(
-				array( 'title' => 'Categorie', 'chips' => true, 'items' => $categorie ),
-				array( 'title' => 'Specialità', 'chips' => true, 'items' => $special ),
+				array(
+					'title' => 'Piattaforma',
+					'items' => array(
+						$v( 'Prezzi della piattaforma', array( '/prezzi/' ), 'Gratis per sempre o Premium da 19 € al mese', 'tag' ),
+						$v( 'Per le agenzie', array( '/piattaforma-agenzie/', '/agenzie/' ), 'Più clienti, un solo account', 'users' ),
+						array( 'Pubblica un’offerta di lavoro', '/pubblica-offerta-lavoro/', 'Gratis, i creator si candidano', 'briefcase' ),
+					),
+				),
+				array(
+					'title' => 'Preventivi',
+					'items' => array(
+						$v( 'Calcola il preventivo', array( '/preventivo-campagne/', '/preventivi-influencer/' ), 'Quanto costa la tua campagna, in un minuto', 'calc' ),
+						array( 'Campagna gestita da noi', '/agenzia-influencer/', 'Scegliamo i creator e trattiamo il prezzo', 'handshake' ),
+						array( 'Quanto costa un influencer', '/social-media-tool/costo-influencer/', 'Il prezzo medio di un post o di un reel', 'chart' ),
+					),
+				),
 			),
-			'card'  => array( 'Database creator', 'Tutti gli influencer italiani', 'Scegli la categoria del tuo brand, poi la regione e la città della campagna.', 'Vedi gli influencer italiani', '/influencer-italiani/' ),
+			'card'  => array( '3 giorni di Premium gratis', 'Prova la piattaforma senza carta', 'Cerca i creator italiani, pubblica un’offerta e gestisci la campagna da solo.', 'Inizia gratis', infe_app( '/iscriviti/brand/' ) ),
 		),
-		array( 'label' => 'Prezzi', 'href' => infe_meglio( array( '/prezzi/', '/#prezzi' ) ) ),
-		array( 'label' => 'Blog', 'href' => '/news-influencer-marketing/' ),
 	);
 	foreach ( $menu as &$g ) {
 		if ( isset( $g['cols'] ) ) {

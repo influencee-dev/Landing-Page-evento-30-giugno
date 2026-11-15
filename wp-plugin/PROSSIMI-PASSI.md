@@ -366,3 +366,7 @@ Da fare: 1) importare le 2 offerte 2026 e controllarle; 2) disattivare WP Job Ma
 conferma); 3) nell'app: indirizzo che riceve le offerte del sito e restituisce il link dell'annuncio, elenco
 pubblico degli annunci (annunci_feed), pagina di candidatura che legge ?offerta=; 4) JobPosting per Google solo
 per offerte pagate con azienda visibile (oggi nessun dato strutturato di offerta: l'azienda è nascosta).
+
+## Menu e link interni (15/11/2026 — Tema 1.2.1, Pagine 2.0.16, Tools 2.0.10, Core 2.3.11)
+- Menu: tolte le voci «Blog» e «Trova influencer». «Prezzi» ora è una tendina con due colonne: «Piattaforma» (prezzi, agenzie, offerta di lavoro) e «Preventivi» (calcola il preventivo, campagna gestita, quanto costa un influencer). Il blog resta nel piè di pagina.
+- Nuovo blocco «Trova influencer» (`LinkHub` in `src/influencee/v2/rows.tsx`): tutte le categorie, le specialità, le città più cercate e tutte le regioni con le loro città, in fondo a home, pagine hub (lista `LINK_HUB` in `pages.tsx`), categorie, specialità, regioni e città. La pagina in cui ti trovi è evidenziata in verde.

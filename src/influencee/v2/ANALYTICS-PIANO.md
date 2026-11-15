@@ -238,3 +238,5 @@ Imbuto da costruire in GA4: `preventivo_start` → `preventivo_step` (1…4) →
 Poi `preventivo_start`, `preventivo_step`, `form_submit`, `generate_lead` come nel calcolatore. Tasso del popup = `generate_lead` con `form_name` che contiene `popup` ÷ `preventivo_popup_open`.
 
 | `preventivo_sbloccato` | la stima e il listino compaiono dopo l'invio (13/11/2026) | `form_name`, `lead_type = brand` |
+
+- **Blocco «Trova influencer»** (15/11/2026): zona `data-track-zone="link_hub"`; i clic sono `internal_link_click` con `cta_location` = `link_hub`.
