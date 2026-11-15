@@ -36,6 +36,7 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `signup_creator_click` | Clic su "Iscriviti gratis", "Sono un creator" e simili | Dettaglio del lato creator, l'offerta del marketplace |
 | `whatsapp_click` | Qualunque link WhatsApp: pulsante fisso, sezione "Gestiamo noi", footer, FAQ | Canale preventivi |
 | `form_submit` | Invio di un modulo (`form_name`: `richiesta_demo_whatsapp`, `lead_fake_follower`, `lead_costo_influencer`, `lead_engagement_rate`, `lead_preventivo_campagna`, `lead_offerte_lavoro`, `lead_pubblica_offerta`, `lead_emoticon`, `lead_hub_tool`) | Quale modulo e quale tool porta lead |
+| `guide_download` | Clic su «Scarica il PDF» dopo il modulo di una guida (`link_url` = il PDF, `link_type` = `pdf`) | Quali guide vengono scaricate davvero. Il modulo prima vale `form_submit` + `generate_lead` con `form_name` / `lead_source` = `lead_guida_<guida>` (15/11/2026) |
 
 ### Eventi di navigazione e interesse
 

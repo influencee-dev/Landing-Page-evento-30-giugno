@@ -28,6 +28,7 @@
     if (/app\.influencee\.it\/iscriviti/.test(h)) return ['signup_choice_click', 'iscrizione_scelta'];
     if (/app\.influencee\.it\/annunci/.test(h)) return ['app_tool_click', 'annunci_app'];
     if (/app\.influencee\.it|campaign\.influencee\.it/.test(h)) return ['app_link_click', 'app_altro'];
+    if (/\.pdf(\?|#|$)/i.test(h)) return ['guide_download', 'pdf'];
     if (/^#/.test(h)) return ['ui_click', 'ancora'];
     var a = document.createElement('a'); a.href = h;
     return a.host === location.host ? ['internal_link_click', 'interno'] : ['outbound_click', 'esterno'];

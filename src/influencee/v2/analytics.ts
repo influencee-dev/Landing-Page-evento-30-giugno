@@ -83,6 +83,7 @@ function classify(href: string): { event: string; link_type: string; key?: strin
   if (/app\.influencee\.it\/annunci/.test(href)) return { event: 'app_tool_click', link_type: 'annunci_app' };
   if (/app\.influencee\.it\/benchmark/.test(href)) return { event: 'app_tool_click', link_type: 'benchmark_app' };
   if (/app\.influencee\.it/.test(href)) return { event: 'app_link_click', link_type: 'app_altro' };
+  if (/\.pdf(\?|#|$)/i.test(href)) return { event: 'guide_download', link_type: 'pdf' };
   if (href.startsWith('#/') || href.startsWith('/')) return { event: 'internal_link_click', link_type: 'interno' };
   if (/^https?:/.test(href)) return { event: 'outbound_click', link_type: 'esterno' };
   return { event: 'ui_click', link_type: 'interfaccia' };
