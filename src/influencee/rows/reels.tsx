@@ -247,7 +247,7 @@ export function HeroReels({
       <Marquee className="mt-14 pb-8" speed="animate-[marquee_45s_linear_infinite]">
         {list.map((r, i) => (
           <a key={r.id} href="#casi-studio" className={`block w-44 shrink-0 sm:w-52 ${i % 2 ? 'translate-y-6' : ''}`}>
-            <WorkReelCard r={r} delay={i * 0.5} priority={i < 3 ? 'high' : undefined} />
+            <WorkReelCard r={r} delay={i * 0.5} priority={i === 0 ? 'high' : i < 3 ? 'eager' : undefined} />
           </a>
         ))}
       </Marquee>

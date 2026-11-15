@@ -96,12 +96,13 @@ export function HeroCenter({ eyebrow, title, lead, actions, note, visual, floats
 /** Riprova sociale sotto le CTA: avatar + numero clienti. */
 export function ClientsProof({ className = 'mt-8' }: { className?: string }) {
   // volti dalle copertine dei reel realizzati per attività clienti (consenso da confermare, vedi Drive)
-  const people = ['reel-salute-farmacia-vaccini.webp', 'reel-beauty-estetica-tecnologia.webp', 'reel-casa-spazio-esterno.webp', 'reel-servizi-fornitore.webp', 'reel-fitness-scegli-corso.webp'];
+  // miniature 96×96 (circa 3 KB l'una) al posto delle copertine intere 540×960: erano 220 KB in testa alla home
+  const people = ['av-salute-farmacia-vaccini.webp', 'av-beauty-estetica-tecnologia.webp', 'av-casa-spazio-esterno.webp', 'av-servizi-fornitore.webp', 'av-fitness-scegli-corso.webp'];
   return (
     <div className={`flex flex-wrap items-center justify-center gap-4 ${className}`}>
       <div className="flex -space-x-3">
         {people.map((p, i) => (
-          <img key={p} src={asset(p)} alt="" className="h-11 w-11 rounded-full object-cover object-[50%_22%] ring-[3px] ring-ink" style={{ zIndex: people.length - i }} />
+          <img key={p} src={asset(p)} alt="" width={44} height={44} decoding="async" className="h-11 w-11 rounded-full object-cover ring-[3px] ring-ink" style={{ zIndex: people.length - i }} />
         ))}
         <span className="flex h-11 w-11 items-center justify-center rounded-full bg-acid font-heading text-xs font-semibold text-ink ring-[3px] ring-ink">+5K</span>
       </div>
