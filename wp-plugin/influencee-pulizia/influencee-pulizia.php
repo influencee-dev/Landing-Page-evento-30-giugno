@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Influencee Pulizia
  * Description:       Controllo e pulizia del sito WordPress: mostra cosa lo rallenta (database, opzioni caricate a ogni pagina, file rimasti, plugin spenti) e lo pulisce solo dopo la tua conferma. Accorgimenti di velocità facoltativi. Si accende quando serve e si spegne dopo.
- * Version:           1.0.2
+ * Version:           1.1.0
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Partidea SRL
@@ -12,13 +12,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'INFZ_VERSION', '1.0.2' );
+define( 'INFZ_VERSION', '1.1.0' );
 define( 'INFZ_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once INFZ_DIR . 'includes/controllo.php';
 require_once INFZ_DIR . 'includes/pulizia.php';
 require_once INFZ_DIR . 'includes/velocita.php';
 require_once INFZ_DIR . 'includes/mcp.php';
+require_once INFZ_DIR . 'includes/opzioni.php';
 if ( is_admin() ) {
 	require_once INFZ_DIR . 'includes/admin.php';
 }

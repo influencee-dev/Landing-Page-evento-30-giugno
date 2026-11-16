@@ -70,6 +70,7 @@ function infz_pagina() {
 				<br><?php echo esc_html( $voci[ $k ]['label'] . ': ' . $f['tolti'] . ' tolti' . ( $f['restano'] ? ', ne restano ' . $f['restano'] . ' (ripeti la pulizia)' : '' ) ); ?>
 			<?php endforeach; ?></p></div>
 		<?php endif; ?>
+		<?php infz_opz_riquadro(); ?>
 		<?php if ( isset( $_GET['salvato'] ) ) : ?><div class="notice notice-success"><p>Impostazioni di velocità salvate e cache di LiteSpeed svuotata.</p></div><?php endif; ?>
 
 		<?php if ( $c['plugin']['da_valutare'] ) : ?>
