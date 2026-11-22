@@ -1,64 +1,64 @@
 {
- "generato": "2026-11-16T22:26:39.602Z",
+ "generato": "2026-11-22T13:30:06.859Z",
  "plugin": {
   "influencee-core": {
    "versione": "2.3.20",
    "file": "influencee-core.zip",
-   "sha256": "edcd5dca59b5f8f6ad51fc7db399cfd92107df47b4117b057da27348bee0178b",
+   "sha256": "9b34dfd1e9295d8b436047488536323a2b51fa4fb24e805fbd090fe7ecdb7ca3",
    "auto": true
   },
   "influencee-tools": {
    "versione": "2.0.15",
    "file": "influencee-tools.zip",
-   "sha256": "56b5487732960884af7d89585ba4c8cf1cf3ff27db4fcd06e9c89b9012dd46c3",
+   "sha256": "f35019fc9c6cd401ec6a6e89a885ed494babd34756ebeecc615372a02d1cda32",
    "auto": true
   },
   "influencee-pagine": {
    "versione": "2.0.21",
    "file": "influencee-pagine.zip",
-   "sha256": "a57953257e096f5baa74e79d06499a901d530b302543e533dd7899caf47314ce",
+   "sha256": "65b72284a1d94981faa9ebaaf51ce8c0cfd8b9ddbc11d684312032cf356fccca",
    "auto": true
   },
   "influencee-articoli": {
    "versione": "2.5.3",
    "file": "influencee-articoli.zip",
-   "sha256": "f49d13d61a716c1c7558ef6020c0c9f121b33ce691c6ca27340391ad8a49df47",
+   "sha256": "ce468cf4c6ca3cf2b426ef79754874e4119d0a1c17bf9516a9fde0c3c290c243",
    "auto": true
   },
   "influencee-annunci": {
    "versione": "1.4.0",
    "file": "influencee-annunci.zip",
-   "sha256": "f1b88024016490425e656aacc0e45b42220d4fe540ebeb6fe9733d15a3ace8cd",
+   "sha256": "9b93e91232d132810e61801e4e5c491f2c1f4aae36850e90e12e8db3578b0a5a",
    "auto": true
   },
   "influencee-tema": {
    "versione": "1.2.8",
    "file": "influencee-tema.zip",
-   "sha256": "8446668bc0124d83eeb035b9cf590a4786b93334e393f9b291540a20313ab11c",
+   "sha256": "8e1d9e42f4245f95cb4daf278182fc4f9bb38bcb86d30a9f52d775c383651074",
    "auto": true
   },
   "influencee-pulizia": {
    "versione": "1.1.0",
    "file": "influencee-pulizia.zip",
-   "sha256": "109c5c5b9fe13df266f15190b8c847e77ef798b95a47a9cdd84066407880b89b",
-   "auto": true
+   "sha256": "51ca65ffd274e683d428fe763be17f497093d92dbb197e35aca4a8d2860be17e",
+   "auto": false
   },
   "influencee-claude-bridge": {
    "versione": "2.0.0",
    "file": "influencee-claude-bridge.zip",
-   "sha256": "132b87ad09a5d6cafc971c27675dfba8c1cba14bc8dbe1e81eb2604ad3f35a02",
+   "sha256": "d975e58985633e19e83a0cdd2d211d35c18f9e066c8769a540fa5b598127630f",
    "auto": false
   },
   "influencee-aggiornamenti": {
    "versione": "1.3.1",
    "file": "influencee-aggiornamenti.zip",
-   "sha256": "df4143856eed46310e548a23a2e7aba5367cc80f99aa54625870cff7fd8ea57c",
+   "sha256": "28af4af926206fb960f289564510db334e41bdbd12635841da2b0d4097cb75a3",
    "auto": true
   },
   "influencee-offerte": {
    "versione": "1.0.0",
    "file": "influencee-offerte.zip",
-   "sha256": "f0379544284d262b34d9667902c5e0f51c855b6e32cf689ca1bcc46ab9cdd70a",
+   "sha256": "e09e7a5f6afb9784197aeacd7ee04df84887a760f7bef399d4db5abe35e40b0e",
    "auto": true,
    "installa": true
   }

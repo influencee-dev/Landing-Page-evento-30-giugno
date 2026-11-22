@@ -5,7 +5,7 @@
  "influencee-articoli": true,
  "influencee-annunci": true,
  "influencee-tema": true,
- "influencee-pulizia": true,
+ "influencee-pulizia": false,
  "influencee-aggiornamenti": true,
  "influencee-offerte": "installa",
  "_nota": "auto: il sito installa da solo le versioni nuove. influencee-core spento finché la 2.2.18 del sito non è unita (vedi PROSSIMI-PASSI.md). «installa»: il sito lo aggiunge e lo attiva anche se non c’è (solo con Aggiornamenti 1.1.0 o successivo)."

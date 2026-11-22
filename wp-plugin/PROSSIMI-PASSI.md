@@ -379,3 +379,12 @@ per offerte pagate con azienda visibile (oggi nessun dato strutturato di offerta
   - Pagine per i creator: in fondo il riquadro di Fabrizia con WhatsApp al posto di quello del preventivo (Tema, `infe_pagina_creator`).
   - WhatsApp di Fabrizia: +39 351 342 1629 (confermato da Giorgia). Tema 1.2.5: anche il riquadro «Richiedimi un preventivo» in fondo alle pagine ha la foto di Fabrizia e il link WhatsApp.
   - /preventivo-campagne/: tolto l'hero, il calcolatore è la prima sezione (titolo H1 su nero).
+
+## Pulizia: versione del sito più nuova del repository (22/11/2026)
+
+Sul sito c'è **Influencee Pulizia 1.3.0** (resti dei plugin vecchi, riparazione della tabella delle impostazioni,
+`includes/gestione.php` con le azioni MCP `influencee/wp-*`), fatta dalla sessione «Plugin WordPress influencee.it su
+GitHub» senza accesso a questo repository. Qui c'è ancora la 1.1.0. Finché il codice della 1.3.0 non è in
+`wp-plugin/influencee-pulizia/`, l'aggiornamento automatico di Pulizia resta **spento** in `aggiornamenti.json`
+(una versione fatta da qui la sovrascriverebbe). La tabella delle impostazioni è già riparata (1.286 righe, chiave e
+indice presenti, verificato il 21/11).
