@@ -37,6 +37,7 @@ Si segnano in Amministrazione → Eventi → "Segna come evento chiave".
 | `whatsapp_click` | Qualunque link WhatsApp: pulsante fisso, sezione "Gestiamo noi", footer, FAQ | Canale preventivi |
 | `form_submit` | Invio di un modulo (`form_name`: `richiesta_demo_whatsapp`, `lead_fake_follower`, `lead_costo_influencer`, `lead_engagement_rate`, `lead_preventivo_campagna`, `lead_offerte_lavoro`, `lead_pubblica_offerta`, `lead_emoticon`, `lead_hub_tool`) | Quale modulo e quale tool porta lead |
 | `guide_download` | Clic su «Scarica il PDF» dopo il modulo di una guida (`link_url` = il PDF, `link_type` = `pdf`) | Quali guide vengono scaricate davvero. Il modulo prima vale `form_submit` + `generate_lead` con `form_name` / `lead_source` = `lead_guida_<guida>` (15/11/2026) |
+| `marketing_consent` (parametro di `form_submit` e `generate_lead`) | `si` / `no` quando il modulo ha la casella «Sì, mandami le guide…» (sempre non spuntata all'apertura); assente se il modulo non la ha | Tasso di consenso alle mail per modulo e per pagina: quali testi e quali pagine fanno crescere la lista a cui si può scrivere (24/11/2026). Registrarlo come dimensione personalizzata |
 
 ### Eventi di navigazione e interesse
 

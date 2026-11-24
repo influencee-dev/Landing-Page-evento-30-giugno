@@ -464,7 +464,7 @@ function inft_article_html( $post ) {
 			. '<p class="ia-f"><label for="ia-tel">Telefono <small>(facoltativo)</small></label><input id="ia-tel" type="tel" name="telefono" autocomplete="tel"></p>'
 			. '<p class="ia-f ia-f-full"><label for="ia-rich">Di cosa hai bisogno</label><textarea id="ia-rich" name="richiesta" rows="3" placeholder="Brand, categoria, zona, budget…"></textarea></p>'
 			. '<textarea name="risultato_tool" hidden readonly>' . $e( 'Articolo: ' . $a['title'] ) . '</textarea>'
-			. '<label class="ia-check ia-f-full"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e tool gratuiti di Influencee (facoltativo)</label>'
+			. '<label class="ia-check ia-f-full"><input type="checkbox" name="consenso_marketing" value="Sì"> Sì, mandami le guide gratuite e le date giuste del mio settore. Poche mail, solo utili: ti cancelli con un clic.</label>'
 			. '<p class="ia-f-full"><button type="submit" class="ia-btn">Ricevi la selezione →</button></p>'
 			. '<p class="ia-small ia-f-full">Usiamo i tuoi dati solo per risponderti. <a href="' . esc_url( home_url( '/privacy-policy/' ) ) . '">Informativa privacy</a></p>'
 			. '<p class="inf-ok ia-ok ia-f-full" role="status" hidden>Richiesta ricevuta: ti rispondiamo presto.</p>'

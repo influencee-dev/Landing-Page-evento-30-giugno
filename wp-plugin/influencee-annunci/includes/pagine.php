@@ -252,7 +252,7 @@ function infn_render_pubblica() {
 	$h .= '<div class="infn-summary" data-summary></div>';
 	$h .= '<p class="inf-f"><label for="infn-email">Email di lavoro *</label><input id="infn-email" name="email" type="email" maxlength="254" required autocomplete="email"></p>';
 	$h .= '<p class="inf-hint">' . ( $conn ? 'Al passo successivo scegli la password su app.influencee.it: l’account si crea e l’annuncio va online.' : 'Dopo l’invio crei l’account su app.influencee.it con questa email: l’annuncio va online e sblocchi la scelta dei creator.' ) . '</p>';
-	$h .= '<label class="inf-check"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e consigli di Influencee (facoltativo)</label>';
+	$h .= '<label class="inf-check"><input type="checkbox" name="consenso_marketing" value="Sì"> Sì, mandami le guide gratuite e le date giuste del mio settore. Poche mail, solo utili: ti cancelli con un clic.</label>';
 	$h .= '<p class="inf-small">Inviando accetti che usiamo questi dati per creare l’annuncio e l’account. <a href="' . esc_url( home_url( '/privacy-policy/' ) ) . '">Informativa privacy</a></p>';
 	$h .= '</fieldset>';
 

@@ -241,7 +241,7 @@ function ModuloGuida({ slug, piano, titolo, select }: { slug: string; piano: str
       <label htmlFor={`${id}-guida`} className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Guida richiesta{piano ? ' e il tuo piano' : ''}</span>
         <textarea id={`${id}-guida`} name="risultato_tool" readOnly rows={piano ? 3 : 1} value={`Guida ${nomeSettore(scelta)} 2027${piano ? `\n${piano}` : ''}`} className="mt-1.5 w-full resize-none rounded-2xl bg-ink px-4 py-3 text-xs leading-relaxed text-white/85 outline-none" />
       </label>
-      <label className="flex items-start gap-2 text-xs text-mute sm:col-span-2"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4 accent-[#ff1f8f]" /> Voglio ricevere le prossime guide e le date da non perdere (facoltativo)</label>
+      <label className="flex items-start gap-2 text-xs text-mute sm:col-span-2"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4 accent-[#ff1f8f]" /> Sì, mandami le prossime guide e le date da non perdere del mio settore. Poche mail, solo utili: ti cancelli con un clic.</label>
       <button type="submit" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-brand font-semibold text-white shadow-[0_8px_24px_-8px_rgba(255,31,143,0.55)] sm:col-span-2"><Download className="h-4 w-4" /> Scarica la guida gratis</button>
       <p className="text-[11px] leading-relaxed text-mute sm:col-span-2">Usiamo i tuoi dati per inviarti la guida e, solo se lo scegli, le prossime. <a href="/privacy-policy/" className="underline">Informativa privacy</a></p>
     </form>

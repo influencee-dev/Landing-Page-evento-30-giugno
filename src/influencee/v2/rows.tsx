@@ -341,6 +341,7 @@ export function DemoForm({ tone = 'soft', title = 'Richiedi una demo\n*con il tu
                 </select>
               </label>
               <label htmlFor="df-note" className="sm:col-span-2"><span className="text-xs font-semibold text-mute">Cosa vuoi vedere (facoltativo)</span><input id="df-note" name="richiesta" value={d.note} onChange={(e) => setD({ ...d, note: e.target.value })} placeholder="Es. micro influencer food a Milano" className={`mt-1.5 ${field}`} /></label>
+              <label className="flex items-start gap-2 text-xs text-mute sm:col-span-2"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4 accent-[#ff1f8f]" /> Sì, mandami le guide gratuite e le date giuste del mio settore. Poche mail, solo utili: ti cancelli con un clic.</label>
               <button type="submit" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-semibold text-white sm:col-span-2">Richiedi la demo</button>
               <p className="text-[11px] text-mute sm:col-span-2">Usiamo i tuoi dati solo per risponderti. <a href="/privacy-policy/" className="underline">Informativa privacy</a> · Preferisci WhatsApp? <a href={WHATSAPP.href} className="font-semibold text-brand-ink">Scrivici</a></p>
             </form>

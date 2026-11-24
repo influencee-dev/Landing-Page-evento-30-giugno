@@ -134,7 +134,7 @@ ${o.sector ? `<input type="hidden" name="settore" value="${esc(o.sector)}">` : '
 <div class="ipv-row">${field('nome', 'Nome', 'text', true, 'given-name')}${field('cognome', 'Cognome', 'text', true, 'family-name')}</div>
 <div class="ipv-row">${field('email', 'Email', 'email', true, 'email')}<label class="ipv-field" for="${id('tipo')}"><span>Tipo di azienda</span><select id="${id('tipo')}" name="tipo_azienda" required><option value="">Scegli</option>${TIPI_AZIENDA.map((t) => `<option>${t}</option>`).join('')}</select></label></div>
 <label class="ipv-field" for="${id('ctx')}"><span>Riepilogo della richiesta</span><textarea id="${id('ctx')}" name="risultato_tool" rows="3" readonly></textarea></label>
-<label class="ipv-check"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere novità e guide di Influencee (facoltativo)</label>
+<label class="ipv-check"><input type="checkbox" name="consenso_marketing" value="Sì"> Sì, mandami le guide gratuite e le date giuste del mio settore. Poche mail, solo utili: ti cancelli con un clic.</label>
 <input class="ipv-hp" type="text" name="sito_web" tabindex="-1" autocomplete="off" aria-hidden="true">
 <p class="ipv-small">Premendo «Sblocca il mio preventivo» vedi subito il preventivo indicativo e il listino. Usiamo i tuoi dati solo per mandarti il preventivo e la guida. <a href="/privacy-policy/">Informativa privacy</a></p>
 <p class="ipv-err" data-ipv-err hidden>Controlla nome, cognome, email e tipo di azienda.</p></fieldset>

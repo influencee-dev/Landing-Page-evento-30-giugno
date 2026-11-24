@@ -179,8 +179,11 @@ function bindSubmits(root: Document | HTMLElement) {
       const where = locate(form);
       const name = form.getAttribute('data-form') || 'modulo';
       const leadType = form.getAttribute('data-lead-type') ?? undefined; // «brand» per i moduli preventivo
-      track('form_submit', { form_name: name, lead_type: leadType, ...where });
-      track('generate_lead', { lead_source: name, form_name: name, lead_type: leadType, currency: 'EUR', value: 0, ...where });
+      // consenso marketing: «si»/«no» se il modulo ha la casella, altrimenti assente (tasso di consenso per modulo)
+      const box = form.querySelector<HTMLInputElement>('input[name="consenso_marketing"]');
+      const consent = box ? (box.checked ? 'si' : 'no') : undefined;
+      track('form_submit', { form_name: name, lead_type: leadType, marketing_consent: consent, ...where });
+      track('generate_lead', { lead_source: name, form_name: name, lead_type: leadType, marketing_consent: consent, currency: 'EUR', value: 0, ...where });
     },
     { capture: true },
   );

@@ -125,7 +125,7 @@ export function ToolLead({ tool, eyebrow, title, lead, bullets, cta, phone = 'fa
                   <textarea id={`${tool}-ctx`} name="risultato_tool" readOnly value={context} rows={3} className="mt-1.5 w-full resize-none rounded-2xl bg-ink px-4 py-3 text-xs leading-relaxed text-white/80 outline-none" />
                 </label>
               )}
-              <label className="flex items-start gap-2 text-xs text-mute sm:col-span-2"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4 accent-[#ff1f8f]" /> Voglio ricevere novità e tool gratuiti di Influencee (facoltativo)</label>
+              <label className="flex items-start gap-2 text-xs text-mute sm:col-span-2"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4 accent-[#ff1f8f]" /> Sì, mandami le guide gratuite e le date giuste del mio settore. Poche mail, solo utili: ti cancelli con un clic.</label>
               <button type="submit" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-semibold text-white sm:col-span-2">{cta} <ArrowRight className="h-4 w-4" /></button>
               <p className="text-[11px] leading-relaxed text-mute sm:col-span-2">Usiamo i tuoi dati solo per risponderti. <a href="/privacy-policy/" className="underline">Informativa privacy</a></p>
             </form>
@@ -687,7 +687,7 @@ export function PostJobForm({ tone = 'paper' }: { tone?: Tone }) {
                   <label htmlFor="po-email"><span className="text-xs font-semibold text-mute">Email aziendale</span><input id="po-email" name="email" type="email" required autoComplete="email" className="mt-1.5 h-12 w-full rounded-2xl bg-paper px-4 text-[15px] outline-none ring-1 ring-line focus:ring-brand" /></label>
                   <label htmlFor="po-tel"><span className="text-xs font-semibold text-mute">Telefono (facoltativo)</span><input id="po-tel" name="telefono" type="tel" autoComplete="tel" className="mt-1.5 h-12 w-full rounded-2xl bg-paper px-4 text-[15px] outline-none ring-1 ring-line focus:ring-brand" /></label>
                 </div>
-                <label className="mt-4 flex items-start gap-2 text-xs text-mute"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4" /> Voglio ricevere novità di Influencee (facoltativo)</label>
+                <label className="mt-4 flex items-start gap-2 text-xs text-mute"><input type="checkbox" name="consenso_marketing" value="Sì" className="mt-0.5 h-4 w-4" /> Sì, mandami le guide gratuite e le date giuste del mio settore. Poche mail, solo utili: ti cancelli con un clic.</label>
                 <div className="mt-5 flex flex-wrap gap-3">
                   <button type="submit" className="inline-flex h-12 items-center gap-1.5 rounded-full bg-ink px-5 text-[15px] font-semibold text-white">Invia l’offerta <ArrowRight className="h-4 w-4" /></button>
                   <button type="button" onClick={() => { navigator.clipboard?.writeText(text).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1800); }); track('tool_use', { tool: 'pubblica_offerta', action: 'copia_testo' }); }} className="inline-flex h-12 items-center gap-1.5 rounded-full px-5 text-[15px] font-semibold ring-1 ring-line">

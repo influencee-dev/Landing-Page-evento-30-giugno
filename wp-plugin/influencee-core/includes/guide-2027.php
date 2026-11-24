@@ -105,7 +105,7 @@ add_filter(
 					. '<label for="' . $id . '-e" style="font-size:13px">Email di lavoro</label><input id="' . $id . '-e" name="email" type="email" autocomplete="email" required style="' . $in . '">'
 					. '<label for="' . $id . '-a" style="font-size:13px">Azienda o attività (facoltativo)</label><input id="' . $id . '-a" name="azienda" autocomplete="organization" style="' . $in . '">'
 					. '<label for="' . $id . '-g" style="font-size:13px">Guida richiesta</label><input id="' . $id . '-g" name="guida" readonly value="' . esc_attr( $guida ) . '" style="' . $in . ';background:#f1f3f4">'
-					. '<label style="display:flex;gap:8px;font-size:12px;margin:2px 0 12px"><input type="checkbox" name="consenso_marketing" value="Sì"> Voglio ricevere le prossime guide e le novità di Influencee (facoltativo)</label>'
+					. '<label style="display:flex;gap:8px;font-size:12px;margin:2px 0 12px"><input type="checkbox" name="consenso_marketing" value="Sì"> Sì, mandami le prossime guide e le date da non perdere del mio settore. Poche mail, solo utili: ti cancelli con un clic.</label>'
 					. '<button type="submit" class="bottone" style="border:0;cursor:pointer;font:inherit;font-weight:700">' . esc_html( trim( preg_replace( '/\s*\(.*\)$/', '', $m[2] ) ) ?: 'Scarica il PDF' ) . ' gratis</button>'
 					. '<p style="font-size:11px;margin:10px 0 0">Usiamo i tuoi dati per inviarti la guida e, solo se lo scegli, le prossime. <a href="/privacy-policy/">Informativa privacy</a></p>'
 					. '</form>'

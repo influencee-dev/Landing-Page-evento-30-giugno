@@ -64,8 +64,9 @@
         e.preventDefault();
         if (!f.checkValidity()) { f.reportValidity(); return; }
         var name = f.getAttribute('data-form') || 'lead';
-        track('form_submit', { form_name: name, cta_location: where(f) });
-        track('generate_lead', { lead_source: name, currency: 'EUR', value: 0, cta_location: where(f) });
+        var bx = f.querySelector('input[name="consenso_marketing"]'), mc = bx ? (bx.checked ? 'si' : 'no') : undefined;
+        track('form_submit', { form_name: name, cta_location: where(f), marketing_consent: mc });
+        track('generate_lead', { lead_source: name, currency: 'EUR', value: 0, cta_location: where(f), marketing_consent: mc });
         f.classList.add('is-sent');
         var ok = f.querySelector('.inf-ok'); if (ok) ok.hidden = false;
       });
